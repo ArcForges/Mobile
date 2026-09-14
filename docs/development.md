@@ -34,6 +34,8 @@ The bytecode check inspects application/shared `.class` files for JVM 21 before 
 
 Run `./gradlew :shared:hotRunDesktop` from Windows x64 or Linux x64. Edit a composable in `shared/src/commonMain` and save; Compose Hot Reload recompiles shared JVM code and updates the running preview. It uses a JetBrains Runtime with enhanced class redefinition, provisioned through the Foojay resolver. Keep Java/Kotlin bytecode at 21. This task requires the development runtime and a graphical session; building an APK does not require running the preview.
 
+Stop the preview before cleaning or rebuilding its outputs from another Gradle process. Use a separate worktree if a preview and an independent clean validation must run simultaneously.
+
 The JVM preview uses the shared greeting function. Android wraps that same behavior in a local protobuf round trip to exercise the published Contracts message types under R8. The app does not claim to contact a backend. `HelloClient` demonstrates the published coroutine RPC stub with a deadline; the caller must own a TLS channel and its lifecycle before using it in a future connected screen.
 
 Android devices do not run this JVM preview. Use [Android Studio Live Edit](https://developer.android.com/develop/ui/compose/tooling/iterative-development) for supported Android edits, or reinstall the debug APK. See [Compose Hot Reload](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html) for changes requiring a restart and runtime requirements.
@@ -54,6 +56,8 @@ After selecting an update, regenerate the affected graphs and checksum metadata,
 ```
 
 The cross-platform resolution commands download the other preview runtime without executing it. A full Windows and Linux CI build is still required. Commit all affected locks and `gradle/verification-metadata.xml`; run `git diff --check` and inspect the diff. Dependabot proposes updates but may need these generated files refreshed in its PR, particularly for Gradle/plugin changes. A failed dependency update is not fixed by floating versions, deleting locks or weakening checksum verification.
+
+When updating plugins or regenerating verification metadata, also resolve and build with an empty `GRADLE_USER_HOME`. A warm cache can omit parent POMs or BOM metadata that a fresh CI runner downloads. Review the additional checksums, then build normally with strict verification enabled.
 
 ## Security tooling compatibility
 
