@@ -97,7 +97,7 @@ def inspect_apk(apk, expected, package=PACKAGE):
     for token in (f"name='{package}'", f"versionCode='{expected['version_code']}'", f"versionName='{expected['version_name']}'"):
         if token not in details.splitlines()[0]:
             raise ValueError(f"APK metadata mismatch: {token}")
-    if "sdkVersion:'26'" not in details or "targetSdkVersion:'37'" not in details:
+    if "minSdkVersion:'26'" not in details or "targetSdkVersion:'37'" not in details:
         raise ValueError("APK SDK requirements differ from the reviewed release configuration.")
 
 
