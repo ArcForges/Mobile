@@ -1,0 +1,105 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Security
+
+on:
+  workflow_call:
+  schedule:
+    - cron: "37 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: never
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Scan history with redacted output
+        run: >-
+          docker run --rm -v "$PWD:/repo"
+          -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo
+          ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f
+          git /repo --redact --no-banner
+
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, actions]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+
+  codeql-kotlin:
+    name: CodeQL (java-kotlin)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+        with:
+          packages: platform-tools platforms;android-37.0 build-tools;37.0.0
+      # Same temporary Kotlin 2.4.20 workaround as Contracts. Remove when the
+      # recommended stable CLI >=2.27.1 includes github/codeql#22404.
+      # https://github.com/github/codeql/issues/22381#issuecomment-5620711447
+      - name: Download and verify the Kotlin-compatible CodeQL bundle
+        env:
+          CODEQL_BUNDLE_URL: https://github.com/dsp-testing/codeql-cli-nightlies/releases/download/codeql-bundle-20260913/codeql-bundle-java-linux64.tar.zst
+          CODEQL_BUNDLE_SHA256: 2f7435b506f062753a55e91e428df33bd0d9dfc8fed196114844f611334255de
+        run: |
+          bundle="$RUNNER_TEMP/codeql-bundle-java-linux64.tar.zst"
+          curl --fail --silent --show-error --location --retry 3 "$CODEQL_BUNDLE_URL" --output "$bundle"
+          printf '%s  %s\n' "$CODEQL_BUNDLE_SHA256" "$bundle" | sha256sum --check --strict
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+        with:
+          languages: java-kotlin
+          build-mode: manual
+          tools: ${{ runner.temp }}/codeql-bundle-java-linux64.tar.zst
+      - name: Compile Android and shared JVM sources with extraction
+        run: ./gradlew --no-daemon --console=plain --no-build-cache clean :app:assembleDebug :shared:desktopJar
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4

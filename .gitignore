@@ -1,0 +1,25 @@
+# Gradle, Kotlin and IDE state
+.gradle/
+.kotlin/
+**/build/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+.worktree/
+.worktrees/
+
+# Local SDK paths, credentials and generated delivery evidence
+local.properties
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+artifacts/
+__pycache__/
+*.py[cod]
