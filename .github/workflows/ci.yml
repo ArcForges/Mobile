@@ -1,0 +1,221 @@
+# SPDX-License-Identifier: Apache-2.0
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    outputs:
+      version_name: ${{ steps.version.outputs.version_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+      - name: Install pinned SDK components
+        shell: bash
+        run: sdkmanager 'platforms;android-37.0' 'build-tools;37.0.0'
+      - name: Resolve automatic version
+        id: version
+        run: python eng/mobile.py version
+      - name: Check repository
+        run: |
+          python eng/mobile.py check
+          python -m unittest discover -s eng/tests -v
+      - name: Check workflow definitions
+        if: runner.os == 'Linux'
+        env:
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          curl --fail --silent --show-error --location --retry 3 https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz -o "$RUNNER_TEMP/actionlint.tar.gz"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/actionlint.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -color
+      - name: Build, test, lint and prepare unsigned Android candidate
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: >-
+          ./gradlew --no-daemon --console=plain
+          -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
+          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:testDebugUnitTest
+          :app:lintRelease :app:assembleDebug :app:assembleDebugAndroidTest
+          :app:assembleRelease :app:bundleRelease
+      - name: Verify JVM 21 compiler output
+        run: python eng/mobile.py bytecode
+      - name: Stage candidate
+        if: runner.os == 'Linux'
+        run: python eng/mobile.py stage
+      - name: Upload candidate
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/candidate/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: reports-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            app/build/reports/
+            app/build/test-results/
+            shared/build/reports/tests/
+          retention-days: 14
+
+  android:
+    name: Android device tests
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/candidate
+      - name: Prepare device checks
+        run: |
+          sdkmanager 'build-tools;37.0.0'
+          python eng/mobile.py verify
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          keytool -genkeypair -keystore "$RUNNER_TEMP/test.jks" -storepass android -keypass android -alias test -keyalg RSA -keysize 3072 -validity 2 -dname 'CN=Disposable CI test'
+          "$ANDROID_HOME/build-tools/37.0.0/zipalign" -P 16 -f 4 artifacts/candidate/app-release-unsigned.apk "$RUNNER_TEMP/aligned.apk"
+          "$ANDROID_HOME/build-tools/37.0.0/apksigner" sign --ks "$RUNNER_TEMP/test.jks" --ks-pass pass:android --out artifacts/test-release.apk "$RUNNER_TEMP/aligned.apk"
+      - name: Exercise UI, recreation and the minified release APK
+        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
+        with:
+          api-level: 36
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: |
+            adb install artifacts/candidate/app-debug.apk
+            adb install artifacts/candidate/app-debug-androidTest.apk
+            adb shell am instrument -w io.github.arcforges.mobile.debug.test/androidx.test.runner.AndroidJUnitRunner | tee artifacts/instrumentation.txt
+            grep -E '^OK \([1-9][0-9]* tests?\)' artifacts/instrumentation.txt
+            python eng/device-smoke.py artifacts/test-release.apk --serial emulator-5554
+      - name: Upload device evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: android-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/instrumentation.txt
+            artifacts/device/
+          retention-days: 14
+
+  security:
+    name: Security
+    uses: ./.github/workflows/security.yml
+    permissions:
+      contents: read
+      pull-requests: read
+      security-events: write
+
+  verify:
+    name: Verify
+    if: always()
+    needs: [build, android, security]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all gates
+        env:
+          BUILD: ${{ needs.build.result }}
+          ANDROID: ${{ needs.android.result }}
+          SECURITY: ${{ needs.security.result }}
+        run: test "$BUILD" = success && test "$ANDROID" = success && test "$SECURITY" = success
+
+  publish:
+    name: Publish Android
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [build, verify]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: android-release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/candidate
+      - name: Install signing tools
+        run: sdkmanager 'build-tools;37.0.0'
+      - name: Sign the verified candidate with the persistent Android identity
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
+        run: python eng/mobile.py sign
+      - name: Publish Android prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_NAME: ${{ needs.build.outputs.version_name }}
+        run: |
+          cat > "$RUNNER_TEMP/release-notes.md" <<EOF
+          Android Hello World build from commit $GITHUB_SHA.
+
+          Install the APK on Android 8.0 or newer. The AAB is for a future store upload; no store deployment occurs here.
+          JVM desktop preview is development-only and is not distributed.
+
+          Both OS builds, unit tests, Android instrumentation, minified APK launch, lint and security checks passed before signing.
+          See release.json for source/candidate hashes and the signing certificate; SHA256SUMS verifies the downloads.
+          EOF
+          gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
