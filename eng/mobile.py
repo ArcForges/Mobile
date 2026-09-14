@@ -139,6 +139,15 @@ def verify_candidate(directory):
     return info
 
 
+def verify_certificate(output, expected):
+    # Build-Tools 37 labels these "V3.0 Signer", rather than "Signer #1".
+    fingerprints = {value.lower() for value in re.findall(r"certificate SHA-256 digest: ([a-fA-F0-9]{64})$", output, re.MULTILINE)}
+    normalized = expected.replace(":", "").lower()
+    if not re.search(r"^Number of signers: 1$", output, re.MULTILINE) or fingerprints != {normalized}:
+        raise ValueError("APK signing certificate does not match the configured persistent identity.")
+    return normalized
+
+
 def sign_candidate(directory, destination):
     info = verify_candidate(directory)
     required = ("ANDROID_KEYSTORE_BASE64", "ANDROID_KEYSTORE_PASSWORD", "ANDROID_KEY_ALIAS", "ANDROID_KEY_PASSWORD", "ANDROID_SIGNING_CERT_SHA256")
@@ -157,9 +166,7 @@ def sign_candidate(directory, destination):
         run(sdk_tool("apksigner"), "sign", "--ks", key, "--ks-key-alias", os.environ["ANDROID_KEY_ALIAS"],
             "--ks-pass", "env:ANDROID_KEYSTORE_PASSWORD", "--key-pass", "env:ANDROID_KEY_PASSWORD", "--out", apk, aligned)
         certificate = run(sdk_tool("apksigner"), "verify", "--verbose", "--print-certs", apk, capture=True)
-        fingerprint = re.search(r"Signer #1 certificate SHA-256 digest: ([a-fA-F0-9]+)", certificate)
-        if not fingerprint or fingerprint.group(1).lower() != os.environ["ANDROID_SIGNING_CERT_SHA256"].replace(":", "").lower():
-            raise ValueError("APK signing certificate does not match the configured persistent identity.")
+        fingerprint = verify_certificate(certificate, os.environ["ANDROID_SIGNING_CERT_SHA256"])
         run(sdk_tool("zipalign"), "-c", "-P", "16", "4", apk)
         inspect_apk(apk, info)
         bundle = destination / f"ArcForges-{info['version_name']}.aab"
@@ -169,7 +176,7 @@ def sign_candidate(directory, destination):
         result = run("jarsigner", "-verify", bundle, capture=True)
         if "jar verified." not in result:
             raise ValueError("AAB signature verification failed.")
-        info["certificate_sha256"] = fingerprint.group(1).lower()
+        info["certificate_sha256"] = fingerprint
     shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
     info["candidate_sha256"] = info.pop("sha256")
     info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}
