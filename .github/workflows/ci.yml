@@ -135,10 +135,11 @@ jobs:
             adb install artifacts/candidate/app-debug.apk
             adb install artifacts/candidate/app-debug-androidTest.apk
             adb shell am instrument -w io.github.arcforges.mobile.debug.test/androidx.test.runner.AndroidJUnitRunner | tee artifacts/instrumentation.txt
+            mkdir -p artifacts/device
+            adb logcat -d > artifacts/device/logcat.txt
+            adb shell run-as io.github.arcforges.mobile.debug cat files/cloud-hello-evidence.json > artifacts/device/cloud-hello.json
             grep -E '^OK \([1-9][0-9]* tests?\)' artifacts/instrumentation.txt
             grep '^CLOUD_HELLO_VERIFIED ' artifacts/instrumentation.txt
-            mkdir -p artifacts/device
-            adb shell run-as io.github.arcforges.mobile.debug cat files/cloud-hello-evidence.json > artifacts/device/cloud-hello.json
             python eng/device-smoke.py artifacts/test-release.apk --serial emulator-5554
       - name: Upload device evidence
         if: always()
