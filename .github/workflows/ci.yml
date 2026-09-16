@@ -123,7 +123,7 @@ jobs:
           keytool -genkeypair -keystore "$RUNNER_TEMP/test.jks" -storepass android -keypass android -alias test -keyalg RSA -keysize 3072 -validity 2 -dname 'CN=Disposable CI test'
           "$ANDROID_HOME/build-tools/37.0.0/zipalign" -P 16 -f 4 artifacts/candidate/app-release-unsigned.apk "$RUNNER_TEMP/aligned.apk"
           "$ANDROID_HOME/build-tools/37.0.0/apksigner" sign --ks "$RUNNER_TEMP/test.jks" --ks-pass pass:android --out artifacts/test-release.apk "$RUNNER_TEMP/aligned.apk"
-      - name: Exercise UI, recreation and the minified release APK
+      - name: Exercise Android UI, live gRPC-Web and the minified release APK
         uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
         with:
           api-level: 36
@@ -135,7 +135,11 @@ jobs:
             adb install artifacts/candidate/app-debug.apk
             adb install artifacts/candidate/app-debug-androidTest.apk
             adb shell am instrument -w io.github.arcforges.mobile.debug.test/androidx.test.runner.AndroidJUnitRunner | tee artifacts/instrumentation.txt
+            mkdir -p artifacts/device
+            adb logcat -d > artifacts/device/logcat.txt
+            adb shell run-as io.github.arcforges.mobile.debug cat files/cloud-hello-evidence.json > artifacts/device/cloud-hello.json
             grep -E '^OK \([1-9][0-9]* tests?\)' artifacts/instrumentation.txt
+            grep '^CLOUD_HELLO_VERIFIED ' artifacts/instrumentation.txt
             python eng/device-smoke.py artifacts/test-release.apk --serial emulator-5554
       - name: Upload device evidence
         if: always()
@@ -210,12 +214,12 @@ jobs:
           VERSION_NAME: ${{ needs.build.outputs.version_name }}
         run: |
           cat > "$RUNNER_TEMP/release-notes.md" <<EOF
-          Android Hello World build from commit $GITHUB_SHA.
+          Android Cloud Hello build from commit $GITHUB_SHA.
 
           Install the APK on Android 8.0 or newer. The AAB is for a future store upload; no store deployment occurs here.
           JVM desktop preview is development-only and is not distributed.
 
-          Both OS builds, unit tests, Android instrumentation, minified APK launch, lint and security checks passed before signing.
+          Both OS builds, unit tests, Android instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, lint and security checks passed before signing.
           See release.json for source/candidate hashes and the signing certificate; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"

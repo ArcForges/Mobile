@@ -8,11 +8,11 @@ No Node, npm, CMake, NDK or neighboring source checkout is required for this boo
 
 ## Layout and commands
 
-- `app/src/main`: Android entry point and published protobuf/native gRPC adapter.
+- `app/src/main`: Android entry point and published Connect-Kotlin gRPC-Web adapter.
 - `shared/src/commonMain`: the same UI and greeting behavior used by Android and the development preview.
 - `shared/src/desktopMain`: a JVM window hosting that UI. No desktop installer or native distribution is published.
-- `app/src/test`: public Contracts serialization and real in-process gRPC success/status tests.
-- `app/src/androidTest`: device UI interaction and Activity recreation tests.
+- `app/src/test`: published client interoperability with a loopback HTTP fixture, application/HTTP errors, deadlines and coroutine cancellation. No live service is required for unit tests.
+- `app/src/androidTest`: UI progress/error/retry/disposal checks, real Cloud greeting/recreation and direct Android HTTPS protocol verification.
 - `eng`: repository, bytecode, candidate, signing and device checks.
 
 ```sh
@@ -36,9 +36,21 @@ Run `./gradlew :shared:hotRunDesktop` from Windows x64 or Linux x64. Edit a comp
 
 Stop the preview before cleaning or rebuilding its outputs from another Gradle process. Use a separate worktree if a preview and an independent clean validation must run simultaneously.
 
-The JVM preview uses the shared greeting function. Android wraps that same behavior in a local protobuf round trip to exercise the published Contracts message types under R8. The app does not claim to contact a backend. `HelloClient` demonstrates the published coroutine RPC stub with a deadline; the caller must own a TLS channel and its lifecycle before using it in a future connected screen.
+The JVM preview uses the shared local greeting function and is explicitly labeled offline. Android supplies `CloudHelloClient.greet`, a suspending operation backed by the published Connect client. Launch and recomposition send no requests. One button press makes one RPC; the input/button are disabled while pending. A disposed composition cancels its coroutine; Activity destruction closes the owned HTTP transport. Name and completed result are saveable, pending work is not resumed after recreation, and failures allow manual retry. The Hello limit is 1..256 UTF-16 code units and text is preserved verbatim.
 
 Android devices do not run this JVM preview. Use [Android Studio Live Edit](https://developer.android.com/develop/ui/compose/tooling/iterative-development) for supported Android edits, or reinstall the debug APK. See [Compose Hot Reload](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html) for changes requiring a restart and runtime requirements.
+
+## Cloud protocol and device verification
+
+`CloudHelloClient` uses `contracts-connect-client:1.0.0-ci.36.1`, the matching lite messages, and Connect-Kotlin OkHttp/Google Java-lite adapters 0.9.0. It explicitly selects `NetworkProtocol.GRPC_WEB` against `https://arcforges.com/api`; the SDK appends `/arcforges.hello.v1.HelloService/SayHello` once. Public native gRPC and Connect's default protocol are not used at this Worker ingress. INTERNET permission and the platform TLS trust store are sufficient. Cleartext traffic remains disabled, and no credential, custom trust manager or certificate bypass is added.
+
+The RPC deadline is five seconds and the HTTP call limit is ten seconds. Redirects and connection-failure retries are disabled. gRPC status errors produce bounded user-facing messages; there is no local-success fallback. In-flight disposal does not replay the request. Transport cleanup runs off the Activity's main thread because closing a TLS connection can perform network I/O. A future authenticated API must define its own session rules; this anonymous Hello is not an authentication template.
+
+Keep R8 enabled. The Google Java-lite strategy obtains response prototypes through `Internal.getDefaultInstance(Class)`, which reflects the generated static `getDefaultInstance()` method. The app's ProGuard rules preserve that method and protobuf-lite message fields; keeping fields alone builds successfully but breaks response decoding in a minified APK. The release device gate covers this runtime behavior.
+
+`connectedDebugAndroidTest` includes real anonymous requests to the currently deployed Cloud service and requires Internet access. `CloudHelloIntegrationTest` waits for health separately, records the observed Native AOT/Worker revision, then sends eight SDK calls without retry: four successful names, empty and oversized names, expired timeout and malformed timeout. It checks `/api`, binary Content-Type, SDK timeout metadata and decoded gRPC statuses. A separate UI test presses the actual Android button and verifies the result across Activity recreation. Fault/UI-state fixtures remain separate evidence from those live calls.
+
+CI downloads the previously built candidate, verifies its hashes, runs instrumentation, requires the `CLOUD_HELLO_VERIFIED` marker, and preserves `cloud-hello.json` under the Android evidence artifact. It then signs the same minified release APK with a disposable CI test key and runs `eng/device-smoke.py`: the script starts with an empty task, presses **Say hello** once and requires the actual server response. It stores the UI hierarchy, screenshot and `release-cloud.json`. Only after these gates can the protected job sign/publish the candidate with the persistent release identity. Live Cloud unavailability fails this gate; do not substitute a mock or auto-retry the application call to hide it.
 
 ## Dependency maintenance
 
@@ -65,4 +77,4 @@ CodeQL scans Java/Kotlin, Python and Actions. Kotlin 2.4.20 requires the same te
 
 ## Evidence boundaries
 
-Unit tests establish shared behavior and generated API interoperability. Emulator tests establish rendered UI, state restoration and release APK startup on that image. Hot Reload requires a running preview and an observed edit/reload. Physical devices, production backend integration, Play submission and real user operation require separate evidence; none is implied by a green documentation or build check.
+Unit tests establish shared behavior and generated API interoperability with local fixtures. Emulator tests establish Android UI/lifecycle, real HTTPS calls to the recorded deployment and the minified release client's operation on that image. Hot Reload requires a running preview and an observed edit/reload. Physical devices, accounts, full product behavior, Play submission and real user operation require separate evidence; none is implied by a green build.

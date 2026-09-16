@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
             implementation(libs.material3)
+            implementation(libs.coroutines.core)
         }
         commonTest.dependencies { implementation(kotlin("test")) }
         getByName("desktopMain") {

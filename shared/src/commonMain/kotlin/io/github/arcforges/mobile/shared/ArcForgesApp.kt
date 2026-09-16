@@ -25,6 +25,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,11 +35,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 
 @Composable
-fun ArcForgesApp(greet: (String) -> String = ::hello) {
+fun ArcForgesApp(
+    greet: suspend (String) -> String = { hello(it) },
+    initialMessage: String = "Hello, World!",
+    serviceLabel: String = "Local preview · Works offline",
+) {
     var name by rememberSaveable { mutableStateOf("World") }
-    var greeting by rememberSaveable { mutableStateOf(greet("World")) }
+    var greeting by rememberSaveable { mutableStateOf(initialMessage) }
+    var error by rememberSaveable { mutableStateOf<String?>(null) }
+    var loading by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
     val colors = lightColorScheme(primary = Color(0xFF305E46), background = Color(0xFFF5F6EF))
 
     MaterialTheme(colorScheme = colors) {
@@ -75,7 +86,7 @@ fun ArcForgesApp(greet: (String) -> String = ::hello) {
                         verticalArrangement = Arrangement.spacedBy(20.dp),
                     ) {
                         Text(
-                            greeting,
+                            if (loading) "Connecting..." else greeting,
                             Modifier.testTag("greeting"),
                             style = MaterialTheme.typography.headlineSmall,
                         )
@@ -85,18 +96,40 @@ fun ArcForgesApp(greet: (String) -> String = ::hello) {
                             modifier = Modifier.fillMaxWidth().testTag("name"),
                             label = { Text("Your name") },
                             singleLine = true,
+                            enabled = !loading,
+                            isError = name.length > 256,
+                            supportingText = { Text("${name.length}/256") },
                         )
+                        error?.let {
+                            Text(it, Modifier.testTag("error"), color = colors.error)
+                        }
                         Button(
-                            onClick = { greeting = greet(name) },
-                            enabled = name.isNotEmpty(),
+                            onClick = {
+                                loading = true
+                                error = null
+                                scope.launch {
+                                    try {
+                                        greeting = greet(name)
+                                    } catch (canceled: CancellationException) {
+                                        throw canceled
+                                    } catch (failure: GreetingFailure) {
+                                        error = failure.message
+                                    } catch (_: Exception) {
+                                        error = "Could not complete the request. Please try again."
+                                    } finally {
+                                        loading = false
+                                    }
+                                }
+                            },
+                            enabled = !loading && name.length in 1..256,
                             modifier = Modifier.fillMaxWidth().testTag("say-hello"),
                         ) {
-                            Text("Say hello")
+                            Text(if (loading) "Connecting..." else "Say hello")
                         }
                     }
                 }
                 Text(
-                    "Hello World · Works offline",
+                    serviceLabel,
                     style = MaterialTheme.typography.labelMedium,
                     color = colors.onSurfaceVariant,
                 )

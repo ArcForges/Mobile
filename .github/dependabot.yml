@@ -24,4 +24,4 @@ updates:
       android:
         patterns: ["com.android*", "androidx.activity*", "androidx.test*"]
       contracts:
-        patterns: ["io.github.arcforges*", "io.grpc*"]
+        patterns: ["io.github.arcforges*", "com.connectrpc*", "com.squareup.okhttp3*", "com.squareup.okio*"]

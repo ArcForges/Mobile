@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ArcForges/Mobile/actions/workflows/ci.yml/badge.svg)](https://github.com/ArcForges/Mobile/actions/workflows/ci.yml)
 
-A native Kotlin Android Hello World app, with a shared Compose UI and a JVM development preview. Android is the only product delivered by this repository. The current screen works offline; production ArcChat services, accounts and synchronization are future work.
+A native Kotlin Android app that calls the real Cloud Hello API at `https://arcforges.com/api`, with a shared Compose UI and an offline JVM development preview. Android is the only product delivered by this repository. Production ArcChat services, accounts and synchronization are future work.
 
 | Component | Pinned version / purpose |
 | --- | --- |
@@ -11,9 +11,12 @@ A native Kotlin Android Hello World app, with a shared Compose UI and a JVM deve
 | Kotlin / Compose Multiplatform | 2.4.20 / 1.12.0 |
 | Compose Hot Reload | 1.2.0; JVM development sandbox only |
 | Android SDK | compile/target 37, Build-Tools 37.0.0, minimum Android 8.0 (API 26) |
-| Contracts | `io.github.arcforges:contracts-client:1.0.0-ci.25.1` from Maven Central |
+| Contracts | `io.github.arcforges:contracts-connect-client:1.0.0-ci.36.1` from Maven Central |
+| Transport | Connect-Kotlin 0.9.0, binary gRPC-Web over platform-validated HTTPS |
 
 `app` owns Android lifecycle, published Contracts integration and APK/AAB packaging. `shared` owns the greeting behavior and Compose UI, reused by Android and the `desktop` JVM preview target. Contracts source generation stays in the [Contracts repository](https://github.com/ArcForges/Contracts); this build uses released Maven artifacts and needs no adjacent checkout.
+
+Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. It has a five-second RPC deadline and never retries automatically. Recreating the Activity preserves the name and completed result, cancels pending work and allows a fresh manual request. The anonymous Hello needs no login, API token or Cloudflare account. The preview is labeled **Local preview · Works offline** and makes no Cloud calls.
 
 ```sh
 python eng/mobile.py hooks
