@@ -8,9 +8,22 @@ import androidx.activity.enableEdgeToEdge
 import io.github.arcforges.mobile.shared.ArcForgesApp
 
 class MainActivity : ComponentActivity() {
+    private val cloud = CloudHelloClient()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { ArcForgesApp(greet = ::localContractGreeting) }
+        setContent {
+            ArcForgesApp(
+                greet = cloud::greet,
+                initialMessage = "Ready to connect.",
+                serviceLabel = "Cloud Hello · arcforges.com",
+            )
+        }
+    }
+
+    override fun onDestroy() {
+        cloud.close()
+        super.onDestroy()
     }
 }

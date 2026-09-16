@@ -4,7 +4,7 @@
 
 `CI` runs on PRs, pushes to `main`, and manual validation requests. Both Windows and Linux build from the same commit with JDK/JVM 21. Unit tests, formatting, lint and bytecode verification must pass. The Linux build uploads unsigned release APK/AAB, debug/test APKs, the R8 mapping and `candidate.json` with SHA-256 hashes and source/version metadata.
 
-The emulator job downloads that candidate, verifies its hashes, runs debug instrumentation and launches its minified release APK with a disposable test signature. Security scans run in parallel. The aggregate `Verify` check succeeds only when both OS builds, device checks and security checks succeed.
+The emulator job downloads that candidate, verifies its hashes, runs debug instrumentation including real Cloud gRPC-Web calls, and invokes Hello from its minified release APK with a disposable test signature. Security scans run in parallel. The aggregate `Verify` check succeeds only when both OS builds, device checks and security checks succeed. No Cloudflare deployment credential is needed for the anonymous Hello gate; the currently deployed service must be available. Saved Android evidence records its observed revision, protocol outcomes and the release UI response.
 
 Only a `push` to `main` then enters `android-release`. It downloads and re-verifies the same candidate, aligns/signs its APK, signs its AAB and verifies the signatures and persistent certificate. It does not rebuild application code. GitHub Releases receives the signed APK/AAB, R8 mapping, `release.json` and `SHA256SUMS`. The development JVM preview is never released. PRs and manual validation runs never publish.
 
