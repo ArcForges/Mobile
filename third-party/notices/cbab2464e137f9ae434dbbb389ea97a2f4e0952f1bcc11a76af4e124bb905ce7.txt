@@ -1,0 +1,13 @@
+ArcForges Contracts
+Copyright 2026 ArcForges contributors
+
+io.github.arcforges/contracts-proto 1.0.0-ci.44.1 (Apache-2.0)
+
+Resolved runtime dependency inventory (dependencies retain their own licences):
+- com.google.protobuf/protobuf-javalite 4.36.1: BSD-3-Clause (pkg:maven/com.google.protobuf/protobuf-javalite@4.36.1)
+- com.google.protobuf/protobuf-kotlin-lite 4.36.1: BSD-3-Clause (pkg:maven/com.google.protobuf/protobuf-kotlin-lite@4.36.1)
+- org.jetbrains.kotlin/kotlin-stdlib 2.4.20: Apache-2.0 (pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.4.20)
+- org.jetbrains/annotations 13.0: Apache-2.0 (pkg:maven/org.jetbrains/annotations@13.0)
+
+Third-party dependencies are referenced, not vendored into this package.
+The installed dependency packages supply their original licence and notice files.

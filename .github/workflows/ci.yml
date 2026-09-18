@@ -89,13 +89,20 @@ jobs:
             app/build/reports/
             app/build/test-results/
             shared/build/reports/tests/
+            artifacts/evidence/licence-*.json
+            artifacts/evidence/android-licences.json
+            build/generated/licence-assets/
           retention-days: 14
 
   android:
-    name: Android device tests
+    name: Android device tests (API ${{ matrix.api }})
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [26, 36]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -126,7 +133,7 @@ jobs:
       - name: Exercise Android UI, live gRPC-Web and the minified release APK
         uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
         with:
-          api-level: 36
+          api-level: ${{ matrix.api }}
           arch: x86_64
           target: google_apis
           disable-animations: true
@@ -145,7 +152,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: android-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          name: android-evidence-api${{ matrix.api }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             artifacts/instrumentation.txt
             artifacts/device/
@@ -175,7 +182,9 @@ jobs:
 
   publish:
     name: Publish Android
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      needs.verify.result == 'success'
     needs: [build, verify]
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -219,7 +228,19 @@ jobs:
           Install the APK on Android 8.0 or newer. The AAB is for a future store upload; no store deployment occurs here.
           JVM desktop preview is development-only and is not distributed.
 
-          Both OS builds, unit tests, Android instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, lint and security checks passed before signing.
-          See release.json for source/candidate hashes and the signing certificate; SHA256SUMS verifies the downloads.
+          Both OS builds, unit tests, Android API 26 and 36 instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, licence closure, lint and security checks passed before signing.
+          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
+
+  verify-publication:
+    name: Verify publication
+    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require actual publication
+        env:
+          PUBLISHED: ${{ needs.publish.result }}
+        run: test "$PUBLISHED" = success

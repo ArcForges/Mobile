@@ -17,6 +17,8 @@ import tempfile
 import tomllib
 import xml.etree.ElementTree as ET
 
+from licences import project_audit, verify_distribution
+
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_TOOLS = "37.0.0"
 PACKAGE = "io.github.arcforges.mobile"
@@ -55,12 +57,15 @@ def version():
 
 
 def repository_check():
+    project_audit()
     names = run("git", "ls-files", "-z", "--cached", "--others", "--exclude-standard", capture=True).split("\0")
     for name in filter(None, names):
         path = ROOT / name
         if not path.is_file() or path.suffix in {".jar", ".png"}:
             continue
         text = path.read_text(encoding="utf-8")
+        if name.startswith("third-party/notices/"):
+            continue  # Preserve upstream notice text; the licence gate verifies its reviewed hash.
         if not text.endswith("\n"):
             raise ValueError(f"Missing final newline: {name}")
         if any(line.rstrip() != line for line in text.splitlines()):
@@ -111,6 +116,8 @@ def stage(destination):
         "app-debug.apk": "app/build/outputs/apk/debug/app-debug.apk",
         "app-debug-androidTest.apk": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
         "mapping.txt": "app/build/outputs/mapping/release/mapping.txt",
+        "THIRD_PARTY_NOTICES.txt": "build/generated/licence-assets/THIRD_PARTY_NOTICES.txt",
+        "licence-closure.json": "build/generated/licence-assets/licence-closure.json",
     }
     for name, source in files.items():
         shutil.copyfile(ROOT / source, destination / name)
@@ -118,6 +125,7 @@ def stage(destination):
     info.update(commit=os.environ["GITHUB_SHA"], package=PACKAGE)
     inspect_apk(destination / "app-release-unsigned.apk", info)
     inspect_apk(destination / "app-debug.apk", info, f"{PACKAGE}.debug")
+    verify_distribution(destination, info["commit"])
     info["sha256"] = {name: sha256(destination / name) for name in files}
     (destination / "candidate.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
     print(f"Staged immutable candidate {info['version_name']} from {info['commit']}.")
@@ -125,7 +133,7 @@ def stage(destination):
 
 def verify_candidate(directory):
     info = json.loads((directory / "candidate.json").read_text(encoding="utf-8"))
-    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt"}
+    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json"}
     if set(info["sha256"]) != expected or {p.name for p in directory.iterdir()} != expected | {"candidate.json"}:
         raise ValueError("The candidate file set is incomplete or contains unexpected files.")
     if info["commit"] != os.environ["GITHUB_SHA"] or info["package"] != PACKAGE:
@@ -136,6 +144,7 @@ def verify_candidate(directory):
         if sha256(directory / name) != checksum:
             raise ValueError(f"Candidate checksum mismatch: {name}")
     inspect_apk(directory / "app-release-unsigned.apk", info)
+    verify_distribution(directory, info["commit"])
     return info
 
 
@@ -178,6 +187,8 @@ def sign_candidate(directory, destination):
             raise ValueError("AAB signature verification failed.")
         info["certificate_sha256"] = fingerprint
     shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
+    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json"]:
+        shutil.copyfile(directory / name, destination / name)
     info["candidate_sha256"] = info.pop("sha256")
     info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}
     (destination / "release.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")

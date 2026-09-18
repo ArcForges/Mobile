@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "repository": "Mobile",
+  "spdxLicense": "Apache-2.0",
+  "licenceBoundary": "Apache",
+  "projects": [
+    {
+      "path": "app/build.gradle.kts",
+      "kind": "gradle"
+    },
+    {
+      "path": "build.gradle.kts",
+      "kind": "gradle"
+    },
+    {
+      "path": "shared/build.gradle.kts",
+      "kind": "gradle"
+    }
+  ]
+}

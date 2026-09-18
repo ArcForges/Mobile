@@ -8,4 +8,6 @@ Contracts JARs each contain their own root `sbom.cdx.json` and `source.json`. Th
 
 The JVM development preview additionally uses Compose Desktop, Skiko and a JetBrains Runtime. Those preview dependencies are not packaged as a desktop product or included solely for the preview in the Android release. Build, test and security tools retain their upstream licenses.
 
-When adding or replacing a dependency, review its license and required redistribution notices. This file is a provenance guide, not a replacement for the actual notices supplied with an artifact.
+The reviewed Android inventory is [android-licences.json](eng/policy/android-licences.json); complete retained texts are in [third-party/notices](third-party/notices). APKs/AABs embed `assets/THIRD_PARTY_NOTICES.txt` and `assets/licence-closure.json` (under `base` in the AAB). Signed releases also publish both files separately with verified hashes. The inventory includes instrumentation-only licences with their explicit scope. AndroidX Graphics Path's native source/compiler attributions are retained as described in the [licence gate](docs/licence-boundary.md).
+
+When adding or replacing a dependency, review its license and required redistribution notices, then update the frozen graph/hashes/texts before packaging. The GPL-family core-library desugaring implementation is excluded under D-004; normal D8/R8 language desugaring remains enabled. This file is a provenance guide, not a replacement for the actual notices supplied with an artifact.
