@@ -43,7 +43,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
-        isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
         compose = true
@@ -57,6 +56,19 @@ android {
     lint {
         abortOnError = true
         warningsAsErrors = true
+    }
+}
+
+val licenceDirectory =
+    objects.directoryProperty().apply {
+        set(rootProject.layout.buildDirectory.dir("generated/licence-assets"))
+    }
+val licenceTask = tasks.named("verifyAndroidLicences")
+
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(licenceTask) { licenceDirectory }
+    variant.androidTest?.sources?.assets?.addGeneratedSourceDirectory(licenceTask) {
+        licenceDirectory
     }
 }
 
@@ -74,10 +86,14 @@ dependencies {
     implementation(libs.connect.okhttp)
     implementation(libs.connect.javalite)
     implementation(libs.coroutines.core)
-    coreLibraryDesugaring(libs.desugar)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.compose.ui.test.junit4)
     debugImplementation(libs.compose.ui.tooling)
 }
+
+// Project licence metadata is verified independently of the root LICENSE.
+extra["spdxLicense"] = "Apache-2.0"
+
+extra["licenceBoundary"] = "Apache"

@@ -77,3 +77,8 @@ kotlin {
 
 // Development sandbox only. There are no desktop distribution tasks configured.
 compose.desktop { application { mainClass = "io.github.arcforges.mobile.preview.MainKt" } }
+
+// Project licence metadata is verified independently of the root LICENSE.
+extra["spdxLicense"] = "Apache-2.0"
+
+extra["licenceBoundary"] = "Apache"

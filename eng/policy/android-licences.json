@@ -1,0 +1,4263 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-09-18",
+  "designCommit": "3825a24fd7530cb51c3fb30b757e644ebab33459",
+  "scope": "Android release, debug and instrumentation distributions; JVM preview and host tools excluded",
+  "components": [
+    {
+      "id": "androidx.activity:activity-compose:1.13.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "activity-compose-1.13.0.aar": "2b5da3033d4924e833868e140c3edfc0c03208710b6b9fb2c9d9a47560ba55fa"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/activity/activity-compose/1.13.0/activity-compose-1.13.0.pom",
+          "sha256": "cb6a8ff89ffb7f107f214050e9fb32b0d0b0f665d8de7c9e4e2a4d5fea9951e9",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.activity:activity-ktx:1.13.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "activity-ktx-1.13.0.aar": "b5541dc5f74e35389f1e9fdca8b5770c49d2c1360de16f398ce5c1e07a003244"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/activity/activity-ktx/1.13.0/activity-ktx-1.13.0.pom",
+          "sha256": "79d63d7b13c43f92faf63ade9fc6a4ab45e8e42493dbaa138c7a736184a4c775",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.activity:activity:1.13.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "activity-1.13.0.aar": "bd4f19a5f00effed0eecad0a310b1f2169b9fc66236a3ba743a222eb77747ee1"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/activity/activity/1.13.0/activity-1.13.0.pom",
+          "sha256": "a5c53e074754835d30621618616e783b5b71875c2e7988ab06082348152e314e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.annotation:annotation-experimental:1.4.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "annotation-experimental-1.4.1.aar": "6bd4c7c7476f8260cd3bdbb81183583e93fc9f790c27dea7dc314181cbf87aa0"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/annotation/annotation-experimental/1.4.1/annotation-experimental-1.4.1.pom",
+          "sha256": "fe57b228417f4d7c677903dc61fb4a7cf993d603499de26d8d8113e477cc4f1b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.annotation:annotation-jvm:1.10.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "annotation-jvm-1.10.0.jar": "ddd072ddbb553178e205517ce777b2f05aa9e412982d9ecb4eedc74f1212f697"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/annotation/annotation-jvm/1.10.0/annotation-jvm-1.10.0.pom",
+          "sha256": "5eece0903b4810aa1da85414dc4c2746046d878a543aa12dd4f1fe74171f7506",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.annotation:annotation:1.10.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/annotation/annotation/1.10.0/annotation-1.10.0.pom",
+          "sha256": "880f7bf4b35d060746cbef319d4a052b4bd826bb71b40500e55319721ffa4e76",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.arch.core:core-common:2.2.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-common-2.2.0.jar": "65308a06b1c00ee186cb9e19321383f043b993813f1522c47f4a3e3303bdba41"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/arch/core/core-common/2.2.0/core-common-2.2.0.pom",
+          "sha256": "1e17d4af8d6425be2a69f8af4d654a87e0456259a9eef1542869bcb023547e28",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.arch.core:core-runtime:2.2.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-runtime-2.2.0.aar": "a1be5e0caa2b07623862af6ae21b3ab0718123245184d0e30dea81b53f990a47"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/arch/core/core-runtime/2.2.0/core-runtime-2.2.0.pom",
+          "sha256": "0f953706598140d9d8735cdd5aeb1fa35933f4e2f31c0bf3eb81a053a4c8c1a5",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.autofill:autofill:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "autofill-1.0.0.aar": "c9468f56e05006ea151a426c54957cd0799b8b83a579d2846dd22061f33e5ecd"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/autofill/autofill/1.0.0/autofill-1.0.0.pom",
+          "sha256": "3677abead5d4e06cf76cbacb954151e051779c2274494451fb424e375aa9e450",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.collection:collection-jvm:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "collection-jvm-1.5.0.jar": "70b35924e4babcdffa37d0e575ee039c56a2d97123342624c48b603233704341"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/collection/collection-jvm/1.5.0/collection-jvm-1.5.0.pom",
+          "sha256": "11c415864d3402f61d426e67210158dce1b04680412526a994f1823ecd3cb388",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.collection:collection-ktx:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "collection-ktx-1.5.0.jar": "939b4a8697640e77d83e4e8b4c4a9d18f8130198c5961194af8dd9db9dc7c353"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/collection/collection-ktx/1.5.0/collection-ktx-1.5.0.pom",
+          "sha256": "983f8d0630d072d5bfcd166a498ac7213f3a44a98c09051004ce96429d867cea",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.collection:collection:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/collection/collection/1.5.0/collection-1.5.0.pom",
+          "sha256": "2d65c8d0b36d4b4faadc44aff9bade23d871d7159eedf2b3f02d802b34b77a57",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.animation:animation-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "animation.aar": "5be24f9d42832a41e4e5b65f477a2cbb264f65c68533c1afb333a942cb8ff132"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-android/1.12.0/animation-android-1.12.0.pom",
+          "sha256": "bdf8bfac92c241adf995f48e77b3fbd0e7181e79dad38eaff145039785e1702e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.animation:animation-core-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "animation-core.aar": "03f26c90e65edd74a6cd38361ee312533d490ca4991a5c838745abda84798f75"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core-android/1.12.0/animation-core-android-1.12.0.pom",
+          "sha256": "2634199f93f47d3a273d68e90a339a9e8864046b976cb1f88524d8e6776f809e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.animation:animation-core:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core/1.12.0/animation-core-1.12.0.pom",
+          "sha256": "66d56c27f36811c9c6e4a4d099e6815204ab78789379714121d405dead7d398d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.animation:animation:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation/1.12.0/animation-1.12.0.pom",
+          "sha256": "bf27764ee0af08f71f643a81a190207db34c1a02bd97bb6923e531d3ae35800c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.foundation:foundation-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "foundation.aar": "657c05465eddae8ff7a1e55a4a615bc26da9012834a44e1e4282deeb54ae8ea7"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-android/1.12.0/foundation-android-1.12.0.pom",
+          "sha256": "bf8f258f0657eea224a663dc463f43ca6f7c61897342fb07066a98c121e141da",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.foundation:foundation-layout-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "foundation-layout.aar": "cc326eaae95efe35d6e720ae01f6e9a6a456489c7e5868b4b09719fb63791864"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout-android/1.12.0/foundation-layout-android-1.12.0.pom",
+          "sha256": "30831b553b57d550dbb48aed7ca1ad811a81d7794d7c5ae8fddec647c2103a5c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.foundation:foundation-layout:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout/1.12.0/foundation-layout-1.12.0.pom",
+          "sha256": "289409b029f1ca4196a76a7a9cdaa03c35a26f5cb32a5f00ddb047e8fef8d33c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.foundation:foundation:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation/1.12.0/foundation-1.12.0.pom",
+          "sha256": "113b660bc2f2bdac98e0e84b700381d10713439b0e670923d5af6309e48f1f29",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.material3:material3-android:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "material3.aar": "3a37e8b36df3822fe1e6059f0f9fafda8800388860477624ac1b9422c418a36e"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0.pom",
+          "sha256": "cc0362653240708a010de50fee8caf884a610fbb10b6013e86694d77c43febc7",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.material3:material3:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3/1.4.0/material3-1.4.0.pom",
+          "sha256": "672b431f59c8e0a8522690b2f46f1b7966710638893c60c31c5f19f8472d62cc",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.material:material-ripple-android:1.9.3",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "material-ripple.aar": "8161fe3ebef7ecf3f40a53b7b69308507bb10b023b3fdc7b58efb31713688479"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material/material-ripple-android/1.9.3/material-ripple-android-1.9.3.pom",
+          "sha256": "bdecf5e6e99f8d48238ff4d9287fbe66a8714df3db115b7dd8e136818e3ddd53",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.material:material-ripple:1.9.3",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material/material-ripple/1.9.3/material-ripple-1.9.3.pom",
+          "sha256": "8f35e20566f01bd4cbdc44cccdae54f6a59388fb23e0d0e23dae3f6640768f50",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime.aar": "4002a4a17696cd182f080fe3663490e4f327f285c569ed844f1c435b8b772ba7"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-android/1.12.0/runtime-android-1.12.0.pom",
+          "sha256": "2d0376211209ae538392b7bebd17a0e7d76ab0133dc6508de09f2ca4cd6e4502",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-annotation-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime-annotation.aar": "42c2f260b16cfafb7d5f9d8e5f751059de01fdc529ad3f79117fc40ead1c302c"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation-android/1.12.0/runtime-annotation-android-1.12.0.pom",
+          "sha256": "6f50b9fc11d54cca2fae7bae49a90fd10ae05388245a5ad535e4fa4958694457",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-annotation:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation/1.12.0/runtime-annotation-1.12.0.pom",
+          "sha256": "68c7aceb294762852927746f9d6850d606d30660696d64afcecada9159bff686",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-retain-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime-retain.aar": "754cbe5b3da9eb294268461c0f3ecb9a41684608df6c9c4dfe481a7f781c0532"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain-android/1.12.0/runtime-retain-android-1.12.0.pom",
+          "sha256": "ba35f0c687a1467ab8742165a38a0e135c601839506cda0da771a6ef6ebe4bbc",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-retain:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain/1.12.0/runtime-retain-1.12.0.pom",
+          "sha256": "2c30430a35d642d13902f951f24a5258fd5bed0f704755c81a84454882f4be70",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-saveable-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime-saveable.aar": "277ee60d5bc9970ae42716fd6dd4e837a5a2f78517258f0c9d68c2a59d72cefa"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable-android/1.12.0/runtime-saveable-android-1.12.0.pom",
+          "sha256": "14d5aaf7cfdedbbdac10dc693e67b912909c34957a9b7d4b38f7489232b5f5fa",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime-saveable:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable/1.12.0/runtime-saveable-1.12.0.pom",
+          "sha256": "a55d6cdfc8224a2b813c2fb76eb1b999f59a80cac96a2746992625b235573b57",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.runtime:runtime:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime/1.12.0/runtime-1.12.0.pom",
+          "sha256": "da0bb2d8542847eb2ee620872a6535bcff0864fe4c9dcbb9a2fff7d56c60c8e3",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui.aar": "3d2d83c96546c380cbc582329ece0da74a4f9267d52c6dead69c2272bfce0313"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-android/1.12.0/ui-android-1.12.0.pom",
+          "sha256": "aabfd1a533c2de912fda349dd062a89148e6d02dcaf62c89befc62a13f09e199",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-geometry-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-geometry.aar": "dbcff0026da04ace1871b5dbeb97fd83e15de310bd0bbb0b0aea031fe29c4c7a"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry-android/1.12.0/ui-geometry-android-1.12.0.pom",
+          "sha256": "6aab2cdbdd423bbc9a3ec2bc20d064e218c95fc031d48bfa7e8070161b5f6f83",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-geometry:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry/1.12.0/ui-geometry-1.12.0.pom",
+          "sha256": "727cfe04531689b11916104d03cee11e63f81786b0f68968cf1ac491640e4566",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-graphics-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-graphics.aar": "87e7a805779720bf13a6f46a5a75ad80526d0300dbd3acbf48d2a689f71a1c41"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics-android/1.12.0/ui-graphics-android-1.12.0.pom",
+          "sha256": "384a3f07ce50b7e793e7abd32653d10a6c37cdce38789058dd92ad8eff2a850a",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-graphics:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics/1.12.0/ui-graphics-1.12.0.pom",
+          "sha256": "c99b8670966c5d4d88e240256519119752c69f70badafcbf56ebc6032510a6d9",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-test-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-test.aar": "d8941ee80919a50fb4dcc26d347b26b4511c50c3ae0af00177c09e34391d4327"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-android/1.12.0/ui-test-android-1.12.0.pom",
+          "sha256": "7f054eb0b7725f639715d32b87ead1e612ee91bc2096724b9c6b3ab3d7da908f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-test-junit4-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-test-junit4.aar": "ad4e326ec7f7bf200c00a13d85273848c301ca0bc87a8738f013fdd00410d213"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4-android/1.12.0/ui-test-junit4-android-1.12.0.pom",
+          "sha256": "670d6086c9c8a370085ea256016d684897e6b78b38569d89bce1798d3340b58a",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-test-junit4:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4/1.12.0/ui-test-junit4-1.12.0.pom",
+          "sha256": "f47cd5adc3b9316a3a25a34303863957cc7fd1aa6ba4f148a3c060d924e8f212",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-test:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test/1.12.0/ui-test-1.12.0.pom",
+          "sha256": "3157877f170d7a094b770bc34341c55626362ddb67111100fa552c94a01b471e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-text-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-text.aar": "6928bfad8bc4bb44a01404eea44e4fb0e826a13abe5d292c2c16718a62656bc5"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.12.0/ui-text-android-1.12.0.pom",
+          "sha256": "978a3cbe9c74f8a2080c3a701532247e585878daae922081cd50388bf6e23d68",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-text:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text/1.12.0/ui-text-1.12.0.pom",
+          "sha256": "03a6e2341f23f8d52b70679399bb9fb39cc54529d67666f2554d76dbb234ea99",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling.aar": "36723ddc62068a27648db151ea93b809c2ba040608468c936e608d05568571ba"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-android/1.12.0/ui-tooling-android-1.12.0.pom",
+          "sha256": "bed1cf4287940ce804115233594423a13679977b802aada420ab1af00232fd3c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling-data-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling-data.aar": "111897d4a5b4f0972503c564555733899589a9b8b90b7bdada15bd5445b00654"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data-android/1.12.0/ui-tooling-data-android-1.12.0.pom",
+          "sha256": "6b5b9429a2bd2470bbca82ca73de17852cb7c8eed860e274885541879a57b2d3",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling-data:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data/1.12.0/ui-tooling-data-1.12.0.pom",
+          "sha256": "e134cd5fbc7e3fa0e5edd2f7ee222c9ebf93e2856475a6b470f4facb6640a9f2",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling-preview-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling-preview.aar": "b94bf6808e103a99b38ab58a970cf15f7b3f921dc936b0f867b0a42db517c086"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview-android/1.12.0/ui-tooling-preview-android-1.12.0.pom",
+          "sha256": "70c9e1d49a69658786f1f10d67e8f0b5cae8601840b1f66e222e6cc83635f4de",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling-preview:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview/1.12.0/ui-tooling-preview-1.12.0.pom",
+          "sha256": "7817a70e0c2ea83590a2277d30a07905f7f4ab8f4bd005309b139bc8c1789ca9",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-tooling:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling/1.12.0/ui-tooling-1.12.0.pom",
+          "sha256": "ab35e9696bcee017a391e2b2631ae896138dd5675780204c5726c08388478ef6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-unit-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-unit.aar": "932d22c193caa0f7121e705abe8c1d45ecb6505cc1a9981956da4c1fbd5030ee"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit-android/1.12.0/ui-unit-android-1.12.0.pom",
+          "sha256": "4482c15b14178a09375dd26429028014474bb2006e2f72c62b2a76f8e1f292f8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-unit:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit/1.12.0/ui-unit-1.12.0.pom",
+          "sha256": "2d8512c26d6e8acb293e04a56703a690ffdb178b89311391b1a79eef4f5b3a7d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-util-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-util.aar": "e7bec48411ba8d894bfcda4e3590b07b4aff5702a8e67b3a6e48eba8e5e531a5"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util-android/1.12.0/ui-util-android-1.12.0.pom",
+          "sha256": "c584228b2832fbd0ddcaac59bb47508d39f7e6f47c6393501ac364e3c0b4186b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-util:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util/1.12.0/ui-util-1.12.0.pom",
+          "sha256": "d23dff8a4383bc4d9d7fc68709aa16bf7aa324e0b970f5a67d2e8d5df174f9cb",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui/1.12.0/ui-1.12.0.pom",
+          "sha256": "3f6478f0127596f3b3ad8b782c96dd56dfd59246d3c85b4c1a4d2170eefa1e08",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.concurrent:concurrent-futures-ktx:1.2.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "concurrent-futures-ktx-1.2.0.jar": "e1f3e17bb4358ccd6c77ca45f70635c9aba237261f19eaa4f64a0218c00e2a3e"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/concurrent/concurrent-futures-ktx/1.2.0/concurrent-futures-ktx-1.2.0.pom",
+          "sha256": "7869d39aa7a7754a4f311771abfd9d95ccbd7ffb27e970f8cb15fdf5b5355b6d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.concurrent:concurrent-futures:1.1.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "concurrent-futures-1.1.0.jar": "0ce067c514a0d1049d1bebdf709e344ed3266fe9744275682937cdcb13334e9e"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/concurrent/concurrent-futures/1.1.0/concurrent-futures-1.1.0.pom",
+          "sha256": "748a34eb5d13d19d187adecaea82667fded5f1b0b98a655e13ed2e4a8b3d8ae6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.core:core-ktx:1.18.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-ktx-1.18.0.aar": "c7c511e3df838fcbcb61ace36944de6bb7c10eb597be546974f001119939c85d"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.18.0/core-ktx-1.18.0.pom",
+          "sha256": "3a5e0009e06517627756b9203d9a8f055fda87b215a17b775bae568697854196",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.core:core-viewtree:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-viewtree-1.0.0.aar": "dc1b678d58ebcf2bfa1587be68ff826694ce3d221251b9ef30d4d4b36297e6de"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/core/core-viewtree/1.0.0/core-viewtree-1.0.0.pom",
+          "sha256": "d4f2ed1176fa8c5612b80f74c952a8799142a9ed36022a1a238fde5b140580d9",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.core:core:1.18.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-1.18.0.aar": "311d83ac67d394076ec21d12ed2d10a44b59cb2929b7dce00e5a90a93842e37d"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/core/core/1.18.0/core-1.18.0.pom",
+          "sha256": "57d644ebb37d309ad959d740157d8e8424e273b9c672842e4f4c758edc6d30e7",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.customview:customview-poolingcontainer:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "customview-poolingcontainer-1.0.0.aar": "3584102fc49bf399c56e3b7be4bfe12000c46112320cd8cf85cc0a8f93f3e752"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/customview/customview-poolingcontainer/1.0.0/customview-poolingcontainer-1.0.0.pom",
+          "sha256": "9fa62196c4c4e79b6a58dbb38a8c022bef8db21989d7dae2da0f6f5b66289a9c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.emoji2:emoji2:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "emoji2-1.4.0.aar": "433febd3434a45667176c76a64f3f205ca6335a6b544c5b5d57f25a38a375242"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/emoji2/emoji2/1.4.0/emoji2-1.4.0.pom",
+          "sha256": "1f67221484f7d1260eb6e2b490cd4e7046bf5cb536276d79f972ad3f198b474d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.graphics:graphics-path:1.0.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "graphics-path-1.0.1.aar": "8ca4032b6d79b351f0b59ad4b580eddbb9423e1652f7c958830687f1eee2ec03"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/graphics/graphics-path/1.0.1/graphics-path-1.0.1.pom",
+          "sha256": "866fb357c7146f5f7678ad44e4bc6c2823d568defce1ed2805bb6c899606b228",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://developer.android.com/jetpack/androidx/releases/graphics#graphics-path-1.0.1",
+          "kind": "release-source-link"
+        },
+        {
+          "url": "https://android.googlesource.com/toolchain/llvm-project/+/4c603efb0cca074e9238af8b4106c30add4418f6/compiler-rt/LICENSE.TXT",
+          "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+          "kind": "compiler-runtime-license"
+        }
+      ],
+      "notices": [
+        "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+        "329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.interpolator:interpolator:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "interpolator-1.0.0.aar": "33193135a64fe21fa2c35eec6688f1a76e512606c0fc83dc1b689e37add7732a"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/interpolator/interpolator/1.0.0/interpolator-1.0.0.pom",
+          "sha256": "0ddc07cc39699f48ecd9ec894b5830c0f09e22e82959294edf37217224c88b7b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-common-java8:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-common-java8-2.9.4.jar": "497dd84de9f2fd46324f25f9a3af032d3a23d087e87af515c4b19435f6d6a651"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common-java8/2.9.4/lifecycle-common-java8-2.9.4.pom",
+          "sha256": "f7a0077f2b20312c30ea74c9fe77626fbe2ad09bb48922851cde20bcd1a33266",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-common-jvm:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-common-jvm-2.9.4.jar": "37d89b2101f074ac6c260917dabb185607645ee200aa3018c7c5bde70edcf184"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common-jvm/2.9.4/lifecycle-common-jvm-2.9.4.pom",
+          "sha256": "31735e9953aaeeab4e07fcffa4c6ab3519f90b331c4b1da8173df911607d3906",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-common:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.9.4/lifecycle-common-2.9.4.pom",
+          "sha256": "0e3a0c8798d26f49238550a3dc4d6bd465d49b82bcb759ca3c463a31600e721c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-livedata-core:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-livedata-core-2.9.4.aar": "ea866f0c379d1f92837994010ab5ac0a5d5499dbab521efc71b3bc2b497d6ba4"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-livedata-core/2.9.4/lifecycle-livedata-core-2.9.4.pom",
+          "sha256": "cec1161148e3f6c4b7d513aa989729e84a8ee9471f0c47c03478b3fb3c49ea21",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-process:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-process-2.9.4.aar": "4784b8d083c211e076d9115bfa1737f7e0f62b553e801cf50caa4400e34a95d6"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-process/2.9.4/lifecycle-process-2.9.4.pom",
+          "sha256": "5eac5a0a27138477f40f0aa0e749cd07fbf5580d4a9adc6d2d59db64cac49b10",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime-android:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-runtime-release.aar": "86f16a1330eb23600ba90d0334b3e1db38d3a30c8b1efcd92ca21aa85afa8173"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-android/2.9.4/lifecycle-runtime-android-2.9.4.pom",
+          "sha256": "271e54009fdf3a2cd5ab414e8a09e6af4251b63d484a42c530ab868974a5ea1f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime-compose-android:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-runtime-compose-release.aar": "b6803f906a89fd85c77df343dd4aeeb349125ca79e12d55d68d4cf42f42231f6"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose-android/2.9.4/lifecycle-runtime-compose-android-2.9.4.pom",
+          "sha256": "a7a073c7db10974627ba883f648a34fe8053f50c294d9192e183c901daea8c65",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime-compose:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-compose/2.9.4/lifecycle-runtime-compose-2.9.4.pom",
+          "sha256": "0ef3fb28f89b80b90c78ad6ba345164d5590889ee3459b027f26695936291575",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime-ktx-android:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-runtime-ktx.aar": "970199c9ed1ac13d620aa8de7f8abbc28ce80653c3ce328d0ac2f15272b56e1b"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-ktx-android/2.9.4/lifecycle-runtime-ktx-android-2.9.4.pom",
+          "sha256": "78aace79fbced8eb8c17e0b02b2d55be9906fbdda053e6a617ee6e595fcace14",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime-ktx:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-ktx/2.9.4/lifecycle-runtime-ktx-2.9.4.pom",
+          "sha256": "0af68ccd282a3f98d832f391b6655098d476f19d91f40f909d3c695814a11cab",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-runtime:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.9.4/lifecycle-runtime-2.9.4.pom",
+          "sha256": "d617a519ddb36a308213f5b9af99163b0a3a3739ce0381b6c8d0fa6814613a08",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-viewmodel-android:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-viewmodel-release.aar": "4b236b2e504db5ca5d09334fef05aa8cdc31ee35a433c3aa4d0420efa9613332"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-android/2.9.4/lifecycle-viewmodel-android-2.9.4.pom",
+          "sha256": "9660b5a2d80ffe0f0e5b4f993b581d15972a8c14aae51784b6097bc97be0379e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-viewmodel-ktx-2.9.4.aar": "b7d58bb86bb8e2ccc607d1f8570e714810f7cfb3feba37d375ff1646383435a1"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-ktx/2.9.4/lifecycle-viewmodel-ktx-2.9.4.pom",
+          "sha256": "0ccd0e9d361ad69b6a7253ab4ed2124a3bd4fbf9b338e36c1431b3c5ee7bc794",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "lifecycle-viewmodel-savedstate-release.aar": "079441c43fa3ff8ea7a02df3b12eec483c3e57583f832cfaff663750527c1421"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-savedstate-android/2.9.4/lifecycle-viewmodel-savedstate-android-2.9.4.pom",
+          "sha256": "34ab8491e6b631123ce5f7f0ae06dfa238c211dcf3e71033ed61656f9d47718c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel-savedstate/2.9.4/lifecycle-viewmodel-savedstate-2.9.4.pom",
+          "sha256": "6912b55c745c579ec6fcbeb0065d5a17d8b5f06dd0a58788037d41e40db50202",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.lifecycle:lifecycle-viewmodel:2.9.4",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-viewmodel/2.9.4/lifecycle-viewmodel-2.9.4.pom",
+          "sha256": "054db6f92d9230103b3aca8b0dabcc0d63de26e440ff98eb5b19a2555d3eb037",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.navigationevent:navigationevent-android:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "navigationevent.aar": "cda4bb83d1c892a208732e99c2d59e4f247ab5c23a1d2524fc004db2e4e9a780"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent-android/1.0.0/navigationevent-android-1.0.0.pom",
+          "sha256": "5cabbb40f3fba11166576a839acf4eb6db59ab5e5ebcb16361d41f8bec805b50",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.navigationevent:navigationevent-compose-android:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "navigationevent-compose.aar": "5cee018dbe130b538d2c43cc6f383a109a98f19ba9c8d7a6dda8ca90a2034671"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent-compose-android/1.0.0/navigationevent-compose-android-1.0.0.pom",
+          "sha256": "6a3b7e989b18ab25274dbd0531dcc4d66e4efb8de4985daff539d5131285bff8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.navigationevent:navigationevent-compose:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent-compose/1.0.0/navigationevent-compose-1.0.0.pom",
+          "sha256": "58899c64fefa0768066621c8994385182c52a0848a78c882705f5e7dabd98471",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.navigationevent:navigationevent:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent/1.0.0/navigationevent-1.0.0.pom",
+          "sha256": "de7fae42b4234f6fedc7762510bcb5db9860187be56f3bfec34b73db6e4a22a2",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.profileinstaller:profileinstaller:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "profileinstaller-1.4.0.aar": "d502141fcce902430f62b674c32aecd0f75262e7ee2cd15c74adb617cd13130a"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/profileinstaller/profileinstaller/1.4.0/profileinstaller-1.4.0.pom",
+          "sha256": "d5fe39981a3b4b7c39585130da0bfc93835054c834a438d3e63e065e5f78be55",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.savedstate:savedstate-android:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "savedstate.aar": "1656ce62cd233d488bdbbd42e533b80b22435b7a690acae6dbe7302392512c14"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/savedstate/savedstate-android/1.4.0/savedstate-android-1.4.0.pom",
+          "sha256": "b44b215b4cce24ca64b5faa58ff463f4b91abc02af95ba405ade488828f4f779",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.savedstate:savedstate-compose-android:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "savedstate-compose.aar": "0f0ae3032d6c6eea834ee22179c8976160d09d841d30e47f53f56b1b3438774b"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/savedstate/savedstate-compose-android/1.4.0/savedstate-compose-android-1.4.0.pom",
+          "sha256": "de19831dabb84a4d0e120e86dceb08cf62c08606b5d99e91a8f8e6b4a4658883",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.savedstate:savedstate-compose:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/savedstate/savedstate-compose/1.4.0/savedstate-compose-1.4.0.pom",
+          "sha256": "b15f47b42585442c9b6a9d416afc30782c69dbf9a5760a2c37175f0024f0d17e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.savedstate:savedstate-ktx:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "savedstate-ktx-1.4.0.aar": "23593939446bc5a154a1e35fddd87b82f19e2adf072207f115bf29a8b431c1d3"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/savedstate/savedstate-ktx/1.4.0/savedstate-ktx-1.4.0.pom",
+          "sha256": "b085af7cc4bb297ed0f25ca85d3629613ab253c0b532684c6cf77c2aee7471c5",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.savedstate:savedstate:1.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/savedstate/savedstate/1.4.0/savedstate-1.4.0.pom",
+          "sha256": "d2b68a2d0cc76f23cebc6d4ea9bbf2d63fb536ffd94e05514ad9da6c5f530492",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.startup:startup-runtime:1.2.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "startup-runtime-1.2.0.aar": "f51d361d17b30b09cfb9e2aebf301d113f99437cbf462a066092795fb60eddd2"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/startup/startup-runtime/1.2.0/startup-runtime-1.2.0.pom",
+          "sha256": "69594163d8bb148df97a9fbb5aa8a92486bb8961db5f73871b8a84122616593b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test.espresso:espresso-core:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "espresso-core-3.5.0.aar": "34b0493f4e002f205d961e562add0c0c31bb0acc657e89d89d4b188ac13f242c"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/espresso/espresso-core/3.5.0/espresso-core-3.5.0.pom",
+          "sha256": "9e672028617979dab465678efdd1650b53c929634c399b1f5fef28252483684d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test.espresso:espresso-idling-resource:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "espresso-idling-resource-3.5.0.aar": "84fb8e2f5eda937771bee28582f5d2cfa61b0e9438d02041ca61b81e3dac3c87"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/espresso/espresso-idling-resource/3.5.0/espresso-idling-resource-3.5.0.pom",
+          "sha256": "109eec25d79146122fcdaea91d27ab6e437ccd1aec54eb8e4ac23b23f4011deb",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test.ext:junit:1.3.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "junit-1.3.0.aar": "3363df84da4540ba8daff02c3f7cd65471037a6a5370591a7e6deba377b36e7f"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/ext/junit/1.3.0/junit-1.3.0.pom",
+          "sha256": "92af7f253e5eabe2caec5c56f308312653d123042b22754d6ff664e1752dcf3f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test.services:storage:1.6.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "storage-1.6.0.aar": "f97e3cf6aaf4e3fb97ef219d37a9c0a0720183c1f6db87b37642521e26fb6d30"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/services/storage/1.6.0/storage-1.6.0.pom",
+          "sha256": "8e5d72e2bceef6ef807bc38834dbc7aa53177fd20da349f53dce5a4f2a028bbf",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test:annotation:1.0.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "annotation-1.0.1.aar": "c0754928effe1968c3a9a7b55d1dfc7ceb1e1e7c9f3f09f98afd42431f712492"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/annotation/1.0.1/annotation-1.0.1.pom",
+          "sha256": "39e978b32726354a67ea6efe8535ab6579f4760fd579c9deaacb347b0bff0c3e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test:core:1.7.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "core-1.7.0.aar": "f4dacd8edceeec48e0c76ecf28339b28f4b4f6b74f8e34e9e59b472c27d9eb81"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/core/1.7.0/core-1.7.0.pom",
+          "sha256": "b97dd112cd684ad3686f5ccf581b92b106ca76565cf02ccfece060af3bc50743",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test:monitor:1.8.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "monitor-1.8.0.aar": "56cb7496a06d9f2dca7d3ff76c50a8a30bd18e00a24a3b267d5a31437b278e67"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/monitor/1.8.0/monitor-1.8.0.pom",
+          "sha256": "681cf08c41700c73b146953867c0ac826da9c2a810bd2a4a8f878ea11c64d40c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.test:runner:1.7.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runner-1.7.0.aar": "970311c47119928a2e406a88892a3d270387cc5a49a181a1c44511105b41b818"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/test/runner/1.7.0/runner-1.7.0.pom",
+          "sha256": "622831c6d31666fb3438cb0d2ee1fbbbc78cabcd49717699578d92550062207f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.tracing:tracing:1.2.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "tracing-1.2.0.aar": "6faa90390d1fdbf0adb9a99bf99de67b94c6c6f35aea9510593a9d17973736a2"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/tracing/tracing/1.2.0/tracing-1.2.0.pom",
+          "sha256": "f34bec4eb58871d31002901377108aaa1ebfe77fa6d882b8b86200b158e26ea1",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.versionedparcelable:versionedparcelable:1.1.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "versionedparcelable-1.1.1.aar": "57e8d93260d18d5b9007c9eed3c64ad159de90c8609ebfc74a347cbd514535a4"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/versionedparcelable/versionedparcelable/1.1.1/versionedparcelable-1.1.1.pom",
+          "sha256": "5f51e65873ca612de3838fa90d2ee95b8d040efd31b9c390a19bf94d615cdb2f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.window:window-core-android:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "window-core.aar": "d0d50db0756194a6d49a66ad8dafd17b24b4c5fbd8379375056e2eb9bdfeaf22"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/window/window-core-android/1.5.0/window-core-android-1.5.0.pom",
+          "sha256": "463c50b22a969c6274ebdb7b5f56ba1ea1dde352e9679f0a0ba90f3971dbcd57",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.window:window-core:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/window/window-core/1.5.0/window-core-1.5.0.pom",
+          "sha256": "e38a30fe9a9ccb575531b265fec8e23207bda9818977aae495f3fe74b9c9e1f3",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.window:window:1.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "window-1.5.0.aar": "5de2d48aa578402f46deb5294a955cee62f0c7d8c1840ef626fc7afb8abe22f9"
+      },
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/window/window/1.5.0/window-1.5.0.pom",
+          "sha256": "d4f22b991a69600e2ffc36b42ac199626fd96d5f1648c3beeccd35de06fcc351",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.connectrpc:connect-kotlin-google-javalite-ext:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "connect-kotlin-google-javalite-ext-0.9.0.jar": "c5dbde38cb1d6ad36073aa87c761cb573232c75c52c109393f4feb913296ab68"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin-google-javalite-ext/0.9.0/connect-kotlin-google-javalite-ext-0.9.0.pom",
+          "sha256": "b3e72a140bdbf0cb23a9adf7a0c513b57e0658866c5dec5ee7a228175219971b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.connectrpc:connect-kotlin-okhttp:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "connect-kotlin-okhttp-0.9.0.jar": "8c2387ee1e0e106965a9952aedd0ca88623008a8a3298c3cf8a8e408ad21b90c"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin-okhttp/0.9.0/connect-kotlin-okhttp-0.9.0.pom",
+          "sha256": "4ac838e6c6dabdbaf5e947267171c00273340679eb07a9b1e60ab339928c992f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.connectrpc:connect-kotlin:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "connect-kotlin-0.9.0.jar": "59b742254227d87818dc0a9dcf8c6ebc70c99744f371ed9fef643dbe268453d9"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/connectrpc/connect-kotlin/0.9.0/connect-kotlin-0.9.0.pom",
+          "sha256": "f676e2a9d8205b8fc33d4c34ba59cda877bf066e713173d05a22ca28da670787",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.google.code.findbugs:jsr305:2.0.2",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "jsr305-2.0.2.jar": "1e7f53fa5b8b5c807e986ba335665da03f18d660802d8bf061823089d1bee468"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/2.0.2/jsr305-2.0.2.pom",
+          "sha256": "8bc2c4f67a6396a7333dece2d1f991ca7d0aea48b29592265e2239be91972579",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.google.guava:listenablefuture:1.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "listenablefuture-1.0.jar": "e4ad7607e5c0477c6f890ef26a49cb8d1bb4dffb650bab4502afee64644e3069"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/1.0/listenablefuture-1.0.pom",
+          "sha256": "53873caf26bc1ed8a567ea6c939ab2aaa3f47a5e32d5cade95ddf5080d23238a",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/26.0-android/guava-parent-26.0-android.pom",
+          "sha256": "f8698ab46ca996ce889c1afc8ca4f25eb8ac6b034dc898d4583742360016cc04",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.google.protobuf:protobuf-javalite:4.36.1",
+      "spdxLicense": "BSD-3-Clause",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "protobuf-javalite-4.36.1.jar": "91d3dba2521322103230c509d41a017da3a5e6766610adcb10c5bb127cbb26c5"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-javalite/4.36.1/protobuf-javalite-4.36.1.pom",
+          "sha256": "f04f786db88fa8694ef7127ed1d8c0b98603851b23e58b7d74d6d3b229ab41b9",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/4.36.1/protobuf-parent-4.36.1.pom",
+          "sha256": "2344af2c8544212be5ae4c8f30331ebfe775be30d61b9efd20619236667358d9",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/protocolbuffers/protobuf/v36.1/LICENSE",
+          "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+          "kind": "upstream-license"
+        }
+      ],
+      "notices": [
+        "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+      ]
+    },
+    {
+      "id": "com.google.protobuf:protobuf-kotlin-lite:4.36.1",
+      "spdxLicense": "BSD-3-Clause",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "protobuf-kotlin-lite-4.36.1.jar": "536d1f64e07a779834cfcd34158ac649976209173cf99182a84ade49dd4796a6"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-kotlin-lite/4.36.1/protobuf-kotlin-lite-4.36.1.pom",
+          "sha256": "48dbb17e7428ae06f928058fdb527533ed1c94d88baad4a3146eefc293adc7d8",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/4.36.1/protobuf-parent-4.36.1.pom",
+          "sha256": "2344af2c8544212be5ae4c8f30331ebfe775be30d61b9efd20619236667358d9",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/protocolbuffers/protobuf/v36.1/LICENSE",
+          "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+          "kind": "upstream-license"
+        }
+      ],
+      "notices": [
+        "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+      ]
+    },
+    {
+      "id": "com.squareup.moshi:moshi-kotlin:1.15.2",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "moshi-kotlin-1.15.2.jar": "5c39cd77e83b111af9c54708173af96a89fd3b09d15019a11da355e83e97d75a"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/moshi/moshi-kotlin/1.15.2/moshi-kotlin-1.15.2.pom",
+          "sha256": "ab6b0f3e440a4509dd940bba1c26658feb46a87699c6d65267e9ff96c9d1b030",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup.moshi:moshi:1.15.2",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "moshi-1.15.2.jar": "767f7592c6c61eb693549a26d333c121f5383826bd287b899867aa326dae55e4"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/moshi/moshi/1.15.2/moshi-1.15.2.pom",
+          "sha256": "317a1d3fb7054031bfe90cca89b1024901fd9b9fcca99166c2ce7853b5fc7bd9",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup.okhttp3:okhttp-android:5.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "okhttp.aar": "0e9cbf6c7c373a5f0b0cde7f773185eb69b485faa19f76bcfab3310badbda901"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/okhttp3/okhttp-android/5.4.0/okhttp-android-5.4.0.pom",
+          "sha256": "d1fe80686be7c3840c0ca98c9dee54b3051e434b21944771a677683633c008f0",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup.okhttp3:okhttp:5.4.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/okhttp3/okhttp/5.4.0/okhttp-5.4.0.pom",
+          "sha256": "ebee6842d0b5b700ab7e015fddcc3f1e575d92b31a76f7b62eb9026c3388b88b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup.okio:okio-jvm:3.17.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "okio-jvm-3.17.0.jar": "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio-jvm/3.17.0/okio-jvm-3.17.0.pom",
+          "sha256": "e4e44237a66f4091bc0f5b1d5a2bbe228ac014ab3c0f918cd6fc02ba31999030",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup.okio:okio:3.17.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/okio/okio/3.17.0/okio-3.17.0.pom",
+          "sha256": "15b4831e84f5ca52dd37c1d6e1709a2907e2e9bc2a9c3ea13f282031de0c0135",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "com.squareup:javawriter:2.1.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "javawriter-2.1.1.jar": "f699823d0081f69cbb676c1845ea222e0ada79bc88a53e5d22d8bd02d328f57e"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/com/squareup/javawriter/2.1.1/javawriter-2.1.1.pom",
+          "sha256": "d47fc646324c22c66f2b0e0e743c850dde9a51990c53925e7501d960f2e8df84",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.github.arcforges:contracts-connect-client:1.0.0-ci.44.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "contracts-connect-client-1.0.0-ci.44.1.jar": "1b64152906786db272ddc2b6979b09474baef40d8064d5a4de22e286b900e8d4"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-connect-client/1.0.0-ci.44.1/contracts-connect-client-1.0.0-ci.44.1.pom",
+          "sha256": "bcecf1a061ed0ede9ba7c5633c1f4df3fd34ad48f2bbdf329fb539158ebdd0bc",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "77261ef99751ba0e596b6d13ab0e2d083423b55b882af583557e08b7ebe9275f",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      ]
+    },
+    {
+      "id": "io.github.arcforges:contracts-proto:1.0.0-ci.44.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "contracts-proto-1.0.0-ci.44.1.jar": "302c317628de25ba6048e2735a8da880fc6edf7cd16f4dd5ef3429a8599a5d18"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-proto/1.0.0-ci.44.1/contracts-proto-1.0.0-ci.44.1.pom",
+          "sha256": "616e56b75970d8b4c13591ca13d6b5679964f448e61896186f19870b74f4350d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "cbab2464e137f9ae434dbbb389ea97a2f4e0952f1bcc11a76af4e124bb905ce7",
+        "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-http-jvm:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ktor-http-jvm-3.5.0.jar": "2babac355de364c473b27b060d1c810fc2f83ed6e44822eabc6c3f46adf155a3"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-http-jvm/3.5.0/ktor-http-jvm-3.5.0.pom",
+          "sha256": "f6ff315d426efe8be7402894ca4c48df48fcc5e3344f12499d286b8beaba3267",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-http:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-http/3.5.0/ktor-http-3.5.0.pom",
+          "sha256": "3ab8580c4600bea1a14c0f69826d67e611f312785bb08a4645a67dd410288e40",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-io-jvm:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ktor-io-jvm-3.5.0.jar": "ca9f9443479204fe97a00bd53bc3dee5b0514c1a088e9df1e0e4d4ccfc605e51"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-io-jvm/3.5.0/ktor-io-jvm-3.5.0.pom",
+          "sha256": "c50c8303f386e825fe7e677122ae2b9da01b261afa3e1f70a16c088877266cc5",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-io:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-io/3.5.0/ktor-io-3.5.0.pom",
+          "sha256": "6e24950dc472cf5fbca86a05782d2e8d3e104a2f6458f39bdddde6d1b7ac72b5",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-utils-jvm:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ktor-utils-jvm-3.5.0.jar": "214200f074afe9d4b915d347397b5c1f768fbdd10ead7192e8adfd662dd4a72f"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-utils-jvm/3.5.0/ktor-utils-jvm-3.5.0.pom",
+          "sha256": "59ef3c362d83064f0b064c7948ace38b199f6717183e0aad08e9e827929b876b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "io.ktor:ktor-utils:3.5.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/io/ktor/ktor-utils/3.5.0/ktor-utils-3.5.0.pom",
+          "sha256": "24928172f75f0c79074a8fbdae02f428d47613f0f3f5ab32a27cf69911c20d2e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "javax.inject:javax.inject:1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "javax.inject-1.jar": "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.pom",
+          "sha256": "943e12b100627804638fa285805a0ab788a680266531e650921ebfe4621a8bfa",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "junit:junit:4.13.2",
+      "spdxLicense": "EPL-1.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "junit-4.13.2.jar": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/junit/junit/4.13.2/junit-4.13.2.pom",
+          "sha256": "569b6977ee4603c965c1c46c3058fa6e969291b0160eb6964dd092cd89eadd94",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "9648bb2891b9813970bddb68d4be8a5e6ec8280d0180a53dfb29236b579c55bb"
+      ]
+    },
+    {
+      "id": "org.hamcrest:hamcrest-core:1.3",
+      "spdxLicense": "BSD-3-Clause",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "hamcrest-core-1.3.jar": "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.pom",
+          "sha256": "fde386a7905173a1b103de6ab820727584b50d0e32282e2797787c20a64ffa93",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-parent/1.3/hamcrest-parent-1.3.pom",
+          "sha256": "6d535f94efb663bdb682c9f27a50335394688009642ba7a9677504bc1be4129b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a"
+      ]
+    },
+    {
+      "id": "org.hamcrest:hamcrest-integration:1.3",
+      "spdxLicense": "BSD-3-Clause",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "hamcrest-integration-1.3.jar": "70f418efbb506c5155da5f9a5a33262ea08a9e4d7fea186aa9015c41a7224ac2"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-integration/1.3/hamcrest-integration-1.3.pom",
+          "sha256": "42f0be9bf98c12dacdcb99dd141d83d4dc5bb7c37a6f26684cd3ff2287667fba",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-parent/1.3/hamcrest-parent-1.3.pom",
+          "sha256": "6d535f94efb663bdb682c9f27a50335394688009642ba7a9677504bc1be4129b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a"
+      ]
+    },
+    {
+      "id": "org.hamcrest:hamcrest-library:1.3",
+      "spdxLicense": "BSD-3-Clause",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "hamcrest-library-1.3.jar": "711d64522f9ec410983bd310934296da134be4254a125080a0416ec178dfad1c"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.pom",
+          "sha256": "1ceb4bfb0f098ae29b935044b2363e11323313fe3ed2055df8b79737d5056277",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-parent/1.3/hamcrest-parent-1.3.pom",
+          "sha256": "6d535f94efb663bdb682c9f27a50335394688009642ba7a9677504bc1be4129b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a"
+      ]
+    },
+    {
+      "id": "org.jetbrains.androidx.lifecycle:lifecycle-common:2.9.6",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/androidx/lifecycle/lifecycle-common/2.9.6/lifecycle-common-2.9.6.pom",
+          "sha256": "d3252aef8b36f61da06090f84fe5114021820344ead1d640c37357a219185419",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.9.6",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/androidx/lifecycle/lifecycle-runtime-compose/2.9.6/lifecycle-runtime-compose-2.9.6.pom",
+          "sha256": "3858c3b0ad20b078686da9078ad164ecc6c5e58f3096f2d2e6fa66ce73c783df",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.androidx.lifecycle:lifecycle-runtime:2.9.6",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/androidx/lifecycle/lifecycle-runtime/2.9.6/lifecycle-runtime-2.9.6.pom",
+          "sha256": "f23bbc760a8ba9edf1af881b63b87ce0b71430597c0e12ed5eaf582760d38e7c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.androidx.savedstate:savedstate-compose:1.3.6",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/androidx/savedstate/savedstate-compose/1.3.6/savedstate-compose-1.3.6.pom",
+          "sha256": "b94792346c32d23f4c77551895f8bcd1149bb5b80fba7731bbad2aa11d3bcc87",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.androidx.savedstate:savedstate:1.3.6",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/androidx/savedstate/savedstate/1.3.6/savedstate-1.3.6.pom",
+          "sha256": "fb4d7f515d053b343d1be8006a8e04870dd215b8b52fcf7f0c9bc8bfeed680c6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.animation:animation-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "animation.aar": "d13a4f113b767b62d56a5f5b78ed01e56831c634c41135bd89b4bb991dc750ad"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-android/1.12.0/animation-android-1.12.0.pom",
+          "sha256": "cc35e511173c1f5e95d552c23f77d0c056f535603cee5a366af3a027c114477b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.animation:animation-core-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "animation-core.aar": "db26201d7cb3d407bb98776e937a0fedbe9f3d56425f3a061d0e76dde10238a6"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core-android/1.12.0/animation-core-android-1.12.0.pom",
+          "sha256": "c3d6fcde4f6c58f1aadde1565092eb008800bb271ecdd64a17024f4604a3ef4b",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.animation:animation-core:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core/1.12.0/animation-core-1.12.0.pom",
+          "sha256": "66dde0d306925418ee2e46a54e4d2e65454ba46b9a30bdb6aa7509f8d0438bc8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.animation:animation:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation/1.12.0/animation-1.12.0.pom",
+          "sha256": "79c7d1dace7a63549d833ad60f9657e590f119a9982c4f58f203ffa278449dce",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.annotation-internal:annotation:1.9.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/annotation-internal/annotation/1.9.1/annotation-1.9.1.pom",
+          "sha256": "8a6e368ef4972387dc659adfb4e80990af668b8aba93f64fc1445033b6f2b91e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.collection-internal:collection:1.9.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/collection-internal/collection/1.9.1/collection-1.9.1.pom",
+          "sha256": "3edd7ae5c9828b74cf11ebfc4328697564a20c87042ecf6efbf49b4897da54c7",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.foundation:foundation-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "foundation.aar": "17c4466ca753a6ce68dcf4333674e0934d15c8246b223653d18f5dbaef0f6c10"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-android/1.12.0/foundation-android-1.12.0.pom",
+          "sha256": "c2f7143ed476bae658538b31ee29ede184bb45722ff4e5c2665457afd58e4000",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.foundation:foundation-layout-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "foundation-layout.aar": "a3bce509f3412b8002c7eb2084f4605e1f8d04a8eff420b7b165d1a396f611df"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout-android/1.12.0/foundation-layout-android-1.12.0.pom",
+          "sha256": "41ffa2c6725ec565fdeb969fb52bee7e99b9049d5002e19e6418a5a709a3f977",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.foundation:foundation-layout:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout/1.12.0/foundation-layout-1.12.0.pom",
+          "sha256": "b894894d3681d8d570afc1af4f10375494b43af186a3399766610abb0233a4b6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.foundation:foundation:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation/1.12.0/foundation-1.12.0.pom",
+          "sha256": "28665f7557b0399349ce16fee6d5e781b5212565099df20c8be018d639254d09",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.material3:material3:1.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/material3/material3/1.9.0/material3-1.9.0.pom",
+          "sha256": "9728f08703824e04fac8f84e66e1e7f286ee430890f327ff8b1e75431ddf1ada",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.material:material-ripple:1.9.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/material/material-ripple/1.9.1/material-ripple-1.9.1.pom",
+          "sha256": "f52f382ae8b918be5236761410ba7d8dd12e0b6ac99230797c53b240ba1a31e8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.runtime:runtime-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime.aar": "5732b59bc214b94c5a0c2c29410eda6ca8a28c52bc57ba20964f0259910bd9fe"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-android/1.12.0/runtime-android-1.12.0.pom",
+          "sha256": "064f18145fca6c242eced0865118371b1da9e896cf7e0db3f18642c1f9a249d1",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.runtime:runtime-saveable-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "runtime-saveable.aar": "ac260d459f82f654b7336bc18c9f835c9f0d2b2adc5096dfc729aad386eac5c5"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable-android/1.12.0/runtime-saveable-android-1.12.0.pom",
+          "sha256": "60ecaa25e79286d0ac75692903d4b8dccdd5d37d52b665d2c23a043554aa814e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.runtime:runtime-saveable:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable/1.12.0/runtime-saveable-1.12.0.pom",
+          "sha256": "1e0f41a21291ff9c3f98fe16c1207295a99c620e42dad919a1145d3e704d2176",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.runtime:runtime:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime/1.12.0/runtime-1.12.0.pom",
+          "sha256": "af0027c5f6343c8cc7ffcd93926600d3166719da5fb05d7f1a0bf3f876d5373c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui.aar": "8abae416be8db5bf5861b7705a1e1bb03369a45d253f0e54d4215b9e80ac7ed8"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-android/1.12.0/ui-android-1.12.0.pom",
+          "sha256": "7917ec2eb50662085abffe1409e5b4ef84ee85aec85c5957a6f0971b53513031",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-backhandler-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-backhandler.aar": "663a8a2072379a3de4465d7d0bf5ec6d0d3e0ae1f21a914e037f1c96b553674a"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler-android/1.12.0/ui-backhandler-android-1.12.0.pom",
+          "sha256": "963bea12e9115f17591c439da8e5ebbc9af1070ab91bcdcbba441e99eefac280",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-backhandler:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler/1.12.0/ui-backhandler-1.12.0.pom",
+          "sha256": "29f585ef36ec8cfdc076d34e350f653df235a08f459eeb1c6d55653814617268",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-geometry-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-geometry.aar": "0efa6af8d9ff9c8d28930deabe9ede9844ce2d8ceab552d9e237ca08412e4120"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry-android/1.12.0/ui-geometry-android-1.12.0.pom",
+          "sha256": "0fe2377a0def6471ec2ce21832b6beec066a505b987c878c9b8c33cea69361d0",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-geometry:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry/1.12.0/ui-geometry-1.12.0.pom",
+          "sha256": "b06b8a687192482ee6875583078523ed7ac6a32c84160c233bcb6c5d72d7b088",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-graphics-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-graphics.aar": "755edf074fc2a455ad7c35308048fb76de1736a620c37d7fe8c3de1486e74abe"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics-android/1.12.0/ui-graphics-android-1.12.0.pom",
+          "sha256": "384964df60cb06b1aa2e1bbca008351a3dcccb0262ca5b2836f54926f77fc2d1",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-graphics:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics/1.12.0/ui-graphics-1.12.0.pom",
+          "sha256": "9818c97606292e22387a726c53cbdf25946c0a53fd6946ebc200d92d056b175a",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-test-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-test.aar": "e00cbadc738daf3490ebb0a6fa95d61886cfb9a5ceba2ddfc1f8935914ae3140"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-android/1.12.0/ui-test-android-1.12.0.pom",
+          "sha256": "3535469991ab03f06683a5d1b9faaa0b074e5cc9cfa2e6f7a43cc724e54bdc21",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-test-junit4-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-test-junit4.aar": "0c22dc0c2e5db39516ec61386fcc5f56e76d9735f29cef21882714d251cd044b"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4-android/1.12.0/ui-test-junit4-android-1.12.0.pom",
+          "sha256": "ce37956baf3c47490b1926e6307ddc4e946c7f8fba2b288f538520bce6000c0e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-test-junit4:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4/1.12.0/ui-test-junit4-1.12.0.pom",
+          "sha256": "efaedc7236b9d65a80c18678aeada88d0bc5d0043cf2a184cd658a5bf813d342",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-test:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.0/ui-test-1.12.0.pom",
+          "sha256": "b0efa835cccda7c0207fdade1ab9f0af50011a56943cd7196451611747ad3b5c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-text-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-text.aar": "06eca5c263fac0f7d403e8c0d3c2eb1d683723cd671901d583f1675bd19937e5"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text-android/1.12.0/ui-text-android-1.12.0.pom",
+          "sha256": "e2e85f5d5eeec27ca4d97d351d54e4740b75c110cec30d36ffd906051fa41d3d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-text:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text/1.12.0/ui-text-1.12.0.pom",
+          "sha256": "d4f907329cfbd420dc7aca1ed89fde967f14a72b826900f64966a205d84d1936",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling.aar": "3013911265bcc7850e1b9d6c1e48aa2c49bf1304bc920edac4e12d9c90bfd4b4"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-android/1.12.0/ui-tooling-android-1.12.0.pom",
+          "sha256": "997bc61ecfd1dfa388ba5489af7793378d05eeca0f4c0e31de3508cfd540165d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling-data-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling-data.aar": "ddba18872dfad13fcc03bd5120c2bdf0f4277155a5f76c4571645dd5721784d9"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data-android/1.12.0/ui-tooling-data-android-1.12.0.pom",
+          "sha256": "f656b1932f37c1d72d6535e9c5635e2b4dc8796442da00225cbabf1017fc85e7",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling-data:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data/1.12.0/ui-tooling-data-1.12.0.pom",
+          "sha256": "69ac7849588011a2ecd646be3b06213050a7608606c37da89f86f2449dcca0cb",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling-preview-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-tooling-preview.aar": "35d7524499f4110249f21f14e51aed7cac363bba96401039589b4c94f208916c"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview-android/1.12.0/ui-tooling-preview-android-1.12.0.pom",
+          "sha256": "8386607b04fa4d992d960f8a55622ca0dfa15b4ae2ae6b608e82edc5cfc39be1",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling-preview:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview/1.12.0/ui-tooling-preview-1.12.0.pom",
+          "sha256": "2e32d642374f45a04f001b23401490eaebd34a5361b20add56aa47f76e953cb6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-tooling:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling/1.12.0/ui-tooling-1.12.0.pom",
+          "sha256": "03659aa2638f8b6fc23c6bcbc2ec8bfa6978be22f9e6b933c820da40f3a1622d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-unit-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-unit.aar": "3478a9d0818fde7de41b84512521d4b8b5536e40abef334c105b07c903f866c3"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit-android/1.12.0/ui-unit-android-1.12.0.pom",
+          "sha256": "ab58f15e6f7b60a218463ca317f0397e5b13741d1337ff053ea7b74517950d5c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-unit:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit/1.12.0/ui-unit-1.12.0.pom",
+          "sha256": "61aeec97c554ff7dd60a21cdb0001b04f28b1d77b2aed5b559ee2e7c62695f1c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-util-android:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "ui-util.aar": "76d359b874d8f0cd4f01717cbefe7cb3cc31ea06a50dca6d4d9a5368e3a42c7b"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util-android/1.12.0/ui-util-android-1.12.0.pom",
+          "sha256": "840a29eabbabea1c809fee85e129fee303aecd632b3cfcd777e41038c7e18c9e",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui-util:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util/1.12.0/ui-util-1.12.0.pom",
+          "sha256": "ff855372a8d67d0bdbf11b23aaaeadebacdd80d8df0a071e79ad99e62c8296e3",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.compose.ui:ui:1.12.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.0/ui-1.12.0.pom",
+          "sha256": "d389ae507a4a6e5a64aaa2741d4eeea14ec157a628068173e44bd2dcd64b8106",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlin:kotlin-reflect:2.2.21",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlin-reflect-2.2.21.jar": "44380abf37d245ce5c0f294f43512d1c39a59642bfa463922c74e96877cf49f8"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/2.2.21/kotlin-reflect-2.2.21.pom",
+          "sha256": "e5ab6b10560a5a52562c35cdbe71ddbe427d51eb5bfc701dcd4f6b949bd9e03f",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlin-stdlib-jdk7-1.8.21.jar": "33d148db0e11debd0d90677d28242bced907f9c77730000fd597867089039d86"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.21/kotlin-stdlib-jdk7-1.8.21.pom",
+          "sha256": "9bb107d5d5e3930bc5977f007a43cd20b7d24d91b1c1e528ea6ee0f248f14d36",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlin-stdlib-jdk8-1.8.21.jar": "3db752a30074f06ee6c57984aa6f27da44f4d2bbc7f5442651f6988f1cb2b7d7"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.8.21/kotlin-stdlib-jdk8-1.8.21.pom",
+          "sha256": "3839d728d7c309a5c368b0270b44b4f1c7878ff5ca5d32a9a204faa3491459d8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlin:kotlin-stdlib:2.4.20",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlin-stdlib-2.4.20.jar": "2226de463d309d4a5500a481320b3dea515a6981dcae1def531fbc158884e25f"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.4.20/kotlin-stdlib-2.4.20.pom",
+          "sha256": "bd69b382dba8e2b7ae3846375eb2f1389017eb908987277051ae4e3acec8c938",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-coroutines-android-1.11.0.jar": "c2cb206d27017c7d1bf5ff179787397543d13748dbabb0d7237e1585e0b29044"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.11.0/kotlinx-coroutines-android-1.11.0.pom",
+          "sha256": "224567420d3e0ed5fef40f789fded45dfd51b162319e28d77d3c9a8dec4821b8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.11.0/kotlinx-coroutines-bom-1.11.0.pom",
+          "sha256": "f65860bce58a2bfadf05fdc516d38333421f0e387fef87e24449c0394c80d254",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-coroutines-core-jvm-1.11.0.jar": "d1d75aa01dffbb4d1c520e67e4c4e7f5f6174718e7cb4632412503f2f0e604fa"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.11.0/kotlinx-coroutines-core-jvm-1.11.0.pom",
+          "sha256": "dd54b97aa3fab91fc24f5df2916c22be9429a339d2f45b7ff092332f6c19dc39",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.11.0/kotlinx-coroutines-core-1.11.0.pom",
+          "sha256": "41b6e78c1b0d11bc99de795390df9e4ece64dc113f482d6e308f1b7a421c1d30",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-coroutines-test-jvm-1.11.0.jar": "d4f7ee71da708af4719dceb6d3200c8f9dc5146ea1a812cb628ed53c64196f96"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-test-jvm/1.11.0/kotlinx-coroutines-test-jvm-1.11.0.pom",
+          "sha256": "84d119326de6496b8f20a985abe33d18e2d262b0cf2045305a91ebc57fb1f5b6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-test/1.11.0/kotlinx-coroutines-test-1.11.0.pom",
+          "sha256": "9fe5cd4c606c785cc14fc4692ed1ec6cb4053c1f5e67fa8b3fa3adf1c71af9aa",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-io-bytestring-jvm:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-io-bytestring-jvm-0.9.0.jar": "43a8c9d7c5460622c4ffe7e7c9443736af1a69183316b532de78a9aafa86b636"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-bytestring-jvm/0.9.0/kotlinx-io-bytestring-jvm-0.9.0.pom",
+          "sha256": "8d00f6e5077f3bbe81a1df328beb5eefd008cc8f81fffe6cacd526f015dc9e84",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-io-bytestring:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-bytestring/0.9.0/kotlinx-io-bytestring-0.9.0.pom",
+          "sha256": "d4302f639a907b4025c07f3d2ee43edca0b7ebdfb6aed580da4d2076340b2067",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-io-core-jvm:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-io-core-jvm-0.9.0.jar": "338872148faa4a44acc9bfa91343813d51784e8d47f005ad4406647297f85041"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-core-jvm/0.9.0/kotlinx-io-core-jvm-0.9.0.pom",
+          "sha256": "7cb911e263d1cf42e6d7363ed5601a61ac58819768d5207df91b0f69e22a6ce8",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-io-core:0.9.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-io-core/0.9.0/kotlinx-io-core-0.9.0.pom",
+          "sha256": "ad86bb89840d68b0365b3d219d10024adad4c6464e04136c6a429e1bb768fea6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-serialization-bom:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-bom/1.11.0/kotlinx-serialization-bom-1.11.0.pom",
+          "sha256": "3be221b6da86dcda51cac6c4b2404b89e95ab09cc8d06a05689be2ef36735dec",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "kotlinx-serialization-core-jvm-1.11.0.jar": "f4a801c647d4351327cd9e1ac4113e2be9ea37a64ab0abae269c25a52e28f35d"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.11.0/kotlinx-serialization-core-jvm-1.11.0.pom",
+          "sha256": "83039385976fdc494241f4572558a136e7b21116d7279b26daf335478bfacb57",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core/1.11.0/kotlinx-serialization-core-1.11.0.pom",
+          "sha256": "3133773fbcf9822a7f3a5e85ab19941e67bd289bf5fc3182d9db4d1cab86eb22",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jetbrains:annotations:23.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "annotations-23.0.0.jar": "7b0f19724082cbfcbc66e5abea2b9bc92cf08a1ea11e191933ed43801eb3cd05"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/annotations/23.0.0/annotations-23.0.0.pom",
+          "sha256": "c9490f655132328df2cfbcfdf743f53fc3916d6c1d10437175a6ca6e3a67771c",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.jspecify:jspecify:1.0.0",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath",
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "jspecify-1.0.0.jar": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.pom",
+          "sha256": "cdab929a3b95211f43d2090c5e2d0dfe8465960e378bc32b35841dab324433a6",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "org.slf4j:slf4j-api:2.0.18",
+      "spdxLicense": "MIT",
+      "configurations": [
+        "debugRuntimeClasspath",
+        "releaseRuntimeClasspath"
+      ],
+      "artifacts": {
+        "slf4j-api-2.0.18.jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
+      },
+      "evidence": [
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+          "sha256": "6c2c7f2c02774cc2b7b619fbd2df7873cdad29718926e44754b87f70d1eb43cb",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-parent/2.0.18/slf4j-parent-2.0.18.pom",
+          "sha256": "0b3896bedad2c9ed9697edcbea1da0c54cd238a723583a81358a83bfb782e9fa",
+          "kind": "published-pom"
+        },
+        {
+          "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-bom/2.0.18/slf4j-bom-2.0.18.pom",
+          "sha256": "9219aab601575126c4e66e1331eb2b0c6c17a330ac4d5a07e3cd11d580a0c12d",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73"
+      ]
+    }
+  ],
+  "nativeFiles": {
+    "androidx.graphics:graphics-path:1.0.1/jni/x86_64/libandroidx.graphics.path.so": "4e56c996f13670e70082658de7880c4020eabf4f25e43387f88ed78a713fc9f0",
+    "androidx.graphics:graphics-path:1.0.1/jni/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "androidx.graphics:graphics-path:1.0.1/jni/armeabi-v7a/libandroidx.graphics.path.so": "41399eba6fc2a60f6f14642375c1824f3cf25eb8fec7397d753730a3ceda3e2b",
+    "androidx.graphics:graphics-path:1.0.1/jni/x86/libandroidx.graphics.path.so": "eb0570b41fd3bff25d8204a967c03bd7550719e768b791f680cc40cbe35f29af"
+  },
+  "nativeSourceEvidence": [
+    {
+      "path": "build.gradle",
+      "sha256": "dc6b0dfaa8393825da05eac9f6cd2ace91e7a85e6bcf6e80adb256caa25a339a",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/build.gradle",
+      "copyright": [
+        "* Copyright (C) 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/CMakeLists.txt",
+      "sha256": "87a8967586e828d2b1cc6c5745d09f30466036bffbcd780b378c75239d90b173",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/CMakeLists.txt",
+      "copyright": []
+    },
+    {
+      "path": "src/main/cpp/Conic.cpp",
+      "sha256": "49b3da93aa43480cf9cd481590be48705cb9340c52e5d09635efbd0ece07be83",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/Conic.cpp",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project",
+        "* Copyright (C) 2006 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/Conic.h",
+      "sha256": "cd315ad7c8d030c72e96893e9a0feec463d72d2066209a203dedcf0925398a6f",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/Conic.h",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/Path.h",
+      "sha256": "4ee841338063d8c6f71ff4c655ecf52559f6c6df9af79835388dae1ebcd8b982",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/Path.h",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/PathIterator.cpp",
+      "sha256": "3705946b43bf894e013f46ccc940f9923f43285340f8fc2128f95c59238ec7f8",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/PathIterator.cpp",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/PathIterator.h",
+      "sha256": "a16e99b0273fb7205607eb0cf51fc7be518a55f3446a304f92ecab353e77be6f",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/PathIterator.h",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/math/TVecHelpers.h",
+      "sha256": "1b0d6b06c5bbd6b438f9d8440ac78cf93fb8a713761badc59a4412b6457c1014",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/math/TVecHelpers.h",
+      "copyright": [
+        "* Copyright 2013 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/math/compiler.h",
+      "sha256": "d53e85383580e5dbf81cbcb24426b0fe1bf419b4837540242dbdca3f1df4cf66",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/math/compiler.h",
+      "copyright": [
+        "* Copyright (C) 2017 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/math/vec2.h",
+      "sha256": "09e1a8eb3f8fdf9c1071500f1a4933f67caeb6d0f765d5c44ba968370de9fcb1",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/math/vec2.h",
+      "copyright": [
+        "* Copyright 2013 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/pathway.cpp",
+      "sha256": "4be68d6fdb6376e95560f7c49a79aa0cd97218d758cf11ea3230ac9124485800",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/pathway.cpp",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    },
+    {
+      "path": "src/main/cpp/scalar.h",
+      "sha256": "b1d2bba80a4c9272d84473b6f09f700972b016f7579842d3a87bdbbdb2af1edc",
+      "url": "https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/src/main/cpp/scalar.h",
+      "copyright": [
+        "* Copyright 2022 The Android Open Source Project"
+      ]
+    }
+  ],
+  "nativeSystemDependencies": [
+    "libc.so",
+    "libdl.so",
+    "libm.so"
+  ]
+}

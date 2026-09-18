@@ -7,3 +7,5 @@
 *.keystore binary
 gradlew text eol=lf
 LICENSE text eol=lf
+# Upstream notices retain their reviewed text, including original whitespace.
+third-party/notices/*.txt -whitespace
