@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: Apache-2.0
+title = "Mobile secret scanning with reviewed public artifact identity"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Public Maven SLF4J 2.0.18 JAR SHA-256, verified against the downloaded artifact"
+condition = "AND"
+regexTarget = "line"
+paths = ['''^eng/policy/android-licences\.json$''']
+regexes = ['''^\s*"slf4j-api-2\.0\.18\.jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"\s*,?\s*$''']

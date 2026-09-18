@@ -68,6 +68,11 @@ The official Google Maven AGP POM and Contracts' three-registry publication were
 verified before updating exact catalog/lock/checksum inputs. These are compatible
 patch/producer updates under Mobile architecture section 3; no product rule changes.
 
+Gitleaks' generic API-key rule also matched the public SLF4J JAR checksum because
+its filename contains `api`. `.gitleaks.toml` retains all default rules and excludes
+only that exact reviewed checksum line in the Android policy file. The checksum
+was verified against Maven Central; changed values and other paths remain scanned.
+
 This evidence covers the current Android candidate, not a future dependency graph,
 Play approval, physical devices, full ArcChat behavior or the JVM development runtime
 as a shipped product. F-023 closes only with this actual distribution closure and
