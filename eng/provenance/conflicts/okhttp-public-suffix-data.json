@@ -1,0 +1,10 @@
+{
+  "id": "okhttp-public-suffix-data",
+  "material": "OkHttp 5.4.0 assets/PublicSuffixDatabase.list, SHA256 c75ab827afd7ffff59a51b14729c25dbfc3b45237eb40ccf02bec7b7d44304a4; observed in ci.9.1 APK/AAB and debug companion.",
+  "evidence": "lysine-dev/okhttp 61423f472da24e0ccc42b6a2c0863fb27932fea5: okhttp/src/jvmTest/resources/okhttp3/internal/publicsuffix/NOTICE and public_suffix_list.dat declare MPL-2.0; PublicSuffixListGenerator.kt independently reproduces the asset. The Apache POM does not cover the data.",
+  "boundary": "Apache",
+  "owner": "Licensing and Provenance Owner",
+  "requiredDecision": "Remove the unused copyleft resource under the existing source-reuse table, preserving transport and native authentication requirements.",
+  "status": "resolved",
+  "resolution": "Design PR25, merged f7966d9953a4c5dc9b59b321fdae4940bb7babb8, section 3.2.1. Exclude the exact asset from every Android variant, reject path aliases by hash, explicitly retain NO_COOKIES and test unsolicited cookies, retain real Cloud/API26/API36/minified gates. Remove unused legacy JUnit images; EPL remains an instrumentation-only compiled dependency with original full terms/source availability. Actual replacement publication remains a separate required gate."
+}

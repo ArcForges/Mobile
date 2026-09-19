@@ -18,6 +18,8 @@ import tomllib
 import xml.etree.ElementTree as ET
 
 from licences import project_audit, verify_distribution
+import check_provenance
+import resources
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_TOOLS = "37.0.0"
@@ -25,6 +27,8 @@ PACKAGE = "io.github.arcforges.mobile"
 
 
 def run(*args, capture=False, **kwargs):
+    if args and str(args[0]) == "git":
+        kwargs["env"] = {key: value for key, value in os.environ.items() if not key.upper().startswith("GIT_")}
     result = subprocess.run(
         [str(arg) for arg in args], check=True, text=True, encoding="utf-8",
         stdout=subprocess.PIPE if capture else None, cwd=ROOT, **kwargs,
@@ -58,6 +62,8 @@ def version():
 
 def repository_check():
     project_audit()
+    provenance_report = check_provenance.run(ROOT, 'Mobile')
+    resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)
     names = run("git", "ls-files", "-z", "--cached", "--others", "--exclude-standard", capture=True).split("\0")
     for name in filter(None, names):
         path = ROOT / name
@@ -118,6 +124,7 @@ def stage(destination):
         "mapping.txt": "app/build/outputs/mapping/release/mapping.txt",
         "THIRD_PARTY_NOTICES.txt": "build/generated/licence-assets/THIRD_PARTY_NOTICES.txt",
         "licence-closure.json": "build/generated/licence-assets/licence-closure.json",
+        "source-provenance.json": "build/generated/licence-assets/source-provenance.json",
     }
     for name, source in files.items():
         shutil.copyfile(ROOT / source, destination / name)
@@ -126,6 +133,8 @@ def stage(destination):
     inspect_apk(destination / "app-release-unsigned.apk", info)
     inspect_apk(destination / "app-debug.apk", info, f"{PACKAGE}.debug")
     verify_distribution(destination, info["commit"])
+    resources.save(destination / 'resource-provenance.json', resources.verify_archives(destination, info))
+    files['resource-provenance.json'] = 'generated candidate receipt'
     info["sha256"] = {name: sha256(destination / name) for name in files}
     (destination / "candidate.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
     print(f"Staged immutable candidate {info['version_name']} from {info['commit']}.")
@@ -133,7 +142,7 @@ def stage(destination):
 
 def verify_candidate(directory):
     info = json.loads((directory / "candidate.json").read_text(encoding="utf-8"))
-    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json"}
+    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"}
     if set(info["sha256"]) != expected or {p.name for p in directory.iterdir()} != expected | {"candidate.json"}:
         raise ValueError("The candidate file set is incomplete or contains unexpected files.")
     if info["commit"] != os.environ["GITHUB_SHA"] or info["package"] != PACKAGE:
@@ -145,6 +154,8 @@ def verify_candidate(directory):
             raise ValueError(f"Candidate checksum mismatch: {name}")
     inspect_apk(directory / "app-release-unsigned.apk", info)
     verify_distribution(directory, info["commit"])
+    if resources.read_json(directory / 'resource-provenance.json') != resources.verify_archives(directory, info):
+        raise ValueError('Candidate resource receipt differs from independently verified archive members.')
     return info
 
 
@@ -186,8 +197,13 @@ def sign_candidate(directory, destination):
         if "jar verified." not in result:
             raise ValueError("AAB signature verification failed.")
         info["certificate_sha256"] = fingerprint
+        resources.save(destination / 'signed-resource-provenance.json', {
+            'schemaVersion': 1, 'commit': info['commit'], 'result': 'passed',
+            'apk': resources.signed_payload(directory / 'app-release-unsigned.apk', apk),
+            'aab': resources.signed_payload(directory / 'app-release.aab', bundle),
+        })
     shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
-    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json"]:
+    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"]:
         shutil.copyfile(directory / name, destination / name)
     info["candidate_sha256"] = info.pop("sha256")
     info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}

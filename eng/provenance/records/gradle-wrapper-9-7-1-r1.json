@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "id": "gradle-wrapper-9-7-1-r1",
+  "kind": "generated",
+  "sourceRepository": "https://github.com/gradle/gradle",
+  "sourceCommit": "92f0512e7f06d84621afba191f75e265363890cf",
+  "sourcePaths": [
+    "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+    "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+    "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+    "gradle/wrapper/gradle-wrapper.jar"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+        "sha256": "ba1d32db2e35b02769afd0ba1e4a5493361c0ca75f43bf868a7dd4a4b3c85843",
+        "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+      },
+      {
+        "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+        "sha256": "81a2c1ec4cad61c1991e5a86329f928e406bc0f98bc98852be1b72ba9e81c6c0",
+        "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+      },
+      {
+        "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+        "sha256": "8e9b1e007acff88abe4b1ba7278533504a897824ac895a441fb938cd1b26b8b8",
+        "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+      },
+      {
+        "path": "gradle/wrapper/gradle-wrapper.jar",
+        "sha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+        "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "finding": "Complete Gradle Apache-2.0 terms. No distribution dependency is vendored."
+      }
+    ],
+    "scope": "Only the Apache-2.0 wrapper launch scripts and JAR; no runtime dependency.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2015 the original author or authors. Copyright 2023 the original author or authors (generator)."
+  ],
+  "targets": [
+    {
+      "path": "gradlew",
+      "sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "normalization": "lf"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "59328c7a17f673b1a63040bfb380a0c749e5d6df3406f7f18641060314cd9aa1",
+      "normalization": "lf"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "sha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+      "normalization": "raw"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "regeneration",
+    "command": "Gradle 9.7.1: wrapper --gradle-version 9.7.1 --distribution-type bin --gradle-distribution-sha256-sum acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a",
+    "expected": "Gradle 9.7.1 wrapper regeneration reproduces both LF scripts and the raw JAR. Verified distribution SHA256 acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Gradle 9.7.1 wrapper retains original headers and embedded JAR licence; full Apache terms remain in LICENSE.",
+    "files": [
+      "LICENSE",
+      "gradlew",
+      "gradlew.bat",
+      "gradle/wrapper/gradle-wrapper.jar"
+    ],
+    "distribution": "source",
+    "reason": "Build-only wrapper is absent from Android archives."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://github.com/gradle/gradle",
+        "commit": "92f0512e7f06d84621afba191f75e265363890cf",
+        "paths": [
+          "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+          "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+          "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+          "gradle/wrapper/gradle-wrapper.jar"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "platforms/software/build-init/src/main/java/org/gradle/api/tasks/wrapper/internal/WrapperGenerator.java",
+            "sha256": "ba1d32db2e35b02769afd0ba1e4a5493361c0ca75f43bf868a7dd4a4b3c85843",
+            "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+          },
+          {
+            "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/unixStartScript.txt",
+            "sha256": "81a2c1ec4cad61c1991e5a86329f928e406bc0f98bc98852be1b72ba9e81c6c0",
+            "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+          },
+          {
+            "path": "platforms/jvm/plugins-application/src/main/resources/org/gradle/api/internal/plugins/windowsStartScript.txt",
+            "sha256": "8e9b1e007acff88abe4b1ba7278533504a897824ac895a441fb938cd1b26b8b8",
+            "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+          },
+          {
+            "path": "gradle/wrapper/gradle-wrapper.jar",
+            "sha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+            "finding": "Apache-2.0 source header or embedded wrapper JAR licence; generator and templates reviewed in full."
+          },
+          {
+            "path": "LICENSE",
+            "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+            "finding": "Complete Gradle Apache-2.0 terms. No distribution dependency is vendored."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Mobile",
+        "commit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+        "paths": [
+          "gradle/wrapper/gradle-wrapper.properties"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "finding": "Mobile-authored version/checksum configuration under Apache-2.0."
+          }
+        ]
+      }
+    ],
+    "command": "Gradle 9.7.1: wrapper --gradle-version 9.7.1 --distribution-type bin --gradle-distribution-sha256-sum acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a",
+    "outputSpdx": "Apache-2.0"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Reconciled existing legal bytes against the particular immutable upstream sources and published members; no historical pre-admission is claimed. Full terms are preserved; this permission applies only to legal documents.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": true
+  },
+  "supersedes": null
+}

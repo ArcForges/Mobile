@@ -54,7 +54,7 @@ CI downloads the previously built candidate, verifies its hashes, runs instrumen
 
 ## Licence checks
 
-The [licence gate](licence-boundary.md) verifies all project declarations and the actual Android dependency closure before packaging. Resolved binaries, notices, native provenance, strict checksums and the closed policy must agree. Every APK/AAB and the release companions retain the same source-bound notice/closure assets. Changing a dependency requires reviewing that policy before attempting a candidate build.
+The [licence gate](licence-boundary.md) verifies project declarations and the actual Android dependency closure before packaging. The [provenance gate](provenance.md) also checks the complete source inventory, immutable admissions and actual APK/AAB resources. Resolved binaries, notices, native provenance, strict checksums and policy must agree. Every archive retains the source-bound notice/closure/provenance assets. Changed dependencies or resources require a reviewed policy and superseding profile before candidate acceptance.
 
 ## Dependency maintenance
 

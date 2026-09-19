@@ -39,11 +39,14 @@ JVM 21, API 26 minimum, app IDs and signing identity remain unchanged. API 26 an
 both run debug instrumentation and the same minified release candidate against the
 real Cloud service; successful source/fixture checks cannot replace these device gates.
 
-The generated `THIRD_PARTY_NOTICES.txt` and `licence-closure.json` are registered as
+The generated `THIRD_PARTY_NOTICES.txt`, `licence-closure.json` and
+`source-provenance.json` are registered as
 Android generated assets with an explicit task dependency. Release/debug/test APKs
 and the AAB retain them. Candidate staging rejects a dirty/wrong-commit receipt,
-changed policy/locks, stripped assets or unexpected native files. Candidate hashes
-cover both companion files. Signing re-verifies that candidate and publishes the
+changed policy/locks, stripped assets or changed/unexpected native bytes. The
+[resource gate](provenance.md) verifies complete archive membership, copied and
+generated resources, excluded suffix data and source/profile identity. Candidate
+hashes cover every companion. Signing re-verifies that candidate and publishes the
 same companions with hashes in `release.json` and `SHA256SUMS`; it never rebuilds code.
 
 ## Maintenance and evidence

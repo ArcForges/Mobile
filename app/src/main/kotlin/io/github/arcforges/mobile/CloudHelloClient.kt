@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
+import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 
 /** Activity-owned transport. Recomposition never creates a connection or sends an RPC. */
@@ -94,6 +95,7 @@ internal class CloudHelloClient(
 
         fun transport(): OkHttpClient =
             OkHttpClient.Builder()
+                .cookieJar(CookieJar.NO_COOKIES)
                 .callTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(false)
                 .followRedirects(false)

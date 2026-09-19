@@ -6,12 +6,16 @@ import copy
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
 import zipfile
+
+import check_provenance
+import resources
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIGURATIONS = {'releaseRuntimeClasspath', 'debugRuntimeClasspath', 'debugAndroidTestRuntimeClasspath', 'coreLibraryDesugaring'}
@@ -33,7 +37,8 @@ def text_bytes(path):
 
 
 def git(root, *args):
-    return subprocess.check_output(['git', *args], cwd=root, text=True, encoding='utf-8').strip()
+    environment = {key: value for key, value in os.environ.items() if not key.upper().startswith('GIT_')}
+    return subprocess.check_output(['git', *args], cwd=root, text=True, encoding='utf-8', env=environment).strip()
 
 
 def save(path, value):
@@ -101,6 +106,7 @@ def notice_entries(data):
 
 def verify_closure(resolved, root=ROOT):
     source = project_audit(root)
+    provenance_receipt = resources.check_resolved_inputs(resolved, root)
     reviewed = read_json(root / 'eng/policy/android-licences.json')
     require(reviewed['schemaVersion'] == 1, 'Unsupported Android licence inventory')
     require({row['configuration'] for row in resolved} == CONFIGURATIONS and len(resolved) == len(CONFIGURATIONS), 'Incomplete Android configuration closure')
@@ -182,10 +188,12 @@ def verify_closure(resolved, root=ROOT):
         notice_text += 'Notices: ' + ', '.join(row['notices']) + '\n\n'
     for sha, text in contents.items():
         notice_text += '\n--- ' + sha + ' ---\n\n' + text + '\n'
+    notice_text += '\n' + check_provenance.package_notice(root)
     assets = root / 'build/generated/licence-assets'
     assets.mkdir(parents=True, exist_ok=True)
     (assets / 'THIRD_PARTY_NOTICES.txt').write_text(notice_text, encoding='utf-8', newline='\n')
     save(assets / 'licence-closure.json', report)
+    save(assets / 'source-provenance.json', provenance_receipt)
     save(root / 'artifacts/evidence/android-licences.json', report)
     return report
 
@@ -204,7 +212,7 @@ def verify_distribution(directory, commit, root=ROOT):
         for sha in row['notices']:
             retained = text_bytes(root / 'third-party/notices' / (sha + '.txt'))
             require(digest(retained) == sha and retained in notices, 'Missing or changed retained notice')
-    expected_native = {name.split('/jni/', 1)[1] for name in policy['nativeFiles']}
+    expected_native = {name.split('/jni/', 1)[1]: value for name, value in policy['nativeFiles'].items()}
     for name in ['app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk']:
         prefix = 'base/' if name.endswith('.aab') else ''
         with zipfile.ZipFile(directory / name) as archive:
@@ -212,8 +220,10 @@ def verify_distribution(directory, commit, root=ROOT):
                 member = prefix + 'assets/' + asset
                 require(archive.namelist().count(member) == 1, f'Missing or duplicate packaged licence asset: {name}')
                 require(archive.read(member) == (directory / asset).read_bytes(), f'Missing or changed packaged licence asset: {name}')
-            native = {path.split('/lib/', 1)[1] if '/lib/' in path else path.removeprefix('lib/') for path in archive.namelist() if path.endswith('.so')}
-            require(native.issubset(expected_native) if 'androidTest' in name else native == expected_native, f'Unreviewed or missing native payload in {name}')
+            native = {path.split('/lib/', 1)[1] if '/lib/' in path else path.removeprefix('lib/'): digest(archive.read(path))
+                      for path in archive.namelist() if path.endswith('.so')}
+            require(all(expected_native.get(path) == value for path, value in native.items()) and
+                    ('androidTest' in name or native == expected_native), f'Unreviewed, changed or missing native payload in {name}')
             require(not any(b'Lj$/' in archive.read(path) for path in archive.namelist() if path.endswith('.dex')), f'Excluded core-library implementation in {name}')
     return report
 

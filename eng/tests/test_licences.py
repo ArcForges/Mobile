@@ -2,11 +2,13 @@
 """Reject unreviewed source, resolved binaries, native payloads and stripped notices."""
 import copy
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -18,7 +20,16 @@ class LicenceGateTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix='mobile-licence-')
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        subprocess.run(['git', 'init', '-q'], cwd=self.root, check=True)
+        self.environment = {k: v for k, v in os.environ.items() if not k.upper().startswith('GIT_')}
+        subprocess.run(['git', 'init', '-q'], cwd=self.root, check=True, env=self.environment)
+        # This fixture exercises the independent dependency gate. Resource/source
+        # adversarial tests use complete fixtures in test_resources/test_provenance.
+        mock = patch.object(licences.resources, 'check_resolved_inputs', return_value={'result': 'fixture'})
+        mock.start()
+        self.addCleanup(mock.stop)
+        mock = patch.object(licences.check_provenance, 'package_notice', return_value='source notice fixture\n')
+        mock.start()
+        self.addCleanup(mock.stop)
         self.write('.gitignore', 'artifacts/\nbuild/\n')
         self.write('build.gradle.kts', 'extra["spdxLicense"] = "Apache-2.0"\nextra["licenceBoundary"] = "Apache"\n')
         self.write('eng/policy/licence-boundary.json', {'schemaVersion': 1, 'repository': 'Mobile',
@@ -44,9 +55,9 @@ class LicenceGateTests(unittest.TestCase):
         self.resolved = [{'configuration': name, 'modules': [] if name == 'coreLibraryDesugaring' else [{'id': 'example:library:1.0', 'dependencies': []}],
                          'artifacts': [] if name == 'coreLibraryDesugaring' else [{'id': 'example:library:1.0', 'file': str(self.archive)}]}
                          for name in sorted(licences.CONFIGURATIONS)]
-        subprocess.run(['git', 'add', '.'], cwd=self.root, check=True)
+        subprocess.run(['git', 'add', '.'], cwd=self.root, check=True, env=self.environment)
         subprocess.run(['git', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
-                        '-c', 'commit.gpgsign=false', 'commit', '-qm', 'reviewed fixture'], cwd=self.root, check=True)
+                        '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', 'commit', '-qm', 'reviewed fixture'], cwd=self.root, check=True, env=self.environment)
 
     def write(self, name, value):
         target = self.root / name
@@ -166,6 +177,36 @@ class LicenceGateTests(unittest.TestCase):
             licences.verify_distribution(directory, report['commit'], self.root)
         self.write('app/gradle.lockfile', 'different resolved closure\n')
         with self.assertRaisesRegex(ValueError, 'locks changed'):
+            licences.verify_distribution(directory, report['commit'], self.root)
+
+    def test_same_named_native_binary_cannot_be_replaced(self):
+        payload = b'reviewed native fixture bytes'
+        self.policy['nativeFiles'] = {'example:library:1.0/jni/x86_64/libexample.so': licences.digest(payload)}
+        self.write('eng/policy/android-licences.json', self.policy)
+        # Construct the distribution receipt from the existing reviewed fixture;
+        # this case isolates the final-archive native hash check from resolution.
+        report = {'commit': licences.git(self.root, 'rev-parse', 'HEAD'), 'dirty': False, 'result': 'passed',
+                  'policySha256': licences.digest(licences.text_bytes(self.root / 'eng/policy/android-licences.json')),
+                  'locks': {p: licences.digest(licences.text_bytes(self.root / p)) for p in licences.LOCKS},
+                  'artifacts': {'example:library:1.0/' + self.archive.name: self.sha}}
+        directory = self.root / 'artifacts/candidate'
+        self.write('artifacts/candidate/licence-closure.json', report)
+        self.write('artifacts/candidate/THIRD_PARTY_NOTICES.txt', 'example:library:1.0 — Apache-2.0\n' + self.notice)
+        for name in ['app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk']:
+            prefix = 'base/' if name.endswith('.aab') else ''
+            with zipfile.ZipFile(directory / name, 'w') as archive:
+                for asset in ['THIRD_PARTY_NOTICES.txt', 'licence-closure.json']:
+                    archive.writestr(prefix + 'assets/' + asset, (directory / asset).read_bytes())
+                archive.writestr(prefix + 'lib/x86_64/libexample.so', payload)
+        licences.verify_distribution(directory, report['commit'], self.root)
+        target = directory / 'app-debug.apk'
+        with zipfile.ZipFile(target) as archive:
+            contents = {name: archive.read(name) for name in archive.namelist()}
+        contents['lib/x86_64/libexample.so'] = b'changed under the same file name'
+        with zipfile.ZipFile(target, 'w') as archive:
+            for name, content in contents.items():
+                archive.writestr(name, content)
+        with self.assertRaisesRegex(ValueError, 'changed or missing native payload'):
             licences.verify_distribution(directory, report['commit'], self.root)
 
 

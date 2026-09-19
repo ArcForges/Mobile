@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "androidx-native-attribution-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://android.googlesource.com/platform/frameworks/support",
+  "sourceCommit": "8a05a22af450d589ef911d772a001a49dcb05b71",
+  "sourcePaths": [
+    "graphics/graphics-path/src/main/cpp/Conic.cpp",
+    "graphics/graphics-path/src/main/cpp/Conic.h",
+    "graphics/graphics-path/src/main/cpp/Path.h",
+    "graphics/graphics-path/src/main/cpp/PathIterator.cpp",
+    "graphics/graphics-path/src/main/cpp/PathIterator.h",
+    "graphics/graphics-path/src/main/cpp/math/TVecHelpers.h",
+    "graphics/graphics-path/src/main/cpp/math/compiler.h",
+    "graphics/graphics-path/src/main/cpp/math/vec2.h",
+    "graphics/graphics-path/src/main/cpp/pathway.cpp",
+    "graphics/graphics-path/src/main/cpp/scalar.h"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "graphics/graphics-path/src/main/cpp/Conic.cpp",
+        "sha256": "49b3da93aa43480cf9cd481590be48705cb9340c52e5d09635efbd0ece07be83",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/Conic.h",
+        "sha256": "cd315ad7c8d030c72e96893e9a0feec463d72d2066209a203dedcf0925398a6f",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/Path.h",
+        "sha256": "4ee841338063d8c6f71ff4c655ecf52559f6c6df9af79835388dae1ebcd8b982",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/PathIterator.cpp",
+        "sha256": "3705946b43bf894e013f46ccc940f9923f43285340f8fc2128f95c59238ec7f8",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/PathIterator.h",
+        "sha256": "a16e99b0273fb7205607eb0cf51fc7be518a55f3446a304f92ecab353e77be6f",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/math/TVecHelpers.h",
+        "sha256": "1b0d6b06c5bbd6b438f9d8440ac78cf93fb8a713761badc59a4412b6457c1014",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/math/compiler.h",
+        "sha256": "d53e85383580e5dbf81cbcb24426b0fe1bf419b4837540242dbdca3f1df4cf66",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/math/vec2.h",
+        "sha256": "09e1a8eb3f8fdf9c1071500f1a4933f67caeb6d0f765d5c44ba968370de9fcb1",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/pathway.cpp",
+        "sha256": "4be68d6fdb6376e95560f7c49a79aa0cd97218d758cf11ea3230ac9124485800",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      },
+      {
+        "path": "graphics/graphics-path/src/main/cpp/scalar.h",
+        "sha256": "b1d2bba80a4c9272d84473b6f09f700972b016f7579842d3a87bdbbdb2af1edc",
+        "finding": "The retained attribution is the Apache-2.0 header in this exact native source file; no implementation is copied by this legal-text record."
+      }
+    ],
+    "scope": "Retained full legal documents and attribution only. This record does not admit the implementation governed by these terms.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright 2006, 2013, 2017, 2022 The Android Open Source Project. Exact individual headers are retained."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b.txt",
+      "sha256": "329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the exact pinned sources/published members and LF-normalized SHA256 targets.",
+    "expected": "Reproduce the title followed by sorted unique leading Apache headers from the enumerated C++ source files; exact SHA256 match.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain these original legal terms and attribution verbatim. Reproduce the title followed by sorted unique leading Apache headers from the enumerated C++ source files; exact SHA256 match.",
+    "files": [
+      "third-party/notices/329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Full upstream texts remain in the source notice store and every Android archive and release notice companion."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Reconciled existing legal bytes against the particular immutable upstream sources and published members; no historical pre-admission is claimed. Full terms are preserved; this permission applies only to legal documents.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": true
+  },
+  "supersedes": null
+}

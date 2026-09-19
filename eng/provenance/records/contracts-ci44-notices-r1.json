@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "contracts-ci44-notices-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "199e61565aff33db425f6148a55a7676388a8e8c",
+  "sourcePaths": [
+    "eng/packaging_tools.py"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "eng/packaging_tools.py",
+        "sha256": "82b93f6a0ddd4f757a2fff8f5610db2f563da3948eb753e10ca4f12f3f7483bd",
+        "finding": "Apache-authored renderer creates the package/version/dependency notice. Both actual ci.44.1 JAR NOTICE members match these retained texts."
+      }
+    ],
+    "scope": "Retained full legal documents and attribution only. This record does not admit the implementation governed by these terms.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/77261ef99751ba0e596b6d13ab0e2d083423b55b882af583557e08b7ebe9275f.txt",
+      "sha256": "77261ef99751ba0e596b6d13ab0e2d083423b55b882af583557e08b7ebe9275f",
+      "normalization": "lf"
+    },
+    {
+      "path": "third-party/notices/cbab2464e137f9ae434dbbb389ea97a2f4e0952f1bcc11a76af4e124bb905ce7.txt",
+      "sha256": "cbab2464e137f9ae434dbbb389ea97a2f4e0952f1bcc11a76af4e124bb905ce7",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the exact pinned sources/published members and LF-normalized SHA256 targets.",
+    "expected": "Byte-match the two published Contracts 1.0.0-ci.44.1 JAR NOTICE members. Original producer dependency lists are historical producer evidence, distinct from Mobile resolved closure.",
+    "artifacts": [
+      {
+        "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-connect-client/1.0.0-ci.44.1/contracts-connect-client-1.0.0-ci.44.1.jar",
+        "sha256": "1b64152906786db272ddc2b6979b09474baef40d8064d5a4de22e286b900e8d4",
+        "members": [
+          "NOTICE"
+        ]
+      },
+      {
+        "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-proto/1.0.0-ci.44.1/contracts-proto-1.0.0-ci.44.1.jar",
+        "sha256": "302c317628de25ba6048e2735a8da880fc6edf7cd16f4dd5ef3429a8599a5d18",
+        "members": [
+          "NOTICE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain these original legal terms and attribution verbatim. Byte-match the two published Contracts 1.0.0-ci.44.1 JAR NOTICE members. Original producer dependency lists are historical producer evidence, distinct from Mobile resolved closure.",
+    "files": [
+      "third-party/notices/77261ef99751ba0e596b6d13ab0e2d083423b55b882af583557e08b7ebe9275f.txt",
+      "third-party/notices/cbab2464e137f9ae434dbbb389ea97a2f4e0952f1bcc11a76af4e124bb905ce7.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Full upstream texts remain in the source notice store and every Android archive and release notice companion."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Reconciled existing legal bytes against the particular immutable upstream sources and published members; no historical pre-admission is claimed. Full terms are preserved; this permission applies only to legal documents.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": true
+  },
+  "supersedes": null
+}

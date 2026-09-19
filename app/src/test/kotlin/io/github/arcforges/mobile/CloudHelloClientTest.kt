@@ -20,7 +20,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import okhttp3.CookieJar
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -100,6 +103,28 @@ class CloudHelloClientTest {
                     assertEquals("Hello,  世界 👋 !", client.sayHello(" 世界 👋 "))
                 }
                 assertEquals(1, fixture.calls.get())
+            }
+    }
+
+    @Test
+    fun unsolicitedCookiesAreIgnoredAcrossRequests() = runBlocking {
+        val transport = CloudHelloClient.transport()
+        assertSame(CookieJar.NO_COOKIES, transport.cookieJar)
+        Fixture { exchange ->
+            assertNull(exchange.requestHeaders.getFirst("Cookie"))
+            exchange.requestBody.readAllBytes()
+            // A cross-domain cookie must not cause suffix-list loading or persist a session.
+            exchange.responseHeaders.add("Set-Cookie", "unrequested=1; Domain=com; Path=/")
+            exchange.responseHeaders.add("Set-Cookie", "local=1; Path=/")
+            reply(exchange, 0, "Hello, Cookie test!")
+        }
+            .use { fixture ->
+                CloudHelloClient(fixture.url, transport).use { client ->
+                    repeat(2) {
+                        assertEquals("Hello, Cookie test!", client.sayHello("Cookie test"))
+                    }
+                }
+                assertEquals(2, fixture.calls.get())
             }
     }
 

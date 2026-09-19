@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "slf4j-2-0-18-legal-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/qos-ch/slf4j",
+  "sourceCommit": "58b66c2c7e840f525c07db4509534ea53ef95b82",
+  "sourcePaths": [
+    "LICENSE.txt"
+  ],
+  "licence": {
+    "spdx": "MIT",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73",
+        "finding": "The complete retained legal document byte-matches this source after LF normalization."
+      }
+    ],
+    "scope": "Retained full legal documents and attribution only. This record does not admit the implementation governed by these terms.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright (c) 2004-2026 QOS.ch Sarl (Switzerland). All rights reserved."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73.txt",
+      "sha256": "6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the exact pinned sources/published members and LF-normalized SHA256 targets.",
+    "expected": "Exact full upstream legal text after LF normalization.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.",
+    "files": [
+      "third-party/notices/6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Full upstream texts remain in the source notice store and every Android archive and release notice companion."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Reconciled existing legal bytes against the particular immutable upstream sources and published members; no historical pre-admission is claimed. Full terms are preserved; this permission applies only to legal documents.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": true
+  },
+  "supersedes": null
+}

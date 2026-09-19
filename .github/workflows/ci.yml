@@ -28,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -69,8 +70,7 @@ jobs:
           :app:assembleRelease :app:bundleRelease
       - name: Verify JVM 21 compiler output
         run: python eng/mobile.py bytecode
-      - name: Stage candidate
-        if: runner.os == 'Linux'
+      - name: Verify and stage actual candidate on both systems
         run: python eng/mobile.py stage
       - name: Upload candidate
         if: runner.os == 'Linux'
@@ -91,6 +91,8 @@ jobs:
             shared/build/reports/tests/
             artifacts/evidence/licence-*.json
             artifacts/evidence/android-licences.json
+            artifacts/evidence/provenance.json
+            artifacts/candidate/resource-provenance.json
             build/generated/licence-assets/
           retention-days: 14
 
@@ -106,6 +108,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -194,6 +197,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -229,7 +233,7 @@ jobs:
           JVM desktop preview is development-only and is not distributed.
 
           Both OS builds, unit tests, Android API 26 and 36 instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, licence closure, lint and security checks passed before signing.
-          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence; SHA256SUMS verifies the downloads.
+          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence, source-provenance.json and resource-provenance.json for all archive members, and signed-resource-provenance.json for signing preservation; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
 

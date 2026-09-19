@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "id": "contracts-provenance-port-r1",
+  "kind": "source",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "aa2f187a4adae8ee4f79cee192c0d382cb7fec7f",
+  "sourcePaths": [
+    "eng/check_provenance.py",
+    "tests/tooling/test_provenance.py"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "eng/check_provenance.py",
+        "sha256": "c9e888d9845bd479c36439922c26038f29807214740ad7c467dfb3bb414a3024",
+        "finding": "This owned Contracts Python source/test carries its own Apache-2.0 SPDX header; full source and fixtures reviewed, no third-party implementation imported by these files."
+      },
+      {
+        "path": "tests/tooling/test_provenance.py",
+        "sha256": "a9b7c9deb356133deed58adc0c7b9470fb89d7582d2d3a165cc33fb0c6705363",
+        "finding": "This owned Contracts Python source/test carries its own Apache-2.0 SPDX header; full source and fixtures reviewed, no third-party implementation imported by these files."
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "finding": "Complete Apache-2.0 terms cover the authored Contracts tooling; Mobile retains the same complete terms in LICENSE."
+      }
+    ],
+    "scope": "Owned Python provenance validation and its synthetic adversarial tests; no AGPL sibling tooling. Reviewed Mobile changes restrict legal-text paths, sanitize Git selection variables and enumerate actual permissive composite/blocked MPL expressions without changing the decision table.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors; Contracts provenance tooling, Apache-2.0."
+  ],
+  "targets": [
+    {
+      "path": "eng/check_provenance.py",
+      "sha256": "5ae0224c3c3e0e013fc2d8108e3e2122eb90019a80986dba17345a513bc41ddc",
+      "normalization": "lf"
+    },
+    {
+      "path": "eng/tests/test_provenance.py",
+      "sha256": "3bd4c62a2e1140af20250dba788fca057d6897f9ffda55d9883f0f82ce2477fb",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the pinned source files with the reviewed transformation and exact LF target hashes; run python -m unittest discover -s eng/tests -v.",
+    "expected": "Only the documented owner, legal path, supported expression and Git environment adaptations; complete policy/history/record failure coverage remains and the Apache decision table is unchanged.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Mobile provenance validation is adapted from ArcForges Contracts at aa2f187a4adae8ee4f79cee192c0d382cb7fec7f under Apache-2.0. Full terms remain in LICENSE.",
+    "files": [
+      "LICENSE"
+    ],
+    "distribution": "source",
+    "reason": "Build/review tooling only; no checker code enters the Android APK/AAB."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Both complete source files and the exact proposed transformation were inspected before admission. The permissive Apache source remains inside Mobile, excludes sibling build dependencies and preserves blocked licence classes. The SHA-bound transformed files are introduced only after this record exists.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

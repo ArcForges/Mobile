@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "repository": "Mobile",
+  "licenceBoundary": "Apache",
+  "authority": {
+    "repository": "https://github.com/ArcForges/ArcForges-Design",
+    "commit": "f7966d9953a4c5dc9b59b321fdae4940bb7babb8",
+    "path": "docs/assurance/reference-coverage-and-provenance.md"
+  },
+  "decisions": {
+    "permissive": {
+      "AGPL": "audit",
+      "Apache": "audit"
+    },
+    "agpl-compatible": {
+      "AGPL": "exact-review",
+      "Apache": "prohibited"
+    },
+    "gpl-only": {
+      "AGPL": "prohibited",
+      "Apache": "prohibited"
+    },
+    "unclear": {
+      "AGPL": "prohibited",
+      "Apache": "prohibited"
+    },
+    "incompatible": {
+      "AGPL": "prohibited",
+      "Apache": "prohibited"
+    }
+  },
+  "licences": {
+    "Apache-2.0": "permissive",
+    "MIT": "permissive",
+    "BSD-2-Clause": "permissive",
+    "BSD-3-Clause": "permissive",
+    "ISC": "permissive",
+    "Apache-2.0 WITH LLVM-exception": "permissive",
+    "Apache-2.0 AND BSD-3-Clause": "permissive",
+    "Apache-2.0 AND MIT": "permissive",
+    "Apache-2.0 WITH LLVM-exception AND MIT": "permissive",
+    "Apache-2.0 AND BSD-3-Clause AND MIT": "permissive",
+    "Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)": "permissive",
+    "AGPL-3.0-only": "agpl-compatible",
+    "MPL-2.0": "agpl-compatible",
+    "GPL-2.0-only": "gpl-only",
+    "GPL-3.0-only": "gpl-only",
+    "NOASSERTION": "unclear",
+    "EPL-1.0": "incompatible"
+  }
+}

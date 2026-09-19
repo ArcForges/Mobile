@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "instructions": "Copy this shape for a new revision; replace every identity/evidence/target and complete all ten subjects. The template is never an approved record. A generated record requires explicit generators, inputs, command and outputSpdx; legal-text requires its own copyingPermission. Review and save before introducing new material.",
+  "example": {
+    "schemaVersion": 1,
+    "id": "reviewed-material-r1",
+    "kind": "source",
+    "sourceRepository": "https://example.org/owner/repository",
+    "sourceCommit": "REPLACE_WITH_FULL_IMMUTABLE_GIT_COMMIT",
+    "sourcePaths": [
+      "exact/source/file.ext"
+    ],
+    "licence": {
+      "spdx": "Apache-2.0",
+      "category": "permissive",
+      "evidence": [
+        {
+          "path": "exact/source/LICENSE",
+          "sha256": "REPLACE_WITH_EVIDENCE_SHA256",
+          "finding": "Explain the actual file/header and any subordinate override."
+        }
+      ],
+      "scope": "Describe the exact admitted material and boundary compatibility.",
+      "copyingPermission": null
+    },
+    "attribution": [
+      "Exact original copyright and required attribution."
+    ],
+    "targets": [
+      {
+        "path": "exact/target/file.ext",
+        "sha256": "REPLACE_WITH_TARGET_SHA256",
+        "normalization": "lf"
+      }
+    ],
+    "artifactTargets": [],
+    "disposition": "Improve",
+    "verification": {
+      "kind": "byte-match",
+      "command": "Name an independent byte/regeneration oracle.",
+      "expected": "State a checkable result before implementation.",
+      "artifacts": []
+    },
+    "notice": {
+      "required": true,
+      "text": "Exact required distribution attribution.",
+      "files": [
+        "LICENSE"
+      ],
+      "distribution": "source",
+      "reason": "State which artifact retains the attribution, or why no notice is required."
+    },
+    "lifetime": {
+      "status": "permanent",
+      "owner": "Licensing and Provenance Owner",
+      "removalTrigger": null
+    },
+    "generation": null,
+    "review": {
+      "owner": "Licensing and Provenance Owner",
+      "reviewer": "Assigned Licensing and Provenance Owner reviewer",
+      "reviewedOn": "YYYY-MM-DD",
+      "decision": "PENDING",
+      "rationale": "Record the complete review before use.",
+      "baselineCommit": "REPLACE_WITH_INSPECTED_OWNER_COMMIT",
+      "reconciliation": false
+    },
+    "supersedes": null
+  }
+}

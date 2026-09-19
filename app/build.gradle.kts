@@ -50,7 +50,18 @@ android {
     }
     // Each Contracts JAR has its own SBOM. Concatenating them would produce invalid JSON.
     packaging.resources.excludes +=
-        setOf("META-INF/INDEX.LIST", "META-INF/DEPENDENCIES", "sbom.cdx.json", "source.json")
+        setOf(
+            "META-INF/INDEX.LIST",
+            "META-INF/DEPENDENCIES",
+            "sbom.cdx.json",
+            "source.json",
+            // Source-only annotations and legacy desktop JUnit artwork are not Android inputs.
+            "javax/annotation/*.java",
+            "javax/annotation/concurrent/*.java",
+            "javax/annotation/meta/*.java",
+            "junit/runner/logo.gif",
+            "junit/runner/smalllogo.gif",
+        )
     packaging.resources.merges +=
         setOf("README.md", "LICENSE", "NOTICE", "META-INF/LICENSE*", "META-INF/NOTICE*")
     lint {
@@ -66,6 +77,10 @@ val licenceDirectory =
 val licenceTask = tasks.named("verifyAndroidLicences")
 
 androidComponents.onVariants { variant ->
+    // Preserve AGP's default filters and exclude only the unused copyleft data.
+    // The native transport explicitly rejects cookies and performs no suffix lookup.
+    variant.androidResources?.ignoreAssetsPatterns?.add("PublicSuffixDatabase.list")
+    variant.androidTest?.androidResources?.ignoreAssetsPatterns?.add("PublicSuffixDatabase.list")
     variant.sources.assets?.addGeneratedSourceDirectory(licenceTask) { licenceDirectory }
     variant.androidTest?.sources?.assets?.addGeneratedSourceDirectory(licenceTask) {
         licenceDirectory
