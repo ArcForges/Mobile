@@ -154,6 +154,7 @@ jobs:
             grep -E '^OK \([1-9][0-9]* tests?\)' artifacts/instrumentation.txt
             grep '^CLOUD_HELLO_VERIFIED ' artifacts/instrumentation.txt
             python eng/device-smoke.py artifacts/test-release.apk --serial emulator-5554
+            python eng/published.py identity --serial emulator-5554
       - name: Upload device evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
