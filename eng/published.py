@@ -51,7 +51,10 @@ def verify(directory, candidate, expected_certificate=CERTIFICATE):
                       {p.name for p in directory.iterdir()} == names | {'release.json', 'SHA256SUMS'},
                       'Unexpected public release members')
     checksums = ''.join(f'{mobile.sha256(directory / name)}  {name}\n' for name in sorted(names | {'release.json'}))
-    resources.require((directory / 'SHA256SUMS').read_text(encoding='utf-8') == checksums, 'Public SHA256SUMS mismatch')
+    # pathlib orders Windows filenames case-insensitively; require the exact
+    # closed checksum entries independently of that harmless host ordering.
+    resources.require(sorted((directory / 'SHA256SUMS').read_text(encoding='utf-8').splitlines()) ==
+                      sorted(checksums.splitlines()), 'Public SHA256SUMS mismatch')
     for name in names:
         resources.require(mobile.sha256(directory / name) == release['sha256'][name], 'Changed public release member: ' + name)
     for name in COMPANIONS:
