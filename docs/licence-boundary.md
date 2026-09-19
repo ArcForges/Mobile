@@ -80,3 +80,10 @@ This evidence covers the current Android candidate, not a future dependency grap
 Play approval, physical devices, full ArcChat behavior or the JVM development runtime
 as a shipped product. F-023 closes only with this actual distribution closure and
 its required runtime/publication evidence, never from the first-party metadata alone.
+
+On 2026-09-19, required lint detected Contracts `1.0.0-ci.54.1`. Both public
+Maven JAR/POM/module sets and publisher commit
+`aa2f187a4adae8ee4f79cee192c0d382cb7fec7f` were verified before updating.
+All 20 classes, proto/descriptor and other resources are unchanged; the release
+adds source provenance to NOTICE and updates source/SBOM identity. New legal
+and resource records supersede the retained ci.44.1 admissions. Lint remains enabled.

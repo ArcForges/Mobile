@@ -63,6 +63,7 @@ def version():
 def repository_check():
     project_audit()
     provenance_report = check_provenance.run(ROOT, 'Mobile')
+    resources.verify_profile_history(ROOT)
     resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)
     names = run("git", "ls-files", "-z", "--cached", "--others", "--exclude-standard", capture=True).split("\0")
     for name in filter(None, names):

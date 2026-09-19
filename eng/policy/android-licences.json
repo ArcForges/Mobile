@@ -2527,48 +2527,48 @@
       ]
     },
     {
-      "id": "io.github.arcforges:contracts-connect-client:1.0.0-ci.44.1",
+      "id": "io.github.arcforges:contracts-connect-client:1.0.0-ci.54.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "contracts-connect-client-1.0.0-ci.44.1.jar": "1b64152906786db272ddc2b6979b09474baef40d8064d5a4de22e286b900e8d4"
+        "contracts-connect-client-1.0.0-ci.54.1.jar": "a5f4babfd38f41998b179b24c4407faa1c2609e13a27613e2ec189ff9cf2baa9"
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-connect-client/1.0.0-ci.44.1/contracts-connect-client-1.0.0-ci.44.1.pom",
-          "sha256": "bcecf1a061ed0ede9ba7c5633c1f4df3fd34ad48f2bbdf329fb539158ebdd0bc",
+          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-connect-client/1.0.0-ci.54.1/contracts-connect-client-1.0.0-ci.54.1.pom",
+          "sha256": "66f94912afac4b4780ea0f76c3b64d8d469168a1da34b5887351f1e7612ddc40",
           "kind": "published-pom"
         }
       ],
       "notices": [
-        "77261ef99751ba0e596b6d13ab0e2d083423b55b882af583557e08b7ebe9275f",
+        "9d1e2e4d6d098c0340cdbca6e82e99043eb79d55d03dff5f35cbe5d50fb05177",
         "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
         "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
       ]
     },
     {
-      "id": "io.github.arcforges:contracts-proto:1.0.0-ci.44.1",
+      "id": "io.github.arcforges:contracts-proto:1.0.0-ci.54.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "contracts-proto-1.0.0-ci.44.1.jar": "302c317628de25ba6048e2735a8da880fc6edf7cd16f4dd5ef3429a8599a5d18"
+        "contracts-proto-1.0.0-ci.54.1.jar": "c6414186c077b3c518a2d407da22e35451441aff342da564b43f45c6528b14ee"
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-proto/1.0.0-ci.44.1/contracts-proto-1.0.0-ci.44.1.pom",
-          "sha256": "616e56b75970d8b4c13591ca13d6b5679964f448e61896186f19870b74f4350d",
+          "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-proto/1.0.0-ci.54.1/contracts-proto-1.0.0-ci.54.1.pom",
+          "sha256": "cae77fbc2d7f814debae8f53a4fe327322ffc14dfa57516787b57a435a8a923a",
           "kind": "published-pom"
         }
       ],
       "notices": [
+        "75472eb46d9baef7eb31db3b0f43d028bc86dcad7c49549a49d1598f88853585",
         "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
-        "cbab2464e137f9ae434dbbb389ea97a2f4e0952f1bcc11a76af4e124bb905ce7",
         "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
       ]
     },

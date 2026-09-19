@@ -55,8 +55,17 @@ def profile(root=ROOT):
     return record_id, targets[0]['sha256'], data
 
 
+def verify_profile_history(root=ROOT):
+    """Keep the bytes behind every retained admission immutable after supersession."""
+    for path in sorted((root / provenance.STORE).glob('*.json')):
+        for target in read_json(path)['artifactTargets']:
+            raw = provenance.read(root, target['profile']).replace(b'\r\n', b'\n')
+            require(sha(raw) == target['sha256'], 'Changed retained resource profile: ' + target['profile'])
+
+
 def source_receipt(root=ROOT):
     audit = provenance.run(root, 'Mobile')
+    verify_profile_history(root)
     record_id, digest, approved = profile(root)
     for path, expected in {**approved['ownedInputs'], **approved.get('ownedRecipes', {})}.items():
         require(sha(provenance.read(root, path).replace(b'\r\n', b'\n')) == expected,

@@ -11,7 +11,7 @@ A native Kotlin Android app that calls the real Cloud Hello API at `https://arcf
 | Kotlin / Compose Multiplatform | 2.4.20 / 1.12.0 |
 | Compose Hot Reload | 1.2.0; JVM development sandbox only |
 | Android SDK | compile/target 37, Build-Tools 37.0.0, minimum Android 8.0 (API 26) |
-| Contracts | `io.github.arcforges:contracts-connect-client:1.0.0-ci.44.1` from Maven Central |
+| Contracts | `io.github.arcforges:contracts-connect-client:1.0.0-ci.54.1` from Maven Central |
 | Transport | Connect-Kotlin 0.9.0, binary gRPC-Web over platform-validated HTTPS |
 
 `app` owns Android lifecycle, published Contracts integration and APK/AAB packaging. `shared` owns the greeting behavior and Compose UI, reused by Android and the `desktop` JVM preview target. Contracts source generation stays in the [Contracts repository](https://github.com/ArcForges/Contracts); this build uses released Maven artifacts and needs no adjacent checkout.

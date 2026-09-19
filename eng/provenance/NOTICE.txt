@@ -2,12 +2,12 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
-android-packaged-resources-r1
+android-packaged-resources-r2
 Source: https://android.googlesource.com/platform/tools/base @ 1dde364491ccac9cca0a25ed766eb186839a3703
 Material licence: Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)
 Notice scope: packages
 Copyright The Android Open Source Project and AndroidX contributors; JetBrains and Kotlin contributors; Google protobuf contributors; ArcForges contributors. Original full notices and file-level copyrights remain in THIRD_PARTY_NOTICES.txt.
-Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r1.json. Build-tool implementation is not claimed to be part of the app.
+Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r2.json. Build-tool implementation is not claimed to be part of the app.
 
 androidx-apache-legal-r1
 Source: https://android.googlesource.com/platform/frameworks/support @ f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b
@@ -44,12 +44,12 @@ Notice scope: packages
 LLVM Project and compiler-rt contributors; retain the Apache-2.0 LLVM exception and embedded MIT terms.
 Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
 
-contracts-ci44-notices-r1
-Source: https://github.com/ArcForges/Contracts @ 199e61565aff33db425f6148a55a7676388a8e8c
-Material licence: Apache-2.0
+contracts-ci54-notices-r2
+Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
+Material licence: Apache-2.0 AND BSD-3-Clause
 Notice scope: packages
 Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice.
-Retain these original legal terms and attribution verbatim. Byte-match the two published Contracts 1.0.0-ci.44.1 JAR NOTICE members. Original producer dependency lists are historical producer evidence, distinct from Mobile resolved closure.
+Preserve complete Contracts 1.0.0-ci.54.1 package notices, including original binding-generator copyrights and protobuf BSD terms.
 
 contracts-provenance-port-r1
 Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
@@ -65,7 +65,7 @@ Notice scope: packages
 kotlinx.coroutines library. Copyright 2016-2025 JetBrains s.r.o and contributors.
 Retain the full kotlinx.coroutines 1.11.0 notice with its original 2016-2025 copyright.
 
-gradle-wrapper-9-7-1-r1
+gradle-wrapper-9-7-1-r2
 Source: https://github.com/gradle/gradle @ 92f0512e7f06d84621afba191f75e265363890cf
 Material licence: Apache-2.0
 Notice scope: source

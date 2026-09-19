@@ -150,6 +150,32 @@ class ResourceGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Changed Android resource profile'):
             self.verify()
 
+    def test_supersession_cannot_rewrite_retained_profile_bytes(self):
+        record = self.fixture.get(provenance.STORE + self.id + '.json')
+        replacement = copy.deepcopy(record)
+        replacement.update(id='synthetic-android-resources-r2', supersedes=self.id)
+        revised = copy.deepcopy(self.expected)
+        revised['recordId'] = replacement['id']
+        path = self.profile_path.replace('r1.json', 'r2.json')
+        self.fixture.put(path, revised)
+        for target in replacement['artifactTargets']:
+            target.update(profile=path, sha256=resources.sha((self.root / path).read_bytes()))
+        self.fixture.put(provenance.STORE + replacement['id'] + '.json', replacement)
+        self.fixture.inventory()
+        inventory = self.fixture.get(provenance.INVENTORY)
+        inventory['artifacts'] = [replacement['id']]
+        inventory['firstParty'] = [path for path in inventory['firstParty'] if not path.startswith('output/')]
+        self.fixture.put(provenance.INVENTORY, inventory)
+        self.fixture.write(provenance.SUMMARY, provenance.render(
+            {self.id: record, replacement['id']: replacement, self.fixture.value['id']: self.fixture.value},
+            {replacement['id'], self.fixture.value['id']}))
+        self.fixture.commit()
+        self.assertEqual(replacement['id'], resources.source_receipt(self.root)['recordId'])
+        with (self.root / self.profile_path).open('ab') as stream:
+            stream.write(b'\n')
+        with self.assertRaisesRegex(ValueError, 'Changed retained resource profile'):
+            resources.source_receipt(self.root)
+
     def test_dex_replacement_and_inconsistent_companions_fail(self):
         self.payloads['app-release-unsigned.apk']['classes.dex'] = b'not a DEX file'
         self.write_archive('app-release-unsigned.apk')
