@@ -28,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -69,9 +70,10 @@ jobs:
           :app:assembleRelease :app:bundleRelease
       - name: Verify JVM 21 compiler output
         run: python eng/mobile.py bytecode
-      - name: Stage candidate
-        if: runner.os == 'Linux'
+      - name: Verify and stage actual candidate on both systems
         run: python eng/mobile.py stage
+      - name: Verify public release checks with actual disposable signatures
+        run: python eng/verify_published_fixture.py
       - name: Upload candidate
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -91,6 +93,9 @@ jobs:
             shared/build/reports/tests/
             artifacts/evidence/licence-*.json
             artifacts/evidence/android-licences.json
+            artifacts/evidence/provenance.json
+            artifacts/evidence/published-fixture.json
+            artifacts/candidate/resource-provenance.json
             build/generated/licence-assets/
           retention-days: 14
 
@@ -106,6 +111,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -194,6 +200,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
@@ -229,18 +236,74 @@ jobs:
           JVM desktop preview is development-only and is not distributed.
 
           Both OS builds, unit tests, Android API 26 and 36 instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, licence closure, lint and security checks passed before signing.
-          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence; SHA256SUMS verifies the downloads.
+          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence, source-provenance.json and resource-provenance.json for all archive members, and signed-resource-provenance.json for signing preservation; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
+
+  public-upgrade:
+    name: Public release upgrade (API ${{ matrix.api }})
+    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.publish.result == 'success' }}
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [26, 36]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+        with:
+          packages: platform-tools build-tools;37.0.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/candidate
+      - name: Independently verify anonymous public downloads and persistent signatures
+        run: |
+          python eng/published.py prepare
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Upgrade the actual public APK and invoke real Cloud
+        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: python eng/published.py upgrade --serial emulator-5554
+      - name: Upload actual public release and upgrade evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: public-release-api${{ matrix.api }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/public-verification.json
+            artifacts/public-device/
+          if-no-files-found: error
+          retention-days: 14
 
   verify-publication:
     name: Verify publication
     if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: publish
+    needs: [publish, public-upgrade]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require actual publication
         env:
           PUBLISHED: ${{ needs.publish.result }}
-        run: test "$PUBLISHED" = success
+          PUBLIC_UPGRADE: ${{ needs.public-upgrade.result }}
+        run: test "$PUBLISHED" = success && test "$PUBLIC_UPGRADE" = success

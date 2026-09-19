@@ -39,11 +39,14 @@ JVM 21, API 26 minimum, app IDs and signing identity remain unchanged. API 26 an
 both run debug instrumentation and the same minified release candidate against the
 real Cloud service; successful source/fixture checks cannot replace these device gates.
 
-The generated `THIRD_PARTY_NOTICES.txt` and `licence-closure.json` are registered as
+The generated `THIRD_PARTY_NOTICES.txt`, `licence-closure.json` and
+`source-provenance.json` are registered as
 Android generated assets with an explicit task dependency. Release/debug/test APKs
 and the AAB retain them. Candidate staging rejects a dirty/wrong-commit receipt,
-changed policy/locks, stripped assets or unexpected native files. Candidate hashes
-cover both companion files. Signing re-verifies that candidate and publishes the
+changed policy/locks, stripped assets or changed/unexpected native bytes. The
+[resource gate](provenance.md) verifies complete archive membership, copied and
+generated resources, excluded suffix data and source/profile identity. Candidate
+hashes cover every companion. Signing re-verifies that candidate and publishes the
 same companions with hashes in `release.json` and `SHA256SUMS`; it never rebuilds code.
 
 ## Maintenance and evidence
@@ -77,3 +80,10 @@ This evidence covers the current Android candidate, not a future dependency grap
 Play approval, physical devices, full ArcChat behavior or the JVM development runtime
 as a shipped product. F-023 closes only with this actual distribution closure and
 its required runtime/publication evidence, never from the first-party metadata alone.
+
+On 2026-09-19, required lint detected Contracts `1.0.0-ci.54.1`. Both public
+Maven JAR/POM/module sets and publisher commit
+`aa2f187a4adae8ee4f79cee192c0d382cb7fec7f` were verified before updating.
+All 20 classes, proto/descriptor and other resources are unchanged; the release
+adds source provenance to NOTICE and updates source/SBOM identity. New legal
+and resource records supersede the retained ci.44.1 admissions. Lint remains enabled.

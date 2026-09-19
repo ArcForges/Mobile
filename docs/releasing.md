@@ -2,11 +2,20 @@
 
 ## Pipeline and immutable candidate
 
-`CI` runs on PRs, pushes to `main`, and manual validation requests. Both Windows and Linux build from the same commit with JDK/JVM 21. Unit tests, formatting, lint and bytecode verification must pass. The Linux build uploads unsigned release APK/AAB, debug/test APKs, the R8 mapping, reviewed notice/closure companions and `candidate.json` with SHA-256 hashes and source/version metadata. The pre-packaging licence gate checks actual resolved inputs; staging verifies those same assets are embedded in all four Android archives.
+`CI` runs on PRs, pushes to `main`, and manual validation requests. Both Windows and Linux build from the same commit with JDK/JVM 21. Unit tests, formatting, lint and bytecode verification must pass. The Linux build uploads unsigned release APK/AAB, debug/test APKs, the R8 mapping, reviewed notice/closure/provenance companions and `candidate.json` with SHA-256 hashes and source/version metadata. The pre-packaging licence/provenance gates check actual resolved inputs and immutable source admissions. Both OS builds verify every archive member against the reviewed resource profile, including assets, compiled resources and excluded material. Signing independently requires every candidate payload member to remain unchanged.
 
 Both API 26 and API 36 emulator jobs download that candidate, verify its hashes, run debug instrumentation including real Cloud gRPC-Web calls, and invoke Hello from its minified release APK with a disposable test signature. Security scans run in parallel. The aggregate `Verify` check succeeds only when both OS builds, device checks and security checks succeed. No Cloudflare deployment credential is needed for the anonymous Hello gate; the currently deployed service must be available. Saved Android evidence records its observed revision, protocol outcomes and the release UI response.
 
-Only a `push` to `main` then enters `android-release`. It downloads and re-verifies the same candidate, including its source-bound licence closure and retained notices, aligns/signs its APK, signs its AAB and verifies the signatures and persistent certificate. It does not rebuild application code. GitHub Releases receives the signed APK/AAB, R8 mapping, `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`, `release.json` and `SHA256SUMS`. The development JVM preview is never released. PRs and manual validation runs never publish. The main-only publication verifier rejects a failed or skipped publisher; the publish condition explicitly evaluates the successful aggregate gate despite PR-only security jobs being skipped on main.
+Only a `push` to `main` then enters `android-release`. It downloads and re-verifies the same candidate, including its source-bound licence closure and retained notices, aligns/signs its APK, signs its AAB and verifies the signatures and persistent certificate. It does not rebuild application code. GitHub Releases receives the signed APK/AAB, R8 mapping, `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`, `source-provenance.json`, `resource-provenance.json`, `signed-resource-provenance.json`, `release.json` and `SHA256SUMS`. The development JVM preview is never released. PRs and manual validation runs never publish. The main-only publication verifier rejects a failed or skipped publisher; the publish condition explicitly evaluates the successful aggregate gate despite PR-only security jobs being skipped on main.
+
+After publication, two additional API 26/36 jobs anonymously download the actual
+public release, compare every companion and payload with the tested candidate,
+verify APK/AAB signatures and require the pinned persistent certificate. They
+install the immutable ci.9.1 baseline, upgrade it with the downloaded APK, preserve
+UID and first-install time, and press the minified app's real Cloud button.
+`Verify publication` requires both jobs; successful upload alone is insufficient.
+The older APK is a compatibility-test input, not a newly admitted distributable.
+Evidence includes download hashes, upgrade identities, the UI hierarchy and a screenshot.
 
 ## One-time GitHub configuration
 

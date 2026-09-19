@@ -1,0 +1,101 @@
+ArcForges source provenance notices
+
+Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
+
+android-packaged-resources-r2
+Source: https://android.googlesource.com/platform/tools/base @ 1dde364491ccac9cca0a25ed766eb186839a3703
+Material licence: Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)
+Notice scope: packages
+Copyright The Android Open Source Project and AndroidX contributors; JetBrains and Kotlin contributors; Google protobuf contributors; ArcForges contributors. Original full notices and file-level copyrights remain in THIRD_PARTY_NOTICES.txt.
+Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r2.json. Build-tool implementation is not claimed to be part of the app.
+
+androidx-apache-legal-r1
+Source: https://android.googlesource.com/platform/frameworks/support @ f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b
+Material licence: Apache-2.0
+Notice scope: packages
+Android Open Source Project contributors; Apache-2.0 complete operative terms.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
+
+androidx-concurrent-notice-r1
+Source: https://android.googlesource.com/platform/frameworks/support @ f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b
+Material licence: Apache-2.0
+Notice scope: packages
+kotlinx.coroutines library. Copyright 2016-2024 JetBrains s.r.o and contributors.
+Retain these original legal terms and attribution verbatim. Exact upstream NOTICE bytes, including all original copyright and terms.
+
+androidx-native-attribution-r1
+Source: https://android.googlesource.com/platform/frameworks/support @ 8a05a22af450d589ef911d772a001a49dcb05b71
+Material licence: Apache-2.0
+Notice scope: packages
+Copyright 2006, 2013, 2017, 2022 The Android Open Source Project. Exact individual headers are retained.
+Retain these original legal terms and attribution verbatim. Reproduce the title followed by sorted unique leading Apache headers from the enumerated C++ source files; exact SHA256 match.
+
+apache-terms-r1
+Source: https://github.com/github/choosealicense.com @ 58267f8f2c5c0099810849cfd7677f52ae0c0eb3
+Material licence: Apache-2.0
+Notice scope: packages
+Apache License, Version 2.0, January 2004; original legal terms retained without modification.
+Retain these original legal terms and attribution verbatim. Canonical full template body including appendix, with the recorded optional leading newline.
+
+compiler-rt-legal-r1
+Source: https://android.googlesource.com/toolchain/llvm-project @ 4c603efb0cca074e9238af8b4106c30add4418f6
+Material licence: Apache-2.0 WITH LLVM-exception AND MIT
+Notice scope: packages
+LLVM Project and compiler-rt contributors; retain the Apache-2.0 LLVM exception and embedded MIT terms.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
+
+contracts-ci54-notices-r2
+Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
+Material licence: Apache-2.0 AND BSD-3-Clause
+Notice scope: packages
+Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice.
+Preserve complete Contracts 1.0.0-ci.54.1 package notices, including original binding-generator copyrights and protobuf BSD terms.
+
+contracts-provenance-port-r1
+Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
+Material licence: Apache-2.0
+Notice scope: source
+Copyright 2026 ArcForges contributors; Contracts provenance tooling, Apache-2.0.
+Mobile provenance validation is adapted from ArcForges Contracts at aa2f187a4adae8ee4f79cee192c0d382cb7fec7f under Apache-2.0. Full terms remain in LICENSE.
+
+coroutines-1-11-notice-r1
+Source: https://github.com/Kotlin/kotlinx.coroutines @ 8564f65764d3d05893cec026c6e94250e2b23874
+Material licence: Apache-2.0
+Notice scope: packages
+kotlinx.coroutines library. Copyright 2016-2025 JetBrains s.r.o and contributors.
+Retain the full kotlinx.coroutines 1.11.0 notice with its original 2016-2025 copyright.
+
+gradle-wrapper-9-7-1-r2
+Source: https://github.com/gradle/gradle @ 92f0512e7f06d84621afba191f75e265363890cf
+Material licence: Apache-2.0
+Notice scope: source
+Copyright 2015 the original author or authors. Copyright 2023 the original author or authors (generator).
+Gradle 9.7.1 wrapper retains original headers and embedded JAR licence; full Apache terms remain in LICENSE.
+
+hamcrest-1-3-legal-r1
+Source: https://github.com/hamcrest/JavaHamcrest @ 36d525e1e425006939a77aec5183aecd7c775b05
+Material licence: BSD-3-Clause
+Notice scope: packages
+Copyright (c) 2000-2006, www.hamcrest.org. All rights reserved.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
+
+junit-4-13-2-legal-r1
+Source: https://github.com/junit-team/junit4 @ 05fe2a64f59127c02135be22f416e91260d6ede6
+Material licence: EPL-1.0
+Notice scope: packages
+JUnit 4.13.2 remains separately licensed under EPL-1.0 and instrumentation-only; corresponding source is https://github.com/junit-team/junit4/tree/05fe2a64f59127c02135be22f416e91260d6ede6 . No EPL implementation is ported into authored Apache code.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
+
+protobuf-36-1-legal-r1
+Source: https://github.com/protocolbuffers/protobuf @ f377bfefc5e2cfab68b816903c25b23e091c439d
+Material licence: BSD-3-Clause
+Notice scope: packages
+Copyright 2008 Google Inc. All rights reserved.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
+
+slf4j-2-0-18-legal-r2
+Source: https://github.com/qos-ch/slf4j @ 58b66c2c7e840f525c07db4509534ea53ef95b82
+Material licence: MIT
+Notice scope: packages
+Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland). All rights reserved.
+Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.

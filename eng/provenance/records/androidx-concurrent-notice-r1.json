@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "androidx-concurrent-notice-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://android.googlesource.com/platform/frameworks/support",
+  "sourceCommit": "f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b",
+  "sourcePaths": [
+    "concurrent/concurrent-futures-ktx/src/main/resources/META-INF/NOTICE.txt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "concurrent/concurrent-futures-ktx/src/main/resources/META-INF/NOTICE.txt",
+        "sha256": "bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2",
+        "finding": "The actual AAR nested NOTICE and retained text exactly match this file, including the complete coroutines notice and Apache terms."
+      }
+    ],
+    "scope": "Retained full legal documents and attribution only. This record does not admit the implementation governed by these terms.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "kotlinx.coroutines library. Copyright 2016-2024 JetBrains s.r.o and contributors."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt",
+      "sha256": "bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the exact pinned sources/published members and LF-normalized SHA256 targets.",
+    "expected": "Exact upstream NOTICE bytes, including all original copyright and terms.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain these original legal terms and attribution verbatim. Exact upstream NOTICE bytes, including all original copyright and terms.",
+    "files": [
+      "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Full upstream texts remain in the source notice store and every Android archive and release notice companion."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Reconciled existing legal bytes against the particular immutable upstream sources and published members; no historical pre-admission is claimed. Full terms are preserved; this permission applies only to legal documents.",
+    "baselineCommit": "69155c7c3c2eda592270eeb354677c0537af55ec",
+    "reconciliation": true
+  },
+  "supersedes": null
+}

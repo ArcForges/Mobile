@@ -42,7 +42,7 @@ Android devices do not run this JVM preview. Use [Android Studio Live Edit](http
 
 ## Cloud protocol and device verification
 
-`CloudHelloClient` uses `contracts-connect-client:1.0.0-ci.44.1`, the matching lite messages, and Connect-Kotlin OkHttp/Google Java-lite adapters 0.9.0. It explicitly selects `NetworkProtocol.GRPC_WEB` against `https://arcforges.com/api`; the SDK appends `/arcforges.hello.v1.HelloService/SayHello` once. Public native gRPC and Connect's default protocol are not used at this Worker ingress. INTERNET permission and the platform TLS trust store are sufficient. Cleartext traffic remains disabled, and no credential, custom trust manager or certificate bypass is added.
+`CloudHelloClient` uses `contracts-connect-client:1.0.0-ci.54.1`, the matching lite messages, and Connect-Kotlin OkHttp/Google Java-lite adapters 0.9.0. It explicitly selects `NetworkProtocol.GRPC_WEB` against `https://arcforges.com/api`; the SDK appends `/arcforges.hello.v1.HelloService/SayHello` once. Public native gRPC and Connect's default protocol are not used at this Worker ingress. INTERNET permission and the platform TLS trust store are sufficient. Cleartext traffic remains disabled, and no credential, custom trust manager or certificate bypass is added.
 
 The RPC deadline is five seconds and the HTTP call limit is ten seconds. Redirects and connection-failure retries are disabled. gRPC status errors produce bounded user-facing messages; there is no local-success fallback. In-flight disposal does not replay the request. Transport cleanup runs off the Activity's main thread because closing a TLS connection can perform network I/O. A future authenticated API must define its own session rules; this anonymous Hello is not an authentication template.
 
@@ -54,7 +54,7 @@ CI downloads the previously built candidate, verifies its hashes, runs instrumen
 
 ## Licence checks
 
-The [licence gate](licence-boundary.md) verifies all project declarations and the actual Android dependency closure before packaging. Resolved binaries, notices, native provenance, strict checksums and the closed policy must agree. Every APK/AAB and the release companions retain the same source-bound notice/closure assets. Changing a dependency requires reviewing that policy before attempting a candidate build.
+The [licence gate](licence-boundary.md) verifies project declarations and the actual Android dependency closure before packaging. The [provenance gate](provenance.md) also checks the complete source inventory, immutable admissions and actual APK/AAB resources. Resolved binaries, notices, native provenance, strict checksums and policy must agree. Every archive retains the source-bound notice/closure/provenance assets. Changed dependencies or resources require a reviewed policy and superseding profile before candidate acceptance.
 
 ## Dependency maintenance
 

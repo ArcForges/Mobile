@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "id": "contracts-ci54-notices-r2",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/ArcForges/Contracts",
+  "sourceCommit": "aa2f187a4adae8ee4f79cee192c0d382cb7fec7f",
+  "sourcePaths": [
+    "eng/packaging_tools.py",
+    "eng/provenance/records/hello-bindings-r1.json",
+    "eng/provenance/records/protobuf-generator-licence-r1.json"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0 AND BSD-3-Clause",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "eng/packaging_tools.py",
+        "sha256": "9a43ffff228ce7c9618bc07fe96665529ef05510e13d2fb49fef4edccda65254",
+        "finding": "Read the Apache-owned notice renderer and its admitted generator/licence records. The complete ci.54.1 package notices retain the original Apache attributions and full protobuf BSD terms; this record reproduces legal documents only."
+      },
+      {
+        "path": "eng/provenance/records/hello-bindings-r1.json",
+        "sha256": "572601f1a0fc3441a8c69255ed707777593c0f982dc7fb18789e70abfd0f0728",
+        "finding": "Read the Apache-owned notice renderer and its admitted generator/licence records. The complete ci.54.1 package notices retain the original Apache attributions and full protobuf BSD terms; this record reproduces legal documents only."
+      },
+      {
+        "path": "eng/provenance/records/protobuf-generator-licence-r1.json",
+        "sha256": "0d7fc75eb1453908b2954c182e895ff5da49c5000f04b5d66d8449f552be1f81",
+        "finding": "Read the Apache-owned notice renderer and its admitted generator/licence records. The complete ci.54.1 package notices retain the original Apache attributions and full protobuf BSD terms; this record reproduces legal documents only."
+      }
+    ],
+    "scope": "Retained full legal documents and attribution only. This record does not admit the implementation governed by these terms.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/9d1e2e4d6d098c0340cdbca6e82e99043eb79d55d03dff5f35cbe5d50fb05177.txt",
+      "sha256": "9d1e2e4d6d098c0340cdbca6e82e99043eb79d55d03dff5f35cbe5d50fb05177",
+      "normalization": "lf"
+    },
+    {
+      "path": "third-party/notices/75472eb46d9baef7eb31db3b0f43d028bc86dcad7c49549a49d1598f88853585.txt",
+      "sha256": "75472eb46d9baef7eb31db3b0f43d028bc86dcad7c49549a49d1598f88853585",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Compare the exact pinned sources/published members and LF-normalized SHA256 targets.",
+    "expected": "Exact complete NOTICE bytes from the two public Maven 1.0.0-ci.54.1 JARs; publisher source.json identifies aa2f187a4adae8ee4f79cee192c0d382cb7fec7f. All 20 compiled classes, proto/descriptor data and other members are unchanged from ci.44.1; only source/SBOM/NOTICE changed.",
+    "artifacts": [
+      {
+        "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-connect-client/1.0.0-ci.54.1/contracts-connect-client-1.0.0-ci.54.1.jar",
+        "sha256": "a5f4babfd38f41998b179b24c4407faa1c2609e13a27613e2ec189ff9cf2baa9",
+        "members": [
+          "NOTICE"
+        ]
+      },
+      {
+        "url": "https://repo.maven.apache.org/maven2/io/github/arcforges/contracts-proto/1.0.0-ci.54.1/contracts-proto-1.0.0-ci.54.1.jar",
+        "sha256": "c6414186c077b3c518a2d407da22e35451441aff342da564b43f45c6528b14ee",
+        "members": [
+          "NOTICE"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Preserve complete Contracts 1.0.0-ci.54.1 package notices, including original binding-generator copyrights and protobuf BSD terms.",
+    "files": [
+      "third-party/notices/9d1e2e4d6d098c0340cdbca6e82e99043eb79d55d03dff5f35cbe5d50fb05177.txt",
+      "third-party/notices/75472eb46d9baef7eb31db3b0f43d028bc86dcad7c49549a49d1598f88853585.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Full upstream texts remain in the source notice store and every Android archive and release notice companion."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-19",
+    "decision": "approved",
+    "rationale": "Required lint detected the newer published Contracts release. Its verified Maven bytes and source identity were collected before choosing the compatible update. Complete NOTICE documents and source records reviewed; all compiled classes/schema members are unchanged. Admit these new legal targets before copying, and preserve the superseded ci.44.1 record.",
+    "baselineCommit": "418e3aba1859d0df00ad6cee6f853f11ff786e54",
+    "reconciliation": false
+  },
+  "supersedes": "contracts-ci44-notices-r1"
+}

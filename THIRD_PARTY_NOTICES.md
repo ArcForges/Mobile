@@ -1,5 +1,12 @@
 # Third-party notices
 
+The [source and artifact provenance process](docs/provenance.md) records exact
+sources, target hashes and responsibility. Every archive embeds
+`source-provenance.json`; releases retain archive-member and signing-preservation
+receipts. The current coroutines NOTICE is retained separately from the older
+AndroidX concurrent NOTICE. Unused MPL suffix data and JUnit images are excluded
+under the accepted Design remediation.
+
 Original ArcForges Mobile code and tooling use Apache-2.0. The Gradle wrapper is distributed under Apache-2.0 and comes from the same verified Gradle 9.7.1 wrapper used by ArcForges Contracts; its distribution checksum is pinned in the wrapper properties.
 
 The application consumes published artifacts, including ArcForges Contracts, Kotlin, AndroidX/Compose, Protocol Buffers, Connect-Kotlin, OkHttp/Okio and their transitive dependencies. Each dependency retains its own license and notices. Gradle lockfiles and checksum metadata enumerate the resolved artifacts. Runtime license/notice resources are retained or merged during Android packaging, including the notices in Contracts JARs.

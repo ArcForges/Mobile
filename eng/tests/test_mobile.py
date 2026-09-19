@@ -41,13 +41,17 @@ class ReleaseGuardsTest(unittest.TestCase):
         env = {"GITHUB_RUN_NUMBER": "1", "GITHUB_RUN_ATTEMPT": "1", "GITHUB_SHA": "a" * 40}
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, env):
             root = Path(directory)
-            names = ["app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json"]
+            names = ["app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"]
             for name in names:
                 (root / name).write_bytes(b"candidate artifact")
             info = {**mobile.version(), "commit": env["GITHUB_SHA"], "package": mobile.PACKAGE,
                     "sha256": {name: mobile.sha256(root / name) for name in names}}
             (root / "candidate.json").write_text(json.dumps(info), encoding="utf-8")
-            with patch.object(mobile, "inspect_apk") as inspect, patch.object(mobile, "verify_distribution") as licence:
+            (root / 'resource-provenance.json').write_text('{}\n', encoding='utf-8')
+            info['sha256']['resource-provenance.json'] = mobile.sha256(root / 'resource-provenance.json')
+            (root / 'candidate.json').write_text(json.dumps(info), encoding='utf-8')
+            with patch.object(mobile, "inspect_apk") as inspect, patch.object(mobile, "verify_distribution") as licence, \
+                    patch.object(mobile.resources, 'verify_archives', return_value={}):
                 mobile.verify_candidate(root)
                 inspect.assert_called_once()
                 licence.assert_called_once_with(root, env["GITHUB_SHA"])
