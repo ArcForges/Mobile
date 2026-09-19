@@ -8,6 +8,15 @@ Both API 26 and API 36 emulator jobs download that candidate, verify its hashes,
 
 Only a `push` to `main` then enters `android-release`. It downloads and re-verifies the same candidate, including its source-bound licence closure and retained notices, aligns/signs its APK, signs its AAB and verifies the signatures and persistent certificate. It does not rebuild application code. GitHub Releases receives the signed APK/AAB, R8 mapping, `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`, `source-provenance.json`, `resource-provenance.json`, `signed-resource-provenance.json`, `release.json` and `SHA256SUMS`. The development JVM preview is never released. PRs and manual validation runs never publish. The main-only publication verifier rejects a failed or skipped publisher; the publish condition explicitly evaluates the successful aggregate gate despite PR-only security jobs being skipped on main.
 
+After publication, two additional API 26/36 jobs anonymously download the actual
+public release, compare every companion and payload with the tested candidate,
+verify APK/AAB signatures and require the pinned persistent certificate. They
+install the immutable ci.9.1 baseline, upgrade it with the downloaded APK, preserve
+UID and first-install time, and press the minified app's real Cloud button.
+`Verify publication` requires both jobs; successful upload alone is insufficient.
+The older APK is a compatibility-test input, not a newly admitted distributable.
+Evidence includes download hashes, upgrade identities, the UI hierarchy and a screenshot.
+
 ## One-time GitHub configuration
 
 In `ArcForges/Mobile`, create the repository environment **android-release**. Allow only the `main` branch, without a required manual reviewer if unattended main publishing is intended. GitHub environments belong to a repository; a same-named environment elsewhere is not shared automatically.
