@@ -201,6 +201,17 @@ def class_mapping(data):
     return values
 
 
+def service_mapping(service, providers, mapping):
+    # The independently retained ci.9.1 R8 output merges this one interface into
+    # its sole Android implementation. Every other missing type remains an error.
+    merged = 'kotlinx.coroutines.internal.MainDispatcherFactory'
+    implementation = 'kotlinx.coroutines.android.AndroidDispatcherFactory'
+    if service not in mapping and service == merged and providers == [implementation]:
+        service = implementation
+    require(service in mapping and all(value in mapping for value in providers), 'Unmapped service resource')
+    return mapping[service], ('\n'.join(mapping[p] for p in providers) + '\n').encode()
+
+
 def aapt2():
     sdk = os.environ.get('ANDROID_HOME') or os.environ.get('ANDROID_SDK_ROOT')
     require(sdk, 'Set ANDROID_HOME for actual Android resource verification')
@@ -273,10 +284,10 @@ def verify_archives(directory, info, root=ROOT):
         expected = dict(rules['members'])
         prefix = 'base/root/' if name.endswith('.aab') else ''
         for service, providers in rules['services'].items():
-            require(service in mapping and all(value in mapping for value in providers), 'Unmapped service resource')
-            path = prefix + 'META-INF/services/' + mapping[service]
+            renamed, contents = service_mapping(service, providers, mapping)
+            path = prefix + 'META-INF/services/' + renamed
             require(path not in expected, 'Colliding transformed service resource')
-            expected[path] = {'kind': 'r8-service', 'sha256': sha(('\n'.join(mapping[p] for p in providers) + '\n').encode())}
+            expected[path] = {'kind': 'r8-service', 'sha256': sha(contents)}
         require(set(members) == set(expected), 'Unclassified or missing archive resources: ' + name + ': ' +
                 repr(sorted(set(members) ^ set(expected))))
         for path, data in members.items():
@@ -298,7 +309,7 @@ def verify_archives(directory, info, root=ROOT):
             elif kind == 'vcs':
                 expected_vcs = ('repositories {\n  system: GIT\n  local_root_path: "$PROJECT_DIR"\n  revision: "' + info['commit'] + '"\n}\n').encode()
                 # AGP's worktree limitation is explicit; the independent source receipt still binds HEAD.
-                worktree_error = b'generate_error_reason: HEAD_FILE_NOT_FOUND\n'
+                worktree_error = b'generate_error_reason: NO_VALID_GIT_FOUND\n'
                 require(data == expected_vcs or ((root / '.git').is_file() and data == worktree_error), 'Incorrect packaged source revision')
             elif kind == 'r8-map':
                 require(data == mapping_bytes, 'AAB mapping differs from candidate mapping')

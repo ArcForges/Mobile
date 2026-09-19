@@ -186,6 +186,16 @@ class ResourceGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'DEX payload'):
             resources.verify_dex(data)
 
+    def test_only_the_reviewed_single_implementation_service_merge_is_admitted(self):
+        service = 'kotlinx.coroutines.internal.MainDispatcherFactory'
+        implementation = 'kotlinx.coroutines.android.AndroidDispatcherFactory'
+        self.assertEqual(('a', b'a\n'), resources.service_mapping(service, [implementation], {implementation: 'a'}))
+        self.assertEqual(('b', b'a\n'), resources.service_mapping(service, [implementation], {implementation: 'a', service: 'b'}))
+        for name, providers in [('unknown.Service', [implementation]), (service, ['unknown.Provider']),
+                                (service, [implementation, implementation])]:
+            with self.assertRaisesRegex(ValueError, 'Unmapped service'):
+                resources.service_mapping(name, providers, {implementation: 'a'})
+
     def test_signing_may_only_add_signature_members(self):
         candidate = self.directory / 'app-debug.apk'
         signed = self.directory / 'signed.apk'

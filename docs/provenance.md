@@ -75,7 +75,12 @@ APK resources use exact hashes. AAB tables preserve every semantic byte and the
 complete normalized source-path list; only transform cache identities and generated
 source-root indices vary across hosts. Actual APK/AAB manifests are decoded by
 AAPT2; only the validated candidate version is substituted. R8 service entries are
-derived from original provider names and the actual mapping. No verifier learns or
+derived from original provider names and the actual mapping. The one known
+coroutines service-interface merge is bound to the sole Android implementation,
+independently observed in ci.9.1; unknown missing types fail. AGP's explicit
+`NO_VALID_GIT_FOUND` metadata is accepted only in a local Git worktree, where the
+independent Git receipt binds the actual clean commit; CI requires AGP's exact
+revision as well. No verifier learns or
 refreshes an admission profile from its candidate.
 
 Every archive embeds `source-provenance.json` with the source commit, active record
