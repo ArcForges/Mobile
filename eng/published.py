@@ -96,32 +96,48 @@ def prepare(directory, candidate):
     print('Verified anonymously downloaded release, persistent signature and every candidate payload.')
 
 
+def parse_identity(dump):
+    resources.require(len(re.findall(r'^\s*Package \[' + re.escape(mobile.PACKAGE) + r'\]', dump, re.M)) == 1,
+                      'Missing or ambiguous installed package')
+    result = {}
+    # API 26 calls the application ID userId; API 36 calls it appId. This
+    # reader is restricted to user 0, where that value is also the package UID.
+    for key, pattern in [('uid', r'^\s*(?:userId|appId)=(\d+)\s*$'),
+                         ('firstInstallTime', r'^\s*firstInstallTime=(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*$'),
+                         ('versionCode', r'^\s*versionCode=(\d+)\b')]:
+        matches = re.findall(pattern, dump, re.M)
+        resources.require(len(matches) == 1, 'Missing or ambiguous installed identity: ' + key)
+        result[key] = matches[0]
+    return result
+
+
+def installed_identity(serial, output):
+    sdk = Path(os.environ.get('ANDROID_HOME') or os.environ['ANDROID_SDK_ROOT'])
+    adb = sdk / 'platform-tools' / ('adb.exe' if os.name == 'nt' else 'adb')
+    def command(*args):
+        return subprocess.check_output([str(adb), '-s', serial, *map(str, args)], timeout=90).decode('utf-8')
+    resources.require(command('shell', 'am', 'get-current-user').strip() == '0', 'Upgrade requires emulator user 0')
+    dump = command('shell', 'dumpsys', 'package', mobile.PACKAGE)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(dump, encoding='utf-8')
+    return parse_identity(dump)
+
+
 def upgrade(directory, candidate, serial):
     info = verify(directory, candidate)
     resources.require(info['version_code'] > 901, 'Public upgrade must increase the version code')
     sdk = Path(os.environ.get('ANDROID_HOME') or os.environ['ANDROID_SDK_ROOT'])
     adb = sdk / 'platform-tools' / ('adb.exe' if os.name == 'nt' else 'adb')
-    def command(*args):
-        return subprocess.check_output([str(adb), '-s', serial, *map(str, args)], timeout=90).decode('utf-8')
-    def identity():
-        dump = command('shell', 'dumpsys', 'package', mobile.PACKAGE)
-        result = {}
-        for key, pattern in [('uid', r'\buserId=(\d+)'), ('firstInstallTime', r'\bfirstInstallTime=([^\r\n]+)'),
-                             ('versionCode', r'\bversionCode=(\d+)')]:
-            match = re.search(pattern, dump)
-            resources.require(match is not None, 'Missing installed identity: ' + key)
-            result[key] = match[1].strip()
-        return result
+    output = directory.parent / 'public-device'
     baseline = directory.parent / 'public-upgrade-baseline' / f'ArcForges-{BASELINE_VERSION}.apk'
     resources.require(mobile.sha256(baseline) == BASELINE_APK, 'Changed public upgrade baseline')
-    command('install', baseline)
-    before = identity()
+    subprocess.run([str(adb), '-s', serial, 'install', str(baseline)], check=True, timeout=90)
+    before = installed_identity(serial, output / 'before-package.txt')
     resources.require(before['versionCode'] == '901', 'Unexpected installed baseline')
     apk = directory / f'ArcForges-{info["version_name"]}.apk'
-    output = directory.parent / 'public-device'
     subprocess.run([sys.executable, str(mobile.ROOT / 'eng/device-smoke.py'), str(apk), '--serial', serial,
                     '--output', str(output)], check=True)
-    after = identity()
+    after = installed_identity(serial, output / 'after-package.txt')
     resources.require(before['uid'] == after['uid'] and before['firstInstallTime'] == after['firstInstallTime'] and
                       after['versionCode'] == str(info['version_code']), 'Public upgrade lost installed identity')
     resources.save(output / 'upgrade.json', {'result': 'passed', 'commit': info['commit'], 'serial': serial,
@@ -132,12 +148,17 @@ def upgrade(directory, candidate, serial):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['prepare', 'upgrade'])
+    parser.add_argument('command', choices=['prepare', 'identity', 'upgrade'])
     parser.add_argument('--directory', type=Path, default=mobile.ROOT / 'artifacts/public-release')
     parser.add_argument('--candidate', type=Path, default=mobile.ROOT / 'artifacts/candidate')
     parser.add_argument('--serial', default='emulator-5554')
     args = parser.parse_args()
     if args.command == 'prepare':
         prepare(args.directory, args.candidate)
+    elif args.command == 'identity':
+        identity = installed_identity(args.serial, mobile.ROOT / 'artifacts/device/package.txt')
+        info = mobile.verify_candidate(args.candidate)
+        resources.require(identity['versionCode'] == str(info['version_code']), 'Installed candidate version differs')
+        resources.save(mobile.ROOT / 'artifacts/device/installed-identity.json', identity)
     else:
         upgrade(args.directory, args.candidate, args.serial)

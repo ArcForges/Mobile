@@ -52,6 +52,13 @@ Keep R8 enabled. The Google Java-lite strategy obtains response prototypes throu
 
 CI downloads the previously built candidate, verifies its hashes, runs instrumentation, requires the `CLOUD_HELLO_VERIFIED` marker, and preserves `cloud-hello.json` under the Android evidence artifact. It then signs the same minified release APK with a disposable CI test key and runs `eng/device-smoke.py`: the script starts with an empty task, presses **Say hello** once and requires the actual server response. It stores the UI hierarchy, screenshot and `release-cloud.json`. Only after these gates can the protected job sign/publish the candidate with the persistent release identity. Live Cloud unavailability fails this gate; do not substitute a mock or auto-retry the application call to hide it.
 
+Both PR emulator jobs also run `eng/published.py identity` on the installed minified
+candidate. The reader requires user 0, handles the observed API 26 `userId` and API 36
+`appId` labels, and rejects missing or ambiguous fields. Main CI independently downloads
+the persistent-signed public release and upgrades the retained public baseline on both
+images, preserving UID and first-install time. Raw before/after package dumps accompany
+the real Cloud call, screenshot and upgrade receipt.
+
 ## Licence checks
 
 The [licence gate](licence-boundary.md) verifies project declarations and the actual Android dependency closure before packaging. The [provenance gate](provenance.md) also checks the complete source inventory, immutable admissions and actual APK/AAB resources. Resolved binaries, notices, native provenance, strict checksums and policy must agree. Every archive retains the source-bound notice/closure/provenance assets. Changed dependencies or resources require a reviewed policy and superseding profile before candidate acceptance.

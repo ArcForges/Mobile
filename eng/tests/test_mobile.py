@@ -14,9 +14,37 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 spec = importlib.util.spec_from_file_location("mobile", Path(__file__).resolve().parents[1] / "mobile.py")
 mobile = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mobile)
+import published
 
 
 class ReleaseGuardsTest(unittest.TestCase):
+    def test_installed_identity_accepts_both_observed_platform_labels(self):
+        for label in ['userId', 'appId']:
+            dump = f'''Packages:
+  Package [io.github.arcforges.mobile] (abc):
+    {label}=10220
+    versionCode=901 minSdk=26 targetSdk=37
+    firstInstallTime=2026-09-18 16:39:19
+'''
+            self.assertEqual(published.parse_identity(dump), {
+                'uid': '10220', 'versionCode': '901', 'firstInstallTime': '2026-09-18 16:39:19'})
+
+    def test_installed_identity_rejects_missing_ambiguous_or_unrelated_fields(self):
+        dump = '''  Package [io.github.arcforges.mobile] (abc):
+    appId=10220
+    versionCode=901 minSdk=26 targetSdk=37
+    firstInstallTime=2026-09-18 16:39:19
+'''
+        for field in ['appId=10220', 'versionCode=901', 'firstInstallTime=2026-09-18 16:39:19']:
+            with self.assertRaisesRegex(ValueError, 'installed identity'):
+                published.parse_identity(dump.replace(field, ''))
+            with self.assertRaisesRegex(ValueError, 'installed identity'):
+                published.parse_identity(dump + '    ' + field + '\n')
+        with self.assertRaisesRegex(ValueError, 'installed identity'):
+            published.parse_identity(dump + '    userId=10221\n')
+        with self.assertRaisesRegex(ValueError, 'installed package'):
+            published.parse_identity(dump.replace('io.github.arcforges.mobile', 'unrelated.package'))
+
     def test_certificate_guard_accepts_current_tool_labels_and_rejects_other_signers(self):
         fingerprint = "a" * 64
         for label in ["V3.0 Signer:", "Signer #1"]:
