@@ -300,6 +300,10 @@ def verify_archives(directory, info, root=ROOT):
                 require(digest == rule['sha256'], 'Changed reviewed resource: ' + name + '/' + path)
             elif kind == 'receipt-asset':
                 require(data == (directory / Path(path).name).read_bytes(), 'Changed source/notice asset: ' + path)
+            elif kind == 'build-identity':
+                import build_identity
+                require(data == (directory / 'build-identity.json').read_bytes(), 'Changed packaged build identity')
+                build_identity.verify_report(data, info, root)
             elif kind == 'dex':
                 verify_dex(data)
             elif kind == 'manifest':

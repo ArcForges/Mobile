@@ -16,7 +16,7 @@ A native Kotlin Android app that calls the real Cloud Hello API at `https://arcf
 
 `app` owns Android lifecycle, published Contracts integration and APK/AAB packaging. `shared` owns the greeting behavior and Compose UI, reused by Android and the `desktop` JVM preview target. Contracts source generation stays in the [Contracts repository](https://github.com/ArcForges/Contracts); this build uses released Maven artifacts and needs no adjacent checkout.
 
-Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. It has a five-second RPC deadline and never retries automatically. Recreating the Activity preserves the name and completed result, cancels pending work and allows a fresh manual request. The anonymous Hello needs no login, API token or Cloudflare account. The preview is labeled **Local preview · Works offline** and makes no Cloud calls.
+Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. It has a five-second RPC deadline and never retries automatically. Recreating the Activity preserves the name and completed result, cancels pending work and allows a fresh manual request. The anonymous Hello needs no login, API token or Cloudflare account. The preview is labeled **Local preview Â· Works offline** and makes no Cloud calls.
 
 ```sh
 python eng/mobile.py hooks
@@ -29,3 +29,5 @@ On Windows, use `gradlew.bat`. Set `JAVA_HOME` to JDK 21 and `ANDROID_HOME` to a
 Every main-branch push builds, checks and tests an immutable candidate, then signs and publishes its APK and AAB to [GitHub Releases](https://github.com/ArcForges/Mobile/releases). Versions advance automatically. PR and manual runs validate only. These are development prereleases, not Google Play submissions. [releasing.md](docs/releasing.md) documents the persistent signing identity, GitHub configuration, versioning and recovery.
 
 Original application code and repository tooling are licensed under [Apache-2.0](LICENSE). Dependencies retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The [project and Android licence gate](docs/licence-boundary.md) verifies actual resolved artifacts and embeds the reviewed notices before packaging. Both minimum API 26 and API 36 device tests precede signing.
+
+Build identity and independent version sources are described in [docs/build-identity.md](docs/build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.

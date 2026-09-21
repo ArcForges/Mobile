@@ -124,6 +124,23 @@ val verifyAndroidLicences =
                 .result
                 .get()
                 .assertNormalExitValue()
+            providers
+                .exec {
+                    workingDir(rootDir)
+                    commandLine(
+                        "python",
+                        "eng/build_identity.py",
+                        "--resolved",
+                        output.absolutePath,
+                        "--version",
+                        providers.gradleProperty("releaseVersionName").orElse("0.1.0-local").get(),
+                        "--code",
+                        providers.gradleProperty("releaseVersionCode").orElse("1").get(),
+                    )
+                }
+                .result
+                .get()
+                .assertNormalExitValue()
         }
     }
 

@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
                 greet = cloud::greet,
                 initialMessage = "Ready to connect.",
                 serviceLabel = "Cloud Hello · arcforges.com",
+                onBuildInformation = { showBuildInformation(this) },
             )
         }
     }

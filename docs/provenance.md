@@ -96,3 +96,5 @@ For changed input, resource, recipe, licence or notice scope, inspect the propos
 sources and outputs, establish an independent oracle, and admit a new profile and
 superseding record before accepting its candidate. Preserve prior profiles, records
 and immutable release identities. Source/fixture passes alone do not close F-023.
+
+Build identity and independent version sources are described in [build-identity.md](build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.

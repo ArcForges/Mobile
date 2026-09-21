@@ -51,3 +51,5 @@ Release tags are `android-<versionName>`. They are development prereleases, avai
 - Preserve the R8 mapping for each exact version for crash deobfuscation. `release.json` maps release hashes back to the candidate, commit and certificate.
 
 A successful PR proves candidate validation, not the main-only release job. A locally signed install proves the key and APK work together, not that GitHub has published them. Record the first successful main release and download/install check separately after merge.
+
+Build identity and independent version sources are described in [build-identity.md](build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.

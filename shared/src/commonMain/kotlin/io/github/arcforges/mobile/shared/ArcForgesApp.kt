@@ -2,6 +2,7 @@
 package io.github.arcforges.mobile.shared
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ fun ArcForgesApp(
     greet: suspend (String) -> String = { hello(it) },
     initialMessage: String = "Hello, World!",
     serviceLabel: String = "Local preview · Works offline",
+    onBuildInformation: (() -> Unit)? = null,
 ) {
     var name by rememberSaveable { mutableStateOf("World") }
     var greeting by rememberSaveable { mutableStateOf(initialMessage) }
@@ -64,11 +66,20 @@ fun ArcForgesApp(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 Spacer(Modifier.height(24.dp))
-                Text(
-                    "ARCFORGES",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = colors.primary,
-                )
+                if (onBuildInformation != null) {
+                    Text(
+                        "Build information",
+                        modifier = Modifier.clickable(onClick = onBuildInformation),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = colors.primary,
+                    )
+                } else {
+                    Text(
+                        "ARCFORGES",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = colors.primary,
+                    )
+                }
                 Text(
                     "A small beginning.",
                     style = MaterialTheme.typography.headlineLarge,

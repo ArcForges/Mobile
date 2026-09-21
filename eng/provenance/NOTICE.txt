@@ -44,6 +44,13 @@ Notice scope: packages
 LLVM Project and compiler-rt contributors; retain the Apache-2.0 LLVM exception and embedded MIT terms.
 Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
 
+contracts-build-identity-r1
+Source: https://github.com/ArcForges/Contracts @ e8b3e123b258fdf6f0b77268c60ea4d9e915e74b
+Material licence: Apache-2.0
+Notice scope: source
+Copyright 2026 ArcForges contributors; Contracts provenance tooling, Apache-2.0.
+Mobile build identity tooling is adapted from ArcForges Contracts at e8b3e123b258fdf6f0b77268c60ea4d9e915e74b under Apache-2.0. Full terms remain in LICENSE.
+
 contracts-ci60-notices-r3
 Source: https://github.com/ArcForges/Contracts @ ef9e0aa9d90d47ff8355dc38b037fd5860b4476c
 Material licence: Apache-2.0 AND BSD-3-Clause

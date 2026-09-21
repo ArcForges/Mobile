@@ -126,6 +126,7 @@ def stage(destination):
         "THIRD_PARTY_NOTICES.txt": "build/generated/licence-assets/THIRD_PARTY_NOTICES.txt",
         "licence-closure.json": "build/generated/licence-assets/licence-closure.json",
         "source-provenance.json": "build/generated/licence-assets/source-provenance.json",
+        "build-identity.json": "build/generated/licence-assets/build-identity.json",
     }
     for name, source in files.items():
         shutil.copyfile(ROOT / source, destination / name)
@@ -143,7 +144,7 @@ def stage(destination):
 
 def verify_candidate(directory):
     info = json.loads((directory / "candidate.json").read_text(encoding="utf-8"))
-    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"}
+    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"}
     if set(info["sha256"]) != expected or {p.name for p in directory.iterdir()} != expected | {"candidate.json"}:
         raise ValueError("The candidate file set is incomplete or contains unexpected files.")
     if info["commit"] != os.environ["GITHUB_SHA"] or info["package"] != PACKAGE:
@@ -204,7 +205,7 @@ def sign_candidate(directory, destination):
             'aab': resources.signed_payload(directory / 'app-release.aab', bundle),
         })
     shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
-    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"]:
+    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"]:
         shutil.copyfile(directory / name, destination / name)
     info["candidate_sha256"] = info.pop("sha256")
     info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}
