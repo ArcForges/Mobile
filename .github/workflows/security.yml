@@ -106,6 +106,15 @@ jobs:
           languages: java-kotlin
           build-mode: manual
           tools: ${{ runner.temp }}/codeql-bundle-java-linux64.tar.zst
+      - name: Resolve analysis build version
+        id: version
+        run: python eng/mobile.py version
       - name: Compile Android and shared JVM sources with extraction
-        run: ./gradlew --no-daemon --console=plain --no-build-cache clean :app:assembleDebug :shared:desktopJar
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: >-
+          ./gradlew --no-daemon --console=plain --no-build-cache
+          -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
+          clean :app:assembleDebug :shared:desktopJar
       - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
