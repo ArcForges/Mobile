@@ -63,6 +63,30 @@ class BuildIdentityTests(unittest.TestCase):
         axes = self.axes(catalog)
         self.assertTrue(all(axis['status'] == 'present' for axis in axes.values()))
         self.assertEqual(axes['NativeAbiVersion']['values'][0]['version'], '4.2')
+        for name, kind in zip(identity.AXES, identity.KINDS):
+            version, contract = '0.1.0-ci.5.2', self.contract
+            path, original = None, None
+            if kind == 'release':
+                version = '0.2.0'
+            elif kind == 'contracts':
+                contract = self.contract.replace('hello.v3', 'hello.v4')
+            else:
+                path = self.root / catalog['axes'][name]['sources'][0]
+                original = path.read_text()
+                if kind == 'packages':
+                    changed = original.replace('2.3.4', '2.3.5')
+                elif kind == 'native-abi':
+                    changed = original.replace('ARC_ABI_MINOR 2', 'ARC_ABI_MINOR 3')
+                else:
+                    changed = original.replace('7.2', '7.3')
+                path.write_text(changed)
+            try:
+                actual = identity.axes(version, contract, self.root, catalog)
+                with self.subTest(mutated=name):
+                    self.assertEqual([axis for axis in identity.AXES if actual[axis] != axes[axis]], [name])
+            finally:
+                if path is not None:
+                    path.write_text(original)
 
     def test_missing_alias_wrong_kind_and_duplicate_sources_fail(self):
         for name in identity.AXES:
