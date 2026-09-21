@@ -89,7 +89,10 @@ androidComponents.onVariants { variant ->
 
 kotlin {
     jvmToolchain(21)
-    compilerOptions { jvmTarget.set(JvmTarget.JVM_21) }
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
+        allWarningsAsErrors.set(true)
+    }
 }
 
 dependencies {

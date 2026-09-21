@@ -2,7 +2,7 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
-android-packaged-resources-r3
+android-packaged-resources-r4
 Source: https://android.googlesource.com/platform/tools/base @ 1dde364491ccac9cca0a25ed766eb186839a3703
 Material licence: Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)
 Notice scope: packages
