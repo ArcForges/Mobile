@@ -37,3 +37,10 @@ Resource profile r5 retains all r4 resource/dependency expectations, adding only
 the reviewed metadata producer and independently verified identity asset rule.
 Old admissions remain immutable. Dependency versions, signing identity and
 public release ordering are unchanged; this does not claim store deployment.
+
+The standalone Security workflow also runs on pull requests. Its scheduled main
+analyses have distinct GitHub CodeQL configuration identities from the reusable
+CI invocation; PRs must cover both existing sets for a complete comparison.
+The reusable CI security dependency still gates publication. Both compilation
+entry points allocate the actual CI version before generating Android metadata.
+See [GitHub's analysis-category documentation](https://docs.github.com/en/code-security/reference/code-scanning/workflow-configuration-options).

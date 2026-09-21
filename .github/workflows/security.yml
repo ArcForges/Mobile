@@ -2,6 +2,7 @@
 name: Security
 
 on:
+  pull_request:
   workflow_call:
   schedule:
     - cron: "37 7 * * 1"
