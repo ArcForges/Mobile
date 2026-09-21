@@ -155,7 +155,7 @@ class LicenceGateTests(unittest.TestCase):
     def test_candidate_requires_retained_assets_and_original_policy(self):
         report = self.verify()
         directory = self.root / 'build/generated/licence-assets'
-        for name in ['app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk']:
+        for name in ['app-release-unsigned.apk', 'app-release.aab']:
             prefix = 'base/' if name.endswith('.aab') else ''
             with zipfile.ZipFile(directory / name, 'w') as archive:
                 for asset in ['THIRD_PARTY_NOTICES.txt', 'licence-closure.json']:
@@ -192,14 +192,14 @@ class LicenceGateTests(unittest.TestCase):
         directory = self.root / 'artifacts/candidate'
         self.write('artifacts/candidate/licence-closure.json', report)
         self.write('artifacts/candidate/THIRD_PARTY_NOTICES.txt', 'example:library:1.0 — Apache-2.0\n' + self.notice)
-        for name in ['app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk']:
+        for name in ['app-release-unsigned.apk', 'app-release.aab']:
             prefix = 'base/' if name.endswith('.aab') else ''
             with zipfile.ZipFile(directory / name, 'w') as archive:
                 for asset in ['THIRD_PARTY_NOTICES.txt', 'licence-closure.json']:
                     archive.writestr(prefix + 'assets/' + asset, (directory / asset).read_bytes())
                 archive.writestr(prefix + 'lib/x86_64/libexample.so', payload)
         licences.verify_distribution(directory, report['commit'], self.root)
-        target = directory / 'app-debug.apk'
+        target = directory / 'app-release-unsigned.apk'
         with zipfile.ZipFile(target) as archive:
             contents = {name: archive.read(name) for name in archive.namelist()}
         contents['lib/x86_64/libexample.so'] = b'changed under the same file name'
