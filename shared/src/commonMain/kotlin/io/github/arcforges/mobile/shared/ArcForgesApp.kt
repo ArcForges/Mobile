@@ -2,6 +2,8 @@
 package io.github.arcforges.mobile.shared
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +33,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,12 +48,15 @@ fun ArcForgesApp(
     greet: suspend (String) -> String = { hello(it) },
     initialMessage: String = "Hello, World!",
     serviceLabel: String = "Local preview · Works offline",
+    onBuildInformation: (() -> Unit)? = null,
 ) {
     var name by rememberSaveable { mutableStateOf("World") }
     var greeting by rememberSaveable { mutableStateOf(initialMessage) }
     var error by rememberSaveable { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
+    val diagnosticsFocus = remember { FocusRequester() }
     val colors = lightColorScheme(primary = Color(0xFF305E46), background = Color(0xFFF5F6EF))
 
     MaterialTheme(colorScheme = colors) {
@@ -64,11 +72,26 @@ fun ArcForgesApp(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 Spacer(Modifier.height(24.dp))
-                Text(
-                    "ARCFORGES",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = colors.primary,
-                )
+                if (onBuildInformation != null) {
+                    Text(
+                        "Build information",
+                        // Retain a non-input focus target when the native dialog returns on API 26.
+                        modifier =
+                            Modifier.focusRequester(diagnosticsFocus).focusable().clickable {
+                                focusManager.clearFocus(force = true)
+                                diagnosticsFocus.requestFocus()
+                                onBuildInformation()
+                            },
+                        style = MaterialTheme.typography.labelLarge,
+                        color = colors.primary,
+                    )
+                } else {
+                    Text(
+                        "ARCFORGES",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = colors.primary,
+                    )
+                }
                 Text(
                     "A small beginning.",
                     style = MaterialTheme.typography.headlineLarge,

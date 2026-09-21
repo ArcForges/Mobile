@@ -213,7 +213,7 @@ def verify_distribution(directory, commit, root=ROOT):
             retained = text_bytes(root / 'third-party/notices' / (sha + '.txt'))
             require(digest(retained) == sha and retained in notices, 'Missing or changed retained notice')
     expected_native = {name.split('/jni/', 1)[1]: value for name, value in policy['nativeFiles'].items()}
-    for name in ['app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk']:
+    for name in resources.ARCHIVES:
         prefix = 'base/' if name.endswith('.aab') else ''
         with zipfile.ZipFile(directory / name) as archive:
             for asset in ['THIRD_PARTY_NOTICES.txt', 'licence-closure.json']:

@@ -104,28 +104,28 @@ class ResourceGateTests(unittest.TestCase):
 
     def test_recomputing_outer_hash_cannot_approve_changed_or_renamed_resources(self):
         for value in [b'changed after review', b'excluded bytes']:
-            self.payloads['app-debug.apk']['fixed.txt'] = value
-            self.write_archive('app-debug.apk')
+            self.payloads['app-release-unsigned.apk']['fixed.txt'] = value
+            self.write_archive('app-release-unsigned.apk')
             with self.assertRaisesRegex(ValueError, 'Changed reviewed resource|renamed excluded bytes'):
                 self.verify()
 
     def test_unknown_and_missing_members_fail_closed(self):
-        self.payloads['app-debug.apk']['unreviewed.js'] = b'unknown asset'
-        self.write_archive('app-debug.apk')
+        self.payloads['app-release-unsigned.apk']['unreviewed.js'] = b'unknown asset'
+        self.write_archive('app-release-unsigned.apk')
         with self.assertRaisesRegex(ValueError, 'Unclassified or missing'):
             self.verify()
-        del self.payloads['app-debug.apk']['unreviewed.js']
-        del self.payloads['app-debug.apk']['fixed.txt']
-        self.write_archive('app-debug.apk')
+        del self.payloads['app-release-unsigned.apk']['unreviewed.js']
+        del self.payloads['app-release-unsigned.apk']['fixed.txt']
+        self.write_archive('app-release-unsigned.apk')
         with self.assertRaisesRegex(ValueError, 'Unclassified or missing'):
             self.verify()
 
     def test_archive_duplicates_collisions_and_traversal_fail(self):
         for path in ['fixed.txt', 'FIXED.txt', '../outside', '/outside']:
-            self.write_archive('app-debug.apk')
+            self.write_archive('app-release-unsigned.apk')
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore', UserWarning)
-                with zipfile.ZipFile(self.directory / 'app-debug.apk', 'a') as archive:
+                with zipfile.ZipFile(self.directory / 'app-release-unsigned.apk', 'a') as archive:
                     archive.writestr(path, b'reviewed')
             with self.assertRaises(ValueError):
                 self.verify()
@@ -133,12 +133,12 @@ class ResourceGateTests(unittest.TestCase):
     def test_stripped_source_and_notice_assets_fail(self):
         for asset in resources.ASSETS:
             path = 'assets/' + asset
-            original = self.payloads['app-debug.apk'][path]
-            self.payloads['app-debug.apk'][path] = b'stripped'
-            self.write_archive('app-debug.apk')
+            original = self.payloads['app-release-unsigned.apk'][path]
+            self.payloads['app-release-unsigned.apk'][path] = b'stripped'
+            self.write_archive('app-release-unsigned.apk')
             with self.assertRaisesRegex(ValueError, 'Changed source/notice asset'):
                 self.verify()
-            self.payloads['app-debug.apk'][path] = original
+            self.payloads['app-release-unsigned.apk'][path] = original
 
     def test_wrong_commit_and_modified_profile_or_used_record_fail(self):
         self.info['commit'] = 'b' * 40
@@ -197,7 +197,7 @@ class ResourceGateTests(unittest.TestCase):
                 resources.service_mapping(name, providers, {implementation: 'a'})
 
     def test_signing_may_only_add_signature_members(self):
-        candidate = self.directory / 'app-debug.apk'
+        candidate = self.directory / 'app-release-unsigned.apk'
         signed = self.directory / 'signed.apk'
         signed.write_bytes(candidate.read_bytes())
         with zipfile.ZipFile(signed, 'a') as archive:

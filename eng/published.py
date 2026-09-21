@@ -18,7 +18,7 @@ CERTIFICATE = '7a8b3b1402e77c3ec78e7a0b9f99d5358adc321d0e8d2a319c838d1cda181e9c'
 BASELINE_VERSION = '0.1.0-ci.9.1'
 BASELINE_APK = 'ac9af161ad9db56ab7ce578651631be1f779edd64f9488089c8b60f3dc0dcf47'
 COMPANIONS = {'mapping.txt', 'THIRD_PARTY_NOTICES.txt', 'licence-closure.json',
-              'source-provenance.json', 'resource-provenance.json'}
+              'source-provenance.json', 'resource-provenance.json', 'build-identity.json'}
 
 
 def release_names(version):
@@ -147,6 +147,8 @@ def upgrade(directory, candidate, serial):
 
 
 if __name__ == '__main__':
+    if os.environ.get('CI') or os.environ.get('GITHUB_ACTIONS'):
+        raise ValueError('Public download/install verification is local opt-in only; forbidden in CI.')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['prepare', 'identity', 'upgrade'])
     parser.add_argument('--directory', type=Path, default=mobile.ROOT / 'artifacts/public-release')

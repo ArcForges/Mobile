@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Use JDK 21, Python 3.14.7 and the committed Gradle wrapper. Install Android SDK `platforms;android-37.0`, `build-tools;37.0.0` and platform-tools through Android Studio. Set `ANDROID_HOME` or use an untracked `local.properties` for Gradle; the Python device/signing helpers use `ANDROID_HOME`. A device/emulator is needed for installation and instrumentation. The required CI emulators are minimum API 26 and API 36, both x86_64 with Google APIs.
+Use JDK 21, Python 3.14.7 and the committed Gradle wrapper. Use the existing Android SDK `platforms;android-37.0`, `build-tools;37.0.0` and platform-tools through Android Studio. Set `ANDROID_HOME` or use an untracked `local.properties` for Gradle; the Python device/signing helpers use `ANDROID_HOME`. A device/emulator is needed for installation and instrumentation. No emulator runs in CI and no validation task provisions one.
 
 No Node, npm, CMake, NDK or neighboring source checkout is required for this bootstrap. Android libraries may contain their own published native runtime components.
 
@@ -19,14 +19,12 @@ No Node, npm, CMake, NDK or neighboring source checkout is required for this boo
 python eng/mobile.py hooks
 python eng/mobile.py check
 ./gradlew spotlessApply
-./gradlew spotlessCheck :shared:desktopTest :app:testDebugUnitTest :app:lintRelease
-./gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:assembleRelease :app:bundleRelease
+./gradlew spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:compileDebugUnitTestKotlin :app:lintRelease
+./gradlew :app:assembleRelease :app:bundleRelease
 python eng/mobile.py bytecode
-./gradlew :app:connectedDebugAndroidTest
-./gradlew :app:installDebug
 ```
 
-Use `gradlew.bat` on Windows. The pre-commit hook checks text/structured files and whitespace; the pre-push hook checks Kotlin formatting and unit tests. CI remains authoritative, including when a local hook is unavailable.
+Use `gradlew.bat` on Windows. Both hooks check whitespace only; they never restore, compile or run tests. Run relevant checks once with existing caches. Do not add macOS or hosted runtime validation.
 
 The bytecode check inspects application/shared `.class` files for JVM 21 before D8/R8 converts Android code to DEX. Dependency JARs such as Contracts may target an older JVM; that does not change this application's compiler target or its minimum Android API.
 
@@ -48,18 +46,20 @@ Android devices do not run this JVM preview. Use [Android Studio Live Edit](http
 
 The RPC deadline is five seconds and the HTTP call limit is ten seconds. Redirects and connection-failure retries are disabled. gRPC status errors produce bounded user-facing messages; there is no local-success fallback. In-flight disposal does not replay the request. Transport cleanup runs off the Activity's main thread because closing a TLS connection can perform network I/O. A future authenticated API must define its own session rules; this anonymous Hello is not an authentication template.
 
-Keep R8 enabled. The Google Java-lite strategy obtains response prototypes through `Internal.getDefaultInstance(Class)`, which reflects the generated static `getDefaultInstance()` method. The app's ProGuard rules preserve that method and protobuf-lite message fields; keeping fields alone builds successfully but breaks response decoding in a minified APK. The release device gate covers this runtime behavior.
+Keep R8 enabled. The Google Java-lite strategy obtains response prototypes through `Internal.getDefaultInstance(Class)`, which reflects the generated static `getDefaultInstance()` method. The app's ProGuard rules preserve that method and protobuf-lite message fields; keeping fields alone builds successfully but breaks response decoding in a minified APK. An explicit local minified-device check can cover this runtime behavior when that behavior changes; CI does not execute it.
 
 `connectedDebugAndroidTest` includes real anonymous requests to the currently deployed Cloud service and requires Internet access. `CloudHelloIntegrationTest` waits for health separately, records the observed Native AOT/Worker revision, then sends eight SDK calls without retry: four successful names, empty and oversized names, expired timeout and malformed timeout. It checks `/api`, binary Content-Type, SDK timeout metadata and decoded gRPC statuses. A separate UI test presses the actual Android button and verifies the result across Activity recreation. Fault/UI-state fixtures remain separate evidence from those live calls.
 
-CI downloads the previously built candidate, verifies its hashes, runs instrumentation, requires the `CLOUD_HELLO_VERIFIED` marker, and preserves `cloud-hello.json` under the Android evidence artifact. It then signs the same minified release APK with a disposable CI test key and runs `eng/device-smoke.py`: the script starts with an empty task, presses **Say hello** once and requires the actual server response. It stores the UI hierarchy, screenshot and `release-cloud.json`. Only after these gates can the protected job sign/publish the candidate with the persistent release identity. Live Cloud unavailability fails this gate; do not substitute a mock or auto-retry the application call to hide it.
+These commands and the loopback transport fixture are **local opt-in only**:
 
-Both PR emulator jobs also run `eng/published.py identity` on the installed minified
-candidate. The reader requires user 0, handles the observed API 26 `userId` and API 36
-`appId` labels, and rejects missing or ambiguous fields. Main CI independently downloads
-the persistent-signed public release and upgrades the retained public baseline on both
-images, preserving UID and first-install time. Raw before/after package dumps accompany
-the real Cloud call, screenshot and upgrade receipt.
+```sh
+./gradlew :app:testDebugUnitTest
+./gradlew :app:assembleDebug :app:assembleDebugAndroidTest
+./gradlew :app:connectedDebugAndroidTest
+./gradlew :app:installDebug
+```
+
+Use an already available device/emulator for an affected behavior once. The existing device smoke, installed identity and public upgrade helpers reject CI. Public-download/upgrade diagnostics require a concrete publication/integrity defect or an explicit request; they are not a routine validation or post-merge step. No screenshots, API 26/36 evidence or successful Cloud availability are publication prerequisites.
 
 ## Licence checks
 
@@ -82,7 +82,7 @@ After selecting an update, regenerate the affected graphs and checksum metadata,
 
 The cross-platform resolution commands download the other preview runtime without executing it. A full Windows and Linux CI build is still required. Commit all affected locks and `gradle/verification-metadata.xml`; run `git diff --check` and inspect the diff. Dependabot proposes updates but may need these generated files refreshed in its PR, particularly for Gradle/plugin changes. A failed dependency update is not fixed by floating versions, deleting locks or weakening checksum verification.
 
-When updating plugins or regenerating verification metadata, also resolve and build with an empty `GRADLE_USER_HOME`. A warm cache can omit parent POMs or BOM metadata that a fresh CI runner downloads. Review the additional checksums, then build normally with strict verification enabled.
+Reuse the existing cache. If a dependency update exposes a specific missing POM/BOM checksum, review that exact upstream artifact and repair its metadata; do not create empty caches or repeat restoration just to expand validation.
 
 ## Security tooling compatibility
 
@@ -94,4 +94,4 @@ Unit tests establish shared behavior and generated API interoperability with loc
 
 ## Reproducible Java selection
 
-CI selects the reviewed Temurin patch from `.java-version`, rather than a moving major-version selector. Keep the existing JVM bytecode target and strict Gradle locks/checksum verification. Local checks record the actual installed JDK; only the matching pinned hosted producer run establishes the candidate toolchain identity. Dependency resolution can be repeated with `--offline` after fetching the complete locked cache. An unavailable cache entry fails instead of silently downloading during that repeat.
+CI selects the reviewed Temurin patch from `.java-version`, rather than a moving major-version selector. Keep the existing JVM bytecode target and strict Gradle locks/checksum verification. Local checks record the actual installed JDK; only the matching pinned hosted producer run establishes the candidate toolchain identity. There is no redundant offline-resolution pass after a successful build. Missing required cache/dependency inputs are reported, without toolchain reinstalls or network workarounds.

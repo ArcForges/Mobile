@@ -15,6 +15,30 @@ require(releaseName.matches(Regex("[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.]+)?")
     "Invalid versionName"
 }
 
+val sourceCommit =
+    providers
+        .exec {
+            workingDir(rootDir)
+            setEnvironment(System.getenv().filterKeys { !it.uppercase().startsWith("GIT_") })
+            commandLine("git", "rev-parse", "HEAD")
+        }
+        .standardOutput
+        .asText
+        .get()
+        .trim()
+val pipelineId = providers.environmentVariable("GITHUB_RUN_ID").orNull
+val pipelineAttempt = providers.environmentVariable("GITHUB_RUN_ATTEMPT").orNull
+val buildId =
+    if (providers.environmentVariable("GITHUB_ACTIONS").orNull == "true") {
+        "$pipelineId.$pipelineAttempt"
+    } else {
+        "local.$sourceCommit"
+    }
+
+require(sourceCommit.matches(Regex("[0-9a-f]{40}")))
+
+require(buildId.matches(Regex("(?:[1-9][0-9]*\\.[1-9][0-9]*|local\\.[0-9a-f]{40})")))
+
 android {
     namespace = "io.github.arcforges.mobile"
     compileSdk = 37
@@ -26,6 +50,8 @@ android {
         versionCode = releaseCode
         versionName = releaseName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SOURCE_COMMIT", "\"$sourceCommit\"")
+        buildConfigField("String", "BUILD_ID", "\"$buildId\"")
         buildConfigField("String", "CONTRACTS_VERSION", "\"${libs.versions.contracts.get()}\"")
     }
     buildTypes {

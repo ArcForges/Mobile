@@ -120,19 +120,17 @@ def stage(destination):
     files = {
         "app-release-unsigned.apk": "app/build/outputs/apk/release/app-release-unsigned.apk",
         "app-release.aab": "app/build/outputs/bundle/release/app-release.aab",
-        "app-debug.apk": "app/build/outputs/apk/debug/app-debug.apk",
-        "app-debug-androidTest.apk": "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk",
         "mapping.txt": "app/build/outputs/mapping/release/mapping.txt",
         "THIRD_PARTY_NOTICES.txt": "build/generated/licence-assets/THIRD_PARTY_NOTICES.txt",
         "licence-closure.json": "build/generated/licence-assets/licence-closure.json",
         "source-provenance.json": "build/generated/licence-assets/source-provenance.json",
+        "build-identity.json": "build/generated/licence-assets/build-identity.json",
     }
     for name, source in files.items():
         shutil.copyfile(ROOT / source, destination / name)
     info = version()
     info.update(commit=os.environ["GITHUB_SHA"], package=PACKAGE)
     inspect_apk(destination / "app-release-unsigned.apk", info)
-    inspect_apk(destination / "app-debug.apk", info, f"{PACKAGE}.debug")
     verify_distribution(destination, info["commit"])
     resources.save(destination / 'resource-provenance.json', resources.verify_archives(destination, info))
     files['resource-provenance.json'] = 'generated candidate receipt'
@@ -143,7 +141,7 @@ def stage(destination):
 
 def verify_candidate(directory):
     info = json.loads((directory / "candidate.json").read_text(encoding="utf-8"))
-    expected = {"app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"}
+    expected = {"app-release-unsigned.apk", "app-release.aab", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"}
     if set(info["sha256"]) != expected or {p.name for p in directory.iterdir()} != expected | {"candidate.json"}:
         raise ValueError("The candidate file set is incomplete or contains unexpected files.")
     if info["commit"] != os.environ["GITHUB_SHA"] or info["package"] != PACKAGE:
@@ -153,10 +151,8 @@ def verify_candidate(directory):
     for name, checksum in info["sha256"].items():
         if sha256(directory / name) != checksum:
             raise ValueError(f"Candidate checksum mismatch: {name}")
-    inspect_apk(directory / "app-release-unsigned.apk", info)
-    verify_distribution(directory, info["commit"])
-    if resources.read_json(directory / 'resource-provenance.json') != resources.verify_archives(directory, info):
-        raise ValueError('Candidate resource receipt differs from independently verified archive members.')
+    # The producing job already checked archive resources and licence closure.
+    # This trust handoff binds its sealed files to this source and workflow run.
     return info
 
 
@@ -204,7 +200,7 @@ def sign_candidate(directory, destination):
             'aab': resources.signed_payload(directory / 'app-release.aab', bundle),
         })
     shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
-    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"]:
+    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"]:
         shutil.copyfile(directory / name, destination / name)
     info["candidate_sha256"] = info.pop("sha256")
     info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}

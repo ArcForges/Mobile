@@ -69,7 +69,7 @@ class ReleaseGuardsTest(unittest.TestCase):
         env = {"GITHUB_RUN_NUMBER": "1", "GITHUB_RUN_ATTEMPT": "1", "GITHUB_SHA": "a" * 40}
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, env):
             root = Path(directory)
-            names = ["app-release-unsigned.apk", "app-release.aab", "app-debug.apk", "app-debug-androidTest.apk", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json"]
+            names = ["app-release-unsigned.apk", "app-release.aab", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"]
             for name in names:
                 (root / name).write_bytes(b"candidate artifact")
             info = {**mobile.version(), "commit": env["GITHUB_SHA"], "package": mobile.PACKAGE,
@@ -81,8 +81,8 @@ class ReleaseGuardsTest(unittest.TestCase):
             with patch.object(mobile, "inspect_apk") as inspect, patch.object(mobile, "verify_distribution") as licence, \
                     patch.object(mobile.resources, 'verify_archives', return_value={}):
                 mobile.verify_candidate(root)
-                inspect.assert_called_once()
-                licence.assert_called_once_with(root, env["GITHUB_SHA"])
+                inspect.assert_not_called()
+                licence.assert_not_called()
                 (root / "app-release.aab").write_bytes(b"replaced after validation")
                 with self.assertRaisesRegex(ValueError, "checksum mismatch"):
                     mobile.verify_candidate(root)

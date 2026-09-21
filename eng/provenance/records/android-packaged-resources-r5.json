@@ -1,0 +1,983 @@
+{
+  "schemaVersion": 1,
+  "id": "android-packaged-resources-r5",
+  "kind": "generated",
+  "sourceRepository": "https://android.googlesource.com/platform/tools/base",
+  "sourceCommit": "1dde364491ccac9cca0a25ed766eb186839a3703",
+  "sourcePaths": [
+    "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/GenerateBuildConfig.kt",
+    "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeSourceSetFolders.kt",
+    "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/PackageBundleTask.kt",
+    "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeResources.kt",
+    "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/ExtractVersionControlInfoTask.kt"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/GenerateBuildConfig.kt",
+        "sha256": "3ab65fda1209707c143390b183c7a0236481f0048326d5debd5fe58d08012084",
+        "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+      },
+      {
+        "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeSourceSetFolders.kt",
+        "sha256": "34b5def672eac4ed3a4d9ec7aa411159fdd5b7839576a2832698fb1794975038",
+        "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+      },
+      {
+        "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/PackageBundleTask.kt",
+        "sha256": "1cdd125fb528199e5491dcf127cc673ec8dfff22796afefc06cbe4adc6c4971b",
+        "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+      },
+      {
+        "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeResources.kt",
+        "sha256": "6390d0a6f54c658e459b4011c32e3931d0ee04fdedb93e4b754c5210e0d949c6",
+        "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+      },
+      {
+        "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/ExtractVersionControlInfoTask.kt",
+        "sha256": "724fa8b375decb061d23c76bb17527ecaad2e40f356d5b5d37e65132e0a9cf94",
+        "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+      }
+    ],
+    "scope": "Admitted permissive source/data and generated resources only. Compiled runtime/test dependency licences and separate legal-document reproduction are verified by their own closure and records. Excluded MPL data, JUnit artwork and source-only annotations are absent; root package licences never override those findings.",
+    "copyingPermission": null
+  },
+  "attribution": [
+    "Copyright The Android Open Source Project and AndroidX contributors; JetBrains and Kotlin contributors; Google protobuf contributors; ArcForges contributors. Original full notices and file-level copyrights remain in THIRD_PARTY_NOTICES.txt."
+  ],
+  "targets": [],
+  "artifactTargets": [
+    {
+      "project": ":app",
+      "package": "app-release-unsigned.apk",
+      "kind": "android-archive",
+      "profile": "eng/provenance/artifact-profiles/android-resources-r5.json",
+      "sha256": "b4e7a654ea7e8ddb90ac0d594f4d11873acd29657cb7c3bf7ef7a7d7f841337f"
+    },
+    {
+      "project": ":app",
+      "package": "app-release.aab",
+      "kind": "android-archive",
+      "profile": "eng/provenance/artifact-profiles/android-resources-r5.json",
+      "sha256": "b4e7a654ea7e8ddb90ac0d594f4d11873acd29657cb7c3bf7ef7a7d7f841337f"
+    },
+    {
+      "project": ":app",
+      "package": "app-debug.apk",
+      "kind": "android-archive",
+      "profile": "eng/provenance/artifact-profiles/android-resources-r5.json",
+      "sha256": "b4e7a654ea7e8ddb90ac0d594f4d11873acd29657cb7c3bf7ef7a7d7f841337f"
+    },
+    {
+      "project": ":app",
+      "package": "app-debug-androidTest.apk",
+      "kind": "android-archive",
+      "profile": "eng/provenance/artifact-profiles/android-resources-r5.json",
+      "sha256": "b4e7a654ea7e8ddb90ac0d594f4d11873acd29657cb7c3bf7ef7a7d7f841337f"
+    }
+  ],
+  "disposition": "Improve",
+  "verification": {
+    "kind": "regeneration",
+    "command": "Build with the pinned Gradle/AGP/AAPT2, strict dependency inputs and source; python eng/mobile.py stage and verify enforce every actual APK/AAB member against this immutable profile.",
+    "expected": "WP02.04 retains every r4 fixed resource, compiled resource, input JAR/AAR, original source, exclusion, R8 and dependency-table expectation. Adds one build-identity asset per archive, independently resolved from reviewed source, actual Git/CI, release allocation, the committed runtime lock and the checksum-verified existing Contracts producer receipt. No candidate output supplies an expectation.",
+    "artifacts": [
+      {
+        "url": "https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/9.4.1/gradle-9.4.1-sources.jar",
+        "sha256": "08a69084ca47b2681671a611113ed919b986facb79dc24404fb7348d2c62a386",
+        "members": [
+          "com/android/build/gradle/tasks/GenerateBuildConfig.kt",
+          "com/android/build/gradle/tasks/MergeSourceSetFolders.kt",
+          "com/android/build/gradle/internal/tasks/PackageBundleTask.kt",
+          "com/android/build/gradle/tasks/MergeResources.kt",
+          "com/android/build/gradle/internal/tasks/ExtractVersionControlInfoTask.kt"
+        ]
+      }
+    ]
+  },
+  "notice": {
+    "required": true,
+    "text": "Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r5.json. Build-tool implementation is not claimed to be part of the app. Build identity contains factual version/schema metadata from the existing checksum-verified Apache Contracts producer; no generated contract implementation is copied.",
+    "files": [
+      "LICENSE",
+      "third-party/notices/1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d.txt",
+      "third-party/notices/1ab6de67ef738bffae63f9aa6a8798a35e87341c83ea28d09c8dc8ca6993232a.txt",
+      "third-party/notices/329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b.txt",
+      "third-party/notices/3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a.txt",
+      "third-party/notices/6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d.txt",
+      "third-party/notices/6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73.txt",
+      "third-party/notices/bb8c4b2ab7081bf4e9fddd3f7e796bac33595c11e1b66633c241934ceef524ef.txt",
+      "third-party/notices/809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0.txt",
+      "third-party/notices/9648bb2891b9813970bddb68d4be8a5e6ec8280d0180a53dfb29236b579c55bb.txt",
+      "third-party/notices/bdd86cc8a5c7c25d4a2ad649abcec2be8cbd2461f71420be8bae5484fa1175b3.txt",
+      "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt",
+      "third-party/notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
+      "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt"
+    ],
+    "distribution": "packages",
+    "reason": "Retain the applicable full legal terms and attribution in all release/debug/test companions; the deterministic source summary supplements them."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": {
+    "generators": [
+      {
+        "repository": "https://android.googlesource.com/platform/tools/base",
+        "commit": "1dde364491ccac9cca0a25ed766eb186839a3703",
+        "paths": [
+          "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/GenerateBuildConfig.kt",
+          "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeSourceSetFolders.kt",
+          "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/PackageBundleTask.kt",
+          "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeResources.kt",
+          "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/ExtractVersionControlInfoTask.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/GenerateBuildConfig.kt",
+            "sha256": "3ab65fda1209707c143390b183c7a0236481f0048326d5debd5fe58d08012084",
+            "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+          },
+          {
+            "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeSourceSetFolders.kt",
+            "sha256": "34b5def672eac4ed3a4d9ec7aa411159fdd5b7839576a2832698fb1794975038",
+            "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+          },
+          {
+            "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/PackageBundleTask.kt",
+            "sha256": "1cdd125fb528199e5491dcf127cc673ec8dfff22796afefc06cbe4adc6c4971b",
+            "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+          },
+          {
+            "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/tasks/MergeResources.kt",
+            "sha256": "6390d0a6f54c658e459b4011c32e3931d0ee04fdedb93e4b754c5210e0d949c6",
+            "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+          },
+          {
+            "path": "build-system/gradle-core/src/main/java/com/android/build/gradle/internal/tasks/ExtractVersionControlInfoTask.kt",
+            "sha256": "724fa8b375decb061d23c76bb17527ecaad2e40f356d5b5d37e65132e0a9cf94",
+            "finding": "This Apache-header source file exactly matches the published AGP 9.4.1 sources JAR. The commit identifies these unchanged files, not a fictitious whole-release Git tag."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "d0311626e34d3399038ccd85c9ea91f7297de350",
+        "paths": [
+          "buildSrc/private/src/main/kotlin/androidx/build/VersionFileWriterTask.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "buildSrc/private/src/main/kotlin/androidx/build/VersionFileWriterTask.kt",
+            "sha256": "e96581063fedcdff27367ef8c97917ee7c45b837a8e6647ce8ddf7a9f78dd444",
+            "finding": "File-level Apache header and explicit version.println writer. Factual version metadata is checked against exact published input bytes; this is an inspected reproduction recipe, not a claimed historical build commit for every old version marker."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/JetBrains/kotlin",
+        "commit": "890ac1d94fdb80eb85f0eeb5be5e4352df987b2f",
+        "paths": [
+          "compiler/fir/fir2ir/jvm-backend/src/org/jetbrains/kotlin/fir/backend/jvm/FirBuiltinsSerializer.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "compiler/fir/fir2ir/jvm-backend/src/org/jetbrains/kotlin/fir/backend/jvm/FirBuiltinsSerializer.kt",
+            "sha256": "4d0b02235fdb42481772bfed3372800b09c1d0c68076736caf2b34db468a3f7f",
+            "finding": "The Kotlin builtins metadata serializer carries its own Apache-2.0 header; fixed binary output is matched to the published standard-library JAR."
+          }
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "repository": "https://github.com/ArcForges/Mobile",
+        "commit": "418e3aba1859d0df00ad6cee6f853f11ff786e54",
+        "paths": [
+          "app/src/main/AndroidManifest.xml",
+          "app/src/main/res/drawable/ic_launcher.xml",
+          "app/src/main/res/values/strings.xml",
+          "app/src/main/res/values/styles.xml",
+          "app/src/main/res/xml/data_extraction_rules.xml",
+          "app/proguard-rules.pro",
+          "gradle/wrapper/gradle-wrapper.properties",
+          "build.gradle.kts",
+          "shared/build.gradle.kts",
+          "settings.gradle.kts",
+          "gradle.properties"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "finding": "These selected original resource, manifest and build inputs are unchanged at the inspected owner commit. New authored catalogue/lock/checksum recipe values are separately hash-bound in ownedRecipes and the candidate source receipt; no future owner commit is invented."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "1e0793130863c72dc4a2d02bc975128f3ef0158b",
+        "paths": [
+          "customview/customview-poolingcontainer/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "2bbbb9ffed2413b31a95f0fa838532db5b541e2e",
+        "paths": [
+          "startup/startup-runtime/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "2d25c5e925564cf1f52fb6d2f88088d2dd5becfe",
+        "paths": [
+          "emoji2/emoji2/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "3b3f055fe2da3f4a8a74003f8640b461b1694954",
+        "paths": [
+          "window/window-core/build.gradle",
+          "window/window/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "3bc0fb3beaccef509bb170cd69ddaad907b493b8",
+        "paths": [
+          "profileinstaller/profileinstaller/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "475afe04599ffc0893939effda40187916c4ceb0",
+        "paths": [
+          "activity/activity-compose/build.gradle",
+          "activity/activity-ktx/build.gradle",
+          "activity/activity/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+        "paths": [
+          "compose/material3/material3/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "538750227118fd2cca14f4de7df81bace1f50dd3",
+        "paths": [
+          "tracing/tracing/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "56090e32a2b7028588a6dd0c73d706c6dd8dd1ee",
+        "paths": [
+          "savedstate/savedstate-compose/build.gradle",
+          "savedstate/savedstate-ktx/build.gradle",
+          "savedstate/savedstate/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "8975ffa5b6e4e1dbd6e79a89d5779d4e4e553103",
+        "paths": [
+          "annotation/annotation/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "8a05a22af450d589ef911d772a001a49dcb05b71",
+        "paths": [
+          "graphics/graphics-path/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "963bf914f78b389bdddef0da7f36bee19d897274",
+        "paths": [
+          "compose/animation/animation-core/build.gradle",
+          "compose/animation/animation/build.gradle",
+          "compose/foundation/foundation-layout/build.gradle",
+          "compose/foundation/foundation/build.gradle",
+          "compose/runtime/runtime-annotation/build.gradle",
+          "compose/runtime/runtime-retain/build.gradle",
+          "compose/runtime/runtime-saveable/build.gradle",
+          "compose/runtime/runtime/build.gradle",
+          "compose/ui/ui-geometry/build.gradle",
+          "compose/ui/ui-graphics/build.gradle",
+          "compose/ui/ui-test-junit4/build.gradle",
+          "compose/ui/ui-test/build.gradle",
+          "compose/ui/ui-text/build.gradle",
+          "compose/ui/ui-tooling-data/build.gradle",
+          "compose/ui/ui-tooling-preview/build.gradle",
+          "compose/ui/ui-tooling/build.gradle",
+          "compose/ui/ui-unit/build.gradle",
+          "compose/ui/ui-util/build.gradle",
+          "compose/ui/ui/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "a336be7aa59aced2a87c402849988939d848fee3",
+        "paths": [
+          "navigationevent/navigationevent-compose/build.gradle",
+          "navigationevent/navigationevent/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "cb993e8594b035615bb12e0cb8294769eb7c10d1",
+        "paths": [
+          "annotation/annotation-experimental/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "d00300b06c00dbf348f871980400948cdf7b10dc",
+        "paths": [
+          "arch/core/core-runtime/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "d0311626e34d3399038ccd85c9ea91f7297de350",
+        "paths": [
+          "core/core-ktx/build.gradle",
+          "core/core/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "d70c42c692a5ce230394b651ac975fc7d03519c8",
+        "paths": [
+          "core/core-viewtree/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "de92a2e4117ed83ceccc5bf636358c1df27d4bd6",
+        "paths": [
+          "lifecycle/lifecycle-common-java8/build.gradle",
+          "lifecycle/lifecycle-common/build.gradle",
+          "lifecycle/lifecycle-livedata-core/build.gradle",
+          "lifecycle/lifecycle-process/build.gradle",
+          "lifecycle/lifecycle-runtime-compose/build.gradle",
+          "lifecycle/lifecycle-runtime-ktx/build.gradle",
+          "lifecycle/lifecycle-runtime/build.gradle",
+          "lifecycle/lifecycle-viewmodel-ktx/build.gradle",
+          "lifecycle/lifecycle-viewmodel-savedstate/build.gradle",
+          "lifecycle/lifecycle-viewmodel/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "ea7909f13c54ea29d87d55d27ecf449000f82a8a",
+        "paths": [
+          "compose/material/material-ripple/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b",
+        "paths": [
+          "concurrent/concurrent-futures-ktx/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "fb376ee6d05727045f41e320bd36923eb385c5f8",
+        "paths": [
+          "collection/collection-ktx/build.gradle",
+          "collection/collection/build.gradle"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Reviewed AndroidX release source/module declarations and resource scope; exact published AAR/JAR resources, identities and notices are separately enumerated in the artifact profile. No root declaration overrides an individual resource licence."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "d0311626e34d3399038ccd85c9ea91f7297de350",
+        "paths": [
+          "core/core/src/main/res/drawable-hdpi/notification_bg_low_normal.9.png",
+          "core/core/src/main/res/drawable-hdpi/notification_bg_low_pressed.9.png",
+          "core/core/src/main/res/drawable-hdpi/notification_bg_normal.9.png",
+          "core/core/src/main/res/drawable-hdpi/notification_bg_normal_pressed.9.png",
+          "core/core/src/main/res/drawable-hdpi/notification_oversize_large_icon_bg.png",
+          "core/core/src/main/res/drawable-hdpi/notify_panel_notification_icon_bg.png",
+          "core/core/src/main/res/drawable-mdpi/notification_bg_low_normal.9.png",
+          "core/core/src/main/res/drawable-mdpi/notification_bg_low_pressed.9.png",
+          "core/core/src/main/res/drawable-mdpi/notification_bg_normal.9.png",
+          "core/core/src/main/res/drawable-mdpi/notification_bg_normal_pressed.9.png",
+          "core/core/src/main/res/drawable-mdpi/notify_panel_notification_icon_bg.png",
+          "core/core/src/main/res/drawable-xhdpi/notification_bg_low_normal.9.png",
+          "core/core/src/main/res/drawable-xhdpi/notification_bg_low_pressed.9.png",
+          "core/core/src/main/res/drawable-xhdpi/notification_bg_normal.9.png",
+          "core/core/src/main/res/drawable-xhdpi/notification_bg_normal_pressed.9.png",
+          "core/core/src/main/res/drawable-xhdpi/notify_panel_notification_icon_bg.png",
+          "core/core/src/main/res/drawable/ic_call_answer.xml",
+          "core/core/src/main/res/drawable/ic_call_answer_low.xml",
+          "core/core/src/main/res/drawable/ic_call_answer_video.xml",
+          "core/core/src/main/res/drawable/ic_call_answer_video_low.xml",
+          "core/core/src/main/res/drawable/ic_call_decline.xml",
+          "core/core/src/main/res/drawable/ic_call_decline_low.xml",
+          "core/core/src/main/res/drawable/notification_action_background.xml",
+          "core/core/src/main/res/drawable/notification_bg.xml",
+          "core/core/src/main/res/drawable/notification_bg_low.xml",
+          "core/core/src/main/res/drawable/notification_icon_background.xml",
+          "core/core/src/main/res/drawable/notification_tile_bg.xml",
+          "core/core/src/main/res/layout/custom_dialog.xml",
+          "core/core/src/main/res/layout/ime_base_split_test_activity.xml",
+          "core/core/src/main/res/layout/ime_secondary_split_test_activity.xml",
+          "core/core/src/main/res/layout/notification_action.xml",
+          "core/core/src/main/res/layout/notification_action_tombstone.xml",
+          "core/core/src/main/res/layout/notification_template_custom_big.xml",
+          "core/core/src/main/res/layout/notification_template_icon_group.xml",
+          "core/core/src/main/res/layout/notification_template_part_chronometer.xml",
+          "core/core/src/main/res/layout/notification_template_part_time.xml",
+          "core/core/src/main/res/values-af/strings.xml",
+          "core/core/src/main/res/values-am/strings.xml",
+          "core/core/src/main/res/values-ar/strings.xml",
+          "core/core/src/main/res/values-as/strings.xml",
+          "core/core/src/main/res/values-az/strings.xml",
+          "core/core/src/main/res/values-b+sr+Latn/strings.xml",
+          "core/core/src/main/res/values-be/strings.xml",
+          "core/core/src/main/res/values-bg/strings.xml",
+          "core/core/src/main/res/values-bn/strings.xml",
+          "core/core/src/main/res/values-bs/strings.xml",
+          "core/core/src/main/res/values-ca/strings.xml",
+          "core/core/src/main/res/values-cs/strings.xml",
+          "core/core/src/main/res/values-da/strings.xml",
+          "core/core/src/main/res/values-de/strings.xml",
+          "core/core/src/main/res/values-el/strings.xml",
+          "core/core/src/main/res/values-en-rAU/strings.xml",
+          "core/core/src/main/res/values-en-rCA/strings.xml",
+          "core/core/src/main/res/values-en-rGB/strings.xml",
+          "core/core/src/main/res/values-en-rIN/strings.xml",
+          "core/core/src/main/res/values-en-rXC/strings.xml",
+          "core/core/src/main/res/values-es-rUS/strings.xml",
+          "core/core/src/main/res/values-es/strings.xml",
+          "core/core/src/main/res/values-et/strings.xml",
+          "core/core/src/main/res/values-eu/strings.xml",
+          "core/core/src/main/res/values-fa/strings.xml",
+          "core/core/src/main/res/values-fi/strings.xml",
+          "core/core/src/main/res/values-fr-rCA/strings.xml",
+          "core/core/src/main/res/values-fr/strings.xml",
+          "core/core/src/main/res/values-gl/strings.xml",
+          "core/core/src/main/res/values-gu/strings.xml",
+          "core/core/src/main/res/values-hi/strings.xml",
+          "core/core/src/main/res/values-hr/strings.xml",
+          "core/core/src/main/res/values-hu/strings.xml",
+          "core/core/src/main/res/values-hy/strings.xml",
+          "core/core/src/main/res/values-in/strings.xml",
+          "core/core/src/main/res/values-is/strings.xml",
+          "core/core/src/main/res/values-it/strings.xml",
+          "core/core/src/main/res/values-iw/strings.xml",
+          "core/core/src/main/res/values-ja/strings.xml",
+          "core/core/src/main/res/values-ka/strings.xml",
+          "core/core/src/main/res/values-kk/strings.xml",
+          "core/core/src/main/res/values-km/strings.xml",
+          "core/core/src/main/res/values-kn/strings.xml",
+          "core/core/src/main/res/values-ko/strings.xml",
+          "core/core/src/main/res/values-ky/strings.xml",
+          "core/core/src/main/res/values-lo/strings.xml",
+          "core/core/src/main/res/values-lt/strings.xml",
+          "core/core/src/main/res/values-lv/strings.xml",
+          "core/core/src/main/res/values-mk/strings.xml",
+          "core/core/src/main/res/values-ml/strings.xml",
+          "core/core/src/main/res/values-mn/strings.xml",
+          "core/core/src/main/res/values-mr/strings.xml",
+          "core/core/src/main/res/values-ms/strings.xml",
+          "core/core/src/main/res/values-my/strings.xml",
+          "core/core/src/main/res/values-nb/strings.xml",
+          "core/core/src/main/res/values-ne/strings.xml",
+          "core/core/src/main/res/values-nl/strings.xml",
+          "core/core/src/main/res/values-or/strings.xml",
+          "core/core/src/main/res/values-pa/strings.xml",
+          "core/core/src/main/res/values-pl/strings.xml",
+          "core/core/src/main/res/values-pt-rBR/strings.xml",
+          "core/core/src/main/res/values-pt-rPT/strings.xml",
+          "core/core/src/main/res/values-pt/strings.xml",
+          "core/core/src/main/res/values-ro/strings.xml",
+          "core/core/src/main/res/values-ru/strings.xml",
+          "core/core/src/main/res/values-si/strings.xml",
+          "core/core/src/main/res/values-sk/strings.xml",
+          "core/core/src/main/res/values-sl/strings.xml",
+          "core/core/src/main/res/values-sq/strings.xml",
+          "core/core/src/main/res/values-sr/strings.xml",
+          "core/core/src/main/res/values-sv/strings.xml",
+          "core/core/src/main/res/values-sw/strings.xml",
+          "core/core/src/main/res/values-ta/strings.xml",
+          "core/core/src/main/res/values-te/strings.xml",
+          "core/core/src/main/res/values-th/strings.xml",
+          "core/core/src/main/res/values-tl/strings.xml",
+          "core/core/src/main/res/values-tr/strings.xml",
+          "core/core/src/main/res/values-uk/strings.xml",
+          "core/core/src/main/res/values-ur/strings.xml",
+          "core/core/src/main/res/values-uz/strings.xml",
+          "core/core/src/main/res/values-vi/strings.xml",
+          "core/core/src/main/res/values-zh-rCN/strings.xml",
+          "core/core/src/main/res/values-zh-rHK/strings.xml",
+          "core/core/src/main/res/values-zh-rTW/strings.xml",
+          "core/core/src/main/res/values-zu/strings.xml",
+          "core/core/src/main/res/values/attrs.xml",
+          "core/core/src/main/res/values/colors.xml",
+          "core/core/src/main/res/values/colors_material.xml",
+          "core/core/src/main/res/values/config.xml",
+          "core/core/src/main/res/values/dimens.xml",
+          "core/core/src/main/res/values/ids.xml",
+          "core/core/src/main/res/values/public.xml",
+          "core/core/src/main/res/values/strings.xml",
+          "core/core/src/main/res/values/styles.xml"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Selected complete resource subtree contains no overriding legal file. XML files carry Apache terms except the individually inspected trivial core layout/custom_dialog.xml (RelativeLayout/Button), which has no separate attribution or foreign content and remains within the original AndroidX Apache scope. PNGs are original adjacent AndroidX graphics within that scope. Exact archive paths and hashes are retained in the profile."
+          }
+        ]
+      },
+      {
+        "repository": "https://android.googlesource.com/platform/frameworks/support",
+        "commit": "963bf914f78b389bdddef0da7f36bee19d897274",
+        "paths": [
+          "compose/ui/ui/src/androidMain/res/color/vector_tint_color.xml",
+          "compose/ui/ui/src/androidMain/res/color/vector_tint_theme_color.xml",
+          "compose/ui/ui/src/androidMain/res/values-af/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-am/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ar/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-as/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-az/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-b+sr+Latn/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-be/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-bg/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-bn/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-bs/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ca/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-cs/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-da/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-de/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-el/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-en-rAU/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-en-rCA/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-en-rGB/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-en-rIN/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-en-rXC/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-es-rUS/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-es/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-et/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-eu/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-fa/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-fi/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-fr-rCA/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-fr/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-gl/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-gu/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-hi/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-hr/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-hu/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-hy/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-in/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-is/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-it/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-iw/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ja/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ka/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-kk/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-km/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-kn/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ko/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ky/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-lo/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-lt/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-lv/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-mk/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ml/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-mn/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-mr/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ms/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-my/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-nb/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ne/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-nl/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-or/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-pa/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-pl/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-pt-rBR/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-pt-rPT/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-pt/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ro/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ru/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-si/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sk/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sl/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sq/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sr/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sv/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-sw/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ta/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-te/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-th/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-tl/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-tr/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-uk/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-ur/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-uz/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-vi/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-zh-rCN/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-zh-rHK/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-zh-rTW/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values-zu/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values/ids.xml",
+          "compose/ui/ui/src/androidMain/res/values/public.xml",
+          "compose/ui/ui/src/androidMain/res/values/strings.xml",
+          "compose/ui/ui/src/androidMain/res/values/styles.xml"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+            "finding": "Selected complete resource subtree contains no overriding legal file. XML files carry Apache terms except the individually inspected trivial core layout/custom_dialog.xml (RelativeLayout/Button), which has no separate attribution or foreign content and remains within the original AndroidX Apache scope. PNGs are original adjacent AndroidX graphics within that scope. Exact archive paths and hashes are retained in the profile."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+        "paths": [
+          "public/proto/arcforges/hello/v1/hello.proto",
+          "src/public/kotlin/contracts-connect-client/README.md",
+          "src/public/kotlin/contracts-proto/README.md",
+          "eng/packaging_tools.py"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "public/proto/arcforges/hello/v1/hello.proto",
+            "sha256": "92489f89d1898a3d3bbea56c72116416cd0152ae8866c98745739437020c67d9",
+            "finding": "Public Maven ci.60.1 retains identical compiled classes, schemas and other nonidentity resources versus ci.54.1. Full notices differ only by version strings; independently downloaded input hashes and producer source identity are verified."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/protocolbuffers/protobuf",
+        "commit": "f377bfefc5e2cfab68b816903c25b23e091c439d",
+        "paths": [
+          "java/core/src/main/resources/google/protobuf/java_features.proto",
+          "src/google/protobuf/any.proto",
+          "src/google/protobuf/api.proto",
+          "src/google/protobuf/descriptor.proto",
+          "src/google/protobuf/duration.proto",
+          "src/google/protobuf/empty.proto",
+          "src/google/protobuf/field_mask.proto",
+          "src/google/protobuf/source_context.proto",
+          "src/google/protobuf/struct.proto",
+          "src/google/protobuf/timestamp.proto",
+          "src/google/protobuf/type.proto",
+          "src/google/protobuf/wrappers.proto"
+        ],
+        "spdx": "BSD-3-Clause",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+            "finding": "Full BSD terms govern these well-known schemas; selected .proto files retain copyright headers and match published JAR bytes. Descriptor binaries remain bound to the same verified protobuf 36.1 producer packages."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/JetBrains/kotlin",
+        "commit": "2146684dcba708e5a304758b41a9e4ec9c7eff71",
+        "paths": [
+          "libraries/reflect/build.gradle.kts"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "license/LICENSE.txt",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Reviewed selected JVM metadata/resource generation and exact published bytes; no excluded vendored subtree enters these resource targets. The full applicable Apache terms and coroutines NOTICE remain distributed."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/Kotlin/kotlinx.serialization",
+        "commit": "6956af2e6073347c7832c3c5b374fa3b5a345956",
+        "paths": [
+          "core/build.gradle.kts"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "c5accbbd8546e94c34aed24afe689a617627d18eed5a6c48277e48db57c23851",
+            "finding": "Reviewed selected JVM metadata/resource generation and exact published bytes; no excluded vendored subtree enters these resource targets. The full applicable Apache terms and coroutines NOTICE remain distributed."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/Kotlin/kotlinx.coroutines",
+        "commit": "8564f65764d3d05893cec026c6e94250e2b23874",
+        "paths": [
+          "kotlinx-coroutines-core/jvm/resources/DebugProbesKt.bin",
+          "ui/kotlinx-coroutines-android/resources/META-INF/services/kotlinx.coroutines.CoroutineExceptionHandler",
+          "ui/kotlinx-coroutines-android/resources/META-INF/services/kotlinx.coroutines.internal.MainDispatcherFactory",
+          "kotlinx-coroutines-test/jvm/resources/META-INF/services/kotlinx.coroutines.CoroutineExceptionHandler",
+          "kotlinx-coroutines-test/jvm/resources/META-INF/services/kotlinx.coroutines.internal.MainDispatcherFactory"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE.txt",
+            "sha256": "b1febe6399dffb10d19d35e7663ab16300c93cb0476a94115df1cc0097a8ffd8",
+            "finding": "Reviewed selected JVM metadata/resource generation and exact published bytes; no excluded vendored subtree enters these resource targets. The full applicable Apache terms and coroutines NOTICE remain distributed."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/JetBrains/kotlin",
+        "commit": "890ac1d94fdb80eb85f0eeb5be5e4352df987b2f",
+        "paths": [
+          "compiler/fir/fir2ir/jvm-backend/src/org/jetbrains/kotlin/fir/backend/jvm/FirBuiltinsSerializer.kt",
+          "libraries/stdlib/ReadMe.md",
+          "libraries/stdlib/build.gradle.kts"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "license/LICENSE.txt",
+            "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "finding": "Reviewed selected JVM metadata/resource generation and exact published bytes; no excluded vendored subtree enters these resource targets. The full applicable Apache terms and coroutines NOTICE remain distributed."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Mobile",
+        "commit": "6044101a114017420a57d8c0e02acb18f77eb45a",
+        "paths": [
+          "app/build.gradle.kts",
+          "eng/licences.gradle.kts",
+          "eng/build_identity.py",
+          "eng/version-sources.json",
+          "eng/resources.py",
+          "app/src/main/kotlin/io/github/arcforges/mobile/BuildInformation.kt"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "LICENSE",
+            "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+            "finding": "Reviewed original Android diagnostics and admitted Apache Contracts resolver transformation; exact producer recipes are bound before candidate generation."
+          }
+        ]
+      },
+      {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+        "paths": [
+          "source.json"
+        ],
+        "spdx": "Apache-2.0",
+        "evidence": [
+          {
+            "path": "source.json",
+            "sha256": "7536a3dc371d282d5ed7528f6217c69512b068a9fd2f5a196c665f4a66a2bbed",
+            "finding": "Exact factual producer receipt extracted from the already checksum-verified contracts-proto-1.0.0-ci.60.1.jar, SHA-256 2eb655c1c9b914335e3dc68ff795328cb80081dceb2dcd18c81379f10f7bd107; no new dependency or copied generated source."
+          }
+        ]
+      }
+    ],
+    "command": "Gradle 9.7.1 / AGP 9.4.1 / strict checked-in verification metadata; assembleDebug assembleDebugAndroidTest assembleRelease bundleRelease, then independent archive verification. Source/profile admission precedes acceptance of the replacement candidate.",
+    "outputSpdx": "Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)"
+  },
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "Codex, acting under the repository maintainer's implementation and review authorization",
+    "reviewedOn": "2026-09-21",
+    "decision": "approved",
+    "rationale": "WP02.04 retains every r4 fixed resource, compiled resource, input JAR/AAR, original source, exclusion, R8 and dependency-table expectation. Adds one build-identity asset per archive, independently resolved from reviewed source, actual Git/CI, release allocation, the committed runtime lock and the checksum-verified existing Contracts producer receipt. No candidate output supplies an expectation.",
+    "baselineCommit": "6044101a114017420a57d8c0e02acb18f77eb45a",
+    "reconciliation": false
+  },
+  "supersedes": "android-packaged-resources-r4"
+}

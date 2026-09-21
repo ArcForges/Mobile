@@ -29,6 +29,7 @@
     "app/src/androidTest/kotlin/io/github/arcforges/mobile/CloudHelloIntegrationTest.kt",
     "app/src/androidTest/kotlin/io/github/arcforges/mobile/GreetingScreenTest.kt",
     "app/src/main/AndroidManifest.xml",
+    "app/src/main/kotlin/io/github/arcforges/mobile/BuildInformation.kt",
     "app/src/main/kotlin/io/github/arcforges/mobile/CloudHelloClient.kt",
     "app/src/main/kotlin/io/github/arcforges/mobile/MainActivity.kt",
     "app/src/main/res/drawable/ic_launcher.xml",
@@ -37,6 +38,7 @@
     "app/src/main/res/xml/data_extraction_rules.xml",
     "app/src/test/kotlin/io/github/arcforges/mobile/CloudHelloClientTest.kt",
     "build.gradle.kts",
+    "docs/build-identity.md",
     "docs/cloud-hello-plan.md",
     "docs/development.md",
     "docs/licence-boundary.md",
@@ -55,17 +57,22 @@
     "eng/provenance/artifact-profiles/android-resources-r2.json",
     "eng/provenance/artifact-profiles/android-resources-r3.json",
     "eng/provenance/artifact-profiles/android-resources-r4.json",
+    "eng/provenance/artifact-profiles/android-resources-r5.json",
+    "eng/provenance/artifact-profiles/android-resources-r6.json",
     "eng/provenance/conflicts/okhttp-public-suffix-data.json",
     "eng/provenance/files.json",
     "eng/provenance/records/android-packaged-resources-r1.json",
     "eng/provenance/records/android-packaged-resources-r2.json",
     "eng/provenance/records/android-packaged-resources-r3.json",
     "eng/provenance/records/android-packaged-resources-r4.json",
+    "eng/provenance/records/android-packaged-resources-r5.json",
+    "eng/provenance/records/android-packaged-resources-r6.json",
     "eng/provenance/records/androidx-apache-legal-r1.json",
     "eng/provenance/records/androidx-concurrent-notice-r1.json",
     "eng/provenance/records/androidx-native-attribution-r1.json",
     "eng/provenance/records/apache-terms-r1.json",
     "eng/provenance/records/compiler-rt-legal-r1.json",
+    "eng/provenance/records/contracts-build-identity-r1.json",
     "eng/provenance/records/contracts-ci44-notices-r1.json",
     "eng/provenance/records/contracts-ci54-notices-r2.json",
     "eng/provenance/records/contracts-ci60-notices-r3.json",
@@ -81,6 +88,7 @@
     "eng/provenance/template.json",
     "eng/published.py",
     "eng/resources.py",
+    "eng/tests/test_build_identity.py",
     "eng/tests/test_licences.py",
     "eng/tests/test_mobile.py",
     "eng/tests/test_resources.py",
@@ -118,9 +126,11 @@
     "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt": "androidx-concurrent-notice-r1",
     "third-party/notices/bdd86cc8a5c7c25d4a2ad649abcec2be8cbd2461f71420be8bae5484fa1175b3.txt": "contracts-ci60-notices-r3",
     "third-party/notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt": "apache-terms-r1",
-    "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt": "apache-terms-r1"
+    "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt": "apache-terms-r1",
+    "eng/build_identity.py": "contracts-build-identity-r1",
+    "eng/version-sources.json": "contracts-build-identity-r1"
   },
   "artifacts": [
-    "android-packaged-resources-r4"
+    "android-packaged-resources-r6"
   ]
 }

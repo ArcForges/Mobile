@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "axes": {
+    "AppVersion": {
+      "kind": "release",
+      "sources": [
+        "release/app.json"
+      ]
+    },
+    "ContractSet": {
+      "kind": "contracts",
+      "sources": [
+        "packages/contracts/source.json"
+      ]
+    },
+    "CapabilityVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello declares no production capabilities.",
+      "producer": "WP09 and product capability owners"
+    },
+    "NativeFormatVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "No portable product format exists here.",
+      "producer": "WP18/28, WP34 and WP38"
+    },
+    "StorageSchemaVersion": {
+      "kind": "migrations",
+      "absence": "not-produced",
+      "reason": "Mobile has no implemented persisted application schema or migration set.",
+      "producer": "WP07/21 and product storage owners"
+    },
+    "NativeAbiVersion": {
+      "kind": "native-abi",
+      "absence": "not-applicable",
+      "reason": "Mobile declares no first-party native C ABI; packaged dependency ABI labels are not a product ABI version."
+    },
+    "PolicySchemaVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello is not a product policy schema.",
+      "producer": "WP03 and WP44"
+    },
+    "ExtensionProtocolVersion": {
+      "kind": "declarations",
+      "absence": "not-produced",
+      "reason": "Hello is not an extension protocol.",
+      "producer": "WP03 and WP41"
+    },
+    "PackageVersion": {
+      "kind": "packages",
+      "sources": [
+        "app/gradle.lockfile"
+      ]
+    }
+  }
+}

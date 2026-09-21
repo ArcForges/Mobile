@@ -2,19 +2,26 @@
 package io.github.arcforges.mobile
 
 import androidx.activity.compose.setContent
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsNotFocused
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.printToString
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import io.github.arcforges.mobile.shared.ArcForgesApp
 import io.github.arcforges.mobile.shared.GreetingFailure
 import kotlinx.coroutines.CompletableDeferred
@@ -31,7 +38,19 @@ class GreetingScreenTest {
         cloudHealth()
         compose.onNodeWithTag("greeting").assertTextEquals("Ready to connect.")
         compose.onNodeWithTag("name").performTextReplacement("Android")
-        compose.onNodeWithTag("say-hello").performScrollTo().performClick()
+        // Finish editing before scrolling: the IME changes the small-screen tap coordinates.
+        val decor = compose.activity.window.decorView
+        compose.waitUntil(5000) {
+            ViewCompat.getRootWindowInsets(decor)?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        }
+        compose.runOnUiThread {
+            WindowCompat.getInsetsController(compose.activity.window, decor)
+                .hide(WindowInsetsCompat.Type.ime())
+        }
+        compose.waitUntil(5000) {
+            ViewCompat.getRootWindowInsets(decor)?.isVisible(WindowInsetsCompat.Type.ime()) == false
+        }
+        compose.onNodeWithTag("say-hello").performScrollTo().assertIsDisplayed().performClick()
         try {
             compose.waitUntil(15000) {
                 compose.onAllNodes(hasText("Hello, Android!")).fetchSemanticsNodes().isNotEmpty() ||
@@ -45,6 +64,36 @@ class GreetingScreenTest {
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("greeting").assertTextEquals("Hello, Android!")
         compose.onNodeWithTag("name").assertTextContains("Android")
+    }
+
+    @Test
+    fun diagnosticsClearsTextFocusWithoutCallingCloud() {
+        var greetings = 0
+        var diagnostics = 0
+        compose.activityRule.scenario.onActivity { activity ->
+            activity.setContent {
+                ArcForgesApp(
+                    greet = {
+                        greetings++
+                        "Hello, World!"
+                    },
+                    initialMessage = "Ready to connect.",
+                    onBuildInformation = { diagnostics++ },
+                )
+            }
+        }
+        compose.onNodeWithTag("name").performClick().assertIsFocused()
+        compose
+            .onNodeWithText("Build information")
+            .performScrollTo()
+            .performClick()
+            .assertIsFocused()
+        compose.onNodeWithTag("name").assertIsNotFocused()
+        compose.onNodeWithTag("greeting").assertTextEquals("Ready to connect.")
+        compose.runOnIdle {
+            assertEquals(0, greetings)
+            assertEquals(1, diagnostics)
+        }
     }
 
     @Test

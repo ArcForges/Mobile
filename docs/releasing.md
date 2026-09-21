@@ -2,20 +2,13 @@
 
 ## Pipeline and immutable candidate
 
-`CI` runs on PRs, pushes to `main`, and manual validation requests. Both Windows and Linux build from the same commit with JDK/JVM 21. Unit tests, formatting, lint and bytecode verification must pass. The Linux build uploads unsigned release APK/AAB, debug/test APKs, the R8 mapping, reviewed notice/closure/provenance companions and `candidate.json` with SHA-256 hashes and source/version metadata. The pre-packaging licence/provenance gates check actual resolved inputs and immutable source admissions. Both OS builds verify every archive member against the reviewed resource profile, including assets, compiled resources and excluded material. Signing independently requires every candidate payload member to remain unchanged.
+`CI` runs on PRs, main pushes and manual validation. Windows/Linux compile the app, run offline shared unit tests, formatting, release lint and bytecode checks. App transport tests are compiled but run only by explicit local opt-in. Security runs once through the reusable workflow; scheduled/manual security analyses share the same CodeQL categories.
 
-Both API 26 and API 36 emulator jobs download that candidate, verify its hashes, run debug instrumentation including real Cloud gRPC-Web calls, and invoke Hello from its minified release APK with a disposable test signature. Security scans run in parallel. The aggregate `Verify` check succeeds only when both OS builds, device checks and security checks succeed. No Cloudflare deployment credential is needed for the anonymous Hello gate; the currently deployed service must be available. Saved Android evidence records its observed revision, protocol outcomes and the release UI response.
+The Linux producer stages release APK/AAB, R8 mapping, build identity and legal/provenance companions. It checks actual release archive resources once against the reviewed profile. Debug/instrumentation APKs are not promoted. `Verify` requires build and security success; it has no emulator, live Cloud or public-install dependency.
 
-Only a `push` to `main` then enters `android-release`. It downloads and re-verifies the same candidate, including its source-bound licence closure and retained notices, aligns/signs its APK, signs its AAB and verifies the signatures and persistent certificate. It does not rebuild application code. GitHub Releases receives the signed APK/AAB, R8 mapping, `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`, `source-provenance.json`, `resource-provenance.json`, `signed-resource-provenance.json`, `release.json` and `SHA256SUMS`. The development JVM preview is never released. PRs and manual validation runs never publish. The main-only publication verifier rejects a failed or skipped publisher; the publish condition explicitly evaluates the successful aggregate gate despite PR-only security jobs being skipped on main.
+Only a main push enters `android-release`. The publisher binds the original candidate's closed file set and hashes to the source/run, then aligns/signs its APK and signs its AAB with the persistent key. Required certificate/signature and signing-preservation checks remain. Application code is not rebuilt, and the full provenance archive scan is not repeated. GitHub Releases receives APK/AAB, mapping, notices, identity/provenance, `release.json` and `SHA256SUMS`. Checksums remain useful distribution metadata, not a demand for repeated downloads.
 
-After publication, two additional API 26/36 jobs anonymously download the actual
-public release, compare every companion and payload with the tested candidate,
-verify APK/AAB signatures and require the pinned persistent certificate. They
-install the immutable ci.9.1 baseline, upgrade it with the downloaded APK, preserve
-UID and first-install time, and press the minified app's real Cloud button.
-`Verify publication` requires both jobs; successful upload alone is insufficient.
-The older APK is a compatibility-test input, not a newly admitted distributable.
-Evidence includes download hashes, upgrade identities, the UI hierarchy and a screenshot.
+Successful release creation is the publication boundary. No anonymous download, install, emulator, upgrade or live Cloud test follows it. PR/manual CI never publishes. Green build/publication status does not claim physical-device, store or full commercial acceptance. Design P2-017 governs this reduced pipeline.
 
 ## One-time GitHub configuration
 
@@ -43,11 +36,13 @@ Release tags are `android-<versionName>`. They are development prereleases, avai
 
 ## Failures, retries and recovery
 
-- A failed build/device/security check prevents signing and publishing. Inspect the first failed job.
+- A failed build/security check prevents signing and publishing. Inspect the first failed job.
 - Missing signing settings cause a clear release-job failure; configure them before the first main merge.
-- Rerun **all jobs**, not only a failed publication job: a new run attempt has a new version and candidate artifact name. This prevents combining candidates from different attempts.
+- Diagnose the failure before any rerun. If a rerun is necessary, rerun **all jobs**, not only publication: a new run attempt has a new version and candidate artifact name. This prevents combining candidates from different attempts.
 - If a release creation partially succeeded, inspect the existing tag, release and recorded asset hashes. Do not overwrite immutable published assets. Fix forward with a new main commit and therefore a new version.
 - Do not rerun an older commit after newer builds have shipped to try to downgrade users. Android normally rejects lower version codes. Revert the source change in a new commit and ship it with a higher version code, using the same certificate.
 - Preserve the R8 mapping for each exact version for crash deobfuscation. `release.json` maps release hashes back to the candidate, commit and certificate.
 
-A successful PR proves candidate validation, not the main-only release job. A locally signed install proves the key and APK work together, not that GitHub has published them. Record the first successful main release and download/install check separately after merge.
+A successful PR proves candidate validation, not the main-only release job. A locally signed install proves the key and APK work together, not that GitHub has published them. After merge, record the expected merge SHA, required main build/publish status and clean primary fast-forward. Do not start a public download/install verification cycle.
+
+Build identity and independent version sources are described in [build-identity.md](build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.
