@@ -52,7 +52,7 @@ Review reuse introduced inside an already inventoried authored file as well.
 
 ## Actual Android resources
 
-The immutable profile independently covers release APK/AAB, debug APK and test APK.
+The immutable profile retains release APK/AAB and historical/local debug/test admissions. Only release APK/AAB are staged and resource-verified by CI.
 It binds the exact 122 resolved JAR/AAR inputs, source resource paths, copied bytes,
 compiled resource expectations, service rewriting and notices. Source/input checks
 run before compilation and packaging. The separate 195-component dependency gate
@@ -86,11 +86,10 @@ refreshes an admission profile from its candidate.
 Every archive embeds `source-provenance.json` with the source commit, active record
 digests and profile identity. `resource-provenance.json` records each actual archive
 member, hash, classification and matched record. Full legal terms and source
-attribution remain in `THIRD_PARTY_NOTICES.txt`. Both CI host builds verify actual
-archives. Device/signing jobs recheck the candidate against the checked-out profile.
-Signing proves all candidate payload members remain unchanged and writes
-`signed-resource-provenance.json`. These gates supplement API 26/36 live Cloud,
-minified-release, persistent-signature and actual publication checks.
+attribution remain in `THIRD_PARTY_NOTICES.txt`. The Linux producing job verifies release
+archives once. The signing job checks the sealed candidate at its trust handoff,
+then proves signing preserved the payload and writes `signed-resource-provenance.json`.
+No device, public-download or live Cloud gate runs in CI.
 
 For changed input, resource, recipe, licence or notice scope, inspect the proposed
 sources and outputs, establish an independent oracle, and admit a new profile and

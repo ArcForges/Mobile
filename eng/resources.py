@@ -16,7 +16,7 @@ import zlib
 import check_provenance as provenance
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVES = ('app-release-unsigned.apk', 'app-release.aab', 'app-debug.apk', 'app-debug-androidTest.apk')
+ARCHIVES = ('app-release-unsigned.apk', 'app-release.aab')
 ASSETS = ('THIRD_PARTY_NOTICES.txt', 'licence-closure.json', 'source-provenance.json')
 
 
@@ -44,14 +44,15 @@ def profile(root=ROOT):
     record_id = inventory['artifacts'][0]
     record = read_json(root / provenance.STORE / (record_id + '.json'))
     targets = record['artifactTargets']
-    require({t['package'] for t in targets} == set(ARCHIVES), 'Incomplete artifact record targets')
+    admitted = {t['package'] for t in targets}
+    require(set(ARCHIVES) <= admitted, 'Incomplete artifact record targets')
     require(len({(t['profile'], t['sha256']) for t in targets}) == 1, 'Ambiguous artifact profile')
     path = targets[0]['profile']
     raw = provenance.read(root, path).replace(b'\r\n', b'\n')
     require(sha(raw) == targets[0]['sha256'], 'Changed Android resource profile')
     data = provenance.document(raw)
     require(data['schemaVersion'] == 1 and data['recordId'] == record_id and
-            set(data['archives']) == set(ARCHIVES), 'Invalid Android resource profile')
+            set(data['archives']) == admitted, 'Invalid Android resource profile')
     return record_id, targets[0]['sha256'], data
 
 

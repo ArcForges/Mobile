@@ -2,7 +2,6 @@
 name: Security
 
 on:
-  pull_request:
   workflow_call:
   schedule:
     - cron: "37 7 * * 1"
@@ -67,6 +66,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: none
       - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+        with:
+          category: .github/workflows/ci.yml:codeql/language:${{ matrix.language }}
 
   codeql-kotlin:
     name: CodeQL (java-kotlin)
@@ -100,7 +101,7 @@ jobs:
           CODEQL_BUNDLE_SHA256: 2f7435b506f062753a55e91e428df33bd0d9dfc8fed196114844f611334255de
         run: |
           bundle="$RUNNER_TEMP/codeql-bundle-java-linux64.tar.zst"
-          curl --fail --silent --show-error --location --retry 3 "$CODEQL_BUNDLE_URL" --output "$bundle"
+          curl --fail --silent --show-error --location "$CODEQL_BUNDLE_URL" --output "$bundle"
           printf '%s  %s\n' "$CODEQL_BUNDLE_SHA256" "$bundle" | sha256sum --check --strict
       - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
         with:
@@ -119,3 +120,5 @@ jobs:
           -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
           clean :app:assembleDebug :shared:desktopJar
       - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
+        with:
+          category: .github/workflows/ci.yml:codeql-kotlin

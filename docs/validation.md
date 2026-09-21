@@ -1,5 +1,7 @@
 # Bootstrap validation
 
+Historical implementation/evidence record. Former hosted device/live/public-download requirements below are superseded by Design P2-017 and the current development/releasing policy; they are not commands to repeat.
+
 The initial bootstrap was checked on Windows with Temurin 21.0.11, Gradle 9.7.1, AGP 9.4.0 and the committed Kotlin/Compose versions. Evidence files produced during local checks are kept in the ignored `artifacts` directory, not distributed as source.
 
 - Android debug APK, instrumented test APK, R8-minified release APK and release AAB built successfully. Android lint passed with warnings treated as errors.

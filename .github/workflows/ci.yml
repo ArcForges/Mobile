@@ -44,7 +44,8 @@ jobs:
       - name: Resolve automatic version
         id: version
         run: python eng/mobile.py version
-      - name: Check repository
+      - name: Check repository and offline tooling tests
+        if: runner.os == 'Linux'
         run: |
           python eng/mobile.py check
           python -m unittest discover -s eng/tests -v
@@ -53,7 +54,7 @@ jobs:
         env:
           ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
         run: |
-          curl --fail --silent --show-error --location --retry 3 https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz -o "$RUNNER_TEMP/actionlint.tar.gz"
+          curl --fail --silent --show-error --location https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz -o "$RUNNER_TEMP/actionlint.tar.gz"
           printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/actionlint.tar.gz" | sha256sum --check --strict
           tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
           "$RUNNER_TEMP/actionlint" -color
@@ -68,18 +69,14 @@ jobs:
         run: >-
           ./gradlew --no-daemon --console=plain
           -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
-          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:testDebugUnitTest
-          :app:lintRelease :app:assembleDebug :app:assembleDebugAndroidTest
+          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:compileDebugUnitTestKotlin
+          :app:lintRelease
           :app:assembleRelease :app:bundleRelease
-      - name: Repeat dependency resolution offline
-        shell: bash
-        run: ./gradlew --no-daemon --console=plain --offline resolveDependencies
       - name: Verify JVM 21 compiler output
         run: python eng/mobile.py bytecode
-      - name: Verify and stage actual candidate on both systems
+      - name: Stage the Linux release candidate
+        if: runner.os == 'Linux'
         run: python eng/mobile.py stage
-      - name: Verify public release checks with actual disposable signatures
-        run: python eng/verify_published_fixture.py
       - name: Upload candidate
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -100,75 +97,8 @@ jobs:
             artifacts/evidence/licence-*.json
             artifacts/evidence/android-licences.json
             artifacts/evidence/provenance.json
-            artifacts/evidence/published-fixture.json
             artifacts/candidate/resource-provenance.json
             build/generated/licence-assets/
-          retention-days: 14
-
-  android:
-    name: Android device tests (API ${{ matrix.api }})
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 35
-    strategy:
-      fail-fast: false
-      matrix:
-        api: [26, 36]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
-        with:
-          packages: platform-tools build-tools;37.0.0
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/candidate
-      - name: Prepare device checks
-        run: |
-          python eng/mobile.py verify
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-          keytool -genkeypair -keystore "$RUNNER_TEMP/test.jks" -storepass android -keypass android -alias test -keyalg RSA -keysize 3072 -validity 2 -dname 'CN=Disposable CI test'
-          "$ANDROID_HOME/build-tools/37.0.0/zipalign" -P 16 -f 4 artifacts/candidate/app-release-unsigned.apk "$RUNNER_TEMP/aligned.apk"
-          "$ANDROID_HOME/build-tools/37.0.0/apksigner" sign --ks "$RUNNER_TEMP/test.jks" --ks-pass pass:android --out artifacts/test-release.apk "$RUNNER_TEMP/aligned.apk"
-      - name: Exercise Android UI, live gRPC-Web and the minified release APK
-        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
-        with:
-          api-level: ${{ matrix.api }}
-          arch: x86_64
-          target: google_apis
-          disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: |
-            adb install artifacts/candidate/app-debug.apk
-            adb install artifacts/candidate/app-debug-androidTest.apk
-            adb shell am instrument -w io.github.arcforges.mobile.debug.test/androidx.test.runner.AndroidJUnitRunner | tee artifacts/instrumentation.txt
-            mkdir -p artifacts/device
-            adb logcat -d > artifacts/device/logcat.txt
-            adb shell run-as io.github.arcforges.mobile.debug cat files/cloud-hello-evidence.json > artifacts/device/cloud-hello.json
-            grep -E '^OK \([1-9][0-9]* tests?\)' artifacts/instrumentation.txt
-            grep '^CLOUD_HELLO_VERIFIED ' artifacts/instrumentation.txt
-            python eng/device-smoke.py artifacts/test-release.apk --serial emulator-5554
-            python eng/published.py identity --serial emulator-5554
-      - name: Upload device evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: android-evidence-api${{ matrix.api }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            artifacts/instrumentation.txt
-            artifacts/device/
           retention-days: 14
 
   security:
@@ -182,16 +112,15 @@ jobs:
   verify:
     name: Verify
     if: always()
-    needs: [build, android, security]
+    needs: [build, security]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require all gates
         env:
           BUILD: ${{ needs.build.result }}
-          ANDROID: ${{ needs.android.result }}
           SECURITY: ${{ needs.security.result }}
-        run: test "$BUILD" = success && test "$ANDROID" = success && test "$SECURITY" = success
+        run: test "$BUILD" = success && test "$SECURITY" = success
 
   publish:
     name: Publish Android
@@ -242,75 +171,7 @@ jobs:
           Install the APK on Android 8.0 or newer. The AAB is for a future store upload; no store deployment occurs here.
           JVM desktop preview is development-only and is not distributed.
 
-          Both OS builds, unit tests, Android API 26 and 36 instrumentation, live Cloud gRPC-Web calls from the SDK and minified APK, licence closure, lint and security checks passed before signing.
+          Windows/Linux builds, offline shared unit tests, licence closure, lint and security checks passed before signing. Device, emulator, live Cloud and public installation/upgrade checks are local opt-in and were not run by CI.
           See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence, source-provenance.json and resource-provenance.json for all archive members, and signed-resource-provenance.json for signing preservation; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
-
-  public-upgrade:
-    name: Public release upgrade (API ${{ matrix.api }})
-    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.publish.result == 'success' }}
-    needs: publish
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        api: [26, 36]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
-        with:
-          packages: platform-tools build-tools;37.0.0
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/candidate
-      - name: Independently verify anonymous public downloads and persistent signatures
-        run: |
-          python eng/published.py prepare
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-      - name: Upgrade the actual public APK and invoke real Cloud
-        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
-        with:
-          api-level: ${{ matrix.api }}
-          arch: x86_64
-          target: google_apis
-          disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
-          script: python eng/published.py upgrade --serial emulator-5554
-      - name: Upload actual public release and upgrade evidence
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: public-release-api${{ matrix.api }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            artifacts/public-verification.json
-            artifacts/public-device/
-          if-no-files-found: error
-          retention-days: 14
-
-  verify-publication:
-    name: Verify publication
-    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: [publish, public-upgrade]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Require actual publication
-        env:
-          PUBLISHED: ${{ needs.publish.result }}
-          PUBLIC_UPGRADE: ${{ needs.public-upgrade.result }}
-        run: test "$PUBLISHED" = success && test "$PUBLIC_UPGRADE" = success

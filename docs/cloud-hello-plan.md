@@ -1,5 +1,7 @@
 # Android Cloud Hello integration
 
+Historical implementation/evidence record. Former hosted device/live/public-download requirements below are superseded by Design P2-017 and the current development/releasing policy; they are not commands to repeat.
+
 ## Scope and collected gaps
 
 Base: Mobile `65e9547a209839b6cb6c8983eb8b6ffd22423554`. The deployed Cloud health endpoint reports Native AOT at `6554400c04817491fe68d5e6319434034c5dc356`. Contracts CI published Maven release `1.0.0-ci.36.1`, including `contracts-connect-client`.

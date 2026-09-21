@@ -2,7 +2,7 @@
 
 Read [development.md](docs/development.md), install JDK 21 and the listed Android SDK components, and enable the local hooks with `python eng/mobile.py hooks`.
 
-Use a branch or worktree and open a pull request. Keep changes within their requested scope. Run `./gradlew spotlessApply` before committing Kotlin changes; the pre-push hook runs formatting and unit checks. CI additionally builds on Windows/Linux, checks Android lint, exercises the Android UI and calls the real Cloud Hello from both the SDK and minified release candidate. Device instrumentation requires Internet access; unit tests use a local fixture.
+Use a branch or worktree and open a pull request. Keep changes within their requested scope. Run `./gradlew spotlessApply` before committing Kotlin changes. Hooks only check whitespace. CI builds on Windows/Linux, runs offline shared unit checks, formatting, lint and security, then signs/publishes the original release candidate on main. Device, transport-fixture and live Cloud tests are local opt-in; they are not hosted gates. Follow the restrictions in AGENTS.md.
 
 Commit Gradle lockfiles and `gradle/verification-metadata.xml`. Review dependency changes before regenerating checksums; a newly downloaded checksum is not independent proof of origin. See the dependency update procedure in [development.md](docs/development.md). Do not disable strict verification or allow failing checks to make a dependency update pass.
 

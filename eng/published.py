@@ -147,6 +147,8 @@ def upgrade(directory, candidate, serial):
 
 
 if __name__ == '__main__':
+    if os.environ.get('CI') or os.environ.get('GITHUB_ACTIONS'):
+        raise ValueError('Public download/install verification is local opt-in only; forbidden in CI.')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['prepare', 'identity', 'upgrade'])
     parser.add_argument('--directory', type=Path, default=mobile.ROOT / 'artifacts/public-release')

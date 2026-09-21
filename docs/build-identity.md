@@ -25,24 +25,8 @@ receipt, independently of candidate JSON. Aliases, missing axes, duplicate
 subjects, dirty CI, wrong commits and resealed report tampering fail. Local
 build IDs include the complete source SHA and explicitly report dirty state.
 
-All four APK/AAB archives carry identical report bytes. Candidate sealing,
-protected persistent signing and anonymous public verification retain and check
-the same companion. API 26/36 device checks read the installed minified APK's
-native diagnostic view before the single real Cloud greeting. Public upgrade
-checks repeat this after installing the actual publicly downloaded signed APK.
-The report contains no credentials, machine paths or developer identity.
+The release APK/AAB carry identical report bytes. Candidate sealing and protected permanent signing preserve the companion. CI does not install the candidate or download/reinstall public releases. The report contains no credentials, machine paths or developer identity.
 
-Apache Contracts resolver reuse is admitted by `contracts-build-identity-r1`.
-Resource profile r5 retains all r4 resource/dependency expectations, adding only
-the reviewed metadata producer and independently verified identity asset rule.
-Old admissions remain immutable. Dependency versions, signing identity and
-public release ordering are unchanged; this does not claim store deployment.
+Apache Contracts resolver reuse is admitted by `contracts-build-identity-r1`. Resource profile r6 retains r5's independent expectations and all historical debug/test admissions, but only release APK/AAB enter the CI candidate. Its verifier recipe enumerates those two promoted archives. Old admissions remain immutable. Dependency versions, app behavior, signing identity and public version ordering are unchanged.
 
-The standalone Security workflow also runs on pull requests. Its scheduled main
-analyses have distinct GitHub CodeQL configuration identities from the reusable
-CI invocation; PRs must cover both existing sets for a complete comparison.
-The reusable CI security dependency still gates publication. Both compilation
-entry points allocate the actual CI version before generating Android metadata.
-See [GitHub's analysis-category documentation](https://docs.github.com/en/code-security/reference/code-scanning/workflow-configuration-options).
-
-The live greeting instrumentation waits for the soft keyboard to appear after name entry, dismisses it through the platform insets controller, waits for it to be hidden and scrolls the greeting button into view before its single click. This avoids racing Android window resizing on the 320-by-640 CI display. It does not change application keyboard behavior, RPC deadlines, retries or the separately verified minified-release diagnostics flow.
+CodeQL runs once for a PR through the reusable security workflow. Scheduled/manual analysis uses explicit matching categories; obsolete duplicate standalone categories are retired. Both compilation entry points allocate the actual CI version before generating metadata. See [development.md](development.md) for local runtime opt-in and [releasing.md](releasing.md) for the reduced publication boundary.

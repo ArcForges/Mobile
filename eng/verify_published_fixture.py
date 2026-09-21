@@ -17,6 +17,8 @@ import resources
 
 
 def main():
+    if os.environ.get("CI") or os.environ.get("GITHUB_ACTIONS"):
+        raise ValueError("Runtime/public-release checks are local opt-in only; forbidden in CI.")
     candidate = mobile.ROOT / 'artifacts/candidate'
     info = mobile.verify_candidate(candidate)
     with tempfile.TemporaryDirectory(prefix='mobile-public-fixture-') as temporary:

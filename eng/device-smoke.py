@@ -14,6 +14,8 @@ import xml.etree.ElementTree as ET
 
 
 def main():
+    if os.environ.get("CI") or os.environ.get("GITHUB_ACTIONS"):
+        raise ValueError("Runtime/public-release checks are local opt-in only; forbidden in CI.")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("apk", type=Path)
     parser.add_argument("--serial", required=True)

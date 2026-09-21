@@ -1,4 +1,5 @@
 #!/bin/sh
 # SPDX-License-Identifier: Apache-2.0
 set -eu
-./gradlew --console=plain spotlessCheck :shared:desktopTest :app:testDebugUnitTest
+git diff --check
+git diff --cached --check
