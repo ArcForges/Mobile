@@ -53,10 +53,12 @@
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/android-resources-r1.json",
     "eng/provenance/artifact-profiles/android-resources-r2.json",
+    "eng/provenance/artifact-profiles/android-resources-r3.json",
     "eng/provenance/conflicts/okhttp-public-suffix-data.json",
     "eng/provenance/files.json",
     "eng/provenance/records/android-packaged-resources-r1.json",
     "eng/provenance/records/android-packaged-resources-r2.json",
+    "eng/provenance/records/android-packaged-resources-r3.json",
     "eng/provenance/records/androidx-apache-legal-r1.json",
     "eng/provenance/records/androidx-concurrent-notice-r1.json",
     "eng/provenance/records/androidx-native-attribution-r1.json",
@@ -64,6 +66,7 @@
     "eng/provenance/records/compiler-rt-legal-r1.json",
     "eng/provenance/records/contracts-ci44-notices-r1.json",
     "eng/provenance/records/contracts-ci54-notices-r2.json",
+    "eng/provenance/records/contracts-ci60-notices-r3.json",
     "eng/provenance/records/contracts-provenance-port-r1.json",
     "eng/provenance/records/coroutines-1-11-notice-r1.json",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json",
@@ -107,15 +110,15 @@
     "third-party/notices/3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a.txt": "hamcrest-1-3-legal-r1",
     "third-party/notices/6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d.txt": "protobuf-36-1-legal-r1",
     "third-party/notices/6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73.txt": "slf4j-2-0-18-legal-r2",
-    "third-party/notices/75472eb46d9baef7eb31db3b0f43d028bc86dcad7c49549a49d1598f88853585.txt": "contracts-ci54-notices-r2",
     "third-party/notices/809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0.txt": "androidx-apache-legal-r1",
     "third-party/notices/9648bb2891b9813970bddb68d4be8a5e6ec8280d0180a53dfb29236b579c55bb.txt": "junit-4-13-2-legal-r1",
-    "third-party/notices/9d1e2e4d6d098c0340cdbca6e82e99043eb79d55d03dff5f35cbe5d50fb05177.txt": "contracts-ci54-notices-r2",
+    "third-party/notices/bb8c4b2ab7081bf4e9fddd3f7e796bac33595c11e1b66633c241934ceef524ef.txt": "contracts-ci60-notices-r3",
     "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt": "androidx-concurrent-notice-r1",
+    "third-party/notices/bdd86cc8a5c7c25d4a2ad649abcec2be8cbd2461f71420be8bae5484fa1175b3.txt": "contracts-ci60-notices-r3",
     "third-party/notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt": "apache-terms-r1",
     "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt": "apache-terms-r1"
   },
   "artifacts": [
-    "android-packaged-resources-r2"
+    "android-packaged-resources-r3"
   ]
 }

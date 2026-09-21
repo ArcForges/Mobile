@@ -87,3 +87,12 @@ Maven JAR/POM/module sets and publisher commit
 All 20 classes, proto/descriptor and other resources are unchanged; the release
 adds source provenance to NOTICE and updates source/SBOM identity. New legal
 and resource records supersede the retained ci.44.1 admissions. Lint remains enabled.
+
+On 2026-09-20, required release lint detected Contracts `1.0.0-ci.60.1`.
+The six public Maven JAR/POM/module files matched repository SHA-256 values;
+source receipts identify `ef9e0aa9d90d47ff8355dc38b037fd5860b4476c`.
+All compiled classes and schemas are identical to ci.54.1. NOTICE changes only
+version strings; source and SBOM identity also change. Superseding legal/resource
+records preserve previous admissions. New archive expectations derive from the
+verified public Android ci.14.1 baseline and the inspected Maven input bytes,
+before building the replacement candidate. Release lint remains enabled.

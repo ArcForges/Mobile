@@ -1,39 +1,13 @@
 ArcForges Contracts
 Copyright 2026 ArcForges contributors
 
-io.github.arcforges/contracts-connect-client 1.0.0-ci.54.1 (Apache-2.0)
+io.github.arcforges/contracts-proto 1.0.0-ci.60.1 (Apache-2.0)
 
 Resolved runtime dependency inventory (dependencies retain their own licences):
-- com.connectrpc/connect-kotlin 0.9.0: Apache-2.0 (pkg:maven/com.connectrpc/connect-kotlin@0.9.0)
 - com.google.protobuf/protobuf-javalite 4.36.1: BSD-3-Clause (pkg:maven/com.google.protobuf/protobuf-javalite@4.36.1)
 - com.google.protobuf/protobuf-kotlin-lite 4.36.1: BSD-3-Clause (pkg:maven/com.google.protobuf/protobuf-kotlin-lite@4.36.1)
-- com.squareup.moshi/moshi-kotlin 1.15.2: Apache-2.0 (pkg:maven/com.squareup.moshi/moshi-kotlin@1.15.2)
-- com.squareup.moshi/moshi 1.15.2: Apache-2.0 (pkg:maven/com.squareup.moshi/moshi@1.15.2)
-- com.squareup.okio/okio-jvm 3.17.0: Apache-2.0 (pkg:maven/com.squareup.okio/okio-jvm@3.17.0)
-- com.squareup.okio/okio 3.17.0: Apache-2.0 (pkg:maven/com.squareup.okio/okio@3.17.0)
-- io.github.arcforges/contracts-proto 1.0.0-ci.54.1: Apache-2.0 (pkg:maven/io.github.arcforges/contracts-proto@1.0.0-ci.54.1)
-- io.ktor/ktor-http-jvm 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-http-jvm@3.5.0)
-- io.ktor/ktor-http 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-http@3.5.0)
-- io.ktor/ktor-io-jvm 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-io-jvm@3.5.0)
-- io.ktor/ktor-io 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-io@3.5.0)
-- io.ktor/ktor-utils-jvm 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-utils-jvm@3.5.0)
-- io.ktor/ktor-utils 3.5.0: Apache-2.0 (pkg:maven/io.ktor/ktor-utils@3.5.0)
-- org.jetbrains.kotlin/kotlin-reflect 1.8.21: Apache-2.0 (pkg:maven/org.jetbrains.kotlin/kotlin-reflect@1.8.21)
-- org.jetbrains.kotlin/kotlin-stdlib-jdk7 1.8.21: Apache-2.0 (pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk7@1.8.21)
-- org.jetbrains.kotlin/kotlin-stdlib-jdk8 1.8.21: Apache-2.0 (pkg:maven/org.jetbrains.kotlin/kotlin-stdlib-jdk8@1.8.21)
 - org.jetbrains.kotlin/kotlin-stdlib 2.4.20: Apache-2.0 (pkg:maven/org.jetbrains.kotlin/kotlin-stdlib@2.4.20)
-- org.jetbrains.kotlinx/kotlinx-coroutines-bom 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-bom@1.11.0)
-- org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm@1.11.0)
-- org.jetbrains.kotlinx/kotlinx-coroutines-core 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-coroutines-core@1.11.0)
-- org.jetbrains.kotlinx/kotlinx-io-bytestring-jvm 0.9.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-io-bytestring-jvm@0.9.0)
-- org.jetbrains.kotlinx/kotlinx-io-bytestring 0.9.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-io-bytestring@0.9.0)
-- org.jetbrains.kotlinx/kotlinx-io-core-jvm 0.9.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-io-core-jvm@0.9.0)
-- org.jetbrains.kotlinx/kotlinx-io-core 0.9.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-io-core@0.9.0)
-- org.jetbrains.kotlinx/kotlinx-serialization-bom 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-bom@1.11.0)
-- org.jetbrains.kotlinx/kotlinx-serialization-core-jvm 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm@1.11.0)
-- org.jetbrains.kotlinx/kotlinx-serialization-core 1.11.0: Apache-2.0 (pkg:maven/org.jetbrains.kotlinx/kotlinx-serialization-core@1.11.0)
-- org.jetbrains/annotations 23.0.0: Apache-2.0 (pkg:maven/org.jetbrains/annotations@23.0.0)
-- org.slf4j/slf4j-api 2.0.18: MIT (pkg:maven/org.slf4j/slf4j-api@2.0.18)
+- org.jetbrains/annotations 13.0: Apache-2.0 (pkg:maven/org.jetbrains/annotations@13.0)
 
 Third-party dependencies are referenced, not vendored into this package.
 The installed dependency packages supply their original licence and notice files.

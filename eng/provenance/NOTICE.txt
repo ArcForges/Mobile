@@ -2,7 +2,7 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
-android-packaged-resources-r2
+android-packaged-resources-r3
 Source: https://android.googlesource.com/platform/tools/base @ 1dde364491ccac9cca0a25ed766eb186839a3703
 Material licence: Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)
 Notice scope: packages
@@ -44,12 +44,12 @@ Notice scope: packages
 LLVM Project and compiler-rt contributors; retain the Apache-2.0 LLVM exception and embedded MIT terms.
 Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
 
-contracts-ci54-notices-r2
-Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
+contracts-ci60-notices-r3
+Source: https://github.com/ArcForges/Contracts @ ef9e0aa9d90d47ff8355dc38b037fd5860b4476c
 Material licence: Apache-2.0 AND BSD-3-Clause
 Notice scope: packages
 Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice.
-Preserve complete Contracts 1.0.0-ci.54.1 package notices, including original binding-generator copyrights and protobuf BSD terms.
+Preserve complete Contracts 1.0.0-ci.60.1 package notices, including original binding-generator copyrights and protobuf BSD terms.
 
 contracts-provenance-port-r1
 Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
