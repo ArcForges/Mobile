@@ -67,7 +67,11 @@ class GreetingScreenTest {
             }
         }
         compose.onNodeWithTag("name").performClick().assertIsFocused()
-        compose.onNodeWithText("Build information").performScrollTo().performClick()
+        compose
+            .onNodeWithText("Build information")
+            .performScrollTo()
+            .performClick()
+            .assertIsFocused()
         compose.onNodeWithTag("name").assertIsNotFocused()
         compose.onNodeWithTag("greeting").assertTextEquals("Ready to connect.")
         compose.runOnIdle {
