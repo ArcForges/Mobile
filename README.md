@@ -16,7 +16,7 @@ A native Kotlin Android app that calls the real Cloud Hello API at `https://arcf
 
 `app` owns Android lifecycle, published Contracts integration and APK/AAB packaging. `shared` owns the greeting behavior and Compose UI, reused by Android and the `desktop` JVM preview target. Contracts source generation stays in the [Contracts repository](https://github.com/ArcForges/Contracts); this build uses released Maven artifacts and needs no adjacent checkout.
 
-Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. It has a five-second RPC deadline and never retries automatically. Recreating the Activity preserves the name and completed result, cancels pending work and allows a fresh manual request. The anonymous Hello needs no login, API token or Cloudflare account. The preview is labeled **Local preview Â· Works offline** and makes no Cloud calls.
+Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. It has a five-second RPC deadline and never retries automatically. Recreating the Activity preserves the name and completed result, cancels pending work and allows a fresh manual request. The anonymous Hello needs no login, API token or Cloudflare account. The preview is labeled **Local preview · Works offline** and makes no Cloud calls.
 
 ```sh
 python eng/mobile.py hooks

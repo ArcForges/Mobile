@@ -48,7 +48,7 @@ def main():
     while time.monotonic() < deadline:
         root = window()
         texts = {node.get("text") for node in root.iter("node")}
-        if "Ready to connect." in texts and "Cloud Hello Â· arcforges.com" in texts:
+        if "Ready to connect." in texts and "Cloud Hello · arcforges.com" in texts:
             candidate = Path(__file__).resolve().parents[1] / "artifacts/candidate/build-identity.json"
             raw = candidate.read_bytes()
             expected = json.loads(raw)
