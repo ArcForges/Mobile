@@ -3,13 +3,16 @@ package io.github.arcforges.mobile
 
 import androidx.activity.compose.setContent
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsNotFocused
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -45,6 +48,32 @@ class GreetingScreenTest {
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("greeting").assertTextEquals("Hello, Android!")
         compose.onNodeWithTag("name").assertTextContains("Android")
+    }
+
+    @Test
+    fun diagnosticsClearsTextFocusWithoutCallingCloud() {
+        var greetings = 0
+        var diagnostics = 0
+        compose.activityRule.scenario.onActivity { activity ->
+            activity.setContent {
+                ArcForgesApp(
+                    greet = {
+                        greetings++
+                        "Hello, World!"
+                    },
+                    initialMessage = "Ready to connect.",
+                    onBuildInformation = { diagnostics++ },
+                )
+            }
+        }
+        compose.onNodeWithTag("name").performClick().assertIsFocused()
+        compose.onNodeWithText("Build information").performScrollTo().performClick()
+        compose.onNodeWithTag("name").assertIsNotFocused()
+        compose.onNodeWithTag("greeting").assertTextEquals("Ready to connect.")
+        compose.runOnIdle {
+            assertEquals(0, greetings)
+            assertEquals(1, diagnostics)
+        }
     }
 
     @Test
