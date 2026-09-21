@@ -44,3 +44,5 @@ CI invocation; PRs must cover both existing sets for a complete comparison.
 The reusable CI security dependency still gates publication. Both compilation
 entry points allocate the actual CI version before generating Android metadata.
 See [GitHub's analysis-category documentation](https://docs.github.com/en/code-security/reference/code-scanning/workflow-configuration-options).
+
+The live greeting instrumentation waits for the soft keyboard to appear after name entry, dismisses it through the platform insets controller, waits for it to be hidden and scrolls the greeting button into view before its single click. This avoids racing Android window resizing on the 320-by-640 CI display. It does not change application keyboard behavior, RPC deadlines, retries or the separately verified minified-release diagnostics flow.

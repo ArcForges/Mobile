@@ -2,6 +2,7 @@
 package io.github.arcforges.mobile
 
 import androidx.activity.compose.setContent
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -18,6 +19,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.printToString
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import io.github.arcforges.mobile.shared.ArcForgesApp
 import io.github.arcforges.mobile.shared.GreetingFailure
 import kotlinx.coroutines.CompletableDeferred
@@ -34,7 +38,19 @@ class GreetingScreenTest {
         cloudHealth()
         compose.onNodeWithTag("greeting").assertTextEquals("Ready to connect.")
         compose.onNodeWithTag("name").performTextReplacement("Android")
-        compose.onNodeWithTag("say-hello").performScrollTo().performClick()
+        // Finish editing before scrolling: the IME changes the small-screen tap coordinates.
+        val decor = compose.activity.window.decorView
+        compose.waitUntil(5000) {
+            ViewCompat.getRootWindowInsets(decor)?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        }
+        compose.runOnUiThread {
+            WindowCompat.getInsetsController(compose.activity.window, decor)
+                .hide(WindowInsetsCompat.Type.ime())
+        }
+        compose.waitUntil(5000) {
+            ViewCompat.getRootWindowInsets(decor)?.isVisible(WindowInsetsCompat.Type.ime()) == false
+        }
+        compose.onNodeWithTag("say-hello").performScrollTo().assertIsDisplayed().performClick()
         try {
             compose.waitUntil(15000) {
                 compose.onAllNodes(hasText("Hello, Android!")).fetchSemanticsNodes().isNotEmpty() ||
