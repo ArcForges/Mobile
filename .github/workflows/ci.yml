@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "21"
+          java-version-file: .java-version
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -57,6 +57,9 @@ jobs:
           printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/actionlint.tar.gz" | sha256sum --check --strict
           tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
           "$RUNNER_TEMP/actionlint" -color
+      - name: Restore declared locked dependency graphs
+        shell: bash
+        run: ./gradlew --no-daemon --console=plain resolveDependencies
       - name: Build, test, lint and prepare unsigned Android candidate
         shell: bash
         env:
@@ -68,6 +71,9 @@ jobs:
           spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:testDebugUnitTest
           :app:lintRelease :app:assembleDebug :app:assembleDebugAndroidTest
           :app:assembleRelease :app:bundleRelease
+      - name: Repeat dependency resolution offline
+        shell: bash
+        run: ./gradlew --no-daemon --console=plain --offline resolveDependencies
       - name: Verify JVM 21 compiler output
         run: python eng/mobile.py bytecode
       - name: Verify and stage actual candidate on both systems
@@ -116,7 +122,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "21"
+          java-version-file: .java-version
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -206,7 +212,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "21"
+          java-version-file: .java-version
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
@@ -259,7 +265,7 @@ jobs:
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           distribution: temurin
-          java-version: "21"
+          java-version-file: .java-version
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version

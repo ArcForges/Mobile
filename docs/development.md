@@ -89,3 +89,7 @@ CodeQL scans Java/Kotlin, Python and Actions. Kotlin 2.4.20 requires the same te
 ## Evidence boundaries
 
 Unit tests establish shared behavior and generated API interoperability with local fixtures. Emulator tests establish Android UI/lifecycle, real HTTPS calls to the recorded deployment and the minified release client's operation on that image. Hot Reload requires a running preview and an observed edit/reload. Physical devices, accounts, full product behavior, Play submission and real user operation require separate evidence; none is implied by a green build.
+
+## Reproducible Java selection
+
+CI selects the reviewed Temurin patch from `.java-version`, rather than a moving major-version selector. Keep the existing JVM bytecode target and strict Gradle locks/checksum verification. Local checks record the actual installed JDK; only the matching pinned hosted producer run establishes the candidate toolchain identity. Dependency resolution can be repeated with `--offline` after fetching the complete locked cache. An unavailable cache entry fails instead of silently downloading during that repeat.
