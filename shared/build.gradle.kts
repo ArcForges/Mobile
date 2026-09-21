@@ -46,6 +46,7 @@ dependencyLocking {
 
 kotlin {
     jvmToolchain(21)
+    compilerOptions { allWarningsAsErrors.set(true) }
     android {
         namespace = "io.github.arcforges.mobile.shared"
         compileSdk = 37
