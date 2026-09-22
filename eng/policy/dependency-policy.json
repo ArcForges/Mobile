@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "repository": "Mobile",
+  "licenceBoundary": "Apache",
+  "stage": "candidate",
+  "authority": "https://github.com/ArcForges/ArcForges-Design/blob/9ba6571f6d79ef4e953d3c05a9640ec03487e746/docs/assurance/wp02-05-dependency-policy-profile.md",
+  "feeds": [
+    "https://dl.google.com/dl/android/maven2/",
+    "https://plugins.gradle.org/m2/",
+    "https://repo.maven.apache.org/maven2/"
+  ],
+  "publicPackages": [
+    "io.github.arcforges:contracts-connect-client",
+    "io.github.arcforges:contracts-proto"
+  ],
+  "runtimeLicences": [
+    "Apache-2.0",
+    "BSD-3-Clause",
+    "MIT"
+  ],
+  "candidateExceptions": [
+    "io.github.arcforges:contracts-connect-client:1.0.0-ci.60.1",
+    "io.github.arcforges:contracts-proto:1.0.0-ci.60.1"
+  ],
+  "toolPrereleaseExceptions": [
+    "com.android.tools.build:aapt2-proto:9.4.1-15978811",
+    "com.google.guava:guava:33.4.0-jre",
+    "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
+    "org.javassist:javassist:3.30.2-GA"
+  ],
+  "exceptionReason": "Exact existing Android tooling/version qualifiers, not a floating or general third-party preview exception. Stable production requires a new reviewed admission.",
+  "publisher": {
+    "repository": "ArcForges/Mobile",
+    "workflow": ".github/workflows/ci.yml",
+    "environment": "android-release",
+    "ref": "refs/heads/main",
+    "event": "push"
+  },
+  "nativeAdmission": {
+    "inventory": "eng/policy/android-licences.json",
+    "validator": "eng/licences.py",
+    "sourceReuse": "eng/check_provenance.py",
+    "resourceGate": "eng/resources.py",
+    "futureFirstPartyAbi": "Not admitted; native capabilities remain DesktopPlatform-owned."
+  },
+  "reviews": [
+    "wp02-05-baseline.json"
+  ]
+}

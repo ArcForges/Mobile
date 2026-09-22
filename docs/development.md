@@ -67,6 +67,9 @@ The [licence gate](licence-boundary.md) verifies project declarations and the ac
 
 ## Dependency maintenance
 
+[Dependency admission](dependency-policy.md) requires a reviewed input record before
+changed locks or toolchains are accepted.
+
 Direct versions live in `gradle/libs.versions.toml`; Gradle and its distribution checksum live in `gradle/wrapper/gradle-wrapper.properties`. Do not use dynamic Maven versions or `mavenLocal()`. APK consumers do not generate `.proto` files themselves.
 
 Strict Gradle locking and SHA-256 verification apply in ordinary builds and CI. Windows and Linux preview runtimes have separate shared-module lockfiles under `gradle/locks`, because their native Skiko artifacts differ. Android dependencies remain in `app/gradle.lockfile`. A checksum file records the exact artifacts; review new artifacts and their upstream origin before accepting it.

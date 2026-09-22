@@ -35,9 +35,9 @@ The [accepted remediation](https://github.com/ArcForges/ArcForges-Design/blob/38
 removes the optional `desugar_jdk_libs:2.1.5` implementation because its published
 GPL-2.0 with Classpath exception conflicts with D-004's explicit GPL-family exclusion.
 The core-library configuration must remain empty. Normal D8/R8 language desugaring,
-JVM 21, API 26 minimum, app IDs and signing identity remain unchanged. API 26 and 36
-both run debug instrumentation and the same minified release candidate against the
-real Cloud service; successful source/fixture checks cannot replace these device gates.
+JVM 21, API 26 minimum, app IDs and signing identity remain unchanged. Historical API 26/36 observations remain separate runtime evidence. Under P2-017,
+relevant device checks are local opt-in when affected behavior requires them and the
+existing environment supports them; CI does not run devices or live Cloud calls.
 
 The generated `THIRD_PARTY_NOTICES.txt`, `licence-closure.json` and
 `source-provenance.json` are registered as
@@ -62,8 +62,9 @@ Gradle lock/checksum maintenance commands. Inspect `android-resolved.json`, the
 published POM/parent licence declarations, every delivered JAR/AAR (including nested
 JAR notices), and native source/compiler dependencies. Review and update the closed
 policy and retained texts before packaging; never accept an unknown licence or hash
-automatically. Re-run ordinary strict builds and both device APIs, including with an
-empty Gradle cache when tool/plugin metadata changes. CI retains source/effective
+automatically. Run the applicable strict builds and offline checks using existing caches. Device
+checks are scoped local opt-in, not an automatic upgrade gate; do not create empty
+caches or provision tools to expand validation. CI retains source/effective
 project reports and the resolved closure alongside the immutable candidate.
 
 On 2026-09-18, required lint found AGP 9.4.1 and Contracts 1.0.0-ci.44.1 available.

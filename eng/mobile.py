@@ -20,6 +20,7 @@ import xml.etree.ElementTree as ET
 from licences import project_audit, verify_distribution
 import check_provenance
 import resources
+import dependency_policy
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_TOOLS = "37.0.0"
@@ -62,6 +63,7 @@ def version():
 
 def repository_check():
     project_audit()
+    resources.save(ROOT / 'artifacts/evidence/dependency-policy.json', dependency_policy.check(ROOT))
     provenance_report = check_provenance.run(ROOT, 'Mobile')
     resources.verify_profile_history(ROOT)
     resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)
