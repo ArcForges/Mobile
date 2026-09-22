@@ -105,8 +105,8 @@ def validate_android(closure, policy):
 
 
 def validate_immutable(previous, current):
-    before = {item['id'] + '/' + name: sha for item in previous['components'] for name, sha in item['artifacts'].items()}
-    after = {item['id'] + '/' + name: sha for item in current['components'] for name, sha in item['artifacts'].items()}
+    before = {item['id']: item['artifacts'] for item in previous['components']}
+    after = {item['id']: item['artifacts'] for item in current['components']}
     require(all(after[name] == value for name, value in before.items() if name in after),
             'Immutable coordinate checksum changed across reviews')
 

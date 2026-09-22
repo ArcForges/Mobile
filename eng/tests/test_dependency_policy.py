@@ -61,6 +61,12 @@ class DependencyPolicyTests(unittest.TestCase):
         self.closure['components'][0]['artifacts']['library.jar'] = '9' * 64
         policy.validate_immutable(previous, self.closure)
 
+    def test_successor_cannot_rename_immutable_payload(self):
+        previous = copy.deepcopy(self.closure)
+        self.closure['components'][0]['artifacts'] = {'replacement.jar': '9' * 64}
+        with self.assertRaisesRegex(ValueError, 'Immutable coordinate'):
+            policy.validate_immutable(previous, self.closure)
+
     def test_missing_upgrade_evidence(self):
         del self.review['evidence']['security']
         with self.assertRaisesRegex(ValueError, 'Missing upgrade evidence'):
