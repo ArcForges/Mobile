@@ -56,6 +56,15 @@ def validate_publisher(publisher):
             'Wrong publisher identity')
 
 
+def validate_feeds(settings):
+    settings = re.sub(r'/\*.*?\*/|//[^\r\n]*', '', settings, flags=re.S)
+    blocks = re.findall(r'\brepositories\s*\{([^{}]*)\}', settings)
+    declared = [re.sub(r'\s+', '', block) for block in blocks]
+    require(declared == ['google()mavenCentral()gradlePluginPortal()', 'google()mavenCentral()'],
+            'Untrusted Gradle feed declaration')
+    require('RepositoriesMode.FAIL_ON_PROJECT_REPOS' in settings, 'Project repository override permitted')
+
+
 def validate_review(review, versions, inputs, previous=None):
     require(review['schemaVersion'] == 1 and re.fullmatch(r'[0-9a-f]{40}', review['sourceCommit']), 'Invalid review source')
     require(review['owner'] == 'Release Engineering Owner' and review['maintenanceAssessment'].strip(), 'Missing maintenance owner/review')
@@ -118,6 +127,7 @@ def check(root=ROOT):
     require(set(policy['feeds']) == FEEDS and set(policy['publicPackages']) == PUBLIC, 'Wrong feed or import authority')
     require(policy['runtimeLicences'] == ['Apache-2.0', 'BSD-3-Clause', 'MIT'], 'Changed runtime licence admission')
     validate_publisher(policy['publisher'])
+    validate_feeds((root / 'settings.gradle.kts').read_text())
     versions = current_versions(root)
     for key, value in versions.items():
         exact_version(value, key == 'contracts' and any(x.endswith(':' + value) for x in policy['candidateExceptions']))

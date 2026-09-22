@@ -45,6 +45,14 @@ class DependencyPolicyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Wrong publisher'):
             policy.validate_publisher({'repository': 'attacker/Mobile'})
 
+    def test_wrong_repository_cannot_be_readmitted(self):
+        settings = '''pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+        dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+        repositories { google(); mavenCentral() } }'''.replace(';', '')
+        policy.validate_feeds(settings)
+        with self.assertRaisesRegex(ValueError, 'Untrusted Gradle feed'):
+            policy.validate_feeds(settings.replace('mavenCentral()', 'maven { url = uri("https://attacker.invalid") }', 1))
+
     def test_mutable_version_checksum(self):
         with self.assertRaisesRegex(ValueError, 'mutable version bytes'):
             policy.validate_review(self.review, self.review['versions'], {'lock': '9' * 64})
