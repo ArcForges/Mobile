@@ -49,6 +49,18 @@ class DependencyPolicyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'mutable version bytes'):
             policy.validate_review(self.review, self.review['versions'], {'lock': '9' * 64})
 
+    def test_successor_cannot_reapprove_changed_bytes(self):
+        previous = copy.deepcopy(self.closure)
+        self.closure['components'][0]['artifacts']['library.jar'] = '9' * 64
+        with self.assertRaisesRegex(ValueError, 'Immutable coordinate'):
+            policy.validate_immutable(previous, self.closure)
+
+    def test_new_coordinate_can_have_new_bytes(self):
+        previous = copy.deepcopy(self.closure)
+        self.closure['components'][0]['id'] = 'example:library:1.2.4'
+        self.closure['components'][0]['artifacts']['library.jar'] = '9' * 64
+        policy.validate_immutable(previous, self.closure)
+
     def test_missing_upgrade_evidence(self):
         del self.review['evidence']['security']
         with self.assertRaisesRegex(ValueError, 'Missing upgrade evidence'):

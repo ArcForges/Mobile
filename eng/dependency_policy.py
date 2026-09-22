@@ -2,7 +2,7 @@
 """Offline dependency admission; actual Android artifact checks remain in licences.py."""
 import hashlib
 import json
-from pathlib import Path
+import os
 import re
 import subprocess
 import tomllib
@@ -104,6 +104,13 @@ def validate_android(closure, policy):
                 'Floating native source tag')
 
 
+def validate_immutable(previous, current):
+    before = {item['id'] + '/' + name: sha for item in previous['components'] for name, sha in item['artifacts'].items()}
+    after = {item['id'] + '/' + name: sha for item in current['components'] for name, sha in item['artifacts'].items()}
+    require(all(after[name] == value for name, value in before.items() if name in after),
+            'Immutable coordinate checksum changed across reviews')
+
+
 def check(root=ROOT):
     policy = read_json(root / POLICY)
     require(policy['schemaVersion'] == 1 and policy['repository'] == 'Mobile' and policy['licenceBoundary'] == 'Apache',
@@ -138,6 +145,13 @@ def check(root=ROOT):
     require(policy['stage'] == 'candidate', 'Stable Android production not admitted by this foundation policy')
     closure = read_json(root / 'eng/policy/android-licences.json')
     validate_android(closure, policy)
+    environment = {key: value for key, value in os.environ.items() if not key.upper().startswith('GIT_')}
+    for review in reviews:
+        path = 'eng/policy/android-licences.json'
+        original = subprocess.check_output(['git', 'show', review['sourceCommit'] + ':' + path], cwd=root, env=environment)
+        require(hashlib.sha256(original.replace(b'\r\n', b'\n')).hexdigest() == review['inputs'][path],
+                'Review source does not bind admitted Android closure')
+        validate_immutable(json.loads(original), closure)
     for name in paths:
         if name.endswith('.lockfile'):
             for line in (root / name).read_text().splitlines():

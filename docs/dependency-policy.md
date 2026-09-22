@@ -21,6 +21,9 @@ its filename to the policy's ordered `reviews`. Retain all previous files unchan
 Record the reviewed source commit, complete current input hashes (UTF-8/LF), exact
 catalog versions, maintenance assessment and each evidence disposition. The check
 fails if actual inputs differ, including changed checksums under the same version.
+The source commit must contain the admitted Android closure. Every retained
+source closure is compared with the current one so a successor review cannot
+authorize different bytes for an already admitted immutable coordinate.
 Do not regenerate an admission automatically from a failed build. Review the new
 closure, licence/source evidence and affected notices first.
 
