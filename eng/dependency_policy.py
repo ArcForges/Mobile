@@ -60,7 +60,8 @@ def validate_feeds(settings):
     settings = re.sub(r'/\*.*?\*/|//[^\r\n]*', '', settings, flags=re.S)
     blocks = re.findall(r'\brepositories\s*\{([^{}]*)\}', settings)
     declared = [re.sub(r'\s+', '', block) for block in blocks]
-    require(declared == ['google()mavenCentral()gradlePluginPortal()', 'google()mavenCentral()'],
+    require(len(re.findall(r'\brepositories\s*\{', settings)) == 2 and
+            declared == ['google()mavenCentral()gradlePluginPortal()', 'google()mavenCentral()'],
             'Untrusted Gradle feed declaration')
     require('RepositoriesMode.FAIL_ON_PROJECT_REPOS' in settings, 'Project repository override permitted')
 

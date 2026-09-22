@@ -52,6 +52,8 @@ class DependencyPolicyTests(unittest.TestCase):
         policy.validate_feeds(settings)
         with self.assertRaisesRegex(ValueError, 'Untrusted Gradle feed'):
             policy.validate_feeds(settings.replace('mavenCentral()', 'maven { url = uri("https://attacker.invalid") }', 1))
+        with self.assertRaisesRegex(ValueError, 'Untrusted Gradle feed'):
+            policy.validate_feeds(settings + '\nrepositories { maven { url = uri("https://attacker.invalid") } }')
 
     def test_mutable_version_checksum(self):
         with self.assertRaisesRegex(ValueError, 'mutable version bytes'):
