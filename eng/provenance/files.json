@@ -53,6 +53,7 @@
     "eng/mobile.py",
     "eng/policy/android-licences.json",
     "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/compose-1-12-1.json",
     "eng/policy/dependency-reviews/wp02-05-baseline.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/reuse-policy.json",
