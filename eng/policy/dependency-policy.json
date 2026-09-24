@@ -44,6 +44,7 @@
     "futureFirstPartyAbi": "Not admitted; native capabilities remain DesktopPlatform-owned."
   },
   "reviews": [
-    "wp02-05-baseline.json"
+    "wp02-05-baseline.json",
+    "compose-1-12-1.json"
   ]
 }
