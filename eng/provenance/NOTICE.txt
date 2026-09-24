@@ -2,12 +2,12 @@ ArcForges source provenance notices
 
 Generated from reviewed active records. Original licence files and dependency notices remain authoritative.
 
-android-packaged-resources-r6
+android-packaged-resources-r7
 Source: https://android.googlesource.com/platform/tools/base @ 1dde364491ccac9cca0a25ed766eb186839a3703
 Material licence: Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)
 Notice scope: packages
 Copyright The Android Open Source Project and AndroidX contributors; JetBrains and Kotlin contributors; Google protobuf contributors; ArcForges contributors. Original full notices and file-level copyrights remain in THIRD_PARTY_NOTICES.txt.
-Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r6.json. Build-tool implementation is not claimed to be part of the app. Build identity contains factual version/schema metadata from the existing checksum-verified Apache Contracts producer; no generated contract implementation is copied.
+Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r7.json. Build-tool implementation is not claimed to be part of the app. Build identity contains factual version/schema metadata from the existing checksum-verified Apache Contracts producer; no generated contract implementation is copied.
 
 androidx-apache-legal-r1
 Source: https://android.googlesource.com/platform/frameworks/support @ f3f60b391b39a0d5c6bbb3bb9f83f227a0c8a72b
