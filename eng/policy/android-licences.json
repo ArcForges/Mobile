@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedOn": "2026-09-19",
+  "reviewedOn": "2026-09-24",
   "designCommit": "f7966d9953a4c5dc9b59b321fdae4940bb7babb8",
   "scope": "Android release, debug and instrumentation distributions; JVM preview and host tools excluded",
   "components": [
@@ -271,19 +271,19 @@
       ]
     },
     {
-      "id": "androidx.compose.animation:animation-android:1.12.0",
+      "id": "androidx.compose.animation:animation-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "animation.aar": "5be24f9d42832a41e4e5b65f477a2cbb264f65c68533c1afb333a942cb8ff132"
+        "animation.aar": "4a619ca869b9724e9cf6127ead53d8fb7dd8601a931c4006b15caf5bb3bf19f8"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-android/1.12.0/animation-android-1.12.0.pom",
-          "sha256": "bdf8bfac92c241adf995f48e77b3fbd0e7181e79dad38eaff145039785e1702e",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-android/1.12.1/animation-android-1.12.1.pom",
+          "sha256": "f2d25dda3ff212feb5db2737ac1882e26b19f18111ee81923d06c7947af7c6b6",
           "kind": "published-pom"
         }
       ],
@@ -293,19 +293,19 @@
       ]
     },
     {
-      "id": "androidx.compose.animation:animation-core-android:1.12.0",
+      "id": "androidx.compose.animation:animation-core-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "animation-core.aar": "03f26c90e65edd74a6cd38361ee312533d490ca4991a5c838745abda84798f75"
+        "animation-core.aar": "29e26959b2c5645c53a42aa8302570bf8cc3644755d6ca97bf1028d08a665b97"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core-android/1.12.0/animation-core-android-1.12.0.pom",
-          "sha256": "2634199f93f47d3a273d68e90a339a9e8864046b976cb1f88524d8e6776f809e",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core-android/1.12.1/animation-core-android-1.12.1.pom",
+          "sha256": "aa08f41b2aed8aaedb11de353f6198a16bc3f8fc19cc0ecf436936f60f53d07a",
           "kind": "published-pom"
         }
       ],
@@ -315,7 +315,7 @@
       ]
     },
     {
-      "id": "androidx.compose.animation:animation-core:1.12.0",
+      "id": "androidx.compose.animation:animation-core:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -324,8 +324,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core/1.12.0/animation-core-1.12.0.pom",
-          "sha256": "66d56c27f36811c9c6e4a4d099e6815204ab78789379714121d405dead7d398d",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation-core/1.12.1/animation-core-1.12.1.pom",
+          "sha256": "142d28c4f8e8400c1f74a6da8aca28cc00c32a2dbaba46bdeff9e670543bd7d8",
           "kind": "published-pom"
         }
       ],
@@ -334,7 +334,7 @@
       ]
     },
     {
-      "id": "androidx.compose.animation:animation:1.12.0",
+      "id": "androidx.compose.animation:animation:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -343,8 +343,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation/1.12.0/animation-1.12.0.pom",
-          "sha256": "bf27764ee0af08f71f643a81a190207db34c1a02bd97bb6923e531d3ae35800c",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/animation/animation/1.12.1/animation-1.12.1.pom",
+          "sha256": "c12490bf8596c728f8751b592bf6ef8eefb2b434dffeb05266acd729047514bd",
           "kind": "published-pom"
         }
       ],
@@ -353,19 +353,19 @@
       ]
     },
     {
-      "id": "androidx.compose.foundation:foundation-android:1.12.0",
+      "id": "androidx.compose.foundation:foundation-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "foundation.aar": "657c05465eddae8ff7a1e55a4a615bc26da9012834a44e1e4282deeb54ae8ea7"
+        "foundation.aar": "444749ea7b5a563e530504b9035c87e47ed0fb62b9f7ba00e90af8aa81e6bfb8"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-android/1.12.0/foundation-android-1.12.0.pom",
-          "sha256": "bf8f258f0657eea224a663dc463f43ca6f7c61897342fb07066a98c121e141da",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-android/1.12.1/foundation-android-1.12.1.pom",
+          "sha256": "9415263f478c2b6924eab712c427ab887c6d47fb81050aa2efe21049df3af325",
           "kind": "published-pom"
         }
       ],
@@ -375,19 +375,19 @@
       ]
     },
     {
-      "id": "androidx.compose.foundation:foundation-layout-android:1.12.0",
+      "id": "androidx.compose.foundation:foundation-layout-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "foundation-layout.aar": "cc326eaae95efe35d6e720ae01f6e9a6a456489c7e5868b4b09719fb63791864"
+        "foundation-layout.aar": "274370a88621e001417e76c2d862ffad61ebc8ca2d9f151c7b60dd02d65ebe51"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout-android/1.12.0/foundation-layout-android-1.12.0.pom",
-          "sha256": "30831b553b57d550dbb48aed7ca1ad811a81d7794d7c5ae8fddec647c2103a5c",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout-android/1.12.1/foundation-layout-android-1.12.1.pom",
+          "sha256": "8572c5141594ec2a2bbba2c43a225f3c346a5de19a6cf82788e6b0f4c2cae2b8",
           "kind": "published-pom"
         }
       ],
@@ -397,7 +397,7 @@
       ]
     },
     {
-      "id": "androidx.compose.foundation:foundation-layout:1.12.0",
+      "id": "androidx.compose.foundation:foundation-layout:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -406,8 +406,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout/1.12.0/foundation-layout-1.12.0.pom",
-          "sha256": "289409b029f1ca4196a76a7a9cdaa03c35a26f5cb32a5f00ddb047e8fef8d33c",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation-layout/1.12.1/foundation-layout-1.12.1.pom",
+          "sha256": "c107ae42dc0e04a426693dba984e6689b10b1b3bb8e02f3c9ae4b06611312b90",
           "kind": "published-pom"
         }
       ],
@@ -416,7 +416,7 @@
       ]
     },
     {
-      "id": "androidx.compose.foundation:foundation:1.12.0",
+      "id": "androidx.compose.foundation:foundation:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -425,8 +425,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation/1.12.0/foundation-1.12.0.pom",
-          "sha256": "113b660bc2f2bdac98e0e84b700381d10713439b0e670923d5af6309e48f1f29",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/foundation/foundation/1.12.1/foundation-1.12.1.pom",
+          "sha256": "0386f50c27bc2f62949c81a3c5e36f0b7449e68803785629ea4903bd1964eba3",
           "kind": "published-pom"
         }
       ],
@@ -517,7 +517,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-android:1.12.0",
+      "id": "androidx.compose.runtime:runtime-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -525,12 +525,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "runtime.aar": "4002a4a17696cd182f080fe3663490e4f327f285c569ed844f1c435b8b772ba7"
+        "runtime.aar": "1701a61d06d2f6144f2cd8b015abbc5ad6952eacb70c24c208cdfd2bb188dde7"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-android/1.12.0/runtime-android-1.12.0.pom",
-          "sha256": "2d0376211209ae538392b7bebd17a0e7d76ab0133dc6508de09f2ca4cd6e4502",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-android/1.12.1/runtime-android-1.12.1.pom",
+          "sha256": "29840cf32960ed985bed82c072b7662b8066327187081e0fcfd5467cee5c6709",
           "kind": "published-pom"
         }
       ],
@@ -540,7 +540,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-annotation-android:1.12.0",
+      "id": "androidx.compose.runtime:runtime-annotation-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -548,12 +548,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "runtime-annotation.aar": "42c2f260b16cfafb7d5f9d8e5f751059de01fdc529ad3f79117fc40ead1c302c"
+        "runtime-annotation.aar": "071d6200f5f34ffb5ce69cc19ee8db577c188832bb472779213d4633eca26565"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation-android/1.12.0/runtime-annotation-android-1.12.0.pom",
-          "sha256": "6f50b9fc11d54cca2fae7bae49a90fd10ae05388245a5ad535e4fa4958694457",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation-android/1.12.1/runtime-annotation-android-1.12.1.pom",
+          "sha256": "8407a3d85d7090d0baccc728050e7e822a34e9eb6076a469d397ebd27729e856",
           "kind": "published-pom"
         }
       ],
@@ -563,7 +563,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-annotation:1.12.0",
+      "id": "androidx.compose.runtime:runtime-annotation:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -573,8 +573,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation/1.12.0/runtime-annotation-1.12.0.pom",
-          "sha256": "68c7aceb294762852927746f9d6850d606d30660696d64afcecada9159bff686",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-annotation/1.12.1/runtime-annotation-1.12.1.pom",
+          "sha256": "7e65281b333ab81af736debc19a8e4ea86ab7b6e82eb1cd7a4b3e8c6ca695c8f",
           "kind": "published-pom"
         }
       ],
@@ -583,7 +583,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-retain-android:1.12.0",
+      "id": "androidx.compose.runtime:runtime-retain-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -591,12 +591,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "runtime-retain.aar": "754cbe5b3da9eb294268461c0f3ecb9a41684608df6c9c4dfe481a7f781c0532"
+        "runtime-retain.aar": "6e32111eed0f67ef2ae70c2d9c83cb6bfb54095fe2fb2fdc800febd14d0d7a61"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain-android/1.12.0/runtime-retain-android-1.12.0.pom",
-          "sha256": "ba35f0c687a1467ab8742165a38a0e135c601839506cda0da771a6ef6ebe4bbc",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain-android/1.12.1/runtime-retain-android-1.12.1.pom",
+          "sha256": "6b6fd5244e038c4c1b182361e503a5e11cc1090ad582c9e29090ea46e98ace5b",
           "kind": "published-pom"
         }
       ],
@@ -606,7 +606,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-retain:1.12.0",
+      "id": "androidx.compose.runtime:runtime-retain:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -616,8 +616,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain/1.12.0/runtime-retain-1.12.0.pom",
-          "sha256": "2c30430a35d642d13902f951f24a5258fd5bed0f704755c81a84454882f4be70",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-retain/1.12.1/runtime-retain-1.12.1.pom",
+          "sha256": "7970172550ae0e9f3e7ab08599e49d8b7efcb696c6cb01e2b53c85fb9007a4ec",
           "kind": "published-pom"
         }
       ],
@@ -626,7 +626,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-saveable-android:1.12.0",
+      "id": "androidx.compose.runtime:runtime-saveable-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -634,12 +634,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "runtime-saveable.aar": "277ee60d5bc9970ae42716fd6dd4e837a5a2f78517258f0c9d68c2a59d72cefa"
+        "runtime-saveable.aar": "0c83d47820fbc8ffb6e3e49311ccd4755676d6f94bb8c6d8564ab4c799df8779"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable-android/1.12.0/runtime-saveable-android-1.12.0.pom",
-          "sha256": "14d5aaf7cfdedbbdac10dc693e67b912909c34957a9b7d4b38f7489232b5f5fa",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable-android/1.12.1/runtime-saveable-android-1.12.1.pom",
+          "sha256": "b24f9d787b16e356331ab5aeee85363aeb3a008bdd674da12b0a1362236b8ee9",
           "kind": "published-pom"
         }
       ],
@@ -649,7 +649,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime-saveable:1.12.0",
+      "id": "androidx.compose.runtime:runtime-saveable:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -659,8 +659,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable/1.12.0/runtime-saveable-1.12.0.pom",
-          "sha256": "a55d6cdfc8224a2b813c2fb76eb1b999f59a80cac96a2746992625b235573b57",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime-saveable/1.12.1/runtime-saveable-1.12.1.pom",
+          "sha256": "bc2a53c601e1d310a067fd9cb7df780283389e1f5885690c28ce33363fa521ee",
           "kind": "published-pom"
         }
       ],
@@ -669,7 +669,7 @@
       ]
     },
     {
-      "id": "androidx.compose.runtime:runtime:1.12.0",
+      "id": "androidx.compose.runtime:runtime:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -679,8 +679,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime/1.12.0/runtime-1.12.0.pom",
-          "sha256": "da0bb2d8542847eb2ee620872a6535bcff0864fe4c9dcbb9a2fff7d56c60c8e3",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/runtime/runtime/1.12.1/runtime-1.12.1.pom",
+          "sha256": "0bcb66c1b123a7421fd088d2620ee04d2e56213bb5d2c9c427a6b1a41a687fcb",
           "kind": "published-pom"
         }
       ],
@@ -689,7 +689,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-android:1.12.0",
+      "id": "androidx.compose.ui:ui-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -697,12 +697,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui.aar": "3d2d83c96546c380cbc582329ece0da74a4f9267d52c6dead69c2272bfce0313"
+        "ui.aar": "3f1ae17e237d9dc0a2a0f42cb04b85b8de6e12f67adc5f5c12173fe31e501cb2"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-android/1.12.0/ui-android-1.12.0.pom",
-          "sha256": "aabfd1a533c2de912fda349dd062a89148e6d02dcaf62c89befc62a13f09e199",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-android/1.12.1/ui-android-1.12.1.pom",
+          "sha256": "8cb01b7d4c70e2492012d1d212ea6d7701485dc79c199edcb560eafa4375dde7",
           "kind": "published-pom"
         }
       ],
@@ -712,7 +712,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-geometry-android:1.12.0",
+      "id": "androidx.compose.ui:ui-geometry-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -720,12 +720,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-geometry.aar": "dbcff0026da04ace1871b5dbeb97fd83e15de310bd0bbb0b0aea031fe29c4c7a"
+        "ui-geometry.aar": "09a23c76f5d52ea5ec61d4a78d4876940f0f033c975e5c604246f89a63532754"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry-android/1.12.0/ui-geometry-android-1.12.0.pom",
-          "sha256": "6aab2cdbdd423bbc9a3ec2bc20d064e218c95fc031d48bfa7e8070161b5f6f83",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry-android/1.12.1/ui-geometry-android-1.12.1.pom",
+          "sha256": "d7721b420b6bee2d7bbbd12581e0abff1cd02e8eaa2ea1805f11080b2eb82b22",
           "kind": "published-pom"
         }
       ],
@@ -735,7 +735,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-geometry:1.12.0",
+      "id": "androidx.compose.ui:ui-geometry:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -745,8 +745,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry/1.12.0/ui-geometry-1.12.0.pom",
-          "sha256": "727cfe04531689b11916104d03cee11e63f81786b0f68968cf1ac491640e4566",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-geometry/1.12.1/ui-geometry-1.12.1.pom",
+          "sha256": "b02a764da7873e1bd46078821039c629c2ec9d666640ff3a6371223473539ad0",
           "kind": "published-pom"
         }
       ],
@@ -755,7 +755,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-graphics-android:1.12.0",
+      "id": "androidx.compose.ui:ui-graphics-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -763,12 +763,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-graphics.aar": "87e7a805779720bf13a6f46a5a75ad80526d0300dbd3acbf48d2a689f71a1c41"
+        "ui-graphics.aar": "1e6451f05ad569e306e7022b3c41d16aa75080bb2c99b59c4d67e7dbf6f428e7"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics-android/1.12.0/ui-graphics-android-1.12.0.pom",
-          "sha256": "384a3f07ce50b7e793e7abd32653d10a6c37cdce38789058dd92ad8eff2a850a",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics-android/1.12.1/ui-graphics-android-1.12.1.pom",
+          "sha256": "0de7f78d822c6fa1e37f855ba27bfc7d3043e77b5ea5b381a0d229feaa50c650",
           "kind": "published-pom"
         }
       ],
@@ -778,7 +778,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-graphics:1.12.0",
+      "id": "androidx.compose.ui:ui-graphics:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -788,8 +788,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics/1.12.0/ui-graphics-1.12.0.pom",
-          "sha256": "c99b8670966c5d4d88e240256519119752c69f70badafcbf56ebc6032510a6d9",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-graphics/1.12.1/ui-graphics-1.12.1.pom",
+          "sha256": "41b804f94842fe837ac84720cd7f8ab77f4b61b0dbb1964b647fa60be990ab43",
           "kind": "published-pom"
         }
       ],
@@ -798,18 +798,18 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-test-android:1.12.0",
+      "id": "androidx.compose.ui:ui-test-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-test.aar": "d8941ee80919a50fb4dcc26d347b26b4511c50c3ae0af00177c09e34391d4327"
+        "ui-test.aar": "2beafe8ba6c4ac2335159a7bdc08ac3eaac205f183d5d6b29b2eb87a2458b7ff"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-android/1.12.0/ui-test-android-1.12.0.pom",
-          "sha256": "7f054eb0b7725f639715d32b87ead1e612ee91bc2096724b9c6b3ab3d7da908f",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-android/1.12.1/ui-test-android-1.12.1.pom",
+          "sha256": "d97b4936a3dc95f070cd9287652c9d539758ffff2bb434bc6d40f2911f97eb8a",
           "kind": "published-pom"
         }
       ],
@@ -819,18 +819,18 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-test-junit4-android:1.12.0",
+      "id": "androidx.compose.ui:ui-test-junit4-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-test-junit4.aar": "ad4e326ec7f7bf200c00a13d85273848c301ca0bc87a8738f013fdd00410d213"
+        "ui-test-junit4.aar": "bc01fda8b36dd259055e2768f7ba753f9ee9d95e9ce6feda284c913ad7bd8a4d"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4-android/1.12.0/ui-test-junit4-android-1.12.0.pom",
-          "sha256": "670d6086c9c8a370085ea256016d684897e6b78b38569d89bce1798d3340b58a",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4-android/1.12.1/ui-test-junit4-android-1.12.1.pom",
+          "sha256": "fd4e1fc49bd8ef446d5c73ae884b7eeec87b010c8c8cc66c4f247e3d3e191f65",
           "kind": "published-pom"
         }
       ],
@@ -840,25 +840,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-test-junit4:1.12.0",
-      "spdxLicense": "Apache-2.0",
-      "configurations": [
-        "debugAndroidTestRuntimeClasspath"
-      ],
-      "artifacts": {},
-      "evidence": [
-        {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4/1.12.0/ui-test-junit4-1.12.0.pom",
-          "sha256": "f47cd5adc3b9316a3a25a34303863957cc7fd1aa6ba4f148a3c060d924e8f212",
-          "kind": "published-pom"
-        }
-      ],
-      "notices": [
-        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-      ]
-    },
-    {
-      "id": "androidx.compose.ui:ui-test:1.12.0",
+      "id": "androidx.compose.ui:ui-test-junit4:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
@@ -866,8 +848,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test/1.12.0/ui-test-1.12.0.pom",
-          "sha256": "3157877f170d7a094b770bc34341c55626362ddb67111100fa552c94a01b471e",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test-junit4/1.12.1/ui-test-junit4-1.12.1.pom",
+          "sha256": "de466ca2084d38991c67dfdb760fc8c917f89ea513dcf3c5458416d747e1a778",
           "kind": "published-pom"
         }
       ],
@@ -876,7 +858,25 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-text-android:1.12.0",
+      "id": "androidx.compose.ui:ui-test:1.12.1",
+      "spdxLicense": "Apache-2.0",
+      "configurations": [
+        "debugAndroidTestRuntimeClasspath"
+      ],
+      "artifacts": {},
+      "evidence": [
+        {
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-test/1.12.1/ui-test-1.12.1.pom",
+          "sha256": "441dd40d0db17f40afc941858ac8abf9c5e12710701b9d6b4ccb8ffd648728ca",
+          "kind": "published-pom"
+        }
+      ],
+      "notices": [
+        "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      ]
+    },
+    {
+      "id": "androidx.compose.ui:ui-text-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -884,12 +884,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-text.aar": "6928bfad8bc4bb44a01404eea44e4fb0e826a13abe5d292c2c16718a62656bc5"
+        "ui-text.aar": "e710a5776966537df09a2e5c4ca1dacc14ca11d7b20a6af16c0e992ddd3aecd3"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.12.0/ui-text-android-1.12.0.pom",
-          "sha256": "978a3cbe9c74f8a2080c3a701532247e585878daae922081cd50388bf6e23d68",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.12.1/ui-text-android-1.12.1.pom",
+          "sha256": "37c3f8b6d0fe79bef2a2cb83dcc4d690e99db282785ffb7f1ce6b1a64c6f7440",
           "kind": "published-pom"
         }
       ],
@@ -899,7 +899,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-text:1.12.0",
+      "id": "androidx.compose.ui:ui-text:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -909,8 +909,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text/1.12.0/ui-text-1.12.0.pom",
-          "sha256": "03a6e2341f23f8d52b70679399bb9fb39cc54529d67666f2554d76dbb234ea99",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text/1.12.1/ui-text-1.12.1.pom",
+          "sha256": "6dbbafb73dbee767ee4e1aac8aa8cc4fcdd3f0790cbc1f472969638dfb97c1c1",
           "kind": "published-pom"
         }
       ],
@@ -919,18 +919,18 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling-android:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-tooling.aar": "36723ddc62068a27648db151ea93b809c2ba040608468c936e608d05568571ba"
+        "ui-tooling.aar": "49584245c4dcba25b0edad0b770c193a6e8fe79da15c2f5be653db5552969bc5"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-android/1.12.0/ui-tooling-android-1.12.0.pom",
-          "sha256": "bed1cf4287940ce804115233594423a13679977b802aada420ab1af00232fd3c",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-android/1.12.1/ui-tooling-android-1.12.1.pom",
+          "sha256": "0201abe83dd72c38be0b29f0d6fde30e351e645778514aab55f029df971959d1",
           "kind": "published-pom"
         }
       ],
@@ -940,18 +940,18 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling-data-android:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling-data-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-tooling-data.aar": "111897d4a5b4f0972503c564555733899589a9b8b90b7bdada15bd5445b00654"
+        "ui-tooling-data.aar": "2b664eb063aedc3c07af2bdd912c8afa097abe323d4b43ee7f03657cd1ca5d22"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data-android/1.12.0/ui-tooling-data-android-1.12.0.pom",
-          "sha256": "6b5b9429a2bd2470bbca82ca73de17852cb7c8eed860e274885541879a57b2d3",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data-android/1.12.1/ui-tooling-data-android-1.12.1.pom",
+          "sha256": "ceecb6d2d91045ca2ea44bd3c40b9ff37031a0280ec0fdad169f86307fb8cad8",
           "kind": "published-pom"
         }
       ],
@@ -961,7 +961,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling-data:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling-data:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -969,8 +969,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data/1.12.0/ui-tooling-data-1.12.0.pom",
-          "sha256": "e134cd5fbc7e3fa0e5edd2f7ee222c9ebf93e2856475a6b470f4facb6640a9f2",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-data/1.12.1/ui-tooling-data-1.12.1.pom",
+          "sha256": "0af65484f27314ae8664914fb4098451b4c142b2aef4874b0e66a3182431faee",
           "kind": "published-pom"
         }
       ],
@@ -979,18 +979,18 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling-preview-android:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling-preview-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-tooling-preview.aar": "b94bf6808e103a99b38ab58a970cf15f7b3f921dc936b0f867b0a42db517c086"
+        "ui-tooling-preview.aar": "e5d8e697fcfda732734e01168296682682d31e085b77ec8245e72badbc673686"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview-android/1.12.0/ui-tooling-preview-android-1.12.0.pom",
-          "sha256": "70c9e1d49a69658786f1f10d67e8f0b5cae8601840b1f66e222e6cc83635f4de",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview-android/1.12.1/ui-tooling-preview-android-1.12.1.pom",
+          "sha256": "383b1d980d7d69383a8576dfa5dedb703441a90d2fadfcbd367302ce82525e7f",
           "kind": "published-pom"
         }
       ],
@@ -1000,7 +1000,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling-preview:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling-preview:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -1008,8 +1008,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview/1.12.0/ui-tooling-preview-1.12.0.pom",
-          "sha256": "7817a70e0c2ea83590a2277d30a07905f7f4ab8f4bd005309b139bc8c1789ca9",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling-preview/1.12.1/ui-tooling-preview-1.12.1.pom",
+          "sha256": "e9af8869db40b67102b66299b1cebcc0b5ffb1e8361b12ec9a0ce26d553090fa",
           "kind": "published-pom"
         }
       ],
@@ -1018,7 +1018,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-tooling:1.12.0",
+      "id": "androidx.compose.ui:ui-tooling:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -1026,8 +1026,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling/1.12.0/ui-tooling-1.12.0.pom",
-          "sha256": "ab35e9696bcee017a391e2b2631ae896138dd5675780204c5726c08388478ef6",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling/1.12.1/ui-tooling-1.12.1.pom",
+          "sha256": "144fa69123cecab215163c29debe4e4d98cf5acf86d04e23d3c51b0536908baa",
           "kind": "published-pom"
         }
       ],
@@ -1036,7 +1036,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-unit-android:1.12.0",
+      "id": "androidx.compose.ui:ui-unit-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -1044,12 +1044,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-unit.aar": "932d22c193caa0f7121e705abe8c1d45ecb6505cc1a9981956da4c1fbd5030ee"
+        "ui-unit.aar": "97d2bf062395d981435bc8d571b1d5d75587a7f26f3444671b2287f233e18ae7"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit-android/1.12.0/ui-unit-android-1.12.0.pom",
-          "sha256": "4482c15b14178a09375dd26429028014474bb2006e2f72c62b2a76f8e1f292f8",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit-android/1.12.1/ui-unit-android-1.12.1.pom",
+          "sha256": "8f5f5e53877101442ebdcfe03ff0c167c03362928ffcbeca5fef02573a535ac1",
           "kind": "published-pom"
         }
       ],
@@ -1059,7 +1059,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-unit:1.12.0",
+      "id": "androidx.compose.ui:ui-unit:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -1069,8 +1069,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit/1.12.0/ui-unit-1.12.0.pom",
-          "sha256": "2d8512c26d6e8acb293e04a56703a690ffdb178b89311391b1a79eef4f5b3a7d",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-unit/1.12.1/ui-unit-1.12.1.pom",
+          "sha256": "b57b8f4ccce140913333bf2f82e0dc426d788f83b4269872618803cff05b4fe1",
           "kind": "published-pom"
         }
       ],
@@ -1079,7 +1079,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-util-android:1.12.0",
+      "id": "androidx.compose.ui:ui-util-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -1087,12 +1087,12 @@
         "releaseRuntimeClasspath"
       ],
       "artifacts": {
-        "ui-util.aar": "e7bec48411ba8d894bfcda4e3590b07b4aff5702a8e67b3a6e48eba8e5e531a5"
+        "ui-util.aar": "cd47f06626c19a06086e16823a32e49e0a0c7d903451668da2f777d063507aa5"
       },
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util-android/1.12.0/ui-util-android-1.12.0.pom",
-          "sha256": "c584228b2832fbd0ddcaac59bb47508d39f7e6f47c6393501ac364e3c0b4186b",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util-android/1.12.1/ui-util-android-1.12.1.pom",
+          "sha256": "106eedaed281f62f2fc17bade34c966ddf8cb93ea45627b1592e2e964b027199",
           "kind": "published-pom"
         }
       ],
@@ -1102,7 +1102,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui-util:1.12.0",
+      "id": "androidx.compose.ui:ui-util:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -1112,8 +1112,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util/1.12.0/ui-util-1.12.0.pom",
-          "sha256": "d23dff8a4383bc4d9d7fc68709aa16bf7aa324e0b970f5a67d2e8d5df174f9cb",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-util/1.12.1/ui-util-1.12.1.pom",
+          "sha256": "220323318362065e7220d374dfda659ecead3a9bc71a67318cdfd0c95e11fc43",
           "kind": "published-pom"
         }
       ],
@@ -1122,7 +1122,7 @@
       ]
     },
     {
-      "id": "androidx.compose.ui:ui:1.12.0",
+      "id": "androidx.compose.ui:ui:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -1132,8 +1132,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui/1.12.0/ui-1.12.0.pom",
-          "sha256": "3f6478f0127596f3b3ad8b782c96dd56dfd59246d3c85b4c1a4d2170eefa1e08",
+          "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui/1.12.1/ui-1.12.1.pom",
+          "sha256": "9e026fe4bcd75595b11bb2330568887c323c7559718c5b75847f627bf654f393",
           "kind": "published-pom"
         }
       ],
@@ -2908,7 +2908,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.animation:animation-android:1.12.0",
+      "id": "org.jetbrains.compose.animation:animation-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -2919,8 +2919,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-android/1.12.0/animation-android-1.12.0.pom",
-          "sha256": "cc35e511173c1f5e95d552c23f77d0c056f535603cee5a366af3a027c114477b",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-android/1.12.1/animation-android-1.12.1.pom",
+          "sha256": "286d9923d8cc37ba0ba1c5a1a616a5e36fc108ace1f5a30f0451c87e4e1e8cc1",
           "kind": "published-pom"
         }
       ],
@@ -2930,7 +2930,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.animation:animation-core-android:1.12.0",
+      "id": "org.jetbrains.compose.animation:animation-core-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -2941,8 +2941,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core-android/1.12.0/animation-core-android-1.12.0.pom",
-          "sha256": "c3d6fcde4f6c58f1aadde1565092eb008800bb271ecdd64a17024f4604a3ef4b",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core-android/1.12.1/animation-core-android-1.12.1.pom",
+          "sha256": "daf6c91e053f3dde9692bd143208552b2ef60fb3072fa6abb0e302a26250fed7",
           "kind": "published-pom"
         }
       ],
@@ -2952,7 +2952,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.animation:animation-core:1.12.0",
+      "id": "org.jetbrains.compose.animation:animation-core:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -2961,8 +2961,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core/1.12.0/animation-core-1.12.0.pom",
-          "sha256": "66dde0d306925418ee2e46a54e4d2e65454ba46b9a30bdb6aa7509f8d0438bc8",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation-core/1.12.1/animation-core-1.12.1.pom",
+          "sha256": "b70300acadb3d72b6542fa2a87282370ca9d80692ef25484e83a6f0e9e549142",
           "kind": "published-pom"
         }
       ],
@@ -2971,7 +2971,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.animation:animation:1.12.0",
+      "id": "org.jetbrains.compose.animation:animation:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -2980,8 +2980,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation/1.12.0/animation-1.12.0.pom",
-          "sha256": "79c7d1dace7a63549d833ad60f9657e590f119a9982c4f58f203ffa278449dce",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/animation/animation/1.12.1/animation-1.12.1.pom",
+          "sha256": "b758f75f6d805c8518c0aa1745e74bf135d58693ac8023a3db2af7f853d096c4",
           "kind": "published-pom"
         }
       ],
@@ -3028,7 +3028,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.foundation:foundation-android:1.12.0",
+      "id": "org.jetbrains.compose.foundation:foundation-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3039,8 +3039,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-android/1.12.0/foundation-android-1.12.0.pom",
-          "sha256": "c2f7143ed476bae658538b31ee29ede184bb45722ff4e5c2665457afd58e4000",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-android/1.12.1/foundation-android-1.12.1.pom",
+          "sha256": "b5a02b41bf3bb9c15e984efcf967af2fd468b9324aac372f4df2a60a9ba6b410",
           "kind": "published-pom"
         }
       ],
@@ -3050,7 +3050,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.foundation:foundation-layout-android:1.12.0",
+      "id": "org.jetbrains.compose.foundation:foundation-layout-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3061,8 +3061,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout-android/1.12.0/foundation-layout-android-1.12.0.pom",
-          "sha256": "41ffa2c6725ec565fdeb969fb52bee7e99b9049d5002e19e6418a5a709a3f977",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout-android/1.12.1/foundation-layout-android-1.12.1.pom",
+          "sha256": "406501c9c44f379f9144649c1e3a535a6aa7deeb9371666ec4832e0f24e05932",
           "kind": "published-pom"
         }
       ],
@@ -3072,7 +3072,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.foundation:foundation-layout:1.12.0",
+      "id": "org.jetbrains.compose.foundation:foundation-layout:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3081,8 +3081,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout/1.12.0/foundation-layout-1.12.0.pom",
-          "sha256": "b894894d3681d8d570afc1af4f10375494b43af186a3399766610abb0233a4b6",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation-layout/1.12.1/foundation-layout-1.12.1.pom",
+          "sha256": "b8b1feadb714232e0d5469e58040c794be1673f116f3105ea0fac2fc573fcdfe",
           "kind": "published-pom"
         }
       ],
@@ -3091,7 +3091,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.foundation:foundation:1.12.0",
+      "id": "org.jetbrains.compose.foundation:foundation:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3100,8 +3100,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation/1.12.0/foundation-1.12.0.pom",
-          "sha256": "28665f7557b0399349ce16fee6d5e781b5212565099df20c8be018d639254d09",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/foundation/foundation/1.12.1/foundation-1.12.1.pom",
+          "sha256": "5218b9dbac53bdb4f06552f99ce871ad157279fd361f3a053fbfe661a305a575",
           "kind": "published-pom"
         }
       ],
@@ -3148,7 +3148,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.runtime:runtime-android:1.12.0",
+      "id": "org.jetbrains.compose.runtime:runtime-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3160,8 +3160,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-android/1.12.0/runtime-android-1.12.0.pom",
-          "sha256": "064f18145fca6c242eced0865118371b1da9e896cf7e0db3f18642c1f9a249d1",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-android/1.12.1/runtime-android-1.12.1.pom",
+          "sha256": "cfe7455d8b5ac05fcae48ba64ec187f83686a4336785d7f6a8bf0445f966be5e",
           "kind": "published-pom"
         }
       ],
@@ -3171,7 +3171,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.runtime:runtime-saveable-android:1.12.0",
+      "id": "org.jetbrains.compose.runtime:runtime-saveable-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3183,8 +3183,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable-android/1.12.0/runtime-saveable-android-1.12.0.pom",
-          "sha256": "60ecaa25e79286d0ac75692903d4b8dccdd5d37d52b665d2c23a043554aa814e",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable-android/1.12.1/runtime-saveable-android-1.12.1.pom",
+          "sha256": "02b441d37cbebe82fd1d8882243e6aac6dfbeabbb8a83407dc163de09003b77f",
           "kind": "published-pom"
         }
       ],
@@ -3194,7 +3194,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.runtime:runtime-saveable:1.12.0",
+      "id": "org.jetbrains.compose.runtime:runtime-saveable:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3204,8 +3204,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable/1.12.0/runtime-saveable-1.12.0.pom",
-          "sha256": "1e0f41a21291ff9c3f98fe16c1207295a99c620e42dad919a1145d3e704d2176",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime-saveable/1.12.1/runtime-saveable-1.12.1.pom",
+          "sha256": "6746e30127326ba9224eb26765927540ea8722eed9aa8c5f36d8dce79c3162b6",
           "kind": "published-pom"
         }
       ],
@@ -3214,7 +3214,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.runtime:runtime:1.12.0",
+      "id": "org.jetbrains.compose.runtime:runtime:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3224,8 +3224,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime/1.12.0/runtime-1.12.0.pom",
-          "sha256": "af0027c5f6343c8cc7ffcd93926600d3166719da5fb05d7f1a0bf3f876d5373c",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/runtime/runtime/1.12.1/runtime-1.12.1.pom",
+          "sha256": "972bed35cb9ff953610a50c6193956ab1114eb763cc3a8b540fc6adfeae802e2",
           "kind": "published-pom"
         }
       ],
@@ -3234,7 +3234,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3246,8 +3246,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-android/1.12.0/ui-android-1.12.0.pom",
-          "sha256": "7917ec2eb50662085abffe1409e5b4ef84ee85aec85c5957a6f0971b53513031",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-android/1.12.1/ui-android-1.12.1.pom",
+          "sha256": "f5ad07583f26fe829c6683616f0b9e38fb74b318756d865029aea0cdc209ac9f",
           "kind": "published-pom"
         }
       ],
@@ -3257,7 +3257,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-backhandler-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-backhandler-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3268,8 +3268,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler-android/1.12.0/ui-backhandler-android-1.12.0.pom",
-          "sha256": "963bea12e9115f17591c439da8e5ebbc9af1070ab91bcdcbba441e99eefac280",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler-android/1.12.1/ui-backhandler-android-1.12.1.pom",
+          "sha256": "002dbf5252f5ea14f697d0ff8349fb92942f5549701f012b002412eedee589b6",
           "kind": "published-pom"
         }
       ],
@@ -3279,7 +3279,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-backhandler:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-backhandler:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath",
@@ -3288,8 +3288,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler/1.12.0/ui-backhandler-1.12.0.pom",
-          "sha256": "29f585ef36ec8cfdc076d34e350f653df235a08f459eeb1c6d55653814617268",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-backhandler/1.12.1/ui-backhandler-1.12.1.pom",
+          "sha256": "5621371c212207137eee5e4c15055f57e19ba653f31002a1758faca4079da0b0",
           "kind": "published-pom"
         }
       ],
@@ -3298,7 +3298,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-geometry-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-geometry-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3310,8 +3310,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry-android/1.12.0/ui-geometry-android-1.12.0.pom",
-          "sha256": "0fe2377a0def6471ec2ce21832b6beec066a505b987c878c9b8c33cea69361d0",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry-android/1.12.1/ui-geometry-android-1.12.1.pom",
+          "sha256": "06a38f050540cdc25f4d67a5dba3f61a325617d2bc39de0003ba34623a03220e",
           "kind": "published-pom"
         }
       ],
@@ -3321,7 +3321,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-geometry:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-geometry:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3331,8 +3331,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry/1.12.0/ui-geometry-1.12.0.pom",
-          "sha256": "b06b8a687192482ee6875583078523ed7ac6a32c84160c233bcb6c5d72d7b088",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-geometry/1.12.1/ui-geometry-1.12.1.pom",
+          "sha256": "7735d12e35698382181d81031b9f49ee2da5a69aa5f8ecc3891f8fc751fdf43b",
           "kind": "published-pom"
         }
       ],
@@ -3341,7 +3341,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-graphics-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-graphics-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3353,8 +3353,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics-android/1.12.0/ui-graphics-android-1.12.0.pom",
-          "sha256": "384964df60cb06b1aa2e1bbca008351a3dcccb0262ca5b2836f54926f77fc2d1",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics-android/1.12.1/ui-graphics-android-1.12.1.pom",
+          "sha256": "a9b76ed0b2e1f5be28f3b0a3bf0ec1d292e2b5a1f52ebb42a318034f978e33fd",
           "kind": "published-pom"
         }
       ],
@@ -3364,7 +3364,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-graphics:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-graphics:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3374,8 +3374,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics/1.12.0/ui-graphics-1.12.0.pom",
-          "sha256": "9818c97606292e22387a726c53cbdf25946c0a53fd6946ebc200d92d056b175a",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-graphics/1.12.1/ui-graphics-1.12.1.pom",
+          "sha256": "0c8035c4090b5b11121c02f06ee7de5e86bc3a7e661ba6432d2212d6b2b84380",
           "kind": "published-pom"
         }
       ],
@@ -3384,7 +3384,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-test-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-test-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
@@ -3394,8 +3394,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-android/1.12.0/ui-test-android-1.12.0.pom",
-          "sha256": "3535469991ab03f06683a5d1b9faaa0b074e5cc9cfa2e6f7a43cc724e54bdc21",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-android/1.12.1/ui-test-android-1.12.1.pom",
+          "sha256": "01aa82868031f18740af02635c4043d0cd8bd0142309e3e8812675bb43c1f4e3",
           "kind": "published-pom"
         }
       ],
@@ -3405,7 +3405,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-test-junit4-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-test-junit4-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
@@ -3415,8 +3415,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4-android/1.12.0/ui-test-junit4-android-1.12.0.pom",
-          "sha256": "ce37956baf3c47490b1926e6307ddc4e946c7f8fba2b288f538520bce6000c0e",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4-android/1.12.1/ui-test-junit4-android-1.12.1.pom",
+          "sha256": "a216fd0ed3c28ba16e90707df298fd9c5ab4e9cbfc008bf2dfc557a9c5a5e900",
           "kind": "published-pom"
         }
       ],
@@ -3426,7 +3426,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-test-junit4:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-test-junit4:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
@@ -3434,8 +3434,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4/1.12.0/ui-test-junit4-1.12.0.pom",
-          "sha256": "efaedc7236b9d65a80c18678aeada88d0bc5d0043cf2a184cd658a5bf813d342",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test-junit4/1.12.1/ui-test-junit4-1.12.1.pom",
+          "sha256": "2b3facf26d8cbd6c210f6d3c615168acc70defcc4038c2cc717bbdea4e0e2325",
           "kind": "published-pom"
         }
       ],
@@ -3444,7 +3444,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-test:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-test:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath"
@@ -3452,8 +3452,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.0/ui-test-1.12.0.pom",
-          "sha256": "b0efa835cccda7c0207fdade1ab9f0af50011a56943cd7196451611747ad3b5c",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-test/1.12.1/ui-test-1.12.1.pom",
+          "sha256": "4587a08dd7b8ce9822df9bea6db427f2187c633a0fa85b4bf15585fc99aae64e",
           "kind": "published-pom"
         }
       ],
@@ -3462,7 +3462,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-text-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-text-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3474,8 +3474,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text-android/1.12.0/ui-text-android-1.12.0.pom",
-          "sha256": "e2e85f5d5eeec27ca4d97d351d54e4740b75c110cec30d36ffd906051fa41d3d",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text-android/1.12.1/ui-text-android-1.12.1.pom",
+          "sha256": "3fca616b9c98a24f4f61b4fac90dacf27d1d447b223c8ef8d3b8fd625c74c568",
           "kind": "published-pom"
         }
       ],
@@ -3485,7 +3485,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-text:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-text:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3495,8 +3495,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text/1.12.0/ui-text-1.12.0.pom",
-          "sha256": "d4f907329cfbd420dc7aca1ed89fde967f14a72b826900f64966a205d84d1936",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-text/1.12.1/ui-text-1.12.1.pom",
+          "sha256": "d5764bdf6eac60ea4c71001c902c7ee14cddd77d126ccb1f2b509a26245be752",
           "kind": "published-pom"
         }
       ],
@@ -3505,7 +3505,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3515,8 +3515,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-android/1.12.0/ui-tooling-android-1.12.0.pom",
-          "sha256": "997bc61ecfd1dfa388ba5489af7793378d05eeca0f4c0e31de3508cfd540165d",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-android/1.12.1/ui-tooling-android-1.12.1.pom",
+          "sha256": "9c9add5419b20b2e469c0d5f793642867848cb86a152019de45558e178939f40",
           "kind": "published-pom"
         }
       ],
@@ -3526,7 +3526,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling-data-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling-data-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3536,8 +3536,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data-android/1.12.0/ui-tooling-data-android-1.12.0.pom",
-          "sha256": "f656b1932f37c1d72d6535e9c5635e2b4dc8796442da00225cbabf1017fc85e7",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data-android/1.12.1/ui-tooling-data-android-1.12.1.pom",
+          "sha256": "a55df791f9639ad862b0df7a6a47d24ac414b518b934edaf4b94656acc99c3ce",
           "kind": "published-pom"
         }
       ],
@@ -3547,7 +3547,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling-data:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling-data:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3555,8 +3555,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data/1.12.0/ui-tooling-data-1.12.0.pom",
-          "sha256": "69ac7849588011a2ecd646be3b06213050a7608606c37da89f86f2449dcca0cb",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-data/1.12.1/ui-tooling-data-1.12.1.pom",
+          "sha256": "a32e20fad5fc15082798fa4c7385d86b0e0555871872f6e3e5c0facb9b42c492",
           "kind": "published-pom"
         }
       ],
@@ -3565,7 +3565,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling-preview-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling-preview-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3575,8 +3575,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview-android/1.12.0/ui-tooling-preview-android-1.12.0.pom",
-          "sha256": "8386607b04fa4d992d960f8a55622ca0dfa15b4ae2ae6b608e82edc5cfc39be1",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview-android/1.12.1/ui-tooling-preview-android-1.12.1.pom",
+          "sha256": "ecb1649eaee4494d97d55969ed38b6beee10873d2159180936f2a248f8ebc381",
           "kind": "published-pom"
         }
       ],
@@ -3586,7 +3586,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling-preview:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling-preview:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3594,8 +3594,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview/1.12.0/ui-tooling-preview-1.12.0.pom",
-          "sha256": "2e32d642374f45a04f001b23401490eaebd34a5361b20add56aa47f76e953cb6",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling-preview/1.12.1/ui-tooling-preview-1.12.1.pom",
+          "sha256": "6a6579a07e15e1eaf4da771452594ca105dc05e94df61e502b5cfb2e8bf91074",
           "kind": "published-pom"
         }
       ],
@@ -3604,7 +3604,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-tooling:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-tooling:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugRuntimeClasspath"
@@ -3612,8 +3612,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling/1.12.0/ui-tooling-1.12.0.pom",
-          "sha256": "03659aa2638f8b6fc23c6bcbc2ec8bfa6978be22f9e6b933c820da40f3a1622d",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-tooling/1.12.1/ui-tooling-1.12.1.pom",
+          "sha256": "b6f1b917164eb6d1d625294e93cc9c1b0b4e914189bee44bd08c92ee24d67ff4",
           "kind": "published-pom"
         }
       ],
@@ -3622,7 +3622,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-unit-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-unit-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3634,8 +3634,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit-android/1.12.0/ui-unit-android-1.12.0.pom",
-          "sha256": "ab58f15e6f7b60a218463ca317f0397e5b13741d1337ff053ea7b74517950d5c",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit-android/1.12.1/ui-unit-android-1.12.1.pom",
+          "sha256": "66b6c3875785220b2577e3f7d4b5a56d3f962eb98fcdc62aaf332dcdc254ca02",
           "kind": "published-pom"
         }
       ],
@@ -3645,7 +3645,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-unit:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-unit:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3655,8 +3655,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit/1.12.0/ui-unit-1.12.0.pom",
-          "sha256": "61aeec97c554ff7dd60a21cdb0001b04f28b1d77b2aed5b559ee2e7c62695f1c",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-unit/1.12.1/ui-unit-1.12.1.pom",
+          "sha256": "e549efcf4e147b6e93d5fcd591db2399b0da573080612ccead3c702c6aee1b8e",
           "kind": "published-pom"
         }
       ],
@@ -3665,7 +3665,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-util-android:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-util-android:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3677,8 +3677,8 @@
       },
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util-android/1.12.0/ui-util-android-1.12.0.pom",
-          "sha256": "840a29eabbabea1c809fee85e129fee303aecd632b3cfcd777e41038c7e18c9e",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util-android/1.12.1/ui-util-android-1.12.1.pom",
+          "sha256": "669b1ba03b02f6ef42ba485582b0c9ded09b04337c1a6fce88f3e1dca42aa36e",
           "kind": "published-pom"
         }
       ],
@@ -3688,7 +3688,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui-util:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui-util:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3698,8 +3698,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util/1.12.0/ui-util-1.12.0.pom",
-          "sha256": "ff855372a8d67d0bdbf11b23aaaeadebacdd80d8df0a071e79ad99e62c8296e3",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-util/1.12.1/ui-util-1.12.1.pom",
+          "sha256": "b1994c11c394bb45299e586554dee189f66529c4d0a93605db9cbfc8f33cd533",
           "kind": "published-pom"
         }
       ],
@@ -3708,7 +3708,7 @@
       ]
     },
     {
-      "id": "org.jetbrains.compose.ui:ui:1.12.0",
+      "id": "org.jetbrains.compose.ui:ui:1.12.1",
       "spdxLicense": "Apache-2.0",
       "configurations": [
         "debugAndroidTestRuntimeClasspath",
@@ -3718,8 +3718,8 @@
       "artifacts": {},
       "evidence": [
         {
-          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.0/ui-1.12.0.pom",
-          "sha256": "d389ae507a4a6e5a64aaa2741d4eeea14ec157a628068173e44bd2dcd64b8106",
+          "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.1/ui-1.12.1.pom",
+          "sha256": "fddbf101a9afb653f03febb3c31e1137bbaec86928d29926cabb301b199f92aa",
           "kind": "published-pom"
         }
       ],
