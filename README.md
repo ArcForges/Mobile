@@ -7,7 +7,7 @@ A native Kotlin Android app that calls the real Cloud Hello API at `https://arcf
 | Component | Pinned version / purpose |
 | --- | --- |
 | JDK / Java and Kotlin bytecode | JDK 21 / JVM 21 (class major 65) |
-| Gradle / Android Gradle Plugin | 9.7.1 / 9.4.1 |
+| Gradle / Android Gradle Plugin | 9.8.0 / 9.4.1 |
 | Kotlin / Compose Multiplatform | 2.4.20 / 1.12.1 |
 | Compose Hot Reload | 1.2.0; JVM development sandbox only |
 | Android SDK | compile/target 37, Build-Tools 37.0.0, minimum Android 8.0 (API 26) |

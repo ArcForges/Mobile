@@ -28,7 +28,7 @@ Use `gradlew.bat` on Windows. Both hooks check whitespace only; they never resto
 
 The bytecode check inspects application/shared `.class` files for JVM 21 before D8/R8 converts Android code to DEX. Dependency JARs such as Contracts may target an older JVM; that does not change this application's compiler target or its minimum Android API.
 
-Kotlin compilation, Gradle deprecations and release lint fail on warnings. There are no authored-code diagnostic debt waivers. Generated and third-party inputs retain their separately reviewed provenance; do not suppress warnings in application code to pass validation.
+Kotlin compilation and release lint fail on warnings. Gradle deprecations are reported on every build (`org.gradle.warning.mode=all`) but do not fail it: with Gradle 9.8.0, the stable Android Gradle Plugin 9.4.1 and Compose Hot Reload 1.2.0 call APIs that Gradle deprecates for Gradle 10 and 11, and their fixes exist only in prereleases. Restore `fail` once stable plugin releases no longer trigger them, and never add a deprecated call in authored build logic. There are no authored-code diagnostic debt waivers. Generated and third-party inputs retain their separately reviewed provenance; do not suppress warnings in application code to pass validation.
 
 ## Shared UI hot reload
 
