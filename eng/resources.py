@@ -172,7 +172,7 @@ def source_pool(data):
         text = data[offset:offset + size].decode('utf-8')
         require(len(text.encode('utf-16-le')) // 2 == chars, 'Incorrect source path length')
         text = text.replace('\\', '/')
-        text = re.sub(r'gradleHome-[0-9]+:/caches/9\.7\.1/transforms/[0-9a-f]{32}/transformed/',
+        text = re.sub(r'gradleHome-[0-9]+:/caches/9\.8\.0/transforms/[0-9a-f]{32}/transformed/',
                       'gradle/transformed/', text)
         text = re.sub(r'(io\.github\.arcforges\.mobile\.app-[A-Za-z]+)-[0-9]+:/', r'\1:/', text)
         paths.append(text)

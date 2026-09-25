@@ -16,7 +16,9 @@ Contracts CI versions are admitted only for this foundation candidate stage;
 SNAPSHOT, dynamic selectors and internal Contracts cannot enter this consumer.
 No production stable release is admitted by the candidate policy.
 The `compose-1-12-1` review admits the Compose 1.12.0 to 1.12.1 patch upgrade with
-superseding resource profile r7; no component is added or removed.
+superseding resource profile r7; no component is added or removed. The `gradle-9-8-0` review
+admits the Gradle 9.8.0 wrapper distribution with superseding resource profile r8; the Android
+closure is unchanged, and Gradle deprecations are reported rather than fatal (see development.md).
 
 For an upgrade, append a JSON review under `eng/policy/dependency-reviews` and add
 its filename to the policy's ordered `reviews`. Retain all previous files unchanged.
