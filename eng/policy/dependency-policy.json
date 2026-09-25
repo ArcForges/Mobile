@@ -45,6 +45,7 @@
   },
   "reviews": [
     "wp02-05-baseline.json",
-    "compose-1-12-1.json"
+    "compose-1-12-1.json",
+    "gradle-9-8-0.json"
   ]
 }

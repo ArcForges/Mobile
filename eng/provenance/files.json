@@ -54,6 +54,7 @@
     "eng/policy/android-licences.json",
     "eng/policy/dependency-policy.json",
     "eng/policy/dependency-reviews/compose-1-12-1.json",
+    "eng/policy/dependency-reviews/gradle-9-8-0.json",
     "eng/policy/dependency-reviews/wp02-05-baseline.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/reuse-policy.json",
@@ -65,6 +66,7 @@
     "eng/provenance/artifact-profiles/android-resources-r5.json",
     "eng/provenance/artifact-profiles/android-resources-r6.json",
     "eng/provenance/artifact-profiles/android-resources-r7.json",
+    "eng/provenance/artifact-profiles/android-resources-r8.json",
     "eng/provenance/conflicts/okhttp-public-suffix-data.json",
     "eng/provenance/files.json",
     "eng/provenance/records/android-packaged-resources-r1.json",
@@ -74,6 +76,7 @@
     "eng/provenance/records/android-packaged-resources-r5.json",
     "eng/provenance/records/android-packaged-resources-r6.json",
     "eng/provenance/records/android-packaged-resources-r7.json",
+    "eng/provenance/records/android-packaged-resources-r8.json",
     "eng/provenance/records/androidx-apache-legal-r1.json",
     "eng/provenance/records/androidx-concurrent-notice-r1.json",
     "eng/provenance/records/androidx-native-attribution-r1.json",
@@ -139,6 +142,6 @@
     "eng/version-sources.json": "contracts-build-identity-r1"
   },
   "artifacts": [
-    "android-packaged-resources-r7"
+    "android-packaged-resources-r8"
   ]
 }

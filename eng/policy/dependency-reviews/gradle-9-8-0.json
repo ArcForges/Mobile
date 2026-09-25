@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "0975fe4796d69d68348cc5860dd54782d95fd9a3",
+  "owner": "Release Engineering Owner",
+  "maintenanceAssessment": "Adopt the upstream Gradle 9.8.0 distribution, a minor release in the admitted Gradle 9 line, pinned by its official SHA-256; the reviewed 9.7.1 wrapper launcher (gradle-wrapper-9-7-1-r2) is retained. Android lint reports the newer Gradle release as an error under warnings-as-errors. The stable Android Gradle Plugin 9.4.1 and Compose Hot Reload 1.2.0 call APIs that Gradle 9.8 deprecates, and their fixes exist only in prereleases, so by explicit user decision Gradle deprecations are reported instead of fatal until stable plugin releases no longer trigger them. Upstream maintenance remains monitored by Dependabot and the security workflow; this records admission, not a claim of latest versions or no vulnerabilities.",
+  "versions": {
+    "agp": "9.4.1",
+    "kotlin": "2.4.20",
+    "compose": "1.12.1",
+    "material3": "1.9.0",
+    "hot-reload": "1.2.0",
+    "activity": "1.13.0",
+    "contracts": "1.0.0-ci.60.1",
+    "connect": "0.9.0",
+    "coroutines": "1.11.0",
+    "junit": "4.13.2",
+    "androidx-test-runner": "1.7.0",
+    "androidx-test-junit": "1.3.0",
+    "spotless": "8.10.2",
+    "java": "21.0.12",
+    "gradle": "9.8.0"
+  },
+  "inputs": {
+    ".github/workflows/ci.yml": "822e4b21bae79fed2fcf8d5e7026280c6b63568b1ffff3d196d2e4db8efc5d78",
+    ".github/workflows/security.yml": "2c632e9a3f5ab7f4b3ac403dd68fd689dee06f51abf81564aa1973b4f3a4f3ef",
+    ".java-version": "a3d51344032f8539de798beee98ccf38ed09f47d21208260bb41a3653a0fd100",
+    ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+    "app/build.gradle.kts": "482b95191c5733de7e2efe84a82291b2239fa6f6aa6ba3df2bbdd5a8b4088373",
+    "app/gradle.lockfile": "c2ffa98c088d86b028aaae1abd33c4ae05d904093263474d2294e26ec20ee2af",
+    "build.gradle.kts": "73cf271a4db83c20c94448e71e56bce79fced69f25ea34d13f16c13a9b028b2b",
+    "eng/licences.gradle.kts": "06fdd9f0234651c98c10fbac3a3801b6d4fc86c97c0dff7df8695d188c085a46",
+    "eng/policy/android-licences.json": "b4468ed9d69e5a668160c3330d4c493608b5c0d9ea7e2961840dac3a19fce941",
+    "eng/policy/licence-boundary.json": "eae6bb06e3680a9db2611d254ea7efe80b488d7921c3fe7d2e1df4f05df43736",
+    "eng/policy/reuse-policy.json": "9e03dc74d01a9ab579e9a5a6177da3f27580e2c96cfa683e37c395c5fb631fbc",
+    "gradle.properties": "67be8667269aab0f9436bdfa9391334cfd543cbba6cd7ab3c5f43b2b45bf9c5f",
+    "gradle/libs.versions.toml": "eb0720b589342e44afe69b2ac84f152e889160eb9b62de2385c7dc899fb06ac4",
+    "gradle/locks/shared-linux-x64.lockfile": "ba5b1cfa5f3b16e18788b08ed1ed6592a1dc34c31afec9b04caa4413303d9886",
+    "gradle/locks/shared-windows-x64.lockfile": "8e23f1e7459d2ce2b7ef80b1d809dc8e2da9b62f36f6647ba17fb1a4921c36c3",
+    "gradle/verification-metadata.xml": "e36cc919f1356324f1d4396506a157c1e8572770d899e84a2a572f49b0c21a86",
+    "gradle/wrapper/gradle-wrapper.properties": "d5f437c86234ae0d247ff7e8616e5c16ab4c4c9e37718e809d2829bcf2c81a0d",
+    "settings-gradle.lockfile": "e58bb2ed80db9f829601a658d7c33b9802eb7d2191c31e79c28e01f14c225926",
+    "settings.gradle.kts": "545057a2ec0163d4825a069576e0bbe96247f0c316027f35dd7a365685ac8e19",
+    "shared/build.gradle.kts": "227cbfa41da4c483ff1d006f90d530d7da7f07239026ae5cdb1654b3529d57b5"
+  },
+  "evidence": {
+    "closure-sbom": {
+      "status": "required-ci",
+      "reason": "The Android runtime closure is unchanged (195 components, 122 resource inputs, app and shared locks unchanged). The build-script classpath adds the Kotlin 2.4.10 stdlib, stdlib-common and reflect artifacts that Gradle 9.8.0 resolves, recorded with sha256 verification metadata; they are build tooling and are not redistributed."
+    },
+    "compatibility": {
+      "status": "required-ci",
+      "reason": "Gradle minor upgrade within major 9; AGP 9.4.1 builds with it. Its Gradle 10/11 deprecation warnings (AGP Configuration.setVisible and Compose Hot Reload attribute types) are reported, not fatal. Windows/Linux CI builds remain required."
+    },
+    "compilation": {
+      "status": "required-ci",
+      "reason": "The documented local Windows regeneration and full build passed with Gradle 9.8.0 (spotlessCheck, desktop and debug unit tests, lintRelease with warnings as errors, instrumentation APK and release APK/AAB), plus a strictly locked rebuild of all four archives. Required Windows and Linux CI compilation and packaging remain the gate."
+    },
+    "licence-provenance": {
+      "status": "required-ci",
+      "reason": "No redistributed component changes. The retained wrapper launcher keeps its gradle-wrapper-9-7-1-r2 record; resource profile r8 retains every r7 archive rule and passed the licence closure and provenance gates locally. CI repeats the strict licence/resource gate and release archive verification."
+    },
+    "local-runtime": {
+      "status": "not-run",
+      "reason": "No Android device or emulator is part of the existing environment; no installed-app runtime observation is claimed."
+    },
+    "migration": {
+      "status": "not-applicable",
+      "reason": "No persisted data, schema, protocol or app code changes; only the build tool version moves."
+    },
+    "performance": {
+      "status": "not-run",
+      "reason": "No build or app performance measurement was taken for this change."
+    },
+    "security": {
+      "status": "required-ci",
+      "reason": "Official distribution pinned by SHA-256 with distribution URL validation; no feed, publisher, public import or native payload change. The existing CodeQL/security workflow and Dependabot monitoring apply."
+    }
+  }
+}
