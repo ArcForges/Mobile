@@ -41,3 +41,9 @@ SDK installation or public archive download is an automatic upgrade prerequisite
 Negative fixtures exercise forbidden licences, floating versions/source tags,
 mutable checksums, wrong publisher, private imports and missing upgrade evidence.
 They establish policy refusal, not runtime, store or commercial acceptance.
+
+The `spotless-8-10-3` review admits the formatter plugin patch and its build-only
+closure after required release lint detected the new version. Explicit ktfmt 0.64,
+Android locks and redistributed dependencies are unchanged. Superseding resource
+profile r9 preserves all archive expectations and binds the updated catalog and
+checksum metadata; Windows/Linux CI remains required.
