@@ -1,5 +1,7 @@
 # Android releases
 
+This procedure describes the repository's current Android-only release channel. The [platform and distribution matrix](../README.md#platform-and-distribution-matrix) is authoritative for what is delivered: implementation source reuse and the JVM preview do not create a desktop, iOS or cross-platform product commitment.
+
 ## Pipeline and immutable candidate
 
 `CI` runs on PRs, main pushes and manual validation. Windows/Linux compile the app, run offline shared unit tests, formatting, release lint and bytecode checks. App transport tests are compiled but run only by explicit local opt-in. Security runs once through the reusable workflow; scheduled/manual security analyses share the same CodeQL categories.
@@ -24,7 +26,7 @@ In `ArcForges/Mobile`, create the repository environment **android-release**. Al
 
 Use a dedicated RSA 3072-bit or stronger Android release key with a long validity period. Store its keystore and password backup outside Git and retain them securely: future APKs need that identity to update existing installations. Do not generate a fresh key on every CI run. `eng/mobile.py sign` receives passwords through environment variables rather than command-line values, creates only a temporary keystore and checks the output certificate against the configured fingerprint.
 
-The workflow uses GitHub's short-lived `GITHUB_TOKEN` with `contents: write` only in the release job; no PAT, NuGet account, npm token or Maven signing key is needed. GitHub release distribution needs no Play Console account. Play publishing and Play App Signing are separate future setup steps.
+The workflow uses GitHub's short-lived `GITHUB_TOKEN` with `contents: write` only in the release job; no PAT, NuGet account, npm token or Maven signing key is needed. GitHub release distribution needs no Play Console account. This repository does not currently configure Play publishing, a Play listing or Play App Signing. Any store channel requires separate approval and implementation; this release path makes no store-availability promise.
 
 Protect `main` with PR review/merge rules and require the aggregate `Verify` status after the first PR establishes its check name. Enable private vulnerability reporting and Dependabot alerts. Keep third-party Actions pinned to commit hashes and let Dependabot propose updates.
 
@@ -32,7 +34,7 @@ Protect `main` with PR review/merge rules and require the aggregate `Verify` sta
 
 The workflow derives `versionName = 0.1.0-ci.<run_number>.<run_attempt>` and `versionCode = run_number * 100 + run_attempt`. Attempts are limited to 1..99; the resulting code must remain below Android's 2,100,000,000 ceiling. No commit is pushed merely to bump a version. Keep the workflow's run-number history; if replacing it or importing already released builds, establish a higher version-code baseline first.
 
-Release tags are `android-<versionName>`. They are development prereleases, available in the repository's Releases list. The APK is directly installable on Android 8.0 or newer; the AAB is an upload bundle, not an installable file. Debug builds use `io.github.arcforges.mobile.debug`, allowing development and release installs to coexist. Release builds use `io.github.arcforges.mobile`.
+Release tags are `android-<versionName>`. They are development prereleases, available in the repository's Releases list. The signed APK is directly installable on Android 8.0 or newer (minimum API 26); the signed AAB is an upload bundle, not an installable file, and the current workflow does not submit it to a store. Debug builds use `io.github.arcforges.mobile.debug`, allowing development and release installs to coexist. Release builds use `io.github.arcforges.mobile` (target API 37). PRs and manual runs validate only and do not publish.
 
 ## Failures, retries and recovery
 

@@ -6,6 +6,10 @@ Use JDK 21, Python 3.14.7 and the committed Gradle wrapper. Use the existing And
 
 No Node, npm, CMake, NDK or neighboring source checkout is required for this bootstrap. Android libraries may contain their own published native runtime components.
 
+## Product platform and implementation scope
+
+Android is this repository's sole product and release target. Kotlin Multiplatform and Compose Multiplatform describe the source-set and UI implementation used for Android source reuse; they are not promises of additional product platforms. The `shared` desktop JVM target is a local, offline development preview only: it has no product installer or release artifact. This repository makes no iOS/Swift or cross-platform UI product claim. See the [platform and distribution matrix](../README.md#platform-and-distribution-matrix).
+
 ## Layout and commands
 
 - `app/src/main`: Android entry point and published Connect-Kotlin gRPC-Web adapter.
