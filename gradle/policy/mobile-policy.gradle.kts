@@ -37,6 +37,44 @@ private fun gov12AssetRows(file: File): List<Map<*, *>> {
     return rows.map { it as? Map<*, *> ?: throw GradleException("Invalid policy asset pin") }
 }
 
+private fun gov12ArchiveMembersMatch(
+    candidateMembers: Map<String, String>,
+    downloadedMembers: Map<String, String>,
+    repositorySigned: Boolean,
+): Boolean {
+    if (candidateMembers.containsKey(".signature.p7s")) return false
+    val payloadMembers = downloadedMembers.toMutableMap()
+    val signatureDigest = payloadMembers.remove(".signature.p7s")
+    return (signatureDigest != null) == repositorySigned && payloadMembers == candidateMembers
+}
+
+private fun gov12PackageMemberHashes(file: File): Map<String, String> {
+    val hashes = linkedMapOf<String, String>()
+    ZipFile(file).use { archive ->
+        val entries = archive.entries()
+        while (entries.hasMoreElements()) {
+            val entry = entries.nextElement()
+            gov12Require(
+                !entry.isDirectory,
+                "Unexpected directory entry in policy package: ${entry.name}",
+            )
+            gov12Require(
+                !entry.name.startsWith("/") &&
+                    !entry.name.contains('\\') &&
+                    entry.name.split('/').all { it.isNotEmpty() && it != "." && it != ".." },
+                "Unsafe ZIP member path in policy package: ${entry.name}",
+            )
+            gov12Require(
+                !hashes.containsKey(entry.name),
+                "Duplicate ZIP member in policy package: ${entry.name}",
+            )
+            val bytes = archive.getInputStream(entry).use { it.readBytes() }
+            hashes[entry.name] = gov12Sha256(bytes)
+        }
+    }
+    return hashes
+}
+
 private fun gov12ValidatePin(pin: Map<*, *>) {
     val id = gov12String(pin, "id")
     val repository = gov12String(pin, "repository")
@@ -48,6 +86,10 @@ private fun gov12ValidatePin(pin: Map<*, *>) {
     val candidate =
         pin["candidate"] as? Map<*, *> ?: throw GradleException("Missing candidate identity: $id")
     val candidateName = gov12String(candidate, "artifactName")
+    val candidatePackageSha = gov12String(candidate, "packageSha256")
+    val candidateArchiveMembers =
+        candidate["archiveMembers"] as? List<*>
+            ?: throw GradleException("Missing candidate archive member manifest: $id")
     val members =
         pin["members"] as? List<*> ?: throw GradleException("Missing package members: $id")
     val normalizedId = packageId.lowercase(Locale.ROOT)
@@ -63,6 +105,36 @@ private fun gov12ValidatePin(pin: Map<*, *>) {
     )
     gov12Require(sourceCommit.matches(Regex("[0-9a-f]{40}")), "Invalid producer commit: $id")
     gov12Require(packageSha.matches(Regex("[0-9a-f]{64}")), "Invalid package checksum: $id")
+    gov12Require(
+        candidatePackageSha.matches(Regex("[0-9a-f]{64}")) && candidatePackageSha != packageSha,
+        "Invalid or ambiguous candidate package checksum: $id",
+    )
+    gov12Require(candidateArchiveMembers.isNotEmpty(), "Empty candidate archive manifest: $id")
+    val memberPaths = mutableSetOf<String>()
+    val foldedMemberPaths = mutableSetOf<String>()
+    candidateArchiveMembers.forEach { row ->
+        val member =
+            row as? Map<*, *> ?: throw GradleException("Invalid candidate archive member: $id")
+        val path = gov12String(member, "path")
+        gov12Require(
+            !path.startsWith("/") &&
+                !path.contains('\\') &&
+                path.split('/').all { it.isNotEmpty() && it != "." && it != ".." },
+            "Unsafe candidate ZIP member path: $path",
+        )
+        gov12Require(
+            memberPaths.add(path) && foldedMemberPaths.add(path.lowercase(Locale.ROOT)),
+            "Duplicate or case-colliding candidate ZIP member: $path",
+        )
+        gov12Require(
+            gov12String(member, "sha256").matches(Regex("[0-9a-f]{64}")),
+            "Invalid candidate ZIP member checksum: $path",
+        )
+    }
+    gov12Require(
+        ".signature.p7s" !in memberPaths,
+        "Unsigned candidate manifest must not contain a NuGet repository signature: $id",
+    )
     gov12Require(
         gov12String(candidate, "artifactDigest").matches(Regex("sha256:[0-9a-f]{64}")),
         "Invalid CI artifact digest: $id",
@@ -167,6 +239,8 @@ private fun gov12VerifyAndExtract(pin: Map<*, *>, root: Project, outputRoot: Fil
     gov12ValidatePin(pin)
     val id = gov12String(pin, "id")
     val packageSha = gov12String(pin, "packageSha256")
+    val candidate = pin["candidate"] as Map<*, *>
+    val candidatePackageSha = gov12String(candidate, "packageSha256")
     val packageFile = File(outputRoot, "$id/package.nupkg")
     val overrideProperty =
         when (id) {
@@ -190,9 +264,22 @@ private fun gov12VerifyAndExtract(pin: Map<*, *>, root: Project, outputRoot: Fil
     } else if (!packageFile.isFile || gov12Sha256(packageFile) != packageSha) {
         gov12Download(gov12String(pin, "nugetUrl"), packageFile)
     }
+    val packageDigest = gov12Sha256(packageFile)
+    val isCandidatePackage = packageDigest == candidatePackageSha
+    val isPublishedPackage = packageDigest == packageSha
     gov12Require(
-        gov12Sha256(packageFile) == packageSha,
-        "Pinned NuGet package SHA-256 mismatch: $id",
+        isPublishedPackage || (overridePath != null && isCandidatePackage),
+        "Package SHA-256 matches neither the producer candidate nor pinned NuGet package: $id",
+    )
+    val candidateRows = candidate["archiveMembers"] as List<*>
+    val candidateMembers = candidateRows.associate { row ->
+        val member = row as Map<*, *>
+        gov12String(member, "path") to gov12String(member, "sha256")
+    }
+    val packageMembers = gov12PackageMemberHashes(packageFile)
+    gov12Require(
+        gov12ArchiveMembersMatch(candidateMembers, packageMembers, isPublishedPackage),
+        "NuGet package members differ from the producer candidate or signature state: $id",
     )
     val members = pin["members"] as List<*>
     ZipFile(packageFile).use { archive ->
@@ -508,9 +595,18 @@ val verifyMobilePolicy =
             gov12Pins.forEach { pin ->
                 val id = gov12String(pin, "id")
                 val packageFile = File(gov12CacheRoot, "$id/package.nupkg")
+                val candidate = pin["candidate"] as Map<*, *>
+                val packageDigest = if (packageFile.isFile) gov12Sha256(packageFile) else ""
+                val overrideProperty =
+                    if (id == "contracts-naming") "gov12.contractsPackage"
+                    else "gov12.buildPolicyPackage"
+                val localOverride =
+                    rootProject.providers.gradleProperty(overrideProperty).orNull != null
                 gov12Require(
                     packageFile.isFile &&
-                        gov12Sha256(packageFile) == gov12String(pin, "packageSha256"),
+                        (packageDigest == gov12String(pin, "packageSha256") ||
+                            (localOverride &&
+                                packageDigest == gov12String(candidate, "packageSha256"))),
                     "Prepared package is missing or changed: $id",
                 )
                 val members = pin["members"] as List<*>
@@ -676,6 +772,80 @@ val verifyMobilePolicy =
                         forbiddenNames,
                     )
                     .isNotEmpty(),
+            )
+            val candidateArchiveFixture =
+                mapOf("member-a" to "a".repeat(64), "member-b" to "b".repeat(64))
+            val signedArchiveFixture =
+                candidateArchiveFixture + (".signature.p7s" to "c".repeat(64))
+            expect(
+                "WP-05.02",
+                "producer candidate archive manifest fixture",
+                false,
+                !gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    candidateArchiveFixture,
+                    repositorySigned = false,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "NuGet repository signature preserves candidate member manifest fixture",
+                false,
+                !gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    signedArchiveFixture,
+                    repositorySigned = true,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "unsigned candidate rejects unexpected NuGet signature fixture",
+                true,
+                gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    signedArchiveFixture,
+                    repositorySigned = false,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "signed NuGet package rejects missing signature fixture",
+                true,
+                gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    candidateArchiveFixture,
+                    repositorySigned = true,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "signed NuGet package rejects extra member fixture",
+                true,
+                gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    signedArchiveFixture + ("extra" to "d".repeat(64)),
+                    repositorySigned = true,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "signed NuGet package rejects missing member fixture",
+                true,
+                gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    signedArchiveFixture - "member-b",
+                    repositorySigned = true,
+                ),
+            )
+            expect(
+                "WP-05.02",
+                "signed NuGet package rejects changed member fixture",
+                true,
+                gov12ArchiveMembersMatch(
+                    candidateArchiveFixture,
+                    signedArchiveFixture + ("member-a" to "e".repeat(64)),
+                    repositorySigned = true,
+                ),
             )
 
             fun projectGraphIsAllowed(graph: Map<String, Set<String>>) = gov12LayeringCheck(graph)
