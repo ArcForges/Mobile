@@ -324,6 +324,11 @@ private fun gov12LayeringCheck(graph: Map<String, Set<String>>): Boolean =
         graph[":app"] == setOf(":shared") &&
         graph[":shared"].isNullOrEmpty()
 
+private fun gov12CrossProjectDependencies(
+    projectPath: String,
+    dependencies: Set<String>,
+): Set<String> = dependencies.filterTo(mutableSetOf()) { it != projectPath }
+
 private fun gov12PolicyMatches(
     categoryId: String,
     path: String,
@@ -656,13 +661,18 @@ val verifyMobilePolicy =
                     .filter { it.path in setOf(":app", ":shared") }
                     .associate { project ->
                         project.path to
-                            project.configurations
-                                .flatMap { configuration ->
-                                    configuration.dependencies.withType<ProjectDependency>().map {
-                                        it.path
+                            gov12CrossProjectDependencies(
+                                project.path,
+                                project.configurations
+                                    .flatMap { configuration ->
+                                        configuration.dependencies
+                                            .withType<ProjectDependency>()
+                                            .map {
+                                                it.path
+                                            }
                                     }
-                                }
-                                .toSet()
+                                    .toSet(),
+                            )
                     }
             record(
                 "WP-05.00",
@@ -683,6 +693,23 @@ val verifyMobilePolicy =
                 !projectGraphIsAllowed(
                     mapOf(":app" to setOf(":shared"), ":shared" to setOf(":app"))
                 ),
+            )
+            expect(
+                "WP-05.00",
+                "self-project edges omitted from actual graph projection",
+                false,
+                !projectGraphIsAllowed(
+                    mapOf(
+                        ":app" to gov12CrossProjectDependencies(":app", setOf(":app", ":shared")),
+                        ":shared" to gov12CrossProjectDependencies(":shared", setOf(":shared")),
+                    )
+                ),
+            )
+            expect(
+                "WP-05.00",
+                "missing app-to-shared cross-project edge negative fixture",
+                true,
+                !projectGraphIsAllowed(mapOf(":app" to emptySet(), ":shared" to emptySet())),
             )
 
             val boundary = gov12Object(rootProject.file("eng/policy/licence-boundary.json"))
