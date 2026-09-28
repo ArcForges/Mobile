@@ -99,7 +99,7 @@
   },
   "notice": {
     "required": true,
-    "text": "Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. Exact producer packages and selected source paths are recorded in android-resources-r9.json. Build-tool implementation is not claimed to be part of the app. Build identity contains factual version/schema metadata from the existing checksum-verified Apache Contracts producer; no generated contract implementation is copied.",
+    "text": "Android resource provenance retains AndroidX/AOSP Apache-2.0 graphics and metadata, Kotlin/coroutines Apache-2.0 resources, protobuf BSD-3-Clause schemas and public Contracts Apache-2.0 data. Every archive contains the full separately licensed dependency/legal notices and the source-bound receipt. This active r10 record retains the exact producer packages and selected source paths from its immutable r9 predecessor while binding the unchanged resource/archive inputs to the authorized Mobile build-script update. Build-tool implementation is not claimed to be part of the app. Build identity contains factual version/schema metadata from the existing checksum-verified Apache Contracts producer; no generated contract implementation is copied.",
     "files": [
       "LICENSE",
       "third-party/notices/1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d.txt",

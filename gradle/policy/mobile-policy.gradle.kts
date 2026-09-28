@@ -339,20 +339,31 @@ private fun gov12PolicyMatches(
                 .containsMatchIn(source)
         "BAN-CODEGEN" ->
             Regex(
-                    """(?i)\b(?:MethodHandles\.Lookup\s*\.\s*define(?:Hidden)?Class\s*\(|JavaCompiler\b|javax\.tools\.ToolProvider\b|kotlin\.script\.|net\.bytebuddy\.|org\.objectweb\.asm\.|ClassWriter\b|GroovyShell\b|ScriptEngineManager\b)"""
+                    """(?i)\b(?:MethodHandles\s*\.\s*Lookup\s*\.\s*define(?:Hidden)?Class\s*\(|MethodHandles\s*\.\s*lookup\s*\(\s*\)\s*\.\s*define(?:Hidden)?Class\s*\(|JavaCompiler\b|javax\.tools\.ToolProvider\b|kotlin\.script\.|net\.bytebuddy\.|org\.objectweb\.asm\.|ClassWriter\b|GroovyShell\b|ScriptEngineManager\b)"""
                 )
                 .containsMatchIn(source)
         "BAN-BLOCKING" -> {
             val blockingContext =
                 Regex(
-                        """(?is)\bsuspend\s+fun\b|\b(?:async|launch)\s*\{|\b(?:CompletableFuture|Future)<"""
+                        """(?is)\bsuspend\s+fun\b|\b(?:async|launch)\s*\{|\b(?:CompletableFuture|Future)\s*<"""
                     )
                     .containsMatchIn(source)
+            val futureVariables =
+                Regex(
+                        """(?im)\b(?:val|var)\s+([A-Za-z_]\w*)\s*:\s*(?:(?:java\.util\.concurrent)\.)?(?:CompletableFuture|Future)\s*<[^>\r\n]+>|\b(?:(?:java\.util\.concurrent)\.)?(?:CompletableFuture|Future)\s*<[^>\r\n]+>\s+([A-Za-z_]\w*)"""
+                    )
+                    .findAll(source)
+                    .mapNotNull { match -> match.groups[1]?.value ?: match.groups[2]?.value }
+                    .toSet()
+            val futureWait = futureVariables.any { variable ->
+                Regex("""(?is)\b${Regex.escape(variable)}\s*\.\s*(?:get|join)\s*\(""")
+                    .containsMatchIn(source)
+            }
             val blockingWait =
                 Regex(
-                        """(?is)\b(?:runBlocking\s*\{|Thread\s*\.\s*sleep\s*\(|CountDownLatch\b[^\n]*\.\s*await\s*\(|(?:CompletableFuture|Future)<[^>]+>[^\n]*\.\s*(?:get|join)\s*\(|\bblockingGet\s*\()"""
+                        """(?is)\b(?:runBlocking\s*\{|Thread\s*\.\s*sleep\s*\(|CountDownLatch\b[^\n]*\.\s*await\s*\(|\bblockingGet\s*\()"""
                     )
-                    .containsMatchIn(source)
+                    .containsMatchIn(source) || futureWait
             Regex("""(?i)\brunBlocking\s*\{""").containsMatchIn(source) ||
                 (blockingContext && blockingWait)
         }
@@ -830,13 +841,42 @@ val verifyMobilePolicy =
                     "BAN-REFLECTION" to "fun unsafe() = Class.forName(\"sample.Type\")",
                     "BAN-CODEGEN" to "val generated = MethodHandles.Lookup.defineClass(bytes)",
                     "BAN-BLOCKING" to
-                        "suspend fun unsafe() { val pending: CompletableFuture<Int> = TODO(); pending.join() }",
+                        """suspend fun unsafe() {
+                            val pending: CompletableFuture<Int> = TODO()
+                            pending.join()
+                        }""",
                     "BAN-PROVIDER" to
                         "import com.${providerNames.first().lowercase(Locale.ROOT)}.sdk.ProviderClient",
                     "BAN-LOGGING" to "fun unsafe(token: String) { Log.d(\"tag\", token) }",
                     "BAN-MONEY" to "val amount: Double = 1.25",
                     "BAN-POINTER" to
                         "class UnsafeHandle { val pointer: kotlinx.cinterop.CPointer<ByteVar> = TODO() }",
+                )
+            val additionalCategoryNegativeFixtures =
+                mapOf(
+                    "BAN-CODEGEN" to
+                        listOf(
+                            "val generated = MethodHandles.lookup().defineClass(bytes)",
+                            "val generated = MethodHandles.lookup().defineHiddenClass(bytes, true)",
+                        ),
+                    "BAN-BLOCKING" to
+                        listOf(
+                            """suspend fun unsafe() {
+                                val pending: java.util.concurrent.CompletableFuture<Int> = TODO()
+                                doOtherWork()
+                                pending.join()
+                            }"""
+                        ),
+                )
+            val additionalCategoryPositiveFixtures =
+                mapOf(
+                    "BAN-BLOCKING" to
+                        listOf(
+                            """suspend fun allowed() {
+                                val pending: CompletableFuture<Int> = TODO()
+                                consumeLater(pending)
+                            }"""
+                        )
                 )
             val categoryFixturePaths =
                 mapOf("BAN-MONEY" to "app/src/main/kotlin/payment/Balance.kt")
@@ -846,12 +886,15 @@ val verifyMobilePolicy =
                     categoryTestSources[id]
                         ?: throw GradleException("No category fixture was authored for $id")
                 val fixturePath = categoryFixturePaths[id] ?: "app/src/main/kotlin/Fixture.kt"
-                expect(
-                    "WP-05.04",
-                    "$id negative fixture",
-                    true,
-                    gov12PolicyMatches(id, fixturePath, fixture, providerNames),
-                )
+                (listOf(fixture) + additionalCategoryNegativeFixtures[id].orEmpty())
+                    .forEachIndexed { index, negativeFixture ->
+                        expect(
+                            "WP-05.04",
+                            "$id negative fixture ${index + 1}",
+                            true,
+                            gov12PolicyMatches(id, fixturePath, negativeFixture, providerNames),
+                        )
+                    }
                 expect(
                     "WP-05.04",
                     "$id positive fixture",
@@ -863,6 +906,16 @@ val verifyMobilePolicy =
                         providerNames,
                     ),
                 )
+                additionalCategoryPositiveFixtures[id].orEmpty().forEachIndexed {
+                    index,
+                    positiveFixture ->
+                    expect(
+                        "WP-05.04",
+                        "$id positive fixture ${index + 2}",
+                        false,
+                        gov12PolicyMatches(id, fixturePath, positiveFixture, providerNames),
+                    )
+                }
             }
             gov12Require(
                 categoryTestSources.keys == expectedCategoryIds.toSet(),
