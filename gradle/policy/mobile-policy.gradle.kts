@@ -348,28 +348,58 @@ private fun gov12PolicyMatches(
                 )
                 .containsMatchIn(source)
         "BAN-BLOCKING" -> {
-            val blockingContext =
-                Regex(
-                        """(?is)\bsuspend\s+fun\b|\b(?:async|launch)\s*\{|\b(?:CompletableFuture|Future)\s*<"""
-                    )
-                    .containsMatchIn(source)
-            val futureVariables =
+            val typedFutureVariables =
                 Regex(
                         """(?im)\b(?:val|var)\s+([A-Za-z_]\w*)\s*:\s*(?:(?:java\.util\.concurrent)\.)?(?:CompletableFuture|Future)\s*<[^>\r\n]+>|\b(?:(?:java\.util\.concurrent)\.)?(?:CompletableFuture|Future)\s*<[^>\r\n]+>\s+([A-Za-z_]\w*)"""
                     )
                     .findAll(source)
                     .mapNotNull { match -> match.groups[1]?.value ?: match.groups[2]?.value }
                     .toSet()
+            val inferredFutureVariables =
+                Regex(
+                        """(?im)\b(?:val|var)\s+([A-Za-z_]\w*)\s*=\s*(?:(?:java\.util\.concurrent)\.)?CompletableFuture\s*\.\s*(?:completedFuture|supplyAsync|runAsync|allOf|anyOf)\s*\("""
+                    )
+                    .findAll(source)
+                    .map { it.groupValues[1] }
+                    .toSet()
+            val futureVariables = typedFutureVariables + inferredFutureVariables
+            val typedLatchVariables =
+                Regex(
+                        """(?im)\b(?:val|var)\s+([A-Za-z_]\w*)\s*:\s*(?:(?:java\.util\.concurrent)\.)?CountDownLatch\b|\b(?:(?:java\.util\.concurrent)\.)?CountDownLatch\s+([A-Za-z_]\w*)"""
+                    )
+                    .findAll(source)
+                    .mapNotNull { match -> match.groups[1]?.value ?: match.groups[2]?.value }
+                    .toSet()
+            val inferredLatchVariables =
+                Regex(
+                        """(?im)\b(?:val|var)\s+([A-Za-z_]\w*)\s*=\s*(?:(?:java\.util\.concurrent)\.)?CountDownLatch\s*\("""
+                    )
+                    .findAll(source)
+                    .map { it.groupValues[1] }
+                    .toSet()
+            val latchVariables = typedLatchVariables + inferredLatchVariables
+            val blockingContext =
+                Regex("""(?is)\bsuspend\s+fun\b|\b(?:async|launch)\s*(?:\([^)]*\))?\s*\{""")
+                    .containsMatchIn(source) || futureVariables.isNotEmpty()
             val futureWait = futureVariables.any { variable ->
                 Regex("""(?is)\b${Regex.escape(variable)}\s*\.\s*(?:get|join)\s*\(""")
                     .containsMatchIn(source)
             }
+            val directFutureWait =
+                Regex(
+                        """(?is)\b(?:(?:java\.util\.concurrent)\.)?CompletableFuture\s*\.\s*(?:completedFuture|supplyAsync|runAsync|allOf|anyOf)\s*\([^;{}]*?\)\s*\.\s*(?:get|join)\s*\("""
+                    )
+                    .containsMatchIn(source)
+            val latchWait = latchVariables.any { variable ->
+                Regex("""(?is)\b${Regex.escape(variable)}\s*\.\s*await\s*\(""")
+                    .containsMatchIn(source)
+            }
             val blockingWait =
                 Regex(
-                        """(?is)\b(?:runBlocking\s*\{|Thread\s*\.\s*sleep\s*\(|CountDownLatch\b[^\n]*\.\s*await\s*\(|\bblockingGet\s*\()"""
+                        """(?is)\b(?:runBlocking\s*(?:\([^)]*\))?\s*\{|Thread\s*\.\s*sleep\s*\(|\bblockingGet\s*\()"""
                     )
-                    .containsMatchIn(source) || futureWait
-            Regex("""(?i)\brunBlocking\s*\{""").containsMatchIn(source) ||
+                    .containsMatchIn(source) || futureWait || directFutureWait || latchWait
+            Regex("""(?is)\brunBlocking\s*(?:\([^)]*\))?\s*\{""").containsMatchIn(source) ||
                 (blockingContext && blockingWait)
         }
         "BAN-PROVIDER" ->
@@ -892,7 +922,28 @@ val verifyMobilePolicy =
                                 val pending: java.util.concurrent.CompletableFuture<Int> = TODO()
                                 doOtherWork()
                                 pending.join()
-                            }"""
+                            }""",
+                            """suspend fun unsafe() {
+                                val pending = CompletableFuture.completedFuture(1)
+                                doOtherWork()
+                                pending.join()
+                            }""",
+                            "suspend fun unsafe() = CompletableFuture.completedFuture(1).join()",
+                            """suspend fun unsafe() = CompletableFuture.completedFuture(
+                                1
+                            ).join()""",
+                            """suspend fun unsafe() {
+                                val gate: CountDownLatch = CountDownLatch(1)
+                                doOtherWork()
+                                gate.await()
+                            }""",
+                            """suspend fun unsafe() {
+                                val gate = CountDownLatch(1)
+                                doOtherWork()
+                                gate.await()
+                            }""",
+                            "launch(Dispatchers.IO) { Thread.sleep(1) }",
+                            "runBlocking(Dispatchers.IO) { Thread.sleep(1) }",
                         ),
                 )
             val additionalCategoryPositiveFixtures =
@@ -902,7 +953,22 @@ val verifyMobilePolicy =
                             """suspend fun allowed() {
                                 val pending: CompletableFuture<Int> = TODO()
                                 consumeLater(pending)
-                            }"""
+                            }""",
+                            """suspend fun allowed() {
+                                val job: Job = TODO()
+                                job.join()
+                            }""",
+                            """suspend fun allowed() {
+                                val gate: CountDownLatch = CountDownLatch(1)
+                                event.await()
+                            }""",
+                            """fun ordinary() {
+                                operation.join()
+                                event.await()
+                            }""",
+                            """launch(Dispatchers.IO) {
+                                unrelated.await()
+                            }""",
                         )
                 )
             val categoryFixturePaths =
