@@ -47,6 +47,12 @@
     "wp02-05-baseline.json",
     "compose-1-12-1.json",
     "gradle-9-8-0.json",
-    "spotless-8-10-3.json"
+    "spotless-8-10-3.json",
+    "gov-12-mobile-r1.json",
+    "gov-12-mobile-r2.json",
+    "gov-12-mobile-r3.json",
+    "gov-12-mobile-r4.json",
+    "gov-12-mobile-r5.json",
+    "gov-12-mobile-r6.json"
   ]
 }

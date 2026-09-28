@@ -15,7 +15,13 @@ spotless {
         ktfmt("0.64").kotlinlangStyle()
     }
     kotlinGradle {
-        target("*.gradle.kts", "app/*.gradle.kts", "shared/*.gradle.kts", "eng/*.gradle.kts")
+        target(
+            "*.gradle.kts",
+            "app/*.gradle.kts",
+            "shared/*.gradle.kts",
+            "eng/*.gradle.kts",
+            "gradle/policy/*.gradle.kts",
+        )
         ktfmt("0.64").kotlinlangStyle()
     }
 }
@@ -50,6 +56,8 @@ allprojects {
         }
     }
 }
+
+apply(from = "gradle/policy/mobile-policy.gradle.kts")
 
 // Project licence metadata is verified independently of the root LICENSE.
 extra["spdxLicense"] = "Apache-2.0"
