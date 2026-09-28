@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "contracts-naming",
+      "repository": "ArcForges/Contracts",
+      "packageId": "ArcForges.Contracts.Validation",
+      "version": "1.0.0-ci.129.1",
+      "sourceCommit": "05bf7986478440719e3fae944cb4ecdfa5e3cbfc",
+      "nugetUrl": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.validation/1.0.0-ci.129.1/arcforges.contracts.validation.1.0.0-ci.129.1.nupkg",
+      "packageSha256": "71f13cf0328cb38bb8899dfdc1e6bfc23fbb9143c2e063d060eb4ec3a8b7ec32",
+      "candidate": {
+        "runId": 36341716023,
+        "artifactId": "10939651014",
+        "artifactName": "contracts-candidate-36341716023-1",
+        "artifactDigest": "sha256:b412f30c5473c2a1d16d105be6caaf43fea11262fba60b4bb8191e6bbc00b62a"
+      },
+      "sourceEvidence": {
+        "runId": 36341716023,
+        "artifactId": "10939351813",
+        "artifactName": "naming-evidence-36341716023-1",
+        "artifactDigest": "sha256:140bf93b4a8cef31a398f55fc1f2ef84884dc629aff14b532ee623655437d272"
+      },
+      "members": [
+        {
+          "path": "tools/naming/eng/policy/product-names.json",
+          "file": "product-names.json",
+          "sha256": "5be88d3806ee43368c7d54271849caebe38631a8b73cc744a0114746a2679dd5"
+        },
+        {
+          "path": "tools/naming/eng/check_naming.py",
+          "file": "check-naming.py",
+          "sha256": "7c4cd7041b8b53e1bfb6fc0016befcd50259ffaca512d389456e00d3c26d5eaf"
+        }
+      ]
+    },
+    {
+      "id": "build-policy-catalog",
+      "repository": "ArcForges/DesktopPlatform",
+      "packageId": "ArcForges.Build.Policy",
+      "version": "1.0.0-ci.40.1",
+      "sourceCommit": "f23e621612e86ef2957dd43140e694ba15e713db",
+      "nugetUrl": "https://api.nuget.org/v3-flatcontainer/arcforges.build.policy/1.0.0-ci.40.1/arcforges.build.policy.1.0.0-ci.40.1.nupkg",
+      "packageSha256": "c7379391248be2c14815774b33a991635935708871cb520d264d53fdb829aa59",
+      "candidate": {
+        "runId": 36389854715,
+        "artifactId": "10955434681",
+        "artifactName": "nuget-candidate-36389854715-1",
+        "artifactDigest": "sha256:b777f79d9912baa9cb8d15c21cd051ab00a4df0bf8f4b569a5a4b4824b75ef1a"
+      },
+      "members": [
+        {
+          "path": "tools/architecture/banned-api-categories.json",
+          "file": "banned-api-categories.json",
+          "sha256": "f9d29ef1c7014ed9fa3cca82bf1fe47c481bebf373e5f3cd9ef382434ab4270c"
+        }
+      ]
+    }
+  ]
+}
