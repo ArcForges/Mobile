@@ -801,7 +801,7 @@ val verifyMobilePolicy =
                 "WP-05.02",
                 "unsigned candidate rejects unexpected NuGet signature fixture",
                 true,
-                gov12ArchiveMembersMatch(
+                !gov12ArchiveMembersMatch(
                     candidateArchiveFixture,
                     signedArchiveFixture,
                     repositorySigned = false,
@@ -811,7 +811,7 @@ val verifyMobilePolicy =
                 "WP-05.02",
                 "signed NuGet package rejects missing signature fixture",
                 true,
-                gov12ArchiveMembersMatch(
+                !gov12ArchiveMembersMatch(
                     candidateArchiveFixture,
                     candidateArchiveFixture,
                     repositorySigned = true,
@@ -821,7 +821,7 @@ val verifyMobilePolicy =
                 "WP-05.02",
                 "signed NuGet package rejects extra member fixture",
                 true,
-                gov12ArchiveMembersMatch(
+                !gov12ArchiveMembersMatch(
                     candidateArchiveFixture,
                     signedArchiveFixture + ("extra" to "d".repeat(64)),
                     repositorySigned = true,
@@ -831,7 +831,7 @@ val verifyMobilePolicy =
                 "WP-05.02",
                 "signed NuGet package rejects missing member fixture",
                 true,
-                gov12ArchiveMembersMatch(
+                !gov12ArchiveMembersMatch(
                     candidateArchiveFixture,
                     signedArchiveFixture - "member-b",
                     repositorySigned = true,
@@ -841,7 +841,7 @@ val verifyMobilePolicy =
                 "WP-05.02",
                 "signed NuGet package rejects changed member fixture",
                 true,
-                gov12ArchiveMembersMatch(
+                !gov12ArchiveMembersMatch(
                     candidateArchiveFixture,
                     signedArchiveFixture + ("member-a" to "e".repeat(64)),
                     repositorySigned = true,
