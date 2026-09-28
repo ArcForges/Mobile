@@ -57,6 +57,7 @@
     "eng/policy/dependency-reviews/gov-12-mobile-r1.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r2.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r3.json",
+    "eng/policy/dependency-reviews/gov-12-mobile-r4.json",
     "eng/policy/dependency-reviews/gradle-9-8-0.json",
     "eng/policy/dependency-reviews/spotless-8-10-3.json",
     "eng/policy/dependency-reviews/wp02-05-baseline.json",
