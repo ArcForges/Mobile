@@ -42,20 +42,7 @@ internal class CloudHelloClient(
         require(deadline.isPositive() && deadline <= 5.seconds)
     }
 
-    private val service =
-        HelloServiceClient(
-            ProtocolClient(
-                httpClient = ConnectOkHttpClient(http),
-                config =
-                    ProtocolClientConfig(
-                        host = baseUrl,
-                        serializationStrategy = GoogleJavaLiteProtobufStrategy(),
-                        networkProtocol = NetworkProtocol.GRPC_WEB,
-                        ioCoroutineContext = Dispatchers.IO,
-                        timeoutOracle = { deadline },
-                    ),
-            )
-        )
+    private val service = HelloServiceClient(protocolClient(baseUrl, http, deadline))
 
     suspend fun sayHello(name: String): String =
         service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
@@ -92,6 +79,28 @@ internal class CloudHelloClient(
 
     companion object {
         const val BASE_URL = "https://arcforges.com/api"
+
+        /**
+         * The one protocol client configuration: explicit binary gRPC-Web, the Java-lite message
+         * strategy and a fixed deadline. Unary and streaming calls share it, so fixture tests of
+         * stream behavior exercise the shipped transport settings.
+         */
+        fun protocolClient(
+            baseUrl: String,
+            http: OkHttpClient,
+            deadline: Duration,
+        ): ProtocolClient =
+            ProtocolClient(
+                httpClient = ConnectOkHttpClient(http),
+                config =
+                    ProtocolClientConfig(
+                        host = baseUrl,
+                        serializationStrategy = GoogleJavaLiteProtobufStrategy(),
+                        networkProtocol = NetworkProtocol.GRPC_WEB,
+                        ioCoroutineContext = Dispatchers.IO,
+                        timeoutOracle = { deadline },
+                    ),
+            )
 
         fun transport(): OkHttpClient =
             OkHttpClient.Builder()

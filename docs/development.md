@@ -15,8 +15,8 @@ Android is this repository's sole product and release target. Kotlin Multiplatfo
 - `app/src/main`: Android entry point and published Connect-Kotlin gRPC-Web adapter.
 - `shared/src/commonMain`: the same UI and greeting behavior used by Android and the development preview.
 - `shared/src/desktopMain`: a JVM window hosting that UI. No desktop installer or native distribution is published.
-- `app/src/test`: published client interoperability with a loopback HTTP fixture, application/HTTP errors, deadlines and coroutine cancellation. No live service is required for unit tests.
-- `app/src/androidTest`: UI progress/error/retry/disposal checks, real Cloud greeting/recreation and direct Android HTTPS protocol verification.
+- `app/src/test`: published client interoperability with a loopback HTTP fixture, application/HTTP errors, deadlines and coroutine cancellation. `ConnectStreamingFixtureTest` adds server-stream, trailer, status, connection-loss, deadline and cancel behavior of the pinned Connect-Kotlin transport against a loopback binary gRPC-Web fixture; it is library evidence only, because the published Contracts client has no server-streaming method and no service is involved. No live service is required for unit tests.
+- `app/src/androidTest`: UI progress/error/retry/disposal checks, real Cloud greeting/recreation and direct Android HTTPS protocol verification. `KeystoreProbeTest` is an opt-in Android Keystore probe (AES-GCM key, record binding, key deletion and replacement); it models the credential rule with test values and is not the credential store.
 - `eng`: repository, bytecode, candidate, signing and device checks.
 
 ```sh
