@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "39bbfbb9f1f23fe01917dccf2df31ba110529603",
+  "owner": "Release Engineering Owner",
+  "maintenanceAssessment": "Immutable PRF.10 successor to gov-12-mobile-r6.json. The only reviewed dependency/build-input change executes :app:testDebugUnitTest instead of merely compiling Android unit tests in the retained Linux/Windows CI build. No dependency coordinate, version, artifact hash, runtime/Android licence closure, signing identity, feed, workflow runner, or publication identity changes. Existing stable library admission remains a separate reviewed CON.27 producer handoff; the Android app remains candidate-distributed.",
+  "versions": {
+    "activity": "1.13.0",
+    "agp": "9.4.1",
+    "androidx-test-junit": "1.3.0",
+    "androidx-test-runner": "1.7.0",
+    "compose": "1.12.1",
+    "connect": "0.9.0",
+    "contracts": "1.0.0-ci.60.1",
+    "coroutines": "1.11.0",
+    "gradle": "9.8.0",
+    "hot-reload": "1.2.0",
+    "java": "21.0.12",
+    "junit": "4.13.2",
+    "kotlin": "2.4.20",
+    "material3": "1.9.0",
+    "spotless": "8.10.3"
+  },
+  "inputs": {
+    ".github/workflows/ci.yml": "e46aa7f91fadcb1d2e8859b5d4e5b33168f10488f257603f9b2737da92a155d3",
+    ".github/workflows/security.yml": "2c632e9a3f5ab7f4b3ac403dd68fd689dee06f51abf81564aa1973b4f3a4f3ef",
+    ".java-version": "a3d51344032f8539de798beee98ccf38ed09f47d21208260bb41a3653a0fd100",
+    ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+    "app/build.gradle.kts": "482b95191c5733de7e2efe84a82291b2239fa6f6aa6ba3df2bbdd5a8b4088373",
+    "app/gradle.lockfile": "c2ffa98c088d86b028aaae1abd33c4ae05d904093263474d2294e26ec20ee2af",
+    "build.gradle.kts": "2e5f2a4c17a134f06dd3bdf2b9282df247db2085f78777065f378ff04b0714bf",
+    "eng/licences.gradle.kts": "06fdd9f0234651c98c10fbac3a3801b6d4fc86c97c0dff7df8695d188c085a46",
+    "eng/policy/android-licences.json": "b4468ed9d69e5a668160c3330d4c493608b5c0d9ea7e2961840dac3a19fce941",
+    "eng/policy/licence-boundary.json": "eae6bb06e3680a9db2611d254ea7efe80b488d7921c3fe7d2e1df4f05df43736",
+    "eng/policy/reuse-policy.json": "9e03dc74d01a9ab579e9a5a6177da3f27580e2c96cfa683e37c395c5fb631fbc",
+    "gradle.properties": "67be8667269aab0f9436bdfa9391334cfd543cbba6cd7ab3c5f43b2b45bf9c5f",
+    "gradle/libs.versions.toml": "77744630238de86a59a1989b5da3e92458ad5330ed8ad028f1cc8748465820a6",
+    "gradle/locks/shared-linux-x64.lockfile": "ba5b1cfa5f3b16e18788b08ed1ed6592a1dc34c31afec9b04caa4413303d9886",
+    "gradle/locks/shared-windows-x64.lockfile": "8e23f1e7459d2ce2b7ef80b1d809dc8e2da9b62f36f6647ba17fb1a4921c36c3",
+    "gradle/policy/mobile-policy.gradle.kts": "4809fb912f0d8a0276ec060cb93e48028308aacf301f34b07b1800602e57c326",
+    "gradle/verification-metadata.xml": "0f66395d0a12d3a4a85983cd7a137e2950937ece00055fcfebf637569ec40324",
+    "gradle/wrapper/gradle-wrapper.properties": "d5f437c86234ae0d247ff7e8616e5c16ab4c4c9e37718e809d2829bcf2c81a0d",
+    "settings-gradle.lockfile": "e58bb2ed80db9f829601a658d7c33b9802eb7d2191c31e79c28e01f14c225926",
+    "settings.gradle.kts": "545057a2ec0163d4825a069576e0bbe96247f0c316027f35dd7a365685ac8e19",
+    "shared/build.gradle.kts": "227cbfa41da4c483ff1d006f90d530d7da7f07239026ae5cdb1654b3529d57b5"
+  },
+  "assetPinsSha256": "8895b9be9cd797481f1055d3b2fcb6390f6f2a33f19b5ddb6a8b3777fc7ea22b",
+  "evidence": {
+    "closure-sbom": {
+      "status": "required-ci",
+      "reason": "Retained hosted Linux/Windows build, executed app/shared unit tests, lint, immutable closure/provenance/security and release gates must pass at the independently reviewed head; no dependency closure changed."
+    },
+    "compatibility": {
+      "status": "required-ci",
+      "reason": "Retained hosted Linux/Windows build, executed app/shared unit tests, lint, immutable closure/provenance/security and release gates must pass at the independently reviewed head; no dependency closure changed."
+    },
+    "compilation": {
+      "status": "required-ci",
+      "reason": "Retained hosted Linux/Windows build, executed app/shared unit tests, lint, immutable closure/provenance/security and release gates must pass at the independently reviewed head; no dependency closure changed."
+    },
+    "licence-provenance": {
+      "status": "required-ci",
+      "reason": "Retained hosted Linux/Windows build, executed app/shared unit tests, lint, immutable closure/provenance/security and release gates must pass at the independently reviewed head; no dependency closure changed."
+    },
+    "local-runtime": {
+      "status": "not-run",
+      "reason": "This build-input admission is not device/emulator/live-service or performance acceptance. Runtime lifecycle component evidence is recorded separately in docs/prf-10-proof.md."
+    },
+    "migration": {
+      "status": "not-applicable",
+      "reason": "No persistence migration or dependency coordinate change."
+    },
+    "performance": {
+      "status": "not-run",
+      "reason": "This build-input admission is not device/emulator/live-service or performance acceptance. Runtime lifecycle component evidence is recorded separately in docs/prf-10-proof.md."
+    },
+    "security": {
+      "status": "required-ci",
+      "reason": "Retained hosted Linux/Windows build, executed app/shared unit tests, lint, immutable closure/provenance/security and release gates must pass at the independently reviewed head; no dependency closure changed."
+    }
+  }
+}

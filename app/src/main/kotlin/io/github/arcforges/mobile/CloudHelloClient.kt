@@ -4,6 +4,7 @@ package io.github.arcforges.mobile
 import com.connectrpc.Code
 import com.connectrpc.ConnectException
 import com.connectrpc.ProtocolClientConfig
+import com.connectrpc.ServerOnlyStreamInterface
 import com.connectrpc.extensions.GoogleJavaLiteProtobufStrategy
 import com.connectrpc.getOrThrow
 import com.connectrpc.impl.ProtocolClient
@@ -20,7 +21,10 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 
@@ -28,7 +32,7 @@ import okhttp3.OkHttpClient
 internal class CloudHelloClient(
     baseUrl: String = BASE_URL,
     private val http: OkHttpClient = transport(),
-    deadline: Duration = 5.seconds,
+    private val deadline: Duration = 5.seconds,
 ) : AutoCloseable {
     private val closed = AtomicBoolean(false)
     private val lifecycle = Any()
@@ -48,16 +52,52 @@ internal class CloudHelloClient(
         require(deadline.isPositive() && deadline <= 5.seconds)
     }
 
-    private val service = HelloServiceClient(protocolClient(baseUrl, http, deadline))
+    private val protocol = protocolClient(baseUrl, http, deadline)
+    private val service = HelloServiceClient(protocol)
 
-    suspend fun sayHello(name: String): String = coroutineScope {
+    suspend fun sayHello(name: String): String = ownedCall {
+        service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+    }
+
+    /**
+     * Consume a stream opened by a published generated service client. No production MethodSpec or
+     * wire route is invented here. Messages remain delivered when the server later refuses.
+     * Completion requires its one canonical successful grpc-status; a clean HTTP EOF alone is never
+     * success. Opening, consumption and trailer arrival share the configured RPC deadline.
+     */
+    suspend fun <Input : Any, Output : Any> consumeGeneratedStream(
+        request: Input,
+        open: suspend (ProtocolClient) -> ServerOnlyStreamInterface<Input, Output>,
+        receive: suspend (Output) -> Unit,
+    ): Map<String, List<String>> = ownedCall {
+        withTimeoutOrNull(deadline) {
+            val stream = open(protocol)
+            try {
+                stream.sendAndClose(request).getOrThrow()
+                for (message in stream.responseChannel()) receive(message)
+                val trailers = stream.responseTrailers().await()
+                if (trailers["grpc-status"] != listOf("0")) {
+                    throw ConnectException(
+                        Code.DATA_LOSS,
+                        "The stream has no valid completion status",
+                    )
+                }
+                trailers.mapValues { (_, values) -> values.toList() }.toMap()
+            } finally {
+                // Callback failure and caller/activity cancellation must release the real call.
+                withContext(NonCancellable) { stream.receiveClose() }
+            }
+        } ?: throw ConnectException(Code.DEADLINE_EXCEEDED, "The stream deadline expired")
+    }
+
+    private suspend fun <T> ownedCall(action: suspend () -> T): T = coroutineScope {
         val call = checkNotNull(coroutineContext[Job])
         synchronized(lifecycle) {
             if (closed.get()) throw CancellationException("The Cloud transport is closed")
             activeCalls.add(call)
         }
         try {
-            service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+            action()
         } finally {
             synchronized(lifecycle) { activeCalls.remove(call) }
         }
