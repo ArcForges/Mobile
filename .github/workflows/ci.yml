@@ -69,7 +69,7 @@ jobs:
         run: >-
           ./gradlew --no-daemon --console=plain
           -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
-          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:compileDebugUnitTestKotlin
+          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:testDebugUnitTest
           :app:lintRelease
           :app:assembleRelease :app:bundleRelease
       - name: Verify JVM 21 compiler output
