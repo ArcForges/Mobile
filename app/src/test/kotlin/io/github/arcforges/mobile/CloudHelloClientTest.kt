@@ -278,9 +278,13 @@ class CloudHelloClientTest {
                 fixture.release.await(5, TimeUnit.SECONDS)
             }
             fixture.use {
-                CloudHelloClient(fixture.url, deadline = 500.milliseconds).use { client ->
+                val http = CloudHelloClient.transport()
+                CloudHelloClient(fixture.url, http, deadline = 500.milliseconds).use { client ->
                     withTimeout(3000) {
                         expect(Code.DEADLINE_EXCEEDED) { client.sayHello("Deadline") }
+                    }
+                    withTimeout(2000) {
+                        while (http.dispatcher.runningCallsCount() != 0) delay(10)
                     }
                 }
                 assertEquals(1, fixture.calls.get())

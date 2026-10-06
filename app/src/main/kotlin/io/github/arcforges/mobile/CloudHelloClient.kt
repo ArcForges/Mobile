@@ -56,7 +56,11 @@ internal class CloudHelloClient(
     private val service = HelloServiceClient(protocol)
 
     suspend fun sayHello(name: String): String = ownedCall {
-        service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+        // The owner bounds the entire generated unary call, including stalled headers/body.
+        // A server grpc-timeout hint or transport timeout alone is not a lifecycle deadline.
+        withTimeoutOrNull(deadline) {
+            service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+        } ?: throw ConnectException(Code.DEADLINE_EXCEEDED, "The unary deadline expired")
     }
 
     /**
