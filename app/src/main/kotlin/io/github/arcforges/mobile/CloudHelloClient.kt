@@ -17,7 +17,10 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 
@@ -28,6 +31,8 @@ internal class CloudHelloClient(
     deadline: Duration = 5.seconds,
 ) : AutoCloseable {
     private val closed = AtomicBoolean(false)
+    private val lifecycle = Any()
+    private val activeCalls = mutableSetOf<Job>()
 
     init {
         val endpoint = URI(baseUrl)
@@ -35,6 +40,7 @@ internal class CloudHelloClient(
             endpoint.rawPath == "/api" && endpoint.rawQuery == null && endpoint.rawFragment == null
         )
         require(endpoint.userInfo == null)
+        require(!endpoint.host.isNullOrEmpty())
         require(
             endpoint.scheme == "https" ||
                 (endpoint.scheme == "http" && endpoint.host == "127.0.0.1")
@@ -44,8 +50,18 @@ internal class CloudHelloClient(
 
     private val service = HelloServiceClient(protocolClient(baseUrl, http, deadline))
 
-    suspend fun sayHello(name: String): String =
-        service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+    suspend fun sayHello(name: String): String = coroutineScope {
+        val call = checkNotNull(coroutineContext[Job])
+        synchronized(lifecycle) {
+            if (closed.get()) throw CancellationException("The Cloud transport is closed")
+            activeCalls.add(call)
+        }
+        try {
+            service.sayHello(sayHelloRequest { this.name = name }).getOrThrow().message
+        } finally {
+            synchronized(lifecycle) { activeCalls.remove(call) }
+        }
+    }
 
     suspend fun greet(name: String): String =
         try {
@@ -63,12 +79,17 @@ internal class CloudHelloClient(
         }
 
     override fun close() {
-        if (!closed.compareAndSet(false, true)) return
+        val calls =
+            synchronized(lifecycle) {
+                if (!closed.compareAndSet(false, true)) return
+                activeCalls.toList()
+            }
         // TLS close_notify can perform I/O. Activity destruction must never close sockets
         // on Android's main thread, or weaken StrictMode to allow it.
         val executor = http.dispatcher.executorService
         executor.execute {
             try {
+                calls.forEach { it.cancel(CancellationException("The Cloud transport is closed")) }
                 http.dispatcher.cancelAll()
                 http.connectionPool.evictAll()
             } finally {
