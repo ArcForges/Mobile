@@ -19,6 +19,7 @@ import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
@@ -26,6 +27,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -34,6 +36,7 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -50,17 +53,220 @@ import org.junit.Test
  * Container, D1, Durable Object, R2, device or emulator is involved.
  */
 class ConnectStreamingFixtureTest {
+    @Test
+    fun ownedConsumerRequiresSuccessfulStatusAndPreservesFramesAndMetadata() = runBlocking {
+        for (status in listOf("0", "7", "16", "9", "8")) {
+            Fixture { exchange ->
+                streamHeaders(exchange)
+                exchange.responseBody.send(message("first"))
+                exchange.responseBody.send(trailers("grpc-status: $status", "x-proof-cursor: 1"))
+            }
+                .use { fixture ->
+                    CloudHelloClient(fixture.url).use { client ->
+                        val messages = mutableListOf<String>()
+                        val failure =
+                            try {
+                                val metadata =
+                                    client.consumeGeneratedStream(
+                                        sayHelloRequest { name = "owned" },
+                                        { it.serverStream(emptyMap(), spec) },
+                                    ) {
+                                        messages += it.message
+                                    }
+                                assertEquals("0", status)
+                                assertEquals(listOf("1"), metadata["x-proof-cursor"])
+                                null
+                            } catch (failure: ConnectException) {
+                                failure
+                            }
+                        assertEquals(listOf("first"), messages)
+                        if (status != "0") {
+                            assertEquals(
+                                mapOf(
+                                    "7" to Code.PERMISSION_DENIED,
+                                    "16" to Code.UNAUTHENTICATED,
+                                    "9" to Code.FAILED_PRECONDITION,
+                                    "8" to Code.RESOURCE_EXHAUSTED,
+                                )[status],
+                                checkNotNull(failure).code,
+                            )
+                        } else assertNull(failure)
+                        assertEquals(1, fixture.calls.get())
+                    }
+                }
+        }
+    }
+
+    @Test
+    fun ownedConsumerRefusesMissingDuplicateAndMalformedCompletionStatus() = runBlocking {
+        for (ending in
+            listOf(
+                byteArrayOf(),
+                trailers("x-proof-cursor: 1"),
+                trailers("grpc-status: 0", "grpc-status: 0"),
+                trailers("grpc-status: invalid"),
+            )) {
+            Fixture { exchange ->
+                streamHeaders(exchange)
+                exchange.responseBody.send(message("partial"))
+                exchange.responseBody.send(ending)
+            }
+                .use { fixture ->
+                    CloudHelloClient(fixture.url, deadline = 500.milliseconds).use { client ->
+                        val messages = mutableListOf<String>()
+                        val failure =
+                            try {
+                                client.consumeGeneratedStream(
+                                    sayHelloRequest { name = "owned" },
+                                    { it.serverStream(emptyMap(), spec) },
+                                ) {
+                                    messages += it.message
+                                }
+                                error("Missing or invalid status must not succeed")
+                            } catch (failure: ConnectException) {
+                                failure
+                            }
+                        assertEquals(listOf("partial"), messages)
+                        assertTrue(
+                            failure.code in
+                                listOf(Code.DATA_LOSS, Code.UNKNOWN, Code.DEADLINE_EXCEEDED)
+                        )
+                        assertEquals(1, fixture.calls.get())
+                    }
+                }
+        }
+    }
+
+    @Test
+    fun ownedConsumerCloseCancelsConcurrentStreamsAndFencesNewCalls() = runBlocking {
+        Fixture { exchange ->
+            streamHeaders(exchange)
+            repeat(250) {
+                exchange.responseBody.send(message("tick-$it"))
+                Thread.sleep(20)
+            }
+        }
+            .use { fixture ->
+                CloudHelloClient(fixture.url).use { client ->
+                    val received = CountDownLatch(2)
+                    val calls =
+                        List(2) {
+                            async {
+                                var first = true
+                                client.consumeGeneratedStream(
+                                    sayHelloRequest { name = "owned" },
+                                    { it.serverStream(emptyMap(), spec) },
+                                ) {
+                                    if (first) {
+                                        first = false
+                                        received.countDown()
+                                    }
+                                }
+                            }
+                        }
+                    assertTrue(withContext(Dispatchers.IO) { received.await(4, TimeUnit.SECONDS) })
+                    client.close()
+                    for (call in calls) {
+                        try {
+                            call.await()
+                            error("Closed stream completed")
+                        } catch (_: kotlinx.coroutines.CancellationException) {}
+                    }
+                    assertTrue(calls.all { it.isCancelled })
+                    var opened = false
+                    try {
+                        client.consumeGeneratedStream(
+                            sayHelloRequest { name = "new" },
+                            {
+                                opened = true
+                                it.serverStream(emptyMap(), spec)
+                            },
+                        ) {}
+                        error("A closed consumer opened another call")
+                    } catch (_: kotlinx.coroutines.CancellationException) {}
+                    assertFalse(opened)
+                    assertEquals(2, fixture.calls.get())
+                }
+            }
+    }
+
+    @Test
+    fun ownedConsumerDeadlineIncludesCallbackAndDoesNotReplay() = runBlocking {
+        Fixture { exchange ->
+            streamHeaders(exchange)
+            exchange.responseBody.send(message("first"))
+            exchange.responseBody.send(trailers("grpc-status: 0"))
+        }
+            .use { fixture ->
+                CloudHelloClient(fixture.url, deadline = 500.milliseconds).use { client ->
+                    val failure =
+                        try {
+                            client.consumeGeneratedStream(
+                                sayHelloRequest { name = "owned" },
+                                { it.serverStream(emptyMap(), spec) },
+                            ) {
+                                delay(1000)
+                            }
+                            error("The overall deadline was ignored")
+                        } catch (failure: ConnectException) {
+                            failure
+                        }
+                    assertEquals(Code.DEADLINE_EXCEEDED, failure.code)
+                    assertEquals(1, fixture.calls.get())
+                }
+            }
+    }
+
+    @Test
+    fun ownedConsumerCallbackFailureClosesStreamWithoutReplay() = runBlocking {
+        val peerGone = CountDownLatch(1)
+        Fixture { exchange ->
+            streamHeaders(exchange)
+            try {
+                repeat(250) {
+                    exchange.responseBody.send(message("tick-$it"))
+                    Thread.sleep(20)
+                }
+            } catch (failure: IOException) {
+                peerGone.countDown()
+                throw failure
+            }
+        }
+            .use { fixture ->
+                CloudHelloClient(fixture.url).use { client ->
+                    val original = IllegalStateException("Consumer stopped")
+                    try {
+                        client.consumeGeneratedStream(
+                            sayHelloRequest { name = "owned" },
+                            { it.serverStream(emptyMap(), spec) },
+                        ) {
+                            throw original
+                        }
+                        error("Callback failure was swallowed")
+                    } catch (failure: IllegalStateException) {
+                        assertEquals(original.message, failure.message)
+                    }
+                    assertTrue(withContext(Dispatchers.IO) { peerGone.await(4, TimeUnit.SECONDS) })
+                    assertEquals(1, fixture.calls.get())
+                }
+            }
+    }
+
     private class Fixture(val handle: (HttpExchange) -> Unit) : AutoCloseable {
         val calls = AtomicInteger()
         val release = CountDownLatch(1)
+        private val executor = Executors.newCachedThreadPool()
         val server: HttpServer =
             HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0).apply {
+                this.executor = this@Fixture.executor
                 createContext("/") { exchange ->
                     calls.incrementAndGet()
                     try {
                         handle(exchange)
                     } catch (_: IOException) {
                         // The peer vanished: the scenario under test.
+                    } catch (_: InterruptedException) {
+                        Thread.currentThread().interrupt()
                     } finally {
                         try {
                             exchange.close()
@@ -77,6 +283,7 @@ class ConnectStreamingFixtureTest {
         override fun close() {
             release.countDown()
             server.stop(0)
+            executor.shutdownNow()
         }
     }
 

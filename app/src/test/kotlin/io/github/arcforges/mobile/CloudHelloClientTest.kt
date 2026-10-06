@@ -3,17 +3,23 @@ package io.github.arcforges.mobile
 
 import com.connectrpc.Code
 import com.connectrpc.ConnectException
+import com.connectrpc.getOrThrow
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpServer
+import io.github.arcforges.contracts.hello.v1.HelloServiceClient
 import io.github.arcforges.contracts.hello.v1.SayHelloRequest
 import io.github.arcforges.contracts.hello.v1.SayHelloResponse
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,24 +27,143 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import okhttp3.CookieJar
+import okhttp3.OkHttpClient
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CloudHelloClientTest {
-    private class Fixture(val handle: (HttpExchange) -> Unit) : AutoCloseable {
+    @Test
+    fun transportRefusesRetriesRedirectsAndCookies() {
+        val http = CloudHelloClient.transport()
+        try {
+            assertFalse(http.retryOnConnectionFailure)
+            assertFalse(http.followRedirects)
+            assertFalse(http.followSslRedirects)
+            assertSame(CookieJar.NO_COOKIES, http.cookieJar)
+            assertEquals(10_000, http.callTimeoutMillis)
+            assertThrows(IllegalArgumentException::class.java) { CloudHelloClient("https:/api") }
+        } finally {
+            http.dispatcher.executorService.shutdown()
+            http.connectionPool.evictAll()
+        }
+    }
+
+    @Test
+    fun closeCancelsConcurrentRequestsAndRefusesNewDispatch() = runBlocking {
+        lateinit var fixture: Fixture
+        fixture = Fixture { exchange ->
+            exchange.requestBody.readAllBytes()
+            fixture.release.await(5, TimeUnit.SECONDS)
+        }
+        fixture.use {
+            val http = CloudHelloClient.transport()
+            val client = CloudHelloClient(fixture.url, http)
+            val calls = List(3) { async { client.sayHello("Concurrent-$it") } }
+            assertTrue(withContext(Dispatchers.IO) { fixture.arrived.await(3, TimeUnit.SECONDS) })
+            client.close()
+            client.close()
+            for (call in calls) {
+                try {
+                    withTimeout(3000) { call.await() }
+                    error("Closed transport must cancel every owned request")
+                } catch (_: CancellationException) {
+                    assertTrue(call.isCancelled)
+                }
+            }
+            withTimeout(2000) { while (http.dispatcher.runningCallsCount() != 0) delay(10) }
+            val dispatched = fixture.calls.get()
+            try {
+                client.sayHello("After close")
+                error("Closed transport must refuse new dispatch")
+            } catch (_: CancellationException) {
+                // Refusal happens before the generated service or HTTP transport is invoked.
+            }
+            delay(100)
+            assertEquals(dispatched, fixture.calls.get())
+            assertTrue(http.dispatcher.executorService.isShutdown)
+        }
+    }
+
+    @Test
+    fun closeSchedulesCleanupOffTheCallingThread() {
+        val executor = Executors.newSingleThreadExecutor()
+        val entered = CountDownLatch(1)
+        val release = CountDownLatch(1)
+        executor.execute {
+            entered.countDown()
+            release.await(5, TimeUnit.SECONDS)
+        }
+        assertTrue(entered.await(3, TimeUnit.SECONDS))
+        val http =
+            CloudHelloClient.transport()
+                .newBuilder()
+                .dispatcher(okhttp3.Dispatcher(executor))
+                .build()
+        try {
+            val client = CloudHelloClient(http = http)
+            client.close()
+            client.close()
+            assertFalse("Cleanup is queued behind the occupied worker", executor.isShutdown)
+            release.countDown()
+            assertTrue(executor.awaitTermination(3, TimeUnit.SECONDS))
+        } finally {
+            release.countDown()
+            executor.shutdownNow()
+            http.connectionPool.evictAll()
+        }
+    }
+
+    @Test
+    fun configuredRpcDeadlineIsSentExactly() = runBlocking {
+        Fixture(warmup = true) { exchange ->
+                val timeout = exchange.requestHeaders.getFirst("grpc-timeout")
+                val units =
+                    mapOf(
+                        'H' to 3_600_000_000_000L,
+                        'M' to 60_000_000_000L,
+                        'S' to 1_000_000_000L,
+                        'm' to 1_000_000L,
+                        'u' to 1_000L,
+                        'n' to 1L,
+                    )
+                assertEquals(
+                    500_000_000L,
+                    timeout.dropLast(1).toLong() * checkNotNull(units[timeout.last()]),
+                )
+                exchange.requestBody.readAllBytes()
+                reply(exchange, 0, "Deadline")
+            }
+            .use { fixture ->
+                val http = CloudHelloClient.transport()
+                CloudHelloClient(fixture.url, http, deadline = 500.milliseconds).use { client ->
+                    warmup(fixture, http)
+                    assertEquals("Deadline", client.sayHello("Deadline"))
+                }
+            }
+    }
+
+    private inner class Fixture(
+        private val warmup: Boolean = false,
+        val handle: (HttpExchange) -> Unit,
+    ) : AutoCloseable {
         val calls = AtomicInteger()
         val arrived = CountDownLatch(1)
         val release = CountDownLatch(1)
         val server =
             HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0).apply {
                 createContext("/") { exchange ->
-                    calls.incrementAndGet()
+                    val number = calls.incrementAndGet()
                     arrived.countDown()
                     try {
-                        handle(exchange)
+                        if (warmup && number == 1) {
+                            exchange.requestBody.readAllBytes()
+                            reply(exchange, 0, "Warmup")
+                        } else handle(exchange)
                     } finally {
                         exchange.close()
                     }
@@ -52,6 +177,20 @@ class CloudHelloClientTest {
             release.countDown()
             server.stop(0)
         }
+    }
+
+    private suspend fun warmup(fixture: Fixture, http: OkHttpClient) {
+        // Establish the real generated SDK/serializer/IO worker/loopback connection before
+        // measuring a deliberately short RPC deadline under concurrent release compilation.
+        val service =
+            HelloServiceClient(CloudHelloClient.protocolClient(fixture.url, http, 5.seconds))
+        assertEquals(
+            "Warmup",
+            service
+                .sayHello(SayHelloRequest.newBuilder().setName("Warmup").build())
+                .getOrThrow()
+                .message,
+        )
     }
 
     private fun frame(flag: Byte, bytes: ByteArray): ByteArray =
@@ -154,23 +293,29 @@ class CloudHelloClientTest {
     fun deadlineBoundsHeadersAndPartialBodyWithoutRetry() = runBlocking {
         for (partial in listOf(false, true)) {
             lateinit var fixture: Fixture
-            fixture = Fixture { exchange ->
-                exchange.requestBody.readAllBytes()
-                if (partial) {
-                    exchange.responseHeaders.add("Content-Type", "application/grpc-web+proto")
-                    exchange.sendResponseHeaders(200, 0)
-                    exchange.responseBody.write(0)
-                    exchange.responseBody.flush()
+            fixture =
+                Fixture(warmup = true) { exchange ->
+                    exchange.requestBody.readAllBytes()
+                    if (partial) {
+                        exchange.responseHeaders.add("Content-Type", "application/grpc-web+proto")
+                        exchange.sendResponseHeaders(200, 0)
+                        exchange.responseBody.write(0)
+                        exchange.responseBody.flush()
+                    }
+                    fixture.release.await(5, TimeUnit.SECONDS)
                 }
-                fixture.release.await(5, TimeUnit.SECONDS)
-            }
             fixture.use {
-                CloudHelloClient(fixture.url, deadline = 500.milliseconds).use { client ->
+                val http = CloudHelloClient.transport()
+                CloudHelloClient(fixture.url, http, deadline = 500.milliseconds).use { client ->
+                    warmup(fixture, http)
                     withTimeout(3000) {
                         expect(Code.DEADLINE_EXCEEDED) { client.sayHello("Deadline") }
                     }
+                    withTimeout(2000) {
+                        while (http.dispatcher.runningCallsCount() != 0) delay(10)
+                    }
                 }
-                assertEquals(1, fixture.calls.get())
+                assertEquals(2, fixture.calls.get())
             }
         }
     }
