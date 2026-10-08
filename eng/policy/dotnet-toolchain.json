@@ -4,6 +4,7 @@
   "licenceBoundary": "Apache",
   "reviewId": "maui-10-0-20-android-tuple-r1",
   "reviewedOn": "2026-10-08",
+  "reviewer": "w-deku-20261008-rev-and-01",
   "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (compile/target API 36.1 decided by the coordinator, 2026-10-08, migration brief section 10; minimum API and .NET 11 posture open)",
   "targetFramework": "net10.0-android",
   "dotnet": {
