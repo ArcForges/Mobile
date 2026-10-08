@@ -6,7 +6,7 @@
   "reviewedOn": "2026-10-08",
   "source": "https://api.nuget.org/v3/index.json",
   "lockFile": "src/ArcForges.Mobile/packages.lock.json",
-  "lockSha256": "230218f5aa5b117b0610e26768d852d77b4c0fdb596d18e7084f71ef55234231",
+  "lockSha256": "f990a88e142590510970eb6894467fe394a10f255b3a58236ba6e2a207811e54",
   "targetFramework": "net10.0-android36.1",
   "admittedLicences": [
     "Apache-2.0",
