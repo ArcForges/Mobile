@@ -15,7 +15,7 @@
     "MIT"
   ],
   "licenceExceptions": {
-    "BSD-2-Clause": "Admitted only as a transitive licence of Xamarin.Android.Glide, pulled by Microsoft.Maui.Controls. Permissive and Apache-compatible; its copyright notice must be carried in the release notices (AND.40). Licence-owner confirmation is an open item in the coordinator report."
+    "BSD-2-Clause": "Admitted as a permissive licence by coordinator adjudication (2026-10-08, migration brief section 10), only as a transitive licence of Xamarin.Android.Glide (four packages below), pulled by Microsoft.Maui.Controls. Its copyright notice is an obligation of AND.40: the MAUI release notices must carry the BSD-2-Clause notice (owner AND.40; trigger: the first MAUI Android release candidate; consequence: no MAUI release candidate is published until the notice ships). No separate licence-owner confirmation is recorded."
   },
   "hashes": {
     "contentHash": "packages.lock.json contentHash: the NuGet content hash that restore records and verifies in locked mode. It is equal for the SDK library-packs copy and the nuget.org copy of each package, except where noted in the coordinator report.",
@@ -418,7 +418,7 @@
       "authors": "Microsoft",
       "projectUrl": "https://aka.ms/android-libraries",
       "nuspecSha256": "5eef06036fc2d469d8387e25b63043f0b6557197c397be7296563b633ab7b932",
-      "noticeDisposition": "packaged-in-nupkg"
+      "noticeDisposition": "packaged-in-nupkg; BSD-2-Clause notice carried in the MAUI release notices (AND.40)"
     },
     {
       "id": "Xamarin.Android.Glide.Annotations",
@@ -434,7 +434,7 @@
       "authors": "Microsoft",
       "projectUrl": "https://aka.ms/android-libraries",
       "nuspecSha256": "056dcdb9a4c1c12876bc83397312d46090e567e6f0c2a959d067d7efb132668c",
-      "noticeDisposition": "packaged-in-nupkg"
+      "noticeDisposition": "packaged-in-nupkg; BSD-2-Clause notice carried in the MAUI release notices (AND.40)"
     },
     {
       "id": "Xamarin.Android.Glide.DiskLruCache",
@@ -450,7 +450,7 @@
       "authors": "Microsoft",
       "projectUrl": "https://aka.ms/android-libraries",
       "nuspecSha256": "f13321dad7a6581d8847f4012667970372d266883e63c0ee51f7e75165a71175",
-      "noticeDisposition": "packaged-in-nupkg"
+      "noticeDisposition": "packaged-in-nupkg; BSD-2-Clause notice carried in the MAUI release notices (AND.40)"
     },
     {
       "id": "Xamarin.Android.Glide.GifDecoder",
@@ -466,7 +466,7 @@
       "authors": "Microsoft",
       "projectUrl": "https://aka.ms/android-libraries",
       "nuspecSha256": "0eaf9030058f61e0ff3f0bb1386445ad94bad8bea23504b686567cbe57b3cf05",
-      "noticeDisposition": "packaged-in-nupkg"
+      "noticeDisposition": "packaged-in-nupkg; BSD-2-Clause notice carried in the MAUI release notices (AND.40)"
     },
     {
       "id": "Xamarin.AndroidX.Activity",

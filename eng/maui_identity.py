@@ -94,7 +94,7 @@ def check_project(root: Path, toolchain: dict) -> None:
         "TargetFrameworks": toolchain["targetFramework"],
         "OutputType": "Exe",
         "UseMaui": "true",
-        "RootNamespace": "ArcForges.Mobile",
+        "RootNamespace": android["namespace"],
         "ApplicationId": android["applicationId"],
         "SupportedOSPlatformVersion": f"{android['minSdkVersion']}.0",
         "TargetPlatformVersion": android["targetPlatformVersion"],
@@ -118,6 +118,32 @@ def check_project(root: Path, toolchain: dict) -> None:
     _require('android:allowBackup="false"' in manifest and 'android:usesCleartextTraffic="false"' in manifest,
              "The Android manifest must keep the baseline backup and cleartext restrictions")
     _require(' package="' not in manifest, "applicationId must come from the project, not the manifest")
+    namespace = android["namespace"]
+    project_dir = root / "src/ArcForges.Mobile"
+    for source in sorted(project_dir.rglob("*.cs")):
+        if {"bin", "obj"} & set(source.relative_to(project_dir).parts):
+            continue  # build outputs are never committed and never reviewed as source
+        for declared in re.findall(r"^namespace\s+([A-Za-z_][\w.]*)", source.read_text(encoding="utf-8"), re.MULTILINE):
+            _require(declared == namespace or declared.startswith(namespace + "."),
+                     f"Source namespace outside {namespace}: {source.relative_to(root).as_posix()}")
+
+
+def check_records(toolchain: dict, admission: dict) -> None:
+    """The recorded D-016 target decision, the AND.40 deferrals and the BSD-2-Clause notice obligation."""
+    android = toolchain["android"]
+    decision = android["targetPlatformDecision"]
+    _require(decision.get("value") == android["targetPlatformVersion"],
+             "The recorded D-016 target API decision differs from the pinned target")
+    _require(str(decision.get("authority", "")).startswith("D-016"), "The target API decision must cite D-016")
+    deferrals = {item.get("id"): item for item in toolchain.get("deferrals", [])}
+    _require({"linux-android-build-proof", "bsd-2-clause-glide-notice"} <= set(deferrals),
+             "The Linux Android build proof and the Glide notice must be recorded as AND.40 deferrals")
+    for identifier, item in deferrals.items():
+        for key in ("owner", "trigger", "consequence"):
+            _require(item.get(key), f"Deferral {identifier} lacks {key}")
+        _require(item["owner"] == "AND.40", f"Deferral {identifier} must be owned by AND.40")
+    _require("AND.40" in admission.get("licenceExceptions", {}).get("BSD-2-Clause", ""),
+             "The BSD-2-Clause exception must name its AND.40 notice obligation")
 
 
 def check_packages_props(root: Path, toolchain: dict) -> None:
@@ -184,8 +210,11 @@ def check_maui(root: Path = ROOT) -> dict:
     check_project(root, toolchain)
     check_packages_props(root, toolchain)
     check_lock(root, toolchain, admission)
-    return {"schema": "arcforges.maui-identity.v1", "applicationId": toolchain["android"]["applicationId"],
-            "targetFramework": toolchain["targetFramework"], "sdk": toolchain["dotnet"]["sdkVersion"],
+    check_records(toolchain, admission)
+    android = toolchain["android"]
+    return {"schema": "arcforges.maui-identity.v1", "applicationId": android["applicationId"],
+            "namespace": android["namespace"], "targetFramework": toolchain["targetFramework"],
+            "targetPlatformVersion": android["targetPlatformVersion"], "sdk": toolchain["dotnet"]["sdkVersion"],
             "lockSha256": admission["lockSha256"], "certificateSha256": certificate}
 
 

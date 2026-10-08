@@ -4,7 +4,7 @@
   "licenceBoundary": "Apache",
   "reviewId": "maui-10-0-20-android-tuple-r1",
   "reviewedOn": "2026-10-08",
-  "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (API floor and .NET 11 open)",
+  "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (compile/target API 36.1 decided by the coordinator, 2026-10-08, migration brief section 10; minimum API and .NET 11 posture open)",
   "targetFramework": "net10.0-android",
   "dotnet": {
     "sdkVersion": "10.0.400",
@@ -41,8 +41,15 @@
   },
   "android": {
     "applicationId": "com.arcforges.mobile",
+    "namespace": "ArcForges.Mobile",
     "minSdkVersion": 26,
+    "minSdkSource": "carried from the Kotlin baseline, unchanged by this pin; D-016 minimum-API review open",
     "targetPlatformVersion": "36.1",
+    "targetPlatformDecision": {
+      "value": "36.1",
+      "authority": "D-016 coordinator decision, 2026-10-08 (migration brief section 10)",
+      "limit": "36.1 is the highest platform the pinned maui-android 10.0.20 workload accepts (37.0 is rejected, NETSDK1140). Raising it follows the workload and needs a new reviewed D-016 record."
+    },
     "buildToolsVersion": "36.1.0",
     "jdkMajorVersion": 21,
     "jdkSource": "JAVA_HOME environment variable, mapped to JavaSdkDirectory by the project; no path is committed",
@@ -57,5 +64,21 @@
   "nuget": {
     "admissionRecord": "eng/policy/nuget-admission.json",
     "lockFile": "src/ArcForges.Mobile/packages.lock.json"
-  }
+  },
+  "deferrals": [
+    {
+      "id": "linux-android-build-proof",
+      "item": "The Android build of the net10.0-android MAUI identity project on Linux. WSL2 Debian has no Android SDK or JDK 21, and toolchain installation there is performed by the user (P2-024), so it is not provisioned for AND.01.",
+      "owner": "AND.40",
+      "trigger": "The first AND.40 hosted Linux CI run that builds the MAUI Android project (Debug and Release, locked restore).",
+      "consequence": "A failed Linux build reopens AND.01 and AND.40; the Windows build evidence stands until then."
+    },
+    {
+      "id": "bsd-2-clause-glide-notice",
+      "item": "The BSD-2-Clause copyright notice of Xamarin.Android.Glide, a transitive MAUI dependency admitted by coordinator adjudication (2026-10-08, migration brief section 10).",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open."
+    }
+  ]
 }

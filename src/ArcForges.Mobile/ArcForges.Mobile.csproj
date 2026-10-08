@@ -25,8 +25,10 @@
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' != ''">$(ArcForgesAndroidVersionCode)</ApplicationVersion>
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' == ''">1</ApplicationVersion>
 
-    <!-- Android API floor (26, carried from the Kotlin baseline; D-016 open). The compile/target API is the
-         highest platform the pinned maui-android 10.0.20 workload accepts (36.1; 37.0 is rejected by NETSDK1140). -->
+    <!-- Android minimum API 26 is carried from the Kotlin baseline; the D-016 minimum-API review stays open.
+         Compile/target API 36.1 is the coordinator's D-016 decision (2026-10-08, migration brief section 10): the
+         highest platform the pinned maui-android 10.0.20 workload accepts (37.0 is rejected by NETSDK1140). -->
+    <!-- The root namespace is ArcForges.Mobile; eng/maui_identity.py refuses any other source namespace. -->
     <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
     <TargetPlatformVersion>36.1</TargetPlatformVersion>
     <AndroidSdkBuildToolsVersion>36.1.0</AndroidSdkBuildToolsVersion>

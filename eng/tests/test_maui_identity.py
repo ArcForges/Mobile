@@ -34,6 +34,11 @@ PAYLOAD = [
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
     "src/ArcForges.Mobile/packages.lock.json",
     "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+    "src/ArcForges.Mobile/App.cs",
+    "src/ArcForges.Mobile/MainPage.cs",
+    "src/ArcForges.Mobile/MauiProgram.cs",
+    "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs",
+    "src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
 ]
 
 
@@ -65,6 +70,8 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.assertEqual(report["targetFramework"], "net10.0-android")
         self.assertEqual(report["sdk"], "10.0.400")
         self.assertEqual(report["certificateSha256"], PERSISTENT)
+        self.assertEqual(report["namespace"], "ArcForges.Mobile")
+        self.assertEqual(report["targetPlatformVersion"], "36.1")
 
     def test_fixture_copy_passes_before_mutation(self):
         self.assertEqual(identity.check_maui(self.root)["applicationId"], "com.arcforges.mobile")
@@ -163,6 +170,41 @@ class MauiIdentityGateTests(unittest.TestCase):
         admission = json.loads((self.root / "eng/policy/nuget-admission.json").read_text(encoding="utf-8"))
         admission["packages"][0]["id"] = "ArcForges.Build.Policy"
         (self.root / "eng/policy/nuget-admission.json").write_text(json.dumps(admission, indent=2), encoding="utf-8")
+        self.refused()
+
+    def rewrite_json(self, name, mutate):
+        path = self.root / name
+        document = json.loads(path.read_text(encoding="utf-8"))
+        mutate(document)
+        path.write_text(json.dumps(document, indent=2), encoding="utf-8")
+
+    def test_target_api_decision_drift_is_refused(self):
+        self.edit("eng/policy/dotnet-toolchain.json", '"value": "36.1"', '"value": "37.0"')
+        self.refused()
+
+    def test_root_namespace_drift_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  "<RootNamespace>ArcForges.Mobile</RootNamespace>",
+                  "<RootNamespace>Example.Mobile</RootNamespace>")
+        self.refused()
+
+    def test_source_namespace_outside_the_mobile_namespace_is_refused(self):
+        self.edit("src/ArcForges.Mobile/App.cs", "namespace ArcForges.Mobile;", "namespace Example.Mobile;")
+        self.refused()
+
+    def test_deferral_without_an_owner_is_refused(self):
+        self.rewrite_json("eng/policy/dotnet-toolchain.json", lambda doc: doc["deferrals"][0].pop("owner"))
+        self.refused()
+
+    def test_missing_linux_android_deferral_is_refused(self):
+        self.rewrite_json("eng/policy/dotnet-toolchain.json",
+                          lambda doc: doc.update(deferrals=[item for item in doc["deferrals"]
+                                                            if item["id"] != "linux-android-build-proof"]))
+        self.refused()
+
+    def test_glide_exception_without_its_notice_obligation_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["licenceExceptions"].update({"BSD-2-Clause": "Admitted as permissive."}))
         self.refused()
 
 
