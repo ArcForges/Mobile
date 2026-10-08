@@ -109,7 +109,10 @@ a commit rolled back from `main` on 2026-10-07, so it is not admitted and stays 
 Contracts packages in `eng/policy/nuget-admission.json` were recomputed from the nupkgs restored from nuget.org into
 the NuGet cache, and the nuget.org flat-container index lists `1.0.0-ci.324.1` for both IDs (checked 2026-10-08).
 For the eight `Microsoft.Maui.*` 10.0.20 packages the local cache holds SDK library-packs copies whose bytes differ
-from the nuget.org packages, so their recorded `nupkgSha512` values were not recomputed from the cache: the value
-for `Microsoft.Maui.Controls` was checked against the nuget.org catalog `packageHash`, and a clean locked restore
-from nuget.org into an empty package folder matched every lock `contentHash` (independent review, 2026-10-08). The admitted licence is Apache-2.0 with the packaged `LICENSE` and
+from the nuget.org packages, so their recorded `nupkgSha512` values were not recomputed from the cache. The value
+for `Microsoft.Maui.Controls` was checked against the nuget.org catalog `packageHash`; the other seven recorded
+`Microsoft.Maui.*` values were not individually compared with the catalog. In the AND.01 independent review
+(reviewer session `w-deku-20261008-rev-and-01`, round 1, 2026-10-08), `dotnet restore --locked-mode` of commit
+`c48eb7c` into an empty `NUGET_PACKAGES` folder succeeded, the restored `.nupkg.metadata` source of the MAUI and
+Contracts packages was `https://api.nuget.org/v3/index.json`, and their `contentHash` values equalled the lock. The admitted licence is Apache-2.0 with the packaged `LICENSE` and
 `NOTICE`, so no AND.40 notice deferral is needed for these two packages.
