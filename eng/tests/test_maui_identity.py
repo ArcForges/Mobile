@@ -8,6 +8,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import licences
 import maui_identity as identity
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -28,7 +29,9 @@ PAYLOAD = [
     "Directory.Packages.props",
     "NuGet.config",
     "eng/published.py",
+    "eng/policy/dotnet-licence-boundary.json",
     "eng/policy/dotnet-toolchain.json",
+    "eng/policy/licence-boundary.json",
     "eng/policy/nuget-admission.json",
     "eng/policy/workload-admission.json",
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
@@ -79,6 +82,21 @@ class MauiIdentityGateTests(unittest.TestCase):
 
     def test_fixture_copy_passes_before_mutation(self):
         self.assertEqual(identity.check_maui(self.root)["applicationId"], "com.arcforges.mobile")
+
+    def test_identity_project_is_registered_only_in_the_dotnet_inventory(self):
+        self.edit("eng/policy/dotnet-licence-boundary.json", '"kind": "dotnet"', '"kind": "gradle"')
+        self.refused()
+
+    def test_identity_project_on_the_gradle_roster_is_refused(self):
+        self.edit("eng/policy/licence-boundary.json", '"projects": [',
+                  '"projects": [\n    {\n      "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",\n      "kind": "gradle"\n    },', 1)
+        self.refused()
+
+    def test_repository_audit_keeps_the_gradle_roster_and_audits_the_identity_project_apart(self):
+        audit = licences.project_audit(ROOT)
+        self.assertEqual([row["path"] for row in audit["projects"]],
+                         ["app/build.gradle.kts", "build.gradle.kts", "shared/build.gradle.kts"])
+        self.assertEqual(audit["dotnetProjects"], [{"path": identity.MAUI_PROJECT, "kind": "dotnet"}])
 
     def test_uncommitted_local_sdk_adapter_is_refused(self):
         self.edit("global.json", '"rollForward": "disable"', '"rollForward": "latestPatch"')

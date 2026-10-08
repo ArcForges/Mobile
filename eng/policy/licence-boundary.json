@@ -15,10 +15,6 @@
     {
       "path": "shared/build.gradle.kts",
       "kind": "gradle"
-    },
-    {
-      "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
-      "kind": "dotnet"
     }
   ]
 }

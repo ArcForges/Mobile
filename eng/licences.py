@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIGURATIONS = {'releaseRuntimeClasspath', 'debugRuntimeClasspath', 'debugAndroidTestRuntimeClasspath', 'coreLibraryDesugaring'}
 ALLOWED = {'Apache-2.0', 'BSD-3-Clause', 'MIT', 'EPL-1.0', 'Apache-2.0 WITH LLVM-exception'}
 LOCKS = ['app/gradle.lockfile', 'gradle/verification-metadata.xml', 'gradle/libs.versions.toml']
+DOTNET_BOUNDARY = 'eng/policy/dotnet-licence-boundary.json'
 
 
 def require(value, message):
@@ -60,24 +61,23 @@ def project_audit(root=ROOT):
     files = sorted(set(git(root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard').split('\0')) - {''})
     for item in git(root, 'ls-files', '--stage').splitlines():
         require(item.split()[0] not in {'120000', '160000'}, 'Linked source/submodule is not an owned project')
-    actual = []
+    actual, dotnet = [], []
     for name in files:
         path = Path(name)
         if path.name in {'build.gradle.kts', 'build.gradle', 'package.json', 'CMakeLists.txt'} or path.suffix in {'.csproj', '.vcxproj', '.esproj', '.fsproj', '.vbproj'}:
             require(path.name == 'build.gradle.kts' or path.suffix == '.csproj', f'Unreviewed build system: {name}')
             require((root / path).resolve().is_relative_to(root.resolve()), 'Project escapes Mobile')
-            actual.append({'path': name, 'kind': 'gradle' if path.name == 'build.gradle.kts' else 'dotnet'})
+            # The .NET identity project is classified in DOTNET_BOUNDARY, never in the Gradle roster read by the Kotlin baseline gates.
+            if path.suffix == '.csproj':
+                dotnet.append(name)
+            else:
+                actual.append({'path': name, 'kind': 'gradle'})
     policy = read_json(root / 'eng/policy/licence-boundary.json')
     require(set(policy) == {'schemaVersion', 'repository', 'spdxLicense', 'licenceBoundary', 'projects'}, 'Invalid project inventory fields')
     require(policy['schemaVersion'] == 1 and policy['repository'] == 'Mobile' and policy['spdxLicense'] == 'Apache-2.0' and policy['licenceBoundary'] == 'Apache', 'Incorrect Mobile assignment')
     require(sorted(policy['projects'], key=lambda x: x['path']) == actual and actual, 'Project inventory drift')
     for project in actual:
         text = (root / project['path']).read_text(encoding='utf-8')
-        if project['kind'] == 'dotnet':
-            for tag, expected in [('PackageLicenseExpression', 'Apache-2.0'), ('LicenceBoundary', 'Apache')]:
-                values = re.findall(r'<' + tag + r'>([^<\n]*)</' + tag + '>', text)
-                require(values == [expected], f'Missing or incorrect {tag}: {project["path"]}')
-            continue
         for key, expected in [('spdxLicense', 'Apache-2.0'), ('licenceBoundary', 'Apache')]:
             values = re.findall(r'extra\["' + key + r'"\]\s*=\s*"([^"\n]*)"', text)
             require(values == [expected], f'Missing or incorrect {key}: {project["path"]}')
@@ -90,7 +90,25 @@ def project_audit(root=ROOT):
                 if line.startswith('io.github.arcforges:'):
                     require(line.split(':')[1] in {'contracts-proto', 'contracts-connect-client'}, f'Unknown/non-public first-party dependency: {line}')
     return {'result': 'passed', 'repository': 'Mobile', 'commit': git(root, 'rev-parse', 'HEAD'),
-            'dirty': bool(git(root, 'status', '--porcelain')), 'projects': actual, 'findings': []}
+            'dirty': bool(git(root, 'status', '--porcelain')), 'projects': actual,
+            'dotnetProjects': dotnet_audit(root, dotnet), 'findings': []}
+
+
+def dotnet_audit(root, paths):
+    """Audit the .NET identity project csproj against its own inventory (AND.01); never the Gradle roster."""
+    if not paths and not (root / DOTNET_BOUNDARY).exists():
+        return []  # no .NET project exists and none is registered; a csproj without its registry still fails closed
+    policy = read_json(root / DOTNET_BOUNDARY)
+    require(set(policy) == {'schemaVersion', 'repository', 'spdxLicense', 'licenceBoundary', 'projects'}, 'Invalid .NET project inventory fields')
+    require(policy['schemaVersion'] == 1 and policy['repository'] == 'Mobile' and policy['spdxLicense'] == 'Apache-2.0' and policy['licenceBoundary'] == 'Apache', 'Incorrect .NET Mobile assignment')
+    actual = [{'path': name, 'kind': 'dotnet'} for name in sorted(paths)]
+    require(sorted(policy['projects'], key=lambda x: x['path']) == actual, '.NET project inventory drift')
+    for project in actual:
+        text = (root / project['path']).read_text(encoding='utf-8')
+        for tag, expected in [('PackageLicenseExpression', 'Apache-2.0'), ('LicenceBoundary', 'Apache')]:
+            values = re.findall(r'<' + tag + r'>([^<\n]*)</' + tag + '>', text)
+            require(values == [expected], f'Missing or incorrect {tag}: {project["path"]}')
+    return actual
 
 
 def notice_entries(data):

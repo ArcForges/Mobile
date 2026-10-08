@@ -32,6 +32,9 @@ MAUI_INTERNET = "android.permission.INTERNET"
 MAUI_NAME_ATTRIBUTE = "{http://schemas.android.com/apk/res/android}name"
 MAUI_TOOLS_NODE = "{http://schemas.android.com/tools}node"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
+# The identity project is classified here, apart from the Gradle roster that the Kotlin baseline gates read (AND.01).
+MAUI_LICENCE_REGISTRY = "eng/policy/dotnet-licence-boundary.json"
+MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 MAUI_WORKLOADS = "eng/policy/workload-admission.json"
 MAUI_PUBLISHED = "eng/published.py"
@@ -106,6 +109,17 @@ def check_build_policy(root: Path) -> None:
     mapping = [(m.get("key"), [p.get("pattern") for p in m.findall("package")])
                for m in config.findall("./packageSourceMapping/packageSource")]
     _require(mapping == [("nuget.org", ["*"])], "Every package must map to nuget.org only")
+
+
+def check_licence_registration(root: Path) -> None:
+    """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit) and is absent from the Gradle roster."""
+    registry = _load_json(root / MAUI_LICENCE_REGISTRY)
+    _require(registry.get("projects") == [{"path": MAUI_PROJECT, "kind": "dotnet"}]
+             and registry.get("spdxLicense") == "Apache-2.0" and registry.get("licenceBoundary") == "Apache",
+             f"{MAUI_LICENCE_REGISTRY} must register exactly {MAUI_PROJECT} as Apache-2.0 / Apache")
+    roster = _load_json(root / MAUI_GRADLE_ROSTER)
+    _require(MAUI_PROJECT not in {item.get("path") for item in roster.get("projects", [])},
+             f"The Gradle licence roster ({MAUI_GRADLE_ROSTER}) must not carry the .NET identity project")
 
 
 def check_project(root: Path, toolchain: dict) -> None:
@@ -323,6 +337,7 @@ def check_maui(root: Path = ROOT) -> dict:
     check_sdk_pin(root, toolchain)
     check_build_policy(root)
     check_project(root, toolchain)
+    check_licence_registration(root)
     check_packages_props(root, toolchain)
     check_lock(root, toolchain, admission)
     check_workloads(root, toolchain, admission)

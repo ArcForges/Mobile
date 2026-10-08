@@ -2,10 +2,13 @@
 
 The accepted [Design declaration profile](https://github.com/ArcForges/ArcForges-Design/blob/3825a24fd7530cb51c3fb30b757e644ebab33459/docs/architecture/01-solution-and-project-layout.md#41-project-declaration-and-verification-profile)
 assigns all three Mobile Gradle scopes to `Apache-2.0` / `Apache`. Each build file
-declares its own metadata. `eng/policy/licence-boundary.json` records the complete
-inventory; `eng/licences.py projects` discovers actual tracked/nonignored manifests
-and rejects missing declarations, other build systems and unpublished/unknown
-first-party inputs. Original Mobile tooling is Apache-2.0 and imports no AGPL checker.
+declares its own metadata. `eng/policy/licence-boundary.json` records the Gradle
+inventory that the Kotlin baseline gates read, unchanged until AND.40. The .NET identity
+project is recorded separately in `eng/policy/dotnet-licence-boundary.json` and audited
+by `eng/licences.py` against its own csproj declarations. `eng/licences.py projects`
+discovers actual tracked/nonignored manifests and rejects missing declarations, other
+build systems and unpublished/unknown first-party inputs. Original Mobile tooling is
+Apache-2.0 and imports no AGPL checker.
 
 `eng/licences.gradle.kts` checks effective Gradle project properties and references
 after evaluation. The app's `verifyAndroidLicences` task resolves release, debug,
