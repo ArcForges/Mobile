@@ -97,3 +97,15 @@ version strings; source and SBOM identity also change. Superseding legal/resourc
 records preserve previous admissions. New archive expectations derive from the
 verified public Android ci.14.1 baseline and the inspected Maven input bytes,
 before building the replacement candidate. Release lint remains enabled.
+
+On 2026-10-08, the .NET MAUI identity admission (AND.01) pins the NuGet Contracts packages
+`ArcForges.Contracts.PublicApi` and `ArcForges.Contracts.Foundation` at `1.0.0-ci.324.1`. That candidate was
+published from Contracts main commit `330e46bd158bfbb7cdc94c7006565c87e27b1cc6` (PR 87, merged to `main`), by
+CI run `37388554007`, attempt 1, a push to `main` whose jobs (Build candidate, Verify, Publish NuGet, Publish npm,
+Publish Maven channel) all succeeded. The commit is an ancestor of Contracts main, checked on 2026-10-08 against the
+local Contracts checkout. The earlier `1.0.0-ci.350.1` was published from `74c298c90ba56cd9f9e6932c006259c7d0376989`,
+a commit rolled back from `main` on 2026-10-07, so it is not admitted and stays immutable on the feed only
+(coordinator adjudication, 2026-10-08, rolled-back package rule). The nupkg SHA-512 values in
+`eng/policy/nuget-admission.json` were recomputed from the cached nupkgs, and the nuget.org flat-container index lists
+`1.0.0-ci.324.1` for both IDs (checked 2026-10-08). The admitted licence is Apache-2.0 with the packaged `LICENSE` and
+`NOTICE`, so no AND.40 notice deferral is needed for these two packages.

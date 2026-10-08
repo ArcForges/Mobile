@@ -1,12 +1,13 @@
 {
   "schemaVersion": 1,
   "owner": "Mobile",
+  "reviewer": "w-deku-20261008-rev-and-01",
   "licenceBoundary": "Apache",
   "reviewId": "maui-10-0-20-android-closure-r1",
   "reviewedOn": "2026-10-08",
   "source": "https://api.nuget.org/v3/index.json",
   "lockFile": "src/ArcForges.Mobile/packages.lock.json",
-  "lockSha256": "f990a88e142590510970eb6894467fe394a10f255b3a58236ba6e2a207811e54",
+  "lockSha256": "93b86e8f16ddbd38c89cebb509518366a70921a3badef0cf29576d7889c3b6a0",
   "targetFramework": "net10.0-android36.1",
   "admittedLicences": [
     "Apache-2.0",
@@ -24,10 +25,10 @@
   "packages": [
     {
       "id": "ArcForges.Contracts.Foundation",
-      "version": "1.0.0-ci.350.1",
+      "version": "1.0.0-ci.324.1",
       "kind": "transitive",
-      "contentHash": "/+3FP6Ys+LTJ+FlsCndfdWd1dle0ZF4H6aBcSUnbBG1vYBUamo/+xf7NY8t0hLrBoPWI4d1fArxKSrcG4TvOMg==",
-      "nupkgSha512": "O1nTiYl7yY2omTl7rRF5JBajZ+fHfQzA1MdqmnwvsdJi0ZSVfgHTrQFI12qp153YplASwkctZ8UQk+qbT7k/kw==",
+      "contentHash": "z0Vgu7TzX0BqYcr6cbbhQW52Riy4RdOHwQDR5Z3uS+QnZKS6oYKDhRyrVAuG2zjQb3ND2yf+N//haMerWgdArA==",
+      "nupkgSha512": "bglaBw6eY+erHqISZhxncJyxfyg/sdIIDHQrc8vsSm+S7B2lGx75XqW21PPiNcAirpXeWP+9Gx4UZQJzukRNBw==",
       "licence": "Apache-2.0",
       "licenceFiles": [
         "LICENSE",
@@ -35,15 +36,51 @@
       ],
       "authors": "ArcForges",
       "projectUrl": "",
-      "nuspecSha256": "1c3c3d88246c859aabc84f6ec21f01c00da4ade96fd11718e5e24e817c99262f",
-      "noticeDisposition": "packaged-in-nupkg"
+      "nuspecSha256": "019d77926e1123938dfeb384ab06e3e33578949595400d12cd2c23d2bc09c130",
+      "noticeDisposition": "packaged-in-nupkg",
+      "publisher": {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "dirty": false,
+        "pullRequest": "https://github.com/ArcForges/Contracts/pull/87",
+        "branch": "task/gov-16",
+        "candidateVersion": "1.0.0-ci.324.1",
+        "candidateRun": {
+          "runId": 37388554007,
+          "runAttempt": 1,
+          "url": "https://github.com/ArcForges/Contracts/actions/runs/37388554007",
+          "event": "push",
+          "branch": "main",
+          "headSha": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "conclusion": "success",
+          "jobs": {
+            "Build candidate": "success",
+            "Verify": "success",
+            "Publish NuGet": "success",
+            "Publish npm": "success",
+            "Publish Maven channel": "success"
+          },
+          "completedOn": "2026-10-05T23:45:29Z"
+        },
+        "nupkgReceipt": {
+          "sourceJson": "nupkg source.json: commit, dirty=false and schemaSources match the publisher commit",
+          "sourceJsonDescriptorSha256": "2dea8dfd789f00fde9d0e12ac4c28f8aa35960b517e8431623e56161b0792434",
+          "nuspecRepositoryCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "nupkgSha512Matches": "nupkgSha512 was recomputed from the cached nupkg on 2026-10-08"
+        },
+        "publication": {
+          "feed": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.foundation/index.json",
+          "listedVersion": "1.0.0-ci.324.1",
+          "checkedOn": "2026-10-08"
+        }
+      }
     },
     {
       "id": "ArcForges.Contracts.PublicApi",
-      "version": "1.0.0-ci.350.1",
+      "version": "1.0.0-ci.324.1",
       "kind": "direct",
-      "contentHash": "oFFsXFCJdcfcNAO6ySzGABDHkMu7/NNAD8b9Nm6V97yHZ6Ug1XKEqbFnSZSwDSAkK4TP/d+hTw81XIGj7k+Lkg==",
-      "nupkgSha512": "wDfTxQCVt1tooGpFlttx5KzW/elQrcRTo7L9XbblnvdDBtc8JUeBWvfcDpOtwmzurwmkiLrvTjleQv6tiUYlJw==",
+      "contentHash": "pHt1bnk8VA23vOenZlDsotoyHZMUstNOOp1DltQcovzENyU1YoK4H10LKaGZG5Q2WwecJBXqB1rfKeVxEtjsww==",
+      "nupkgSha512": "fE9avqhMxfVas8vio1DFz/f8/yYTDNuKpncjnmkPoasZ1ojjSomQOM1Ri9dc2BO0fJBwREpqITjrEOqsdM9aaw==",
       "licence": "Apache-2.0",
       "licenceFiles": [
         "LICENSE",
@@ -51,8 +88,44 @@
       ],
       "authors": "ArcForges",
       "projectUrl": "",
-      "nuspecSha256": "33427e4d92c3cf92b9025cfbd1ff87c7cf37fa73c9e7bd83ecce210966473908",
-      "noticeDisposition": "packaged-in-nupkg"
+      "nuspecSha256": "7d58de5d3dba99f5de750d37686a1a798eedb3baeb8b30af0d517e441d421086",
+      "noticeDisposition": "packaged-in-nupkg",
+      "publisher": {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "dirty": false,
+        "pullRequest": "https://github.com/ArcForges/Contracts/pull/87",
+        "branch": "task/gov-16",
+        "candidateVersion": "1.0.0-ci.324.1",
+        "candidateRun": {
+          "runId": 37388554007,
+          "runAttempt": 1,
+          "url": "https://github.com/ArcForges/Contracts/actions/runs/37388554007",
+          "event": "push",
+          "branch": "main",
+          "headSha": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "conclusion": "success",
+          "jobs": {
+            "Build candidate": "success",
+            "Verify": "success",
+            "Publish NuGet": "success",
+            "Publish npm": "success",
+            "Publish Maven channel": "success"
+          },
+          "completedOn": "2026-10-05T23:45:29Z"
+        },
+        "nupkgReceipt": {
+          "sourceJson": "nupkg source.json: commit, dirty=false and schemaSources match the publisher commit",
+          "sourceJsonDescriptorSha256": "bbd9ad05013d014c8f3892cba098cc80c75b9a81a3444b94bf9f7aecd2ee086d",
+          "nuspecRepositoryCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "nupkgSha512Matches": "nupkgSha512 was recomputed from the cached nupkg on 2026-10-08"
+        },
+        "publication": {
+          "feed": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.publicapi/index.json",
+          "listedVersion": "1.0.0-ci.324.1",
+          "checkedOn": "2026-10-08"
+        }
+      }
     },
     {
       "id": "Google.Protobuf",

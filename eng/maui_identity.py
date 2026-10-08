@@ -20,6 +20,17 @@ ROOT = Path(__file__).resolve().parents[1]
 MAUI_PROJECT = "src/ArcForges.Mobile/ArcForges.Mobile.csproj"
 MAUI_LOCK = "src/ArcForges.Mobile/packages.lock.json"
 MAUI_MANIFEST = "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml"
+# AND.01 identity-only shape (P2-021 item 3): the project holds these files and nothing else. The Contracts file is
+# compile-only evidence; no App, MainPage, MauiProgram, MainActivity, Resources or permission belongs in this stage.
+MAUI_CONTRACTS_EVIDENCE = "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs"
+# AndroidX Core merges this signature-level permission, declared by the application package itself, into every app
+# (aapt2 xmltree: protectionLevel 0x2). It grants no capability to another app and is the only permission allowed.
+MAUI_MERGED_PERMISSION = "com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+MAUI_IDENTITY_FILES = {MAUI_PROJECT, MAUI_LOCK, MAUI_MANIFEST, MAUI_CONTRACTS_EVIDENCE}
+# The SDK adds INTERNET to the Debug manifest of a debuggable app; the identity manifest removes it with tools:node="remove".
+MAUI_INTERNET = "android.permission.INTERNET"
+MAUI_NAME_ATTRIBUTE = "{http://schemas.android.com/apk/res/android}name"
+MAUI_TOOLS_NODE = "{http://schemas.android.com/tools}node"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 MAUI_WORKLOADS = "eng/policy/workload-admission.json"
@@ -110,6 +121,7 @@ def check_project(root: Path, toolchain: dict) -> None:
         "TargetPlatformVersion": android["targetPlatformVersion"],
         "AndroidSdkBuildToolsVersion": android["buildToolsVersion"],
         "UseMonoRuntime": "true",
+        "AndroidEnableProfiler": "false",
     }
     for name, value in expected.items():
         _require(plain.get(name) == value, f"{name} must be {value!r} in {MAUI_PROJECT}")
@@ -128,6 +140,7 @@ def check_project(root: Path, toolchain: dict) -> None:
     _require('android:allowBackup="false"' in manifest and 'android:usesCleartextTraffic="false"' in manifest,
              "The Android manifest must keep the baseline backup and cleartext restrictions")
     _require(' package="' not in manifest, "applicationId must come from the project, not the manifest")
+    check_identity_only_shape(root)
     namespace = android["namespace"]
     project_dir = root / "src/ArcForges.Mobile"
     for source in sorted(project_dir.rglob("*.cs")):
@@ -136,6 +149,28 @@ def check_project(root: Path, toolchain: dict) -> None:
         for declared in re.findall(r"^namespace\s+([A-Za-z_][\w.]*)", source.read_text(encoding="utf-8"), re.MULTILINE):
             _require(declared == namespace or declared.startswith(namespace + "."),
                      f"Source namespace outside {namespace}: {source.relative_to(root).as_posix()}")
+
+
+def check_identity_only_shape(root: Path) -> None:
+    """AND.01 identity-only shape: exact project file set, no permission and no component in the manifest."""
+    project_dir = root / "src/ArcForges.Mobile"
+    present = {path.relative_to(root).as_posix() for path in project_dir.rglob("*")
+               if path.is_file() and not {"bin", "obj"} & set(path.relative_to(project_dir).parts)}
+    _require(present == MAUI_IDENTITY_FILES,
+             f"The identity project holds only its identity-only files; unexpected: "
+             f"{sorted(present - MAUI_IDENTITY_FILES)}, missing: {sorted(MAUI_IDENTITY_FILES - present)}")
+    manifest = ET.parse(root / MAUI_MANIFEST).getroot()
+    children = list(manifest)
+    # The only permission element allowed is the removal marker of the SDK's Debug INTERNET injection (see docs/maui-toolchain.md).
+    permissions = [child for child in children if child.tag == "uses-permission"]
+    _require(manifest.tag == "manifest" and [child.tag for child in children if child.tag != "uses-permission"] == ["application"],
+             "The identity manifest declares no element other than application and the INTERNET removal marker")
+    _require(len(permissions) <= 1 and all(
+                 item.get(MAUI_NAME_ATTRIBUTE) == MAUI_INTERNET and item.get(MAUI_TOOLS_NODE) == "remove"
+                 for item in permissions),
+             "The identity manifest may only remove android.permission.INTERNET (tools:node=\"remove\"); it grants no permission")
+    application = next(child for child in children if child.tag == "application")
+    _require(len(list(application)) == 0, "The identity manifest declares no activity or other component")
 
 
 def check_records(toolchain: dict, admission: dict) -> None:
@@ -319,6 +354,11 @@ def check_apk(badging: str, certificates: str, root: Path = ROOT, release: bool 
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
     android = toolchain["android"]
     identity = parse_badging(badging)
+    permissions = re.findall(r"^uses-permission(?:-sdk-\d+)?: name='([^']*)'", badging, re.MULTILINE)
+    _require(set(permissions) <= {MAUI_MERGED_PERMISSION} and "android.permission.INTERNET" not in permissions,
+             "The identity APK requests no permission except the AndroidX merged signature permission")
+    _require(not re.search(r"^(uses-implied-permission|(leanback-)?launchable-activity)", badging, re.MULTILINE),
+             "The identity APK declares no launchable activity and no implied permission")
     _require(identity["package"] == android["applicationId"], "APK applicationId differs from com.arcforges.mobile")
     _require(identity["minSdk"] == android["minSdkVersion"], "APK minSdkVersion differs from the reviewed floor")
     _require(identity["targetSdk"] == int(android["targetPlatformVersion"].split(".")[0]),

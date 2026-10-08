@@ -58,4 +58,5 @@ The permanent Android applicationId is `com.arcforges.mobile` (IRD-23; P2-021 it
 - The development prereleases stay immutable on the Releases list. They receive no further updates.
 - The persistent android-release signing identity is kept (certificate SHA-256 `7a8b3b14…`, recorded in `eng/published.py`). The same key is intended for the MAUI release channel. Keeping it does not avoid the reinstall, because the applicationId itself changes.
 - No release may claim `com.arcforges.mobile` until its release channel is published (AND.40 for the MAUI application). The Gradle/Kotlin application still builds `io.github.arcforges.mobile` as the frozen baseline until then.
+- The MAUI project at `src/ArcForges.Mobile` is identity-only in AND.01: it has no launchable activity, no UI and no network permission, so its APK is an identity and toolchain proof, not a user-facing application and not a release candidate. AND.40 adds the application and the release channel.
 - The identity and toolchain pins are checked offline by `python eng/maui_identity.py` (and by `python eng/mobile.py check`). See [maui-toolchain.md](maui-toolchain.md).

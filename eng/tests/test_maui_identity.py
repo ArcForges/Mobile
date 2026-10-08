@@ -16,7 +16,6 @@ DEBUG_SIGNER = "c7fe83cf58735ac8485ae10afc1ce40be679ee5878543fa4861c3a10b35c1b0d
 BADGING = """package: name='com.arcforges.mobile' versionCode='1' versionName='0.1.0' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
 minSdkVersion:'26'
 targetSdkVersion:'36'
-uses-permission: name='android.permission.INTERNET'
 application-label:'ArcForges'
 """
 CERTIFICATES = f"""Signer #1 certificate DN: CN=Android Debug, O=Android, C=US
@@ -35,11 +34,7 @@ PAYLOAD = [
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
     "src/ArcForges.Mobile/packages.lock.json",
     "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
-    "src/ArcForges.Mobile/App.cs",
-    "src/ArcForges.Mobile/MainPage.cs",
-    "src/ArcForges.Mobile/MauiProgram.cs",
     "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs",
-    "src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
 ]
 
 
@@ -101,8 +96,8 @@ class MauiIdentityGateTests(unittest.TestCase):
 
     def test_manifest_package_attribute_is_refused(self):
         self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
-                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android">',
-                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example">')
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">',
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.example">')
         self.refused()
 
     def test_unscoped_r8_linker_is_refused(self):
@@ -198,7 +193,60 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.refused()
 
     def test_source_namespace_outside_the_mobile_namespace_is_refused(self):
-        self.edit("src/ArcForges.Mobile/App.cs", "namespace ArcForges.Mobile;", "namespace Example.Mobile;")
+        self.edit("src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs",
+                  "namespace ArcForges.Mobile.Compatibility;", "namespace Example.Mobile.Compatibility;")
+        self.refused()
+
+    def test_profiler_that_forces_internet_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  "<AndroidEnableProfiler>false</AndroidEnableProfiler>",
+                  "<AndroidEnableProfiler>true</AndroidEnableProfiler>")
+        self.refused()
+
+    def add(self, name, text):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8", newline="\n")
+
+    def test_identity_only_source_file_is_refused(self):
+        self.add("src/ArcForges.Mobile/MainPage.cs", "namespace ArcForges.Mobile;\n")
+        self.refused()
+
+    def test_launcher_activity_source_is_refused(self):
+        self.add("src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
+                 "namespace ArcForges.Mobile;\n[Activity(MainLauncher = true)]\npublic class MainActivity { }\n")
+        self.refused()
+
+    def test_app_resources_are_refused(self):
+        self.add("src/ArcForges.Mobile/Resources/AppIcon/appicon.svg", "<svg/>\n")
+        self.refused()
+
+    def test_manifest_permission_is_refused(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  "<application ",
+                  '<uses-permission android:name="android.permission.INTERNET" />\n  <application ')
+        self.refused()
+
+    def test_manifest_component_is_refused(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  'supportsRtl="true"></application>',
+                  'supportsRtl="true"><activity android:name=".MainActivity" android:exported="true" /></application>')
+        self.refused()
+
+    def test_removal_marker_for_another_permission_is_refused(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  'tools:node="remove" />',
+                  'tools:node="remove" />\n  <uses-permission android:name="android.permission.CAMERA" tools:node="remove" />')
+        self.refused()
+
+    def test_internet_marker_with_another_tools_node_is_refused(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  'tools:node="remove" />', 'tools:node="replace" />')
+        self.refused()
+
+    def test_manifest_cleartext_restriction_is_required(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  'android:usesCleartextTraffic="false"', 'android:usesCleartextTraffic="true"')
         self.refused()
 
     def test_deferral_without_an_owner_is_refused(self):
@@ -336,6 +384,19 @@ class ApkIdentityTests(unittest.TestCase):
         wrong = BADGING.replace("com.arcforges.mobile", "io.github.arcforges.mobile", 1)
         with self.assertRaises(ValueError):
             identity.check_apk(wrong, CERTIFICATES, ROOT)
+
+    def test_androidx_merged_signature_permission_is_the_only_allowed_permission(self):
+        merged = BADGING + "uses-permission: name='com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'\n"
+        self.assertEqual(identity.check_apk(merged, CERTIFICATES, ROOT)["identity"]["package"], "com.arcforges.mobile")
+
+    def test_permission_in_the_badging_is_refused(self):
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING + "uses-permission: name='android.permission.INTERNET'\n", CERTIFICATES, ROOT)
+
+    def test_launchable_activity_in_the_badging_is_refused(self):
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING + "launchable-activity: name='com.arcforges.mobile.MainActivity'\n",
+                               CERTIFICATES, ROOT)
 
     def test_two_signers_are_refused(self):
         with self.assertRaises(ValueError):

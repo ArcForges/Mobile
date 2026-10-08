@@ -36,7 +36,7 @@
   },
   "contracts": {
     "package": "ArcForges.Contracts.PublicApi",
-    "version": "1.0.0-ci.350.1",
+    "version": "1.0.0-ci.324.1",
     "licence": "Apache-2.0",
     "clientNamespace": "ArcForges.Contracts.Hello.V1"
   },

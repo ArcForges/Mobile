@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.350.1" />
+    <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.324.1" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.20" />
     <!-- The SDK otherwise adds this trimmer implicitly at the version of its own SDK patch (10.0.11 in 10.0.400,
          10.0.12 in 10.0.401), which would make the lock differ between the two local SDK patches. -->

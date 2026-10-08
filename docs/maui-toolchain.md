@@ -12,10 +12,11 @@ The Android companion moves to .NET MAUI for `net10.0-android` only, using the M
 | Android workloads | `android` 36.1.69 and `maui-android` 10.0.20 manifests, with the Mono runtime and AOT manifest 10.0.112 they extend (Windows) | `eng/policy/dotnet-toolchain.json` (`workloads`); `eng/policy/workload-admission.json` |
 | MAUI | `Microsoft.Maui.Controls` 10.0.20 | `Directory.Packages.props` |
 | Trimmer | `Microsoft.NET.ILLink.Tasks` 10.0.11 | `Directory.Packages.props` (see below) |
-| Contracts client | `ArcForges.Contracts.PublicApi` 1.0.0-ci.350.1 (Apache-2.0; generated `ArcForges.Contracts.Hello.V1` client) | `Directory.Packages.props` |
+| Contracts client | `ArcForges.Contracts.PublicApi` 1.0.0-ci.324.1 (Apache-2.0; generated `ArcForges.Contracts.Hello.V1` client; `ArcForges.Contracts.Foundation` 1.0.0-ci.324.1 transitively), published from Contracts main `330e46bd` (CI run 37388554007) | `Directory.Packages.props`; `eng/policy/nuget-admission.json` |
 | NuGet source | `nuget.org` only, every package mapped to it | `NuGet.config` |
 | Restore | locked (`packages.lock.json`), SDK implicit libraries disabled | `Directory.Build.props` |
 | Application identity | `com.arcforges.mobile`, Android minSdk 26 (carried from the Kotlin baseline) | project; `eng/policy/dotnet-toolchain.json` |
+| Permissions and components | none declared by the project; the manifest removes the SDK's Debug `INTERNET`; `AndroidEnableProfiler=false`; the only APK permission is the AndroidX-merged signature permission | `src/ArcForges.Mobile/`; `eng/maui_identity.py` (`check_identity_only_shape`, `check_apk`) |
 | Namespace | `ArcForges.Mobile` (root namespace; every source namespace under `src/ArcForges.Mobile` starts with it) | project (`RootNamespace`); `eng/maui_identity.py` |
 | Target API | `36.1` compile/target platform, the coordinator's D-016 decision of 2026-10-08 | project (`TargetPlatformVersion`); `eng/policy/dotnet-toolchain.json` (`targetPlatformDecision`) |
 | Build tools | `36.1.0` | project (`AndroidSdkBuildToolsVersion`) |
@@ -34,6 +35,25 @@ Why these values:
 The project does not configure signing. The persistent release key signs the candidate in the protected release job, outside the build (AGENTS.md: candidate build, required checks, protected signing, publication). MSBuild passes signing passwords to `jarsigner` as arguments, and MAUI 10.0.20 does not resolve `env:` references, so the build must not carry them. The release job signs with `apksigner` and verifies the certificate. `python eng/maui_identity.py --apk <apk> --release` refuses any APK that is not signed by the persistent certificate.
 
 The reinstall guidance for the applicationId change is in [releasing.md](releasing.md#application-identity-change-to-comarcforgesmobile-and-01).
+
+## Identity-only shape
+
+The identity project has no permission grant, no launchable activity and no UI (P2-021 item 3; the AND.01 follow-up of 2026-10-08). Its files are exactly:
+
+- `src/ArcForges.Mobile/ArcForges.Mobile.csproj` and `packages.lock.json`;
+- `Platforms/Android/AndroidManifest.xml`: one `application` element with backup and cleartext restricted, and one `uses-permission` element that only removes `android.permission.INTERNET` (`tools:node="remove"`). It declares no component;
+- `Compatibility/ContractsClientCompatibility.cs`: compile-only evidence that the generated `ArcForges.Contracts.Hello.V1` client builds against the MAUI tuple. It carries no behaviour.
+
+`App.cs`, `MainPage.cs`, `MauiProgram.cs`, `Platforms/Android/MainActivity.cs` and `Resources/` were removed. The Windows Debug and Release builds succeed without an `App`, a `MauiProgram` or a `Resources` folder (see the evidence below), so no minimal shim is kept. AND.40 adds the entry point, UI and resources.
+
+Build facts that shaped the manifest and the project:
+
+- The SDK's manifest generator adds `android.permission.INTERNET` to the generated Debug manifest (`obj/Debug/net10.0-android/AndroidManifest.xml`). That manifest carries `android:debuggable="true"` and the permission, while the Release manifest carries neither. The cause inside the generator was not traced to source; the observed correlation with `debuggable` is what the build shows. `tools:node="remove"` on the identity manifest removes the permission from the merged APK, and the rebuilt Debug APK confirms it.
+- `AndroidEnableProfiler=false` is set explicitly. When the profiler is enabled, the SDK's `Microsoft.Android.Sdk.DefaultProperties.targets` sets `AndroidNeedsInternetPermission`, so the explicit value keeps that profiler requirement out of the identity build. It is not the cause of the Debug permission above.
+- AndroidX Core merges one permission into every application: `com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`. The application package declares it itself with protection level `signature` (`aapt2 dump xmltree`, protectionLevel 0x2), so it grants no capability to another app. This follow-up does not strip it (that would be a manifest-merge change to AndroidX, not verified here), so the gate allows exactly this permission and nothing else.
+- The merged manifest also carries AndroidX library components, such as a profile-installer receiver. These are library-owned and are not declared by this project; the gate refuses only a launchable activity.
+
+`eng/maui_identity.py` enforces the shape: the exact file set (`check_identity_only_shape`), one application element and at most one removal marker for `INTERNET`, `AndroidEnableProfiler=false`, and the built APK's badging (no `uses-permission` other than the merged signature permission, no `uses-implied-permission`, no `launchable-activity`).
 
 ## Local toolchain setup
 
@@ -76,15 +96,17 @@ BSD-2-Clause is admitted only through `Xamarin.Android.Glide` (four packages), p
 
 ## Evidence recorded in AND.01
 
-Recorded on 2026-10-08 on Windows (SDK 10.0.401 adapter, locked restore from a clean nuget.org package folder):
+Recorded on 2026-10-08 on the Windows host, for the identity-only project (the AND.01 follow-up). The Windows host has SDK 10.0.401, so each build used the uncommitted adapter above; `global.json` was restored to the committed 10.0.400 pin before every offline check and before the commit. Restores were `--locked-mode` into a clean `NUGET_PACKAGES` folder outside the repository. JDK 21 (Temurin 21.0.11) was supplied through `JAVA_HOME`, and the Android platform 36.1 and build-tools 36.1.0 were used from `ANDROID_HOME`. The builds ran through the workstation build slot.
 
-- Debug build of the identity project: succeeded, 0 warnings, 0 errors. The APK identity is `com.arcforges.mobile`, minSdk 26, targetSdk 36 (`aapt2 dump badging`). It is signed with the local debug key, which is expected.
-- Release build with `AndroidLinkTool=r8` (trimming and R8 ran): succeeded, 0 errors, with two advisories under the adapter only: the SDK's advisory about an explicit trimmer reference (the SDK 10.0.401 bundles 10.0.12), and a `[removal]` warning for `finalize()` in MAUI-generated Java binding code. Neither is in project code. The committed SDK 10.0.400 is the reference for the pin.
+- Locked restore of `src/ArcForges.Mobile/ArcForges.Mobile.csproj`: succeeded.
+- Debug build (`-c Debug`): succeeded, 0 warnings, 0 errors.
+- Release build (`-c Release`, `AndroidLinkTool=r8`): succeeded, 0 errors. R8 ran (`bin/Release/net10.0-android/mapping.txt` is written). It reported 2 warnings, both the same SDK advisory that the explicit `Microsoft.NET.ILLink.Tasks` 10.0.11 reference should be deleted because the 10.0.401 SDK supplies its own trimmer (10.0.12). This was observed only under the 10.0.401 adapter. The committed 10.0.400 pin was not built on this host.
+- APK identity, checked with `inspect_apk` (`aapt2 dump badging`, `apksigner verify --print-certs`) on both signed APKs: package `com.arcforges.mobile`, minSdk 26, targetSdk 36, one signer. The only `uses-permission` is the AndroidX-merged `com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`. There is no `android.permission.INTERNET` and no launchable activity. Both APKs are signed with the local debug key, as expected: the build configures no signing, and the persistent release certificate is applied only by the protected release job. No `--release` proof is claimed here.
+- The first Debug APK built from this tree still carried `android.permission.INTERNET`, injected by the SDK's manifest generator into the debuggable manifest. The identity manifest's `tools:node="remove"` marker removes it, and the rebuilt Debug and Release APKs were checked as above.
+- Unit tests: `python -I -m unittest discover -s eng/tests -p "test_maui_identity.py"` passes all 60 tests, and the full `eng/tests` suite passes 130 tests.
+- Offline gates: `python -I eng/maui_identity.py` passes against the committed pin. `python eng/mobile.py check` passes; it was run as `python -I` with `eng/` on the path, because `-I` alone cannot import the script's sibling modules.
 
-Recorded on WSL2 Debian (SDK 10.0.400, committed `global.json`, same lock):
-
-- Locked restore: succeeded.
-- Debug build: stopped at XA5300, because the WSL2 image has no Android SDK and no JDK 21 is installed. Toolchain installation in WSL2 is performed by the user (P2-024), not by this task, so the Linux Android build proof is deferred to AND.40 (see below) rather than provisioned here.
+The Linux identity build is not run locally. WSL2 Debian has no Android SDK and no JDK 21, and under P2-024 and brief section 10 the Linux Android build is the hosted Linux CI job that AND.40 adds, so AND.01 does not close on it. No WSL2 build is recorded for this unit.
 
 ## Deferred to AND.40
 

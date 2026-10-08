@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <!-- Same restrictions as the Kotlin baseline: no backup, no cleartext, INTERNET only. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <!-- AND.01 identity-only: no permission and no launchable activity. Backup and cleartext stay restricted as in the Kotlin baseline.
+       The SDK adds INTERNET to Debug manifests (debuggable=true); tools:node="remove" keeps the identity build free of it. -->
+  <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
   <application android:allowBackup="false" android:fullBackupContent="false" android:usesCleartextTraffic="false" android:supportsRtl="true"></application>
-  <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

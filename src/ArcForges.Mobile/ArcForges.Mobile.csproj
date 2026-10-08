@@ -35,6 +35,10 @@
 
     <!-- P2-021 item 3: Mono runtime, set explicitly. Release AOT is proven by AND.40, not here. -->
     <UseMonoRuntime>true</UseMonoRuntime>
+
+    <!-- Identity-only (AND.01): the SDK forces android.permission.INTERNET into Debug builds when the profiler is
+         enabled, which Debug does by default (EnableDiagnostics). Off here, so Debug and Release carry no INTERNET. -->
+    <AndroidEnableProfiler>false</AndroidEnableProfiler>
   </PropertyGroup>
 
   <!-- P2-021 item 3: .NET trimming plus R8 for the shrunk release build only; Debug uses fast deployment (XA0119). -->

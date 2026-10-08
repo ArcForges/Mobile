@@ -77,8 +77,8 @@ def repository_check():
         text = path.read_text(encoding="utf-8")
         if name.startswith("third-party/notices/"):
             continue  # Preserve upstream notice text; the licence gate verifies its reviewed hash.
-        if not text.endswith("\n") and not name.endswith("packages.lock.json"):
-            # NuGet writes packages.lock.json without a final newline; its bytes are bound by eng/policy/nuget-admission.json.
+        if not text.endswith("\n") and name != maui_identity.MAUI_LOCK:
+            # NuGet writes the MAUI packages.lock.json without a final newline; its bytes are bound by eng/policy/nuget-admission.json.
             raise ValueError(f"Missing final newline: {name}")
         if any(line.rstrip() != line for line in text.splitlines()):
             raise ValueError(f"Trailing whitespace: {name}")
