@@ -93,7 +93,9 @@ Reuse the existing cache. If a dependency update exposes a specific missing POM/
 
 ## Security tooling compatibility
 
-CodeQL scans Java/Kotlin, Python and Actions. Kotlin 2.4.20 requires the same temporary, date-pinned and checksum-verified CodeQL bundle used by Contracts: `codeql-bundle-20260913`. Stable CLI 2.27.0 misses the Kotlin extraction fix in [github/codeql#22404](https://github.com/github/codeql/pull/22404). Remove the override once the action's recommended stable CLI is at least 2.27.1 and includes that fix. The scanner override does not change the app's stable compiler or runtime dependencies.
+CodeQL scans Java/Kotlin, Python and Actions. The Kotlin CodeQL override in `.github/workflows/security.yml` is validated only for Kotlin 2.4.20. It uses the same temporary, date-pinned and checksum-verified CodeQL bundle used by Contracts: `codeql-bundle-20260913`. Stable CLI 2.27.0 misses the Kotlin extraction fix in [github/codeql#22404](https://github.com/github/codeql/pull/22404). Remove the override once the action's recommended stable CLI is at least 2.27.1 and includes that fix.
+
+The repository now builds Kotlin 2.4.21 (see the `kotlin-2-4-21-spotless-8-10-4` dependency review). Applicability of the 2.4.20 bundle to Kotlin 2.4.21 extraction is not confirmed: the bundle and the upstream extraction-fix references checked so far do not name 2.4.21. Until the security owner confirms coverage, or the workflow and this section are updated to a bundle that covers 2.4.21, the Kotlin CodeQL job must not be treated as proof of Kotlin 2.4.21 extraction. The scanner override does not change the app's stable compiler or runtime dependencies.
 
 ## Evidence boundaries
 
