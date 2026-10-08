@@ -112,7 +112,10 @@ For the eight `Microsoft.Maui.*` 10.0.20 packages the local cache holds SDK libr
 from the nuget.org packages, so their recorded `nupkgSha512` values were not recomputed from the cache. The value
 for `Microsoft.Maui.Controls` was checked against the nuget.org catalog `packageHash`; the other seven recorded
 `Microsoft.Maui.*` values were not individually compared with the catalog. In the AND.01 independent review
-(reviewer session `w-deku-20261008-rev-and-01`, round 1, 2026-10-08), `dotnet restore --locked-mode` of commit
-`c48eb7c` into an empty `NUGET_PACKAGES` folder succeeded, the restored `.nupkg.metadata` source of the MAUI and
-Contracts packages was `https://api.nuget.org/v3/index.json`, and their `contentHash` values equalled the lock. The admitted licence is Apache-2.0 with the packaged `LICENSE` and
+(reviewer session `w-deku-20261008-rev-and-01`, round 1, 2026-10-08), `dotnet restore --locked-mode` of a
+git-archive scratch copy of commit `c48eb7c`, with an uncommitted `global.json` adapter pinning SDK 10.0.401, into a
+fresh, empty `NUGET_PACKAGES` folder (not the default cache above) succeeded; in that folder the `.nupkg.metadata`
+source of the MAUI and Contracts packages was `https://api.nuget.org/v3/index.json`, and their `contentHash` values
+equalled the lock. The committed SDK 10.0.400 pin was not exercised by that restore; its first restore and build is
+the AND.40 CI run. The admitted licence is Apache-2.0 with the packaged `LICENSE` and
 `NOTICE`, so no AND.40 notice deferral is needed for these two packages.
