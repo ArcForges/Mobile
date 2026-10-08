@@ -31,6 +31,7 @@ PAYLOAD = [
     "eng/published.py",
     "eng/policy/dotnet-toolchain.json",
     "eng/policy/nuget-admission.json",
+    "eng/policy/workload-admission.json",
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
     "src/ArcForges.Mobile/packages.lock.json",
     "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
@@ -40,6 +41,14 @@ PAYLOAD = [
     "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs",
     "src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
 ]
+
+
+def workload(doc, alias):
+    return next(item for item in doc["workloads"] if item["alias"] == alias)
+
+
+def admitted_pack(doc, alias, pack_id):
+    return next(item for item in workload(doc, alias)["admittedPacks"] if item["id"] == pack_id)
 
 
 class MauiIdentityGateTests(unittest.TestCase):
@@ -205,6 +214,101 @@ class MauiIdentityGateTests(unittest.TestCase):
     def test_glide_exception_without_its_notice_obligation_is_refused(self):
         self.rewrite_json("eng/policy/nuget-admission.json",
                           lambda doc: doc["licenceExceptions"].update({"BSD-2-Clause": "Admitted as permissive."}))
+        self.refused()
+
+    def test_packaged_notice_deferral_removal_is_refused(self):
+        self.rewrite_json("eng/policy/dotnet-toolchain.json",
+                          lambda doc: doc.update(deferrals=[item for item in doc["deferrals"]
+                                                            if item["id"] != "nuget-notice-grpc-core-api-2-84-0"]))
+        self.refused()
+
+    def test_packaged_notice_deferral_version_drift_is_refused(self):
+        self.edit("eng/policy/dotnet-toolchain.json", '"version": "3.36.1"', '"version": "3.36.2"')
+        self.refused()
+
+    def test_stale_notice_deferral_is_refused(self):
+        def add(doc):
+            doc["deferrals"].append({"id": "nuget-notice-maui-core", "package": "Microsoft.Maui.Core",
+                                     "version": "10.0.20", "licence": "MIT", "owner": "AND.40",
+                                     "trigger": "The first MAUI Android release candidate.",
+                                     "consequence": "No candidate is published without the notice."})
+        self.rewrite_json("eng/policy/dotnet-toolchain.json", add)
+        self.refused()
+
+    def test_unnoticed_package_without_licence_files_is_refused(self):
+        def drop_licence_files(doc):
+            next(item for item in doc["packages"] if item["id"] == "Microsoft.Maui.Core")["licenceFiles"] = []
+        self.rewrite_json("eng/policy/nuget-admission.json", drop_licence_files)
+        self.refused()
+
+    def test_workload_pin_drift_is_refused(self):
+        self.edit("eng/policy/dotnet-toolchain.json", '"manifestVersion": "36.1.69"', '"manifestVersion": "36.1.70"')
+        self.refused()
+
+    def test_workload_record_missing_a_pinned_workload_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: doc.update(workloads=[item for item in doc["workloads"]
+                                                            if item["alias"] != "mono-toolchain"]))
+        self.refused()
+
+    def test_workload_pack_version_drift_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: admitted_pack(doc, "android", "Microsoft.Android.Ref.36").update(version="36.1.70"))
+        self.refused()
+
+    def test_unpartitioned_workload_pack_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: workload(doc, "android")["excludedPacks"].pop(0))
+        self.refused()
+
+    def test_excluded_workload_pack_without_reason_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: workload(doc, "android")["excludedPacks"][0].update(reason=""))
+        self.refused()
+
+    def test_admitted_workload_pack_without_licence_evidence_is_refused(self):
+        def strip_evidence(doc):
+            pack = admitted_pack(doc, "android", "Microsoft.Android.Ref.36")
+            pack["licence"] = None
+            pack.pop("licenceFile")
+        self.rewrite_json("eng/policy/workload-admission.json", strip_evidence)
+        self.refused()
+
+    def test_unadmitted_workload_licence_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: admitted_pack(doc, "maui-android", "Microsoft.Maui.Sdk.net10").update(
+                              licence="Custom-Terms"))
+        self.refused()
+
+    def test_workload_licence_file_without_hash_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: admitted_pack(doc, "android", "Microsoft.Android.Ref.36")["licenceFile"].pop("sha256"))
+        self.refused()
+
+    def test_maui_library_outside_the_nuget_closure_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: admitted_pack(doc, "maui-android", "Microsoft.Maui.Core").update(version="10.0.30"))
+        self.refused()
+
+    def test_unverified_host_alias_without_its_deferral_is_refused(self):
+        self.rewrite_json("eng/policy/dotnet-toolchain.json",
+                          lambda doc: doc.update(deferrals=[item for item in doc["deferrals"]
+                                                            if item["id"] != "workload-licence-evidence"]))
+        self.refused()
+
+    def test_manifest_without_a_hash_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: workload(doc, "android")["manifestFiles"].pop("WorkloadManifest.json"))
+        self.refused()
+
+    def test_sdk_pin_mismatch_in_workload_record_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: doc["reviewedHost"].update(sdkPinned="10.0.401"))
+        self.refused()
+
+    def test_excluded_manifest_without_reason_is_refused(self):
+        self.rewrite_json("eng/policy/workload-admission.json",
+                          lambda doc: doc["excludedManifests"][0].update(reason=""))
         self.refused()
 
 

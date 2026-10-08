@@ -75,6 +75,7 @@
     "eng/policy/licence-boundary.json",
     "eng/policy/nuget-admission.json",
     "eng/policy/reuse-policy.json",
+    "eng/policy/workload-admission.json",
     "eng/provenance/NOTICE.txt",
     "eng/provenance/artifact-profiles/android-resources-r1.json",
     "eng/provenance/artifact-profiles/android-resources-r10.json",

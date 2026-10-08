@@ -9,7 +9,7 @@ The Android companion moves to .NET MAUI for `net10.0-android` only, using the M
 | .NET SDK | `10.0.400`, `rollForward: disable` | `global.json`; `eng/policy/dotnet-toolchain.json` |
 | Target framework | `net10.0-android` only, `UseMonoRuntime=true` explicit | `src/ArcForges.Mobile/ArcForges.Mobile.csproj` |
 | Linker | `AndroidLinkTool=r8`, Release configuration only | the project (scoped to Release) |
-| Android workloads | `android` 36.1.69 and `maui-android` 10.0.20 manifests (Windows) | `eng/policy/dotnet-toolchain.json` |
+| Android workloads | `android` 36.1.69 and `maui-android` 10.0.20 manifests, with the Mono runtime and AOT manifest 10.0.112 they extend (Windows) | `eng/policy/dotnet-toolchain.json` (`workloads`); `eng/policy/workload-admission.json` |
 | MAUI | `Microsoft.Maui.Controls` 10.0.20 | `Directory.Packages.props` |
 | Trimmer | `Microsoft.NET.ILLink.Tasks` 10.0.11 | `Directory.Packages.props` (see below) |
 | Contracts client | `ArcForges.Contracts.PublicApi` 1.0.0-ci.350.1 (Apache-2.0; generated `ArcForges.Contracts.Hello.V1` client) | `Directory.Packages.props` |
@@ -94,5 +94,15 @@ Recorded in `eng/policy/dotnet-toolchain.json` (`deferrals`), with the gate refu
 | --- | --- | --- | --- |
 | Linux Android build of the MAUI identity project (WSL2 has no Android SDK or JDK 21) | AND.40 | the first AND.40 hosted Linux CI run that builds this project (Debug and Release, locked restore) | a failed Linux build reopens AND.01 and AND.40; the Windows evidence above stands until then |
 | BSD-2-Clause notice of `Xamarin.Android.Glide` in the MAUI release notices | AND.40 | the first MAUI Android release candidate, before publication | no candidate is published without the notice; AND.40 stays open |
+| BSD-3-Clause licence text of `Google.Protobuf` 3.36.1 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
+| Apache-2.0 licence text and any notice of `Grpc.Core.Api` 2.84.0 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
+| MIT licence and notice files of the admitted workload packs (Mono runtime and AOT packs contribute to the APK) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry them; no candidate is published without them |
+| Licence evidence the Windows host cannot provide: Linux host aliases of the Android SDK and Mono AOT packs, and the licence statement of `Microsoft.NET.Runtime.MonoAOTCompiler.Task` and `Microsoft.NET.Runtime.MonoTargets.Sdk` (notice file only) | AND.40 | the first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project | a licence outside the admitted set or a missing licence file reopens AND.01 and AND.40 |
+
+Each nupkg without a licence file needs one notice deferral naming its package, version and licence; the gate refuses a missing or stale one.
+
+## Workload admission
+
+`eng/policy/workload-admission.json` is the admission record for the workload manifests and packs. It was written offline from the workload folders installed on the Windows host (`sdk-manifests/10.0.100`, `packs`), with no download. Each pinned workload (`android`, `maui-android`, `mono-toolchain`) lists every pack its manifest declares for the Android closure, and each pack is either admitted or excluded with a reason. Admitted packs carry the licence file path and SHA-256 found on the host, or a deferral. MAUI library packs are not repeated here: they must match the NuGet admission at the pinned version. The gate refuses any drift from the pins in `eng/policy/dotnet-toolchain.json` (manifest and pack versions), a declared pack that is neither admitted nor excluded, an excluded pack without a reason, and an admitted pack without licence evidence. The net9 Mono manifest reached through the android workload's net9 extends is recorded as an excluded manifest.
 
 Not proven by AND.01 and transferred explicitly: the persistent-key signature on a MAUI APK (protected release job), Mono AOT and the 16 KB alignment check (AND.40 CI), the Linux Android build (AND.40 hosted Linux CI, above), the device install and App Link fixture-key tests (PRF.12 local opt-in). Target API 36.1 is decided under D-016, but its device behaviour is not proven here. The minimum-API review and the .NET 11 posture stay open under D-016.

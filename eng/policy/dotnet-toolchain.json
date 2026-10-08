@@ -18,8 +18,9 @@
     }
   },
   "workloads": {
-    "android": {"manifestVersion": "36.1.69", "installedFor": "SDK 10.0.400 (Windows)"},
-    "maui-android": {"manifestVersion": "10.0.20", "installedFor": "SDK 10.0.400 (Windows)"}
+    "android": {"id": "microsoft.net.sdk.android", "manifestVersion": "36.1.69", "packVersion": "36.1.69", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
+    "maui-android": {"id": "microsoft.net.sdk.maui", "manifestVersion": "10.0.20", "packVersion": "10.0.20", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
+    "mono-toolchain": {"id": "microsoft.net.workload.mono.toolchain.current", "manifestVersion": "10.0.112", "packVersion": "10.0.12", "installedFor": "SDK band 10.0.100 on the Windows host; extended by the android workload for the Mono runtime and Mono AOT packs", "admission": "eng/policy/workload-admission.json"}
   },
   "trimmer": {
     "package": "Microsoft.NET.ILLink.Tasks",
@@ -79,6 +80,40 @@
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
       "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open."
+    },
+    {
+      "id": "nuget-notice-google-protobuf-3-36-1",
+      "item": "The BSD-3-Clause licence text of Google.Protobuf 3.36.1, a transitive Mobile dependency. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Google.Protobuf",
+      "version": "3.36.1",
+      "licence": "BSD-3-Clause",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the BSD-3-Clause licence text; a candidate without it is not published and AND.40 stays open."
+    },
+    {
+      "id": "nuget-notice-grpc-core-api-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Core.Api 2.84.0, a transitive Mobile dependency. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Core.Api",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+    },
+    {
+      "id": "workload-pack-notices",
+      "item": "The MIT licence and notice files of the admitted workload packs in eng/policy/workload-admission.json. The Mono runtime and Mono AOT packs contribute to the APK; the SDK and MAUI packs are build tooling.",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open."
+    },
+    {
+      "id": "workload-licence-evidence",
+      "item": "Licence evidence that the reviewed Windows host cannot provide: the non-Windows host aliases of the Android SDK and Mono AOT packs (Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross packs), and the licence statement of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk, which ship a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT. macOS host aliases are outside the delivery scope (P2-023).",
+      "owner": "AND.40",
+      "trigger": "The first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project.",
+      "consequence": "A licence outside the admitted set or a missing licence file reopens AND.01 and AND.40."
     }
   ]
 }

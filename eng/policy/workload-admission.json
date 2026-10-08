@@ -1,0 +1,465 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "licenceBoundary": "Apache",
+  "reviewId": "maui-10-0-20-android-workloads-r1",
+  "reviewedOn": "2026-10-08",
+  "authority": "AND.01 requires an admission record for each new NuGet or workload dependency; P2-021 items 3 and 4; D-016 target 36.1; pins in eng/policy/dotnet-toolchain.json (workloads)",
+  "reviewedHost": {
+    "os": "Windows 11 Pro for Workstations",
+    "dotnetRoot": "C:\\Program Files\\dotnet",
+    "sdkInstalled": [
+      "10.0.401"
+    ],
+    "sdkPinned": "10.0.400",
+    "workloadBand": "10.0.100",
+    "installer": "msi"
+  },
+  "method": "Read offline from the workload manifests and pack folders installed on the reviewed host. Paths are relative to reviewedHost.dotnetRoot. Manifest files and packs are hashed as installed. No download and no network access. The offline gate verifies the recorded pins, partitions, licence evidence and deferrals; it does not re-hash installed host files.",
+  "workloads": [
+    {
+      "id": "microsoft.net.sdk.android",
+      "alias": "android",
+      "manifestVersion": "36.1.69",
+      "packVersion": "36.1.69",
+      "roots": [
+        "android"
+      ],
+      "manifestFiles": {
+        "WorkloadManifest.json": "e520a5f491b933774ed06c48e8adf3a6878ad8a6cd320180a3395080cf362644",
+        "WorkloadManifest.targets": "7f88115d8b29a0028aa3e82c7cf57f621b782ed867361a732bfc164e18bad404",
+        "WorkloadDependencies.json": "4752a179c398f77d329f67cf528f4351c5b395f11b5193d18493c84e56b68f4c"
+      },
+      "declaredPacks": [
+        "Microsoft.Android.Sdk.net10",
+        "Microsoft.Android.Sdk.net9",
+        "Microsoft.Android.Ref.36",
+        "Microsoft.Android.Runtime.36.android",
+        "Microsoft.Android.Runtime.Mono.36.android-arm",
+        "Microsoft.Android.Runtime.Mono.36.android-arm64",
+        "Microsoft.Android.Runtime.Mono.36.android-x86",
+        "Microsoft.Android.Runtime.Mono.36.android-x64",
+        "Microsoft.Android.Runtime.CoreCLR.36.android-arm64",
+        "Microsoft.Android.Runtime.CoreCLR.36.android-x64",
+        "Microsoft.Android.Runtime.NativeAOT.36.android-arm64",
+        "Microsoft.Android.Runtime.NativeAOT.36.android-x64",
+        "Microsoft.Android.Templates"
+      ],
+      "admittedPacks": [
+        {
+          "id": "Microsoft.Android.Sdk.net10",
+          "kind": "sdk",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Sdk.Windows",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Sdk.Windows/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          },
+          "unverifiedHostAliases": [
+            "Microsoft.Android.Sdk.Linux"
+          ]
+        },
+        {
+          "id": "Microsoft.Android.Ref.36",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Ref.36",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Ref.36/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.Android.Runtime.36.android",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Runtime.36.android",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Runtime.36.android/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.Android.Runtime.Mono.36.android-arm",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Runtime.Mono.36.android-arm",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Runtime.Mono.36.android-arm/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.Android.Runtime.Mono.36.android-arm64",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Runtime.Mono.36.android-arm64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Runtime.Mono.36.android-arm64/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.Android.Runtime.Mono.36.android-x86",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Runtime.Mono.36.android-x86",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Runtime.Mono.36.android-x86/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.Android.Runtime.Mono.36.android-x64",
+          "kind": "framework",
+          "version": "36.1.69",
+          "hostPack": "Microsoft.Android.Runtime.Mono.36.android-x64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Android.Runtime.Mono.36.android-x64/36.1.69/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        }
+      ],
+      "excludedPacks": [
+        {
+          "id": "Microsoft.Android.Sdk.net9",
+          "reason": "net9 pack; Mobile targets net10.0-android only (P2-021 item 3)"
+        },
+        {
+          "id": "Microsoft.Android.Runtime.CoreCLR.36.android-arm64",
+          "reason": "CoreCLR and NativeAOT Android runtimes are experimental and unused (P2-021 item 3; UseMonoRuntime=true)"
+        },
+        {
+          "id": "Microsoft.Android.Runtime.CoreCLR.36.android-x64",
+          "reason": "CoreCLR and NativeAOT Android runtimes are experimental and unused (P2-021 item 3; UseMonoRuntime=true)"
+        },
+        {
+          "id": "Microsoft.Android.Runtime.NativeAOT.36.android-arm64",
+          "reason": "CoreCLR and NativeAOT Android runtimes are experimental and unused (P2-021 item 3; UseMonoRuntime=true)"
+        },
+        {
+          "id": "Microsoft.Android.Runtime.NativeAOT.36.android-x64",
+          "reason": "CoreCLR and NativeAOT Android runtimes are experimental and unused (P2-021 item 3; UseMonoRuntime=true)"
+        },
+        {
+          "id": "Microsoft.Android.Templates",
+          "reason": "project template pack; not used by the build and not packaged into the APK"
+        }
+      ],
+      "extends": [
+        "microsoft-net-runtime-android-net9",
+        "microsoft-net-runtime-android-aot-net9",
+        "microsoft-net-runtime-android",
+        "microsoft-net-runtime-android-aot"
+      ]
+    },
+    {
+      "id": "microsoft.net.sdk.maui",
+      "alias": "maui-android",
+      "manifestVersion": "10.0.20",
+      "packVersion": "10.0.20",
+      "roots": [
+        "maui-android"
+      ],
+      "manifestFiles": {
+        "WorkloadManifest.json": "e2506ea1897fca4cf528fa2e950d3267477e28e5253f1e7781520058742ced10",
+        "WorkloadManifest.targets": "406fa2fe316cde8ce5da9878a3e68a81e33fcd194850626155f045ee18887a2b",
+        "WorkloadDependencies.json": "dc61c12128cf0d438469f781656cf39e95126984f551841a1c7cf781cb58275d"
+      },
+      "declaredPacks": [
+        "Microsoft.AspNetCore.Components.WebView.Maui",
+        "Microsoft.Maui.Sdk.net10",
+        "Microsoft.Maui.Sdk.net9",
+        "Microsoft.Maui.Graphics",
+        "Microsoft.Maui.Resizetizer",
+        "Microsoft.Maui.Templates.net10",
+        "Microsoft.Maui.Templates.net9",
+        "Microsoft.Maui.Core",
+        "Microsoft.Maui.Controls",
+        "Microsoft.Maui.Controls.Build.Tasks",
+        "Microsoft.Maui.Controls.Core",
+        "Microsoft.Maui.Controls.Xaml",
+        "Microsoft.Maui.Essentials"
+      ],
+      "admittedPacks": [
+        {
+          "id": "Microsoft.Maui.Sdk.net10",
+          "kind": "sdk",
+          "version": "10.0.20",
+          "hostPack": "Microsoft.Maui.Sdk",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.Maui.Sdk/10.0.20/LICENSE.TXT",
+            "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+          }
+        },
+        {
+          "id": "Microsoft.Maui.Graphics",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Resizetizer",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Core",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Controls",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Controls.Build.Tasks",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Controls.Core",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Controls.Xaml",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        },
+        {
+          "id": "Microsoft.Maui.Essentials",
+          "kind": "library",
+          "version": "10.0.20",
+          "source": "nuget-admission"
+        }
+      ],
+      "excludedPacks": [
+        {
+          "id": "Microsoft.AspNetCore.Components.WebView.Maui",
+          "reason": "Blazor Hybrid WebView pack; not referenced by the identity project and no Blazor Hybrid surface is admitted by AND.01 (P2-021 items 2 and 3)"
+        },
+        {
+          "id": "Microsoft.Maui.Sdk.net9",
+          "reason": "net9 pack; Mobile targets net10.0-android only (P2-021 item 3)"
+        },
+        {
+          "id": "Microsoft.Maui.Templates.net10",
+          "reason": "project template pack; not used by the build and not packaged into the APK"
+        },
+        {
+          "id": "Microsoft.Maui.Templates.net9",
+          "reason": "net9 pack; Mobile targets net10.0-android only (P2-021 item 3)"
+        }
+      ],
+      "extends": [
+        "maui-blazor",
+        "android"
+      ]
+    },
+    {
+      "id": "microsoft.net.workload.mono.toolchain.current",
+      "alias": "mono-toolchain",
+      "manifestVersion": "10.0.112",
+      "packVersion": "10.0.12",
+      "roots": [
+        "microsoft-net-runtime-android",
+        "microsoft-net-runtime-android-aot"
+      ],
+      "manifestFiles": {
+        "WorkloadManifest.json": "a7eba7e77238cdf7d9cadaadd248114a02aacea19434e2ab3a86a74a64625277",
+        "WorkloadManifest.targets": "0eccecd7a49def2ea47072723a98c47bd686890fb32d0442f77474d8e517b51b"
+      },
+      "declaredPacks": [
+        "Microsoft.NETCore.App.Runtime.Mono.net10.android-arm",
+        "Microsoft.NETCore.App.Runtime.Mono.net10.android-arm64",
+        "Microsoft.NETCore.App.Runtime.Mono.net10.android-x64",
+        "Microsoft.NETCore.App.Runtime.Mono.net10.android-x86",
+        "Microsoft.NET.Runtime.MonoAOTCompiler.Task.net10",
+        "Microsoft.NET.Runtime.MonoTargets.Sdk.net10",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-x86",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-x64",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-arm",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-arm64"
+      ],
+      "admittedPacks": [
+        {
+          "id": "Microsoft.NETCore.App.Runtime.Mono.net10.android-arm",
+          "kind": "framework",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.Mono.android-arm",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.Mono.android-arm/10.0.12/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.Mono.net10.android-arm64",
+          "kind": "framework",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.Mono.android-arm64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.Mono.android-arm64/10.0.12/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.Mono.net10.android-x64",
+          "kind": "framework",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.Mono.android-x64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.Mono.android-x64/10.0.12/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.Mono.net10.android-x86",
+          "kind": "framework",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.Mono.android-x86",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.Mono.android-x86/10.0.12/LICENSE.TXT",
+            "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+          }
+        },
+        {
+          "id": "Microsoft.NET.Runtime.MonoAOTCompiler.Task.net10",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NET.Runtime.MonoAOTCompiler.Task",
+          "licence": null,
+          "licenceEvidence": {
+            "status": "deferred",
+            "deferral": "workload-licence-evidence",
+            "noticeFile": "packs/Microsoft.NET.Runtime.MonoAOTCompiler.Task/10.0.12/THIRD-PARTY-NOTICES.TXT",
+            "noticeSha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+            "reason": "The pack ships a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT, so its licence statement is not verified on the reviewed host."
+          }
+        },
+        {
+          "id": "Microsoft.NET.Runtime.MonoTargets.Sdk.net10",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NET.Runtime.MonoTargets.Sdk",
+          "licence": null,
+          "licenceEvidence": {
+            "status": "deferred",
+            "deferral": "workload-licence-evidence",
+            "noticeFile": "packs/Microsoft.NET.Runtime.MonoTargets.Sdk/10.0.12/THIRD-PARTY-NOTICES.TXT",
+            "noticeSha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+            "reason": "The pack ships a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT, so its licence statement is not verified on the reviewed host."
+          }
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-x86",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-x86",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-x86/10.0.12/LICENSE.TXT",
+            "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+          },
+          "unverifiedHostAliases": [
+            "Microsoft.NETCore.App.Runtime.AOT.linux-arm64.Cross.android-x86",
+            "Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-x86"
+          ]
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-x64",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-x64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-x64/10.0.12/LICENSE.TXT",
+            "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+          },
+          "unverifiedHostAliases": [
+            "Microsoft.NETCore.App.Runtime.AOT.linux-arm64.Cross.android-x64",
+            "Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-x64"
+          ]
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-arm",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-arm",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-arm/10.0.12/LICENSE.TXT",
+            "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+          },
+          "unverifiedHostAliases": [
+            "Microsoft.NETCore.App.Runtime.AOT.linux-arm64.Cross.android-arm",
+            "Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-arm"
+          ]
+        },
+        {
+          "id": "Microsoft.NETCore.App.Runtime.AOT.Cross.net10.android-arm64",
+          "kind": "sdk",
+          "version": "10.0.12",
+          "hostPack": "Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-arm64",
+          "licence": "MIT",
+          "licenceFile": {
+            "path": "packs/Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-arm64/10.0.12/LICENSE.TXT",
+            "sha256": "d7a68596ab69b06f51ca278a6545148e4269a9381c26d597c13df5d88e08cf5b"
+          },
+          "unverifiedHostAliases": [
+            "Microsoft.NETCore.App.Runtime.AOT.linux-arm64.Cross.android-arm64",
+            "Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-arm64"
+          ]
+        }
+      ],
+      "excludedPacks": [],
+      "extends": []
+    }
+  ],
+  "excludedManifests": [
+    {
+      "id": "microsoft.net.workload.mono.toolchain.net9",
+      "manifestVersion": "10.0.112",
+      "roots": [
+        "microsoft-net-runtime-android-net9",
+        "microsoft-net-runtime-android-aot-net9"
+      ],
+      "manifestFiles": {
+        "WorkloadManifest.json": "21ce2badae9f0c7a706514a01f4986c2c37acc528344c1f069f330f57401d17b",
+        "WorkloadManifest.targets": "ac85986862d6c54984d12828edbd9680c0573c8075c3191fdc2daf3565c41b07"
+      },
+      "declaredPacks": [
+        "Microsoft.NETCore.App.Runtime.Mono.net9.android-arm",
+        "Microsoft.NETCore.App.Runtime.Mono.net9.android-arm64",
+        "Microsoft.NETCore.App.Runtime.Mono.net9.android-x64",
+        "Microsoft.NETCore.App.Runtime.Mono.net9.android-x86",
+        "Microsoft.NET.Runtime.MonoAOTCompiler.Task.net9",
+        "Microsoft.NET.Runtime.MonoTargets.Sdk.net9",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net9.android-x86",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net9.android-x64",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net9.android-arm",
+        "Microsoft.NETCore.App.Runtime.AOT.Cross.net9.android-arm64"
+      ],
+      "reason": "net9 Mono runtime and AOT packs reached through the android workload's net9 extends; Mobile targets net10.0-android only (P2-021 item 3). Not admitted and not used by the build."
+    }
+  ]
+}

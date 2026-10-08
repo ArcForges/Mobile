@@ -22,6 +22,7 @@ MAUI_LOCK = "src/ArcForges.Mobile/packages.lock.json"
 MAUI_MANIFEST = "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
+MAUI_WORKLOADS = "eng/policy/workload-admission.json"
 MAUI_PUBLISHED = "eng/published.py"
 MAUI_CONTROLS = "Microsoft.Maui.Controls"
 MAUI_CONTRACTS = "ArcForges.Contracts.PublicApi"
@@ -30,7 +31,16 @@ MAUI_FIRST_PARTY = {"ArcForges.Contracts.Foundation", "ArcForges.Contracts.Publi
 MAUI_ADMITTED_LICENCES = {"Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "MIT"}
 MAUI_FORBIDDEN_LICENCE = re.compile(r"AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED", re.IGNORECASE)
 MAUI_SHA512 = re.compile(r"[A-Za-z0-9+/]{86}==")
+MAUI_SHA256 = re.compile(r"[0-9a-f]{64}")
 MAUI_RELEASE_CONDITION = "'$(Configuration)' == 'Release'"
+MAUI_REQUIRED_DEFERRALS = {
+    "linux-android-build-proof",
+    "bsd-2-clause-glide-notice",
+    "nuget-notice-google-protobuf-3-36-1",
+    "nuget-notice-grpc-core-api-2-84-0",
+    "workload-pack-notices",
+    "workload-licence-evidence",
+}
 
 
 def _require(condition: bool, message: str) -> None:
@@ -136,8 +146,9 @@ def check_records(toolchain: dict, admission: dict) -> None:
              "The recorded D-016 target API decision differs from the pinned target")
     _require(str(decision.get("authority", "")).startswith("D-016"), "The target API decision must cite D-016")
     deferrals = {item.get("id"): item for item in toolchain.get("deferrals", [])}
-    _require({"linux-android-build-proof", "bsd-2-clause-glide-notice"} <= set(deferrals),
-             "The Linux Android build proof and the Glide notice must be recorded as AND.40 deferrals")
+    _require(MAUI_REQUIRED_DEFERRALS <= set(deferrals),
+             "The Linux Android build proof, the Glide notice, the NuGet notices and the workload licence "
+             "evidence must be recorded as AND.40 deferrals")
     for identifier, item in deferrals.items():
         for key in ("owner", "trigger", "consequence"):
             _require(item.get(key), f"Deferral {identifier} lacks {key}")
@@ -176,6 +187,12 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
     _require(locked == recorded, "The locked closure differs from the NuGet admission record")
     _require(direct == {MAUI_CONTROLS, MAUI_CONTRACTS, MAUI_TRIMMER},
              "Direct packages must be Maui, the Contracts client and the pinned trimmer")
+    # A package whose nupkg carries no licence file needs one AND.40 notice deferral naming it, and no deferral may be stale.
+    unnoticed = {(item["id"], item["version"], item["licence"]) for item in admission["packages"] if not item["licenceFiles"]}
+    notice_deferrals = [item for item in toolchain.get("deferrals", []) if "package" in item]
+    recorded = {(item["package"], item["version"], item["licence"]) for item in notice_deferrals}
+    _require(len(recorded) == len(notice_deferrals) and recorded == unnoticed,
+             "Each package without a licence file needs exactly one AND.40 notice deferral, and no notice deferral may be stale")
     admitted = set(admission["admittedLicences"])
     _require(admitted <= MAUI_ADMITTED_LICENCES, "Unexpected admitted licence")
     for item in admission["packages"]:
@@ -194,6 +211,69 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
         _require(admission.get("licenceExceptions", {}).get("BSD-2-Clause"), "BSD-2-Clause needs its recorded exception")
 
 
+def _check_workload_pack(pack: dict, pin: dict, nuget_versions: dict, deferral_ids: set, alias: str) -> None:
+    pid = pack.get("id")
+    if pack.get("source") == "nuget-admission":
+        # MAUI library packs are restored from the NuGet closure, so they must match its locked version.
+        _require(pack.get("kind") == "library" and nuget_versions.get(pid) == pack.get("version") == pin["packVersion"],
+                 f"Library pack {pid} differs from the NuGet admission and the pinned {alias} version")
+        return
+    _require(pack.get("version") == pin["packVersion"], f"Pack {pid} differs from the pinned {alias} pack version")
+    licence = pack.get("licence")
+    if licence is None:
+        evidence = pack.get("licenceEvidence") or {}
+        _require(evidence.get("status") == "deferred" and evidence.get("deferral") == "workload-licence-evidence"
+                 and "workload-licence-evidence" in deferral_ids,
+                 f"Pack {pid} has neither a licence nor its AND.40 licence-evidence deferral")
+    else:
+        tokens = [t for t in re.split(r"\s+(?:AND|OR|WITH)\s+|[()]", licence) if t.strip()]
+        _require(tokens and all(token.strip() in MAUI_ADMITTED_LICENCES for token in tokens)
+                 and not MAUI_FORBIDDEN_LICENCE.search(licence), f"Unadmitted workload licence for {pid}: {licence}")
+        licence_file = pack.get("licenceFile") or {}
+        _require(str(licence_file.get("path", "")).startswith("packs/")
+                 and MAUI_SHA256.fullmatch(str(licence_file.get("sha256", ""))) is not None,
+                 f"Pack {pid} lacks its licence file path and SHA-256")
+    if pack.get("unverifiedHostAliases"):
+        _require("workload-licence-evidence" in deferral_ids,
+                 f"Pack {pid} has unverified host aliases without its AND.40 deferral")
+
+
+def check_workloads(root: Path, toolchain: dict, admission: dict) -> None:
+    """AND.01 workload admission: manifest pins, declared-pack partition, licence evidence and NuGet cross-check."""
+    record = _load_json(root / MAUI_WORKLOADS)
+    _require(record.get("schemaVersion") == 1 and record.get("owner") == "Mobile"
+             and record.get("licenceBoundary") == "Apache", "Invalid workload admission record owner")
+    _require(record["reviewedHost"]["sdkPinned"] == toolchain["dotnet"]["sdkVersion"],
+             "The workload admission record must cite the pinned SDK version")
+    deferral_ids = {item.get("id") for item in toolchain.get("deferrals", [])}
+    nuget_versions = {item["id"]: item["version"] for item in admission["packages"]}
+    pins = toolchain["workloads"]
+    entries = {item.get("alias"): item for item in record.get("workloads", [])}
+    _require(len(entries) == len(record.get("workloads", [])) and set(entries) == set(pins),
+             "The workload admission record must cover exactly the pinned workloads")
+    for alias, pin in pins.items():
+        entry = entries[alias]
+        _require(entry.get("id") == pin["id"] and entry.get("manifestVersion") == pin["manifestVersion"]
+                 and entry.get("packVersion") == pin["packVersion"],
+                 f"Workload {alias} differs from its reviewed manifest and pack pins")
+        files = entry.get("manifestFiles", {})
+        _require("WorkloadManifest.json" in files and all(MAUI_SHA256.fullmatch(value or "") for value in files.values()),
+                 f"Workload {alias} lacks SHA-256 hashes of its manifest files")
+        declared = entry.get("declaredPacks", [])
+        admitted = entry.get("admittedPacks", [])
+        excluded = entry.get("excludedPacks", [])
+        _require(len(set(declared)) == len(declared)
+                 and sorted(item.get("id") for item in admitted + excluded) == sorted(declared),
+                 f"Workload {alias} must partition its declared packs into admitted and excluded")
+        for item in excluded:
+            _require(str(item.get("reason", "")).strip(), f"Excluded pack lacks a reason: {item.get('id')}")
+        for pack in admitted:
+            _check_workload_pack(pack, pin, nuget_versions, deferral_ids, alias)
+    for item in record.get("excludedManifests", []):
+        _require(str(item.get("reason", "")).strip() and item.get("manifestVersion"),
+                 f"Excluded manifest lacks a version or reason: {item.get('id')}")
+
+
 def check_maui(root: Path = ROOT) -> dict:
     """Offline AND.01 identity and toolchain gate; raises ValueError on any drift."""
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
@@ -210,6 +290,7 @@ def check_maui(root: Path = ROOT) -> dict:
     check_project(root, toolchain)
     check_packages_props(root, toolchain)
     check_lock(root, toolchain, admission)
+    check_workloads(root, toolchain, admission)
     check_records(toolchain, admission)
     android = toolchain["android"]
     return {"schema": "arcforges.maui-identity.v1", "applicationId": android["applicationId"],
