@@ -64,15 +64,20 @@ def project_audit(root=ROOT):
     for name in files:
         path = Path(name)
         if path.name in {'build.gradle.kts', 'build.gradle', 'package.json', 'CMakeLists.txt'} or path.suffix in {'.csproj', '.vcxproj', '.esproj', '.fsproj', '.vbproj'}:
-            require(path.name == 'build.gradle.kts', f'Unreviewed build system: {name}')
+            require(path.name == 'build.gradle.kts' or path.suffix == '.csproj', f'Unreviewed build system: {name}')
             require((root / path).resolve().is_relative_to(root.resolve()), 'Project escapes Mobile')
-            actual.append({'path': name, 'kind': 'gradle'})
+            actual.append({'path': name, 'kind': 'gradle' if path.name == 'build.gradle.kts' else 'dotnet'})
     policy = read_json(root / 'eng/policy/licence-boundary.json')
     require(set(policy) == {'schemaVersion', 'repository', 'spdxLicense', 'licenceBoundary', 'projects'}, 'Invalid project inventory fields')
     require(policy['schemaVersion'] == 1 and policy['repository'] == 'Mobile' and policy['spdxLicense'] == 'Apache-2.0' and policy['licenceBoundary'] == 'Apache', 'Incorrect Mobile assignment')
     require(sorted(policy['projects'], key=lambda x: x['path']) == actual and actual, 'Project inventory drift')
     for project in actual:
         text = (root / project['path']).read_text(encoding='utf-8')
+        if project['kind'] == 'dotnet':
+            for tag, expected in [('PackageLicenseExpression', 'Apache-2.0'), ('LicenceBoundary', 'Apache')]:
+                values = re.findall(r'<' + tag + r'>([^<\n]*)</' + tag + '>', text)
+                require(values == [expected], f'Missing or incorrect {tag}: {project["path"]}')
+            continue
         for key, expected in [('spdxLicense', 'Apache-2.0'), ('licenceBoundary', 'Apache')]:
             values = re.findall(r'extra\["' + key + r'"\]\s*=\s*"([^"\n]*)"', text)
             require(values == [expected], f'Missing or incorrect {key}: {project["path"]}')

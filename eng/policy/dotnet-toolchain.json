@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "licenceBoundary": "Apache",
+  "reviewId": "maui-10-0-20-android-tuple-r1",
+  "reviewedOn": "2026-10-08",
+  "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (API floor and .NET 11 open)",
+  "targetFramework": "net10.0-android",
+  "dotnet": {
+    "sdkVersion": "10.0.400",
+    "rollForward": "disable",
+    "allowPrerelease": false,
+    "wslSdkVersion": "10.0.400",
+    "localWindowsAdapter": {
+      "note": "Uncommitted global.json for local builds only, because the Windows machine has SDK 10.0.401 and no 10.0.400. Never committed.",
+      "sdkVersion": "10.0.401",
+      "rollForward": "latestPatch"
+    }
+  },
+  "workloads": {
+    "android": {"manifestVersion": "36.1.69", "installedFor": "SDK 10.0.400 (Windows)"},
+    "maui-android": {"manifestVersion": "10.0.20", "installedFor": "SDK 10.0.400 (Windows)"}
+  },
+  "trimmer": {
+    "package": "Microsoft.NET.ILLink.Tasks",
+    "version": "10.0.11",
+    "reason": "The SDK adds this package implicitly at its own patch version: 10.0.11 in SDK 10.0.400 (WSL2) and 10.0.12 in SDK 10.0.401 (Windows local adapter). The explicit central pin keeps one lock for both."
+  },
+  "maui": {
+    "controlsVersion": "10.0.20",
+    "runtime": "mono",
+    "useMonoRuntime": true,
+    "linkTool": "r8",
+    "linkToolCondition": "Release"
+  },
+  "contracts": {
+    "package": "ArcForges.Contracts.PublicApi",
+    "version": "1.0.0-ci.350.1",
+    "licence": "Apache-2.0",
+    "clientNamespace": "ArcForges.Contracts.Hello.V1"
+  },
+  "android": {
+    "applicationId": "com.arcforges.mobile",
+    "minSdkVersion": 26,
+    "targetPlatformVersion": "36.1",
+    "buildToolsVersion": "36.1.0",
+    "jdkMajorVersion": 21,
+    "jdkSource": "JAVA_HOME environment variable, mapped to JavaSdkDirectory by the project; no path is committed",
+    "androidSdkSource": "ANDROID_HOME or the default Android SDK location; no path is committed"
+  },
+  "signing": {
+    "certificateSha256": "7a8b3b1402e77c3ec78e7a0b9f99d5358adc321d0e8d2a319c838d1cda181e9c",
+    "certificateSource": "eng/published.py CERTIFICATE (public fingerprint; the keystore is never committed)",
+    "signedBy": "protected release job after the candidate build, outside MSBuild (AGENTS.md); MSBuild passes signing passwords as jarsigner arguments and MAUI 10.0.20 does not resolve env: references",
+    "buildConfiguresSigning": false
+  },
+  "nuget": {
+    "admissionRecord": "eng/policy/nuget-admission.json",
+    "lockFile": "src/ArcForges.Mobile/packages.lock.json"
+  }
+}

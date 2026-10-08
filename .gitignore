@@ -2,6 +2,9 @@
 .gradle/
 .kotlin/
 **/build/
+# .NET build outputs (AND.01 MAUI identity project)
+bin/
+obj/
 .idea/
 *.iml
 .DS_Store

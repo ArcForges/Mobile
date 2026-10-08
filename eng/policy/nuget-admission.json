@@ -1,0 +1,1880 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "licenceBoundary": "Apache",
+  "reviewId": "maui-10-0-20-android-closure-r1",
+  "reviewedOn": "2026-10-08",
+  "source": "https://api.nuget.org/v3/index.json",
+  "lockFile": "src/ArcForges.Mobile/packages.lock.json",
+  "lockSha256": "230218f5aa5b117b0610e26768d852d77b4c0fdb596d18e7084f71ef55234231",
+  "targetFramework": "net10.0-android36.1",
+  "admittedLicences": [
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "MIT"
+  ],
+  "licenceExceptions": {
+    "BSD-2-Clause": "Admitted only as a transitive licence of Xamarin.Android.Glide, pulled by Microsoft.Maui.Controls. Permissive and Apache-compatible; its copyright notice must be carried in the release notices (AND.40). Licence-owner confirmation is an open item in the coordinator report."
+  },
+  "hashes": {
+    "contentHash": "packages.lock.json contentHash: the NuGet content hash that restore records and verifies in locked mode. It is equal for the SDK library-packs copy and the nuget.org copy of each package, except where noted in the coordinator report.",
+    "nupkgSha512": "SHA-512 of the nupkg bytes served by api.nuget.org (catalog packageHash). The repository-countersigned nuget.org copy differs in bytes from the unsigned library-packs copy."
+  },
+  "packages": [
+    {
+      "id": "ArcForges.Contracts.Foundation",
+      "version": "1.0.0-ci.350.1",
+      "kind": "transitive",
+      "contentHash": "/+3FP6Ys+LTJ+FlsCndfdWd1dle0ZF4H6aBcSUnbBG1vYBUamo/+xf7NY8t0hLrBoPWI4d1fArxKSrcG4TvOMg==",
+      "nupkgSha512": "O1nTiYl7yY2omTl7rRF5JBajZ+fHfQzA1MdqmnwvsdJi0ZSVfgHTrQFI12qp153YplASwkctZ8UQk+qbT7k/kw==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "authors": "ArcForges",
+      "projectUrl": "",
+      "nuspecSha256": "1c3c3d88246c859aabc84f6ec21f01c00da4ade96fd11718e5e24e817c99262f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "ArcForges.Contracts.PublicApi",
+      "version": "1.0.0-ci.350.1",
+      "kind": "direct",
+      "contentHash": "oFFsXFCJdcfcNAO6ySzGABDHkMu7/NNAD8b9Nm6V97yHZ6Ug1XKEqbFnSZSwDSAkK4TP/d+hTw81XIGj7k+Lkg==",
+      "nupkgSha512": "wDfTxQCVt1tooGpFlttx5KzW/elQrcRTo7L9XbblnvdDBtc8JUeBWvfcDpOtwmzurwmkiLrvTjleQv6tiUYlJw==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "authors": "ArcForges",
+      "projectUrl": "",
+      "nuspecSha256": "33427e4d92c3cf92b9025cfbd1ff87c7cf37fa73c9e7bd83ecce210966473908",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Google.Protobuf",
+      "version": "3.36.1",
+      "kind": "transitive",
+      "contentHash": "77AqPEoaY1ODE+syYBHti0jXiwQq0J/fUr/fRyYhNlc9oKtH5dZZEr/OLKtdKNVG83PRnCYB2r8B80ZrObzOGQ==",
+      "nupkgSha512": "bKgroEYL7DpA1B9cTh9uKG2VwciJ7ZcjkzjE/DPM9GY0rC9a6jKzWpEHbrD4hmO95iOosJxi5fD8eUCdHkeuMA==",
+      "licence": "BSD-3-Clause",
+      "licenceFiles": [],
+      "authors": "Google Inc.",
+      "projectUrl": "https://github.com/protocolbuffers/protobuf",
+      "nuspecSha256": "d6a4a567ce4889e25d098fd39d13a65ce05c847e8574818edc0d1eee6277eb40",
+      "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
+    },
+    {
+      "id": "GoogleGson",
+      "version": "2.13.1.1",
+      "kind": "transitive",
+      "contentHash": "1yD5W1UPmgEEHrqdtVJI7330h1foGWiehVC07er3NiZxJPMmphTmPz2kuSXawIo8xmeIvd92WpiTOEmYpk6mzQ==",
+      "nupkgSha512": "et1Jmes2wFUcqCR4lakvaCEYAWyir78dfuq6LtnAy2MGxoKgt/bWlaG54r5UGNzq9lbnCIwkLSQk0TL2bQIcKA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "0ca5834a95d1d59c288aecf7e7fb8ed631a05afa5248e241903f9aad00e6ad56",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Grpc.Core.Api",
+      "version": "2.84.0",
+      "kind": "transitive",
+      "contentHash": "p2SOMl6q/GZ4/5MLkgboC/z55g4zKUEruRn/g46QgppjQBVnsLZVBU/9VO7n60ll38G3Eo8Zu9b7x+W01GKFVg==",
+      "nupkgSha512": "si0QbNcAJm8BRBL5EK+owlkUdr0FhCP6T8gZ1D7k8fjZBSc2jKiks6HEtjjpDngXh4bGbQn085T7L+0VbbGjfw==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "The gRPC Authors",
+      "projectUrl": "https://github.com/grpc/grpc-dotnet",
+      "nuspecSha256": "bba00f5d5be8423dd351662e313648b0abd13100ef67d55f6fc29de44c544a96",
+      "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "H4SWETCh/cC5L1WtWchHR6LntGk3rDTTznZMssr4cL8IbDmMWBxY+MOGDc/ASnqNolLKPIWHWeuC1ddiL/iNPw==",
+      "nupkgSha512": "cUi/56QZA0Idt8SeyMEsjHkXX55smUqGnWDstFo2BoaKoEKbHY5/eOMqiVGTsc6OdsXq5Jy9fSLOORhhkS5LNQ==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "34693997ad3738ce76702051669f5380fb7c6614804804102b10ec7a704a6ca1",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "d2kDKnCsJvY7mBVhcjPSp9BkJk48DsaHPg5u+Oy4f8XaOqnEedRy/USyvnpHL92wpJ6DrTPy7htppUUzskbCXQ==",
+      "nupkgSha512": "Y8QH4IjWknpk7NhN3qfodzXFFk6k86h3Q1um3h816DofDVZaIXnKfH6q3rz8zFBpKuzhDgISp8PVgDIpRGxuFg==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "d8124af5988bf172eff7d8469a0e16bf7c5253530440b4ca6ba18a4890740f9c",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "f0RBabswJq+gRu5a+hWIobrLWiUYPKMhCD9WO3sYBAdSy3FFH14LMvLVFZc2kPSCimBLxSuitUhsd6tb0TAY6A==",
+      "nupkgSha512": "jKVOffyzW7yqmikvAQf69oCKjPlMiHmnqv4xroQRdNKQCYlUIc4rvJv6/YbQyqvUArvrzITxlhd0dA3MFVIpuw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "0f3b7bc57edb81ae05a1c59b0828d99cd2c1bd6b5de34dcce9b7519081461904",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "L3AdmZ1WOK4XXT5YFPEwyt0ep6l8lGIPs7F5OOBZc77Zqeo01Of7XXICy47628sdVl0v/owxYJTe86DTgFwKCA==",
+      "nupkgSha512": "R1JUmDhx81zXARj7/3QwSexiO9lNE2PBPXyK47sblSGIOl4Jd60iLY8wtmJ/NzhpXtPBiSOTMn2KFYuf7QaRIw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "9e13d9b543405e86955f6b047a1d7680684fa37f4ec094f4bad6e33ba775c0db",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Diagnostics.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "SfK89ytD61S7DgzorFljSkUeluC1ncn6dtZgwc0ot39f/BEYWBl5jpgvodxduoYAs1d9HG8faCDRZxE95UMo2A==",
+      "nupkgSha512": "8dkT57qrPe80rEjtkQpo8mc6Z4cx1LkF0LbDF0h2uGUgQFJivXquaEpJVyMYGpDZnW9LprDN7IAqf7M18bwF6A==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "341c0a1750db316a932c601ec1282596eae2c478fd39ed877eeb1f3802cad23f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "/ppSdehKk3fuXjlqCDgSOtjRK/pSHU8eWgzSHfHdwVm5BP4Dgejehkw+PtxKG2j98qTDEHDst2Y99aNsmJldmw==",
+      "nupkgSha512": "l0wkZS/2Ts65dSyBS+gHunb4DLrKy8Cp632ujR2dXBGE9Wp2efoMs286Ak9ID//GIHNQNN2tXFx66PeH+jqrTg==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "5fa5d7fc28ffdc60a22486e79f9d46547d080284a8c6c8ff042244fa1e11bfc5",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Hosting.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "KrN6TGFwCwqOkLLk/idW/XtDQh+8In+CL9T4M1Dx+5ScsjTq4TlVbal8q532m82UYrMr6RiQJF2HvYCN0QwVsA==",
+      "nupkgSha512": "1L/dJq4QoVCAIIY/T5X9pdwT/SFEMKLh/qs1NLBqt88N5CZkjtsb5JLj4R0q8PVhlvNLxJRAWdVYl+n45yxXZg==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "090f5f90874a72b720115128c4d3a3a05866bee68536b2a3761bbb638056a9af",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Logging",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "BStFkd5CcnEtarlcgYDBcFzGYCuuNMzPs02wN3WBsOFoYIEmYoUdAiU+au6opzoqfTYJsMTW00AeqDdnXH2CvA==",
+      "nupkgSha512": "4U8pXWCPfYUj/65LYjWT4eic4+bQTV1lO0X6Omw87AM8bp5FISmXRWFTR/8HHCWK6JitWdcnQjXkqVX8tk2nKQ==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "a98260030de003de5c14cb84e56a8bbc9937df42e3174e627e683fe64beace23",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Logging.Abstractions",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "FU/IfjDfwaMuKr414SSQNTIti/69bHEMb+QKrskRb26oVqpx3lNFXMjs/RC9ZUuhBhcwDM2BwOgoMw+PZ+beqQ==",
+      "nupkgSha512": "CElGLz6i7loG2KuKixPwXzz0Zt5m67xqCpysS+/JHOsYCuA8QgiasMp6Jsp/5bTtGo9z4jXhMI2Zl8lSnDad0Q==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "126d33e134dcbe6a65a969b93e2faa3dcf73dbc460c307e783b4f719eed12688",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Options",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "8oCAgXOow5XDrY9HaXX1QmH3ORsyZO/ANVHBlhLyCeWTH5Sg4UuqZeOTWJi6484M+LqSx0RqQXDJtdYy2BNiLQ==",
+      "nupkgSha512": "olgvJlmRKzxNWACXtbRTNQBSj9IvAHQzJthPFZbHRULVVRg1wK98lWp20zUWGCePPtHEERkKg2O5G6RGZ1CzYw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "7209d42974a0de402e1eec4c5099c48c6f1f83d08b36016c710e8dc23c9e1eff",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Extensions.Primitives",
+      "version": "10.0.0",
+      "kind": "transitive",
+      "contentHash": "inRnbpCS0nwO/RuoZIAqxQUuyjaknOOnCEZB55KSMMjRhl0RQDttSmLSGsUJN3RQ3ocf5NDLFd2mOQViHqMK5w==",
+      "nupkgSha512": "q7BfP5mrTfRnuM0qBFh+VWpXauE8LTzXtIL1SZg0h/MyOYGLKnsPPbXrRR0odHcYxA5On3IQdKLdqTOMNAk7bQ==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "01892e3b694e60d0fbbc2920f600a3344be647bdf9c046f7acf69272e4fa968f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Controls",
+      "version": "10.0.20",
+      "kind": "direct",
+      "contentHash": "c/Tsp1TGBQNkqpKd/aNkTnFV0FOtjyMyV04Naigg/7MphJwdc0ZI0Dw2P0TvC+tm//Ut+SnviTqlDow6V4tSmA==",
+      "nupkgSha512": "VW/arcdO883+Mrnwe3QUY78+Hos1Q/PKToDjfVhFt0tKdeA8cdBsytTWYsnWvU9M5XZu2aUb1CcI+R6Ar4IYmw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "e1b00a31ec694ffb931f89c88fb5023e5fc36cc02024a2bfd09202f388c604bd",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Build.Tasks",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "8DbAwGgvgf3QPV1WCu6CabRDTZjtq7kd11sELwYhZ2ZFCdHtGTeLyvpMgnbAtMUwix4hnGyWH8fZKQJlVDBuYA==",
+      "nupkgSha512": "5TsoiD/lpiE8DJhZEG24xD/cJQl5glyU3SElFXLQCsRUW6e44ZwcFQxaD35z3uYVxtFwsHg2dCX80ABDeW0K+Q==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "d00d2199486866307006340f2361481f7536527b5f119aa5133d0c2a91c9a444",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Core",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "Go8C7a0QaGiQ2EBMsxbbm52DI5+HipgT7C9AslfyfkCU8/H6gicLsPUxae5r9TyrZbgsw5KUnnPEUPJlUwtBcw==",
+      "nupkgSha512": "Ahsk/s9k4xxu8BaEiveLUvkd17lCaoxbdYrMkFiUwnry9z+x+qySys5Ea77RjwhgLFPFcArOr2aTEHacAiWKyw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "189fe097c42e209a029af6c7a64e58c3dc68b2454741eb157b3f0a8a8c18d1fd",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Xaml",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "Ih2rMfJ5B8HbFeNgwsOi31Ngo1A31Zixl8lEuJME+7mXE8VFwVcZcfeKljKG0XTULWxe4/ALZ/nL5tTMMjIFnw==",
+      "nupkgSha512": "O/MACFSjNqfhN6Uhgwx3qKuM2uZ/PmE7oEPE8N5sBGGEi7GiwLxgMZGLHk1PfZvmf/Gat2Ran1s5Xq5eTkSwZg==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "223a5bf138724422fea8e9a14a105f8414006180d249a36b515a986669f9e827",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Core",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "xbrQSNTMJzwpR80ga7eWVTU544NJUJM6zXdmfx1LenuizoFc8oejr1nJ1zRgISTQ0ZuQEs6flF72DyF/YemP8w==",
+      "nupkgSha512": "JLNxkKSMMRMb4Yvy4SHySJ5tgA/zi2jRNPZodpPm0ywWAS+MG6u5dERQP4x17rh0bAkyyyDjtJTOIsaJ2vxo7A==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "68c2cd506a40b8da6b0fcbbeb700f5fe8e2a340f4711b6ad0e5942b8d370379d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Essentials",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "jalsUhCCL+T5qng/OXAkJhSaV/Uhml3s4LLExx/RBVz4z/kSIOjyXLkV/O66BBUxy/0nPFILeNx9p21TVqWrMg==",
+      "nupkgSha512": "2OiMYkh6DetsUJvCClG3UdzH21N7rllUcdnpan73bTkL+zWy5m2aB5stFEy2xa+vAXdX/AHBk4fylStYdA8Jaw==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "a7ce7059c8a7c1d37c5bc2295624e4512b1805f4acf585d7adad8fa202839322",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Graphics",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "X1IfBjN/0KcrcbaDU47xNrZufQeI/PJyBVPxt+3a/yNDhduGS+jlihi4sByil7E4VbQTFVPxclevnbhLtWxNQw==",
+      "nupkgSha512": "s5N/UYSR+VeUrrlQtWdBF+EkdWbsWKsPjndQEn5QTL2z3sWC55t4A3Z0sb0DUKIz7cE/5y98Hl+uQoiVoHgU+g==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "583b5f1891b9bb4d68650b114408d431e22aed455727756084c49bf0d8f082d7",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.Maui.Resizetizer",
+      "version": "10.0.20",
+      "kind": "transitive",
+      "contentHash": "6MVR9wsKgfN25AuEL/KzDLd5x8TpuBrC0DRvlUq2Ddi0WdO1q0B9VsTePJF8mdDmdLybo4h/F5F59kfOTPzIXA==",
+      "nupkgSha512": "Qxwf1uJFkijLnkyE9CS3Qod6Z6b+3i3jOmk2Sk+t/w8lg+9ZO0LMwHKUtUI1bhnzA2bgB705QKuFzadONGeIQQ==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/dotnet/maui",
+      "nuspecSha256": "ec4af15f240d4665a1e854eee8c3292aa845bf28721ad7b008591eb70c57d910",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Microsoft.NET.ILLink.Tasks",
+      "version": "10.0.11",
+      "kind": "direct",
+      "contentHash": "IBf7lbovvjGWVWXZX5cJ/cO0WXbId0Zq4BuSeT94mGZuOAP66oMeH9PTBZ9Jpp3Jb6jtK0qm/NyUbPRo1gC/wQ==",
+      "nupkgSha512": "hMVB326ViZa64sqR9bxmf4oB41LMuaTrGRfihXZw3dylFRFfZPutLwJrKZmdisSvBcNM6kfuY7vtj9vdR9IbuA==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "THIRD-PARTY-NOTICES.TXT"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://dot.net/",
+      "nuspecSha256": "6c10c93cd2958d71fc46d60c940044071e15b57a75d469d68adf80f0dff57da1",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Android.Glide",
+      "version": "4.16.0.14",
+      "kind": "transitive",
+      "contentHash": "zoo2thzoKv5SuY9PeB3Iaf41L7P4Z0jyPRMLUrb5u35KPHgWyQvj9hBablvtaFXuZIMMYyctwkHJwc4a4NPEKA==",
+      "nupkgSha512": "yxvSgVOBy8RQuVQ6r7HjjDq1wvexiJNO1ZpTgn1DMUDyVKGu6Qv6o8pEgPAYaYxVPS2f6xK5rnzegQUSJRXrMw==",
+      "licence": "MIT AND BSD-2-Clause AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "5eef06036fc2d469d8387e25b63043f0b6557197c397be7296563b633ab7b932",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Android.Glide.Annotations",
+      "version": "4.16.0.14",
+      "kind": "transitive",
+      "contentHash": "t9TZb8QU2s4pmxmDP7Xg2j0ovkpeuZJJ+SOnnHw0Y0APmnhBf3u3TmaggLMZlZuxutCbcym/ctBOmng2R3XBKQ==",
+      "nupkgSha512": "kDkZTlY+M3Kb+Da8BPcMqlwmJFnbX2+Xmiy5RM4ROPRpvyZoalZI4GWFV6vJgRNqezQPooKXB7CZidODSInkig==",
+      "licence": "MIT AND BSD-2-Clause AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "056dcdb9a4c1c12876bc83397312d46090e567e6f0c2a959d067d7efb132668c",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Android.Glide.DiskLruCache",
+      "version": "4.16.0.14",
+      "kind": "transitive",
+      "contentHash": "QlIrJyf8D3ZlONOt7KC8u0lYZT7vtFm3JJD2rFbszl1CnKsQS3jJ9B5X2XAiDFvA63ePRzctD7hRhOo9uCO8Gw==",
+      "nupkgSha512": "gTypWjAqQlrDtVQJpZnsVYDot69DW+AEa4ZktR+vnve7jc+2xWGHZQjPYxEuvTiu4jCWbWPEAmsbr1nGXwTqbQ==",
+      "licence": "MIT AND BSD-2-Clause AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "f13321dad7a6581d8847f4012667970372d266883e63c0ee51f7e75165a71175",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Android.Glide.GifDecoder",
+      "version": "4.16.0.14",
+      "kind": "transitive",
+      "contentHash": "QOKrX0gcCNss4MUimJQBahnajtH2Jg5BuKgFAkjEHkXse85ymDZyZCd59oY3ctra+imfy0bvUhSqV4tsHTdOYg==",
+      "nupkgSha512": "bVZoqoEN2f6kDSIG2zzoFIRFZYOTTHouzvXE8GDL3Cd0ndx0pgq+Ll5RSxTOmv6PUEVeF/jjTgKGojkqiz7+Ng==",
+      "licence": "MIT AND BSD-2-Clause AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "0eaf9030058f61e0ff3f0bb1386445ad94bad8bea23504b686567cbe57b3cf05",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Activity",
+      "version": "1.10.1.3",
+      "kind": "transitive",
+      "contentHash": "qxmO45ZQ8XyvKVK+pI4PdI8DngsyTt+HOkZ7GtvULbI77CSvD/c88rjyCMmG/wtpl1dErtt64IgIOx8qgKf2vQ==",
+      "nupkgSha512": "kBEew/4DA9uXNzFk/FstcNeixE7OAOwTbZ+9dTAd8sMzG/FSleMoC6ZHZRBG95XcRSV8oOrz8CnsUPa3eTYdpQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "d9768f55d4ab0bd7330de522484b5d81544cff9c82632accef790e4470a9652b",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Activity.Ktx",
+      "version": "1.10.1.3",
+      "kind": "transitive",
+      "contentHash": "ud+WuRyHS6YUZdN7yS6l2FXWqZQFJiDQeRIco0A4eIeNCf47/pK68zo/kIYKeIEVt5VFqh/KJj9SZ92sMCRoHQ==",
+      "nupkgSha512": "7jfH9UqHxn5CGaeYcPZ8QvI3/2seNUHi9BpFV11EB0av11pnPwzf/XQr6HGzuIODm4onRC6pFMUROYj0B0CsbQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "024a6f74e5e72533b1795dc08bbf7c8b66b77da8bf0e76099036fd8aeebbd934",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation",
+      "version": "1.9.1.5",
+      "kind": "transitive",
+      "contentHash": "4o4oY21xGR03dmQalOQwcwHVxUoLzPTw/Dun6aco2svGK+JcQdfEQdU9z+yoaeO2K4IarQbU5OQzC6qEcj5yNw==",
+      "nupkgSha512": "hcYiPBwRF+jr4J+wgUPqctv1mCaYAN9waduareNO9Xm+iE55Tua4/l3vKAboCI3Un50LoXIVebq1njGcMjLAIQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "963da8de11a2b9fcf647261577ee0f74b813c10d7a2c7b8ec4e5e10021e932f1",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation.Experimental",
+      "version": "1.5.1.1",
+      "kind": "transitive",
+      "contentHash": "WE6omaI8M+TFYQOXMEQV2OyvgLRn491VTIlB+4hJrFV4x+quQqE4Z9BHEhcFVW+KlaQK4d44vspj1zAvxVlgiA==",
+      "nupkgSha512": "dzQIGmpH6U2YQuKUtxcJxlI9Ge+2o4pKCO32XOg8OKHV3MkC9FTM96OS+/IRXLD77qHcZmuLgXgEHvYnWe0lVg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "537c04cb07fd041d830fa4ec924b71c576f09b8803d7d3122de78e9e8043821d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation.Jvm",
+      "version": "1.9.1.5",
+      "kind": "transitive",
+      "contentHash": "mMZwGncl5RHx9MxLJsu8Zp4ZW2mAMUQO60G36PP2Qqd0TuO144nCVANry6va7BqgwyysQaOmtHpKqE/Pdl8WBQ==",
+      "nupkgSha512": "3fS00GHe31i3cuTdURXFRGiTM2kTAZ4RfCFj1TbUDUk53AnCljAVeXmrgeXxNfZuvsC3GHL/F/+PknmyjgKsDw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "574d3dcb48dc8c4b8a18a6d89669d46eaf6649bb6746a16c97d9bd2284d6918c",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.AppCompat",
+      "version": "1.7.1.1",
+      "kind": "transitive",
+      "contentHash": "Y7A52/ECKbqNRnVCJhgBajrcKxuxJPpcTKiVjcHUUfisplPndUbaYw0Bkj8FIsrQAdTzinJmGHHul8RVWLmhew==",
+      "nupkgSha512": "QrOYW9fqUBrmCGo4+BtLiZFpUAyuPek5ouo8ta2fW3t16uB/rQUd6HIclq8Lo0ZLbnee/fDEwoW7U+5tZMOVTA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "0cdc020247bde10f442c4f949858aa130c35abc6741363ae2868728ad9da6f33",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.AppCompat.AppCompatResources",
+      "version": "1.7.1.1",
+      "kind": "transitive",
+      "contentHash": "m56iEdeLK5yf5utSIY6UtmGRxC+VhjUuXRauyQynC9YCPzVjm/cYK4QLbSrjUVyxjjxpL/u6Np7cx9KxfAD/Ug==",
+      "nupkgSha512": "pwsvmNU5FHRgnGGLNcxlKU+oLl6u+hS4xLzUUry6bnqjHSCeP1iMH7iitK0UVkKZxBE7c0ShR1kyJXl0K5xgxw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "7ad3802c491793e17222a96cfcde927b5c3026f8729968b3b9a4a5fb07049440",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Arch.Core.Common",
+      "version": "2.2.0.18",
+      "kind": "transitive",
+      "contentHash": "bxuNXCXcHBDiLCk0Rv7UQ5U0y6cowY7tniX0UkPN2LbiEMwbuSSwcEG99smnZnI17zYsaw/Z0yu3ili/+DD6Tg==",
+      "nupkgSha512": "WPD6ioYVYFu2pRP0XS8WX21wWidH98YAdMuXIK/oyzGMoIg2872Gev3up24GCTZLIFavP4CyKq8GFiAIwfe4IQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "b895b2a287778e2c34d7b15d0072dc66e3064525989cc862b5f3ec5a695155d8",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Arch.Core.Runtime",
+      "version": "2.2.0.18",
+      "kind": "transitive",
+      "contentHash": "3hAR3rHrzRLRXn5+IgI/V7Pp98Xia37IESyNcPIKAQcaedOsHQNKcwyGAxjrbp3Z7L/v92uMuafBfje4Ucltvg==",
+      "nupkgSha512": "spicnLQbC+fmnOLzI78FjG1Alw0GzykqESnH2TSliHWCC638OtzeaUE2S0umOelbbSlbYRYdDymwOhOvmM0uXA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "dd30dbb2881e654657dca84415a627c591b76987ed6a9719e0c99abe41414825",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Browser",
+      "version": "1.8.0.11",
+      "kind": "transitive",
+      "contentHash": "Ar3Wem/bBfvaehe28ck/5OxnMHN4OHn/uFagwBdHHXRlZtucO3IDaSXlquUqfIMsWwUfW+gVmEMsUpcVTmnJzw==",
+      "nupkgSha512": "kn6pnr5zvVjKRz0aZ6mgPF6vxH/84RaurskCJ2eKfzqjbbYAGZv96CA7kV+9naoEbWuRAQiqcBET9YGb6n0u7Q==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "abefb2ff911f718665bd791719aa4defcae750b47d36dff65734c3e04477c6d6",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.CardView",
+      "version": "1.0.0.36",
+      "kind": "transitive",
+      "contentHash": "pQfqy6TgcvdA5oJBOvnurB+I+dPByncEFb+UwvUqNrvhK3gCKdIVUaIcjq8oyvUWdhGED3B9r94kW+fnZMgWew==",
+      "nupkgSha512": "IwOGydQN+9VKRLYywGDsL1vL9vqa67auaXfGhvthHwwXGMwMY73TT6AK2rAwzqK756HVDaBcF7kyEY7CnBVEPg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "03586ef2de8bfa8cea3da32ad27cb04792f7b5168e9c165c1e0af3947c614d91",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection",
+      "version": "1.5.0.3",
+      "kind": "transitive",
+      "contentHash": "rL4Sa779VQ+0XyrV3YCoWrSddyOv+WDkIu3zGJyEsHk+SSl2C/nBwTqdBVJbYwhIu4iStLADpCiM1OBTFbPAVw==",
+      "nupkgSha512": "pDLhfL/qwhAmjUt1obC+B5bRF4RXI/qQffVBtnwKlHXnb3F1pbsVvGMTwdftn4RdNwZQF3i6qjU9rDWpVXYNmw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "bdd1ac5116707ded625c114ff701a48f6c616771ce6d12e88297e3720e333c5a",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection.Jvm",
+      "version": "1.5.0.3",
+      "kind": "transitive",
+      "contentHash": "S0RXRf3zICS5spPuwHkgOsfLpLks2Jk6uMl3ONOxKoGS27pYLaUSAZpnUR4rNiM38EA4BpKJQKGiYU9otcHrtg==",
+      "nupkgSha512": "+4RsYlh8vSZ07ipP75S+6H0QdhWK95N9SbRCV1JKhomr/WD+0DkKo6/+Jq6IsL9HDc/REGKNHZXhh7A0RmZEuA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "88d85a1e1954747ee9d00f3a2f6ee41e6146087453b1e4b3a559cfbea293e244",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection.Ktx",
+      "version": "1.5.0.3",
+      "kind": "transitive",
+      "contentHash": "bvwOVJd8XogrMJdXbnbWUWjWrRt7UMv+heOPAP2AqFaxUmt63mxYa4Lbx0Dd+qNcg42KtBtxC+1h02xBMl6Yyw==",
+      "nupkgSha512": "wDF1UEnhiO/4F4l+yDniYzby9JYBTkbIAxDEG6Zkj5NdIj9c8IY4iXYhrLLSW7rJAT4Lhbuw8zNU+y4Rtnld/w==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e7e6f4d14cfde032a78f11da2f5f58335609b6d57b4fa651dbab666eddb78b53",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Concurrent.Futures",
+      "version": "1.3.0.1",
+      "kind": "transitive",
+      "contentHash": "xmav5pmoJoI66Djb1E1T3ME2lLylEf1PX4Xjqz4OaLVWK3wjPmtuKIaeDwmQ/yK0IgP7auj9RC7dap4YMoLu8g==",
+      "nupkgSha512": "dEwZ1SF5gzNs2otD10u+V1CSxU34gX+wSTJxWxJEXuYaBpIAPbis2rW96CPN4A0QMaVkryPyW70uUPz6sgsnrg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "bf14a9396c66e0ee7a826f0cd143d4582a493c558fe37612967f1038255229f5",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ConstraintLayout",
+      "version": "2.2.1.3",
+      "kind": "transitive",
+      "contentHash": "hPp/QY2SxAfVKZuhvtfRYgyp0xctKW5VE0Jdhb5YevFKSIW1dj/tlQPSD4PGjQaS+bGDARtWTivVKKknKnudig==",
+      "nupkgSha512": "UAH4GyNaSYy/V/+l1pHqnH21OFRugSIzGQqEzboySyvX0fxrr96FTUFrLT+B5DZeTfZI+WwO9ZIX2c3Q3LBYhg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "9f147f980261cc276ccf942b475ffeec28d40f5c62c5e6c3f29c2ce1aa02a362",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ConstraintLayout.Core",
+      "version": "1.1.1.3",
+      "kind": "transitive",
+      "contentHash": "H1YjiAR7d1qAZFbu87NIizuJkr+OJp8OW+TCzXaDxQEdgPDj9d73FJi70QRaZswXz1sU9b4cI2ApRiqzFkRmaA==",
+      "nupkgSha512": "65ewqIu7gsjQWzBVzX9F/+w7Bu6I0auG8THSAbnqMp9rvXyma9tHNRg5zrwpreh24TyZE0hE51F761EbsBb6Fw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e01124787e27f332e96cb0e0172020101410ec99ada6c19b170e81e0a2ac1291",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.CoordinatorLayout",
+      "version": "1.3.0.3",
+      "kind": "transitive",
+      "contentHash": "4N4xEalP50L+eMXlMBjfpd0EReGTyV5aIMY/XawpjVsH9lAJe44i2XwhRhdwulmu6ymcYbE+8U/29RfqSyfM3Q==",
+      "nupkgSha512": "Ph/WlTedKaypnVI4ps8IOxa9KrEgMV2aQul92449ADhlEc3IpYrNbBWmiS/RQV2EmKv4WzukV8Hx4ppO2bSaMg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "c5f692cd9a8ae483bc1e23f1f4048b76cb6616df6d09f5139e9d348ad8e02ec6",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Core",
+      "version": "1.16.0.3",
+      "kind": "transitive",
+      "contentHash": "ufdTfnLRHYcyrZWQzayzdQr3N7DQg+aZVqSs8QFYPIw8fvd41aWp8wLMRvockbzBOQezUJ5Xm0uuOhTur51u+Q==",
+      "nupkgSha512": "/xifaUzcGTn0etpxkTDT8lUknCaiZNB+A0Pgrf0fTryof4rzdVUup4dmidUkT4CqUQfOzoV4PS3l4E043ftAhg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "5860c2f7603ded69f4ac8dc67c22268900678006c0de5881207185884f90b6dd",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Core.Core.Ktx",
+      "version": "1.16.0.3",
+      "kind": "transitive",
+      "contentHash": "w8x1SNjzbuRi+85Bv0Iw4KAWpoXxlQpVQZAeJ/hE6diinnata7y/lmldx4GsdranZon5GSadaa49UnXSllJ0ZQ==",
+      "nupkgSha512": "rc0O09IBGso+73rliaRXJVVEPus9/8fvGU79rBb0pY4ghLnaBbKgkjiN9UotRQAW/M4DyRt5ZwNrkZ7IQ2N6wA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "1a5c3d5a495ada84d4e7f6ea6693a7a68c159a4a8fad164560f06853b8602cee",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Core.ViewTree",
+      "version": "1.0.0.3",
+      "kind": "transitive",
+      "contentHash": "HHodPFu0R1xq6Emxdw5muLSBaFycL9Gxu+/M2mAaitKjFZgEguaMb4bgCNiRXk1AnoT26LEka833fjAT5PU/9w==",
+      "nupkgSha512": "PuReK4bLqYVP11bm3OHb9BYncSUaOKzSzq+0BGEDnAJAUZZu2LfnUBLAKXZah+m34raoCdg+Lg3AtxOGr56RgA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "02473f453491a1c7f821cabc3ab27ef58283bc52797f5315506a9636a7b58da9",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.CursorAdapter",
+      "version": "1.0.0.34",
+      "kind": "transitive",
+      "contentHash": "V5wppzsP48BFihhrxTF37u2v4bE9Szv9Az1J0naYhSYuTPH46GbQTb/5X5I6/6PkkhPymvTD4ZYohTl4gCgFnQ==",
+      "nupkgSha512": "2Q8+kC2S5AU53tcw9fgBcf9N4st2eNZDZ3RxPygnxYJMyQxVFJBb+jTJY15XYoSONDr5d3E8juawzBwPUQJTLA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "3d98201adcebfc6b5e059e52a18233a36c95baeb6b939257bfa85a835fa5fbbf",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.CustomView",
+      "version": "1.2.0.1",
+      "kind": "transitive",
+      "contentHash": "mAqZiSC7wRYUbePbKDqSRoM+pWW25QSlXyz2ybMLT5Js0njBLq0erDMp0xC0wFczYUuEVgsCdAP4H1j1kwD77Q==",
+      "nupkgSha512": "QC0MwDgEcJo+ObA8MrIdTKK153qjKh2VANczTe6blBPAeKBgLEGcjr9tkGeOb/gSiIXrtJxNWiFsznpG2PMOYw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "cfaca845328ad620288b8f8a645feaee04f5f3e9e067befdf093192a76eff8e8",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.CustomView.PoolingContainer",
+      "version": "1.1.0.1",
+      "kind": "transitive",
+      "contentHash": "Apo6x8DDyhYBw7OxSWA2f9RKiMz1uijeTFTzkTt7fASw993SWSyhLfK+WVzzrHtpi90en9GRxxTNYNnFjlczHA==",
+      "nupkgSha512": "VhetIy8XSqzQ6KVasDK7/KOyAVaa16iv4irMzH4iK/VgZ+eNy6SmgMSkJq0pV1l9LPbSO6OOnM91ZPW1YmKqNQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "d6edcc1e887272b1109cc0120a1b6e38e3f4baa3ccd6bdec1054260b30a7fc5d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.DrawerLayout",
+      "version": "1.2.0.18",
+      "kind": "transitive",
+      "contentHash": "W00iYqmTg+wUrFQjepBppIlUDLMIeBkPvghHxJ0u4N/dLCeIjG0ZZQOQOk5ZTMX4pmQu3vhMUWLBpD6ZEMWL2A==",
+      "nupkgSha512": "PaSm0oiNKYHxEhf38E1Fn27VmShPlk7gqZiMJloBVdrxq7HBGP4KaWTsG3sc0+M/0SbliPDT/tJVP2jf15gLcA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "75f01fd747a16062e1114a3b6ea0e6186278614397b7d366559bc1eab5660f70",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.DynamicAnimation",
+      "version": "1.1.0.3",
+      "kind": "transitive",
+      "contentHash": "8Gphvv9b5hF0dd/VWYsYZrF2If/f4T6VfUEqVM6UD+LZpbNJ4SQ2WsClGfdfzNF6NPp3HOCcekKRSSHicFoUSw==",
+      "nupkgSha512": "YtlNjC41SYjGl36H/+4FlpL81hLPKei/8somoZ+kCZCasKzuaA1Zn2tdj+XfbdLDljZw9DPFmdatqotYckNWUQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "df582db05322d8d6fcec19f24815ac526207cf695017d1490bfb794c55a4b52f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Emoji2",
+      "version": "1.5.0.6",
+      "kind": "transitive",
+      "contentHash": "ZCk12ZnFLzzaGL4iNZpR+APGEVzEzN++VynBKcpEfU9mFARSb6wZPjY6/Zyk4uNRBSsfNdNlwg3M94DRJihXvQ==",
+      "nupkgSha512": "MRLwzjUPka0zmqw/271CQtmuq3tI1+G4LXCcWDlRLFPpekWagDYVvwKBAlZQjBROrP/+vB6odZnKJzRmnZu6Qg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "ec966276f889acfc99c813e1814d2ce41fda4d903cfc086ef9c8ae34ac13eac2",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Emoji2.ViewsHelper",
+      "version": "1.5.0.6",
+      "kind": "transitive",
+      "contentHash": "k8EvnbkTShNQfdEwmqkqAw8jSw5zc0Gid6ZVhDbhDjkAg+4VIQ+APX8jw41cAQAvxNold+LUyowGxUth2Z7GmA==",
+      "nupkgSha512": "JzLhmWw3sPL64xVvATOcj+H5N4Q9tLtZQKj7a6hF2I9Z0Z2GK9EvoO7xoxtth0wigbt1C2pOW0zkDT/VJ7/RLw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "da0e9ea115dc59ec3e8363add03fbe78944ec293b2ea24e8082bb8a284eae7f6",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ExifInterface",
+      "version": "1.4.1.1",
+      "kind": "transitive",
+      "contentHash": "V6c8eS61dM+/7kHuG3wT956EjxwKOSfCiAY8faNmUY76BNt5VFNaimQZJT9ROSctf3Svv/GAGTl91Rcxzuf/9g==",
+      "nupkgSha512": "7wOXViLnF2VU0Lo5+VnucV5/qzB2SaU3fMzC2mX5tpWLxgzypNuTfvwn4XVeYkeuJqai3bmwtQTf6+k9qWGhWw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "011d9286f90984e23d2f62e4e7e374b97410e711bf09dcfa7cbfe95861f12e26",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Fragment",
+      "version": "1.8.8.1",
+      "kind": "transitive",
+      "contentHash": "XVQkfdzhTM4zxc7VbT8ROnkh2zQgx2rgWgsGuFwzfJPLLAqPkL/trKBYp7VL7Hulb6HPau5o4Ds0hiVgM8ODyw==",
+      "nupkgSha512": "4UPRapi4EZryFiwWDT7VrbNtIVyuFPKw9EsWteaPN55j9oddHOR7DbkfJd0sucELaiYZqREbShhPeMDseHNRmg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "4553c31d81aab1304c852bb6615024ceec51266c790ea4f5b37a1fb1f992e7ce",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Fragment.Ktx",
+      "version": "1.8.8.1",
+      "kind": "transitive",
+      "contentHash": "P7aRXF5epXm4FYnBA4keKXHFzWOBxdfhHxcL1FGSLNT2szNhoChYhYza3VIShPuo+pfFm6m/Tk2tcwf26mjgkw==",
+      "nupkgSha512": "gn/jJPrjeWnedk//MP1Ee571z5mvl0eeIFpY+KuluvFHEQDFVp1bm074zeD5bAZWOlC5KeUOHNKHqCIJszrF8g==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "a8dab03bac9be00b2a0d58afc96f6dd5ea787feaa7d411535bd2a830f4d5efd3",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Interpolator",
+      "version": "1.0.0.34",
+      "kind": "transitive",
+      "contentHash": "PRLkeu5BFY57wbC128lPMHpQZO4fxEV6PL0gxe7gosfluAqggSn1x2v47paq4hOpSa0VvaXdz5JwFjL9j+1ZMA==",
+      "nupkgSha512": "8mOZFyZ+TGoovCJIiQOBXUnn5ThIx5XOTvlb8Ue/NcidhPzSsTl6Bu37MAIAbQOvPaL4oNWTknu9VQuKVXtyJw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "91cacb1ee0d2f2d88f981a396f2776fdc8b51dcd1deeab4193dfc04f416ba4eb",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Common",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "5PCjbhIVEp3MIbhs72dM0wx4EuSpU5q418uqKRLKaLe5WfNbKmSI5h28ugqyXZlnVNmR3WNIm30Sjaa+rRCKIw==",
+      "nupkgSha512": "KzbRJX70u9GnpSjg12UhZ0Ei5X2ijmgUzNTirtvlHqfFH2LaRVrZFlsOvCH8B9Ck3wCbxMRwFBRoN8FcMTF6ig==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "022d66300e7a929462d73426004e92585d504f728da8d196f91532a0d9fd2aa4",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Common.Jvm",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "z0/dW41mpX50ob+SzcWlI+kabR11dqrha6rlQXQvu3j+27hfNW00ZbukmE1Kw/zPBBdSAfwHILBRrdyPKDGzwA==",
+      "nupkgSha512": "NkU8iAA830Wj61Pk5xCycGl/dcrV/XeiCGssAGeVt0azIw6RUL+qsJoInZC/ChN9jnW60aBwAU0me960tV54qA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "554895c468003790f38140a246ccf12c795e2fb90d099f120ef8050f2ad3b7a5",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "4++tRPKTWo4/6wY6cUsbxAbM23RD9+0Ictu9F7GJs0i4whGVgqIl+PTxrBq09cN43BFnrqhx6fySi9Ltdam+qg==",
+      "nupkgSha512": "DNnV32dwXZPV1hkJgPfIHR2kGvL95lbADZbGJ8YkUJcHyLIux3UIpNcFGJIIcU7wiJafbBFUEiw3b67jHaGNKQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "77747c9d337eea444da3d806509c942c509e248a6b7db083db34e7a67ec73836",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData.Core",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "dnQv9+I/lPhf5LWBKa6jhS18zp5RGbjOinie2tlU+x/BWKiekmgy9gXcGizFUtPdUdLjsUtUZMHr2HwBhPtbvw==",
+      "nupkgSha512": "8AKLHBMUDxeIzty0Gd2q2XHIZBdFg3Dx5+5hm6Cl8Y3zP/6KHcK0n+btXoTzGTToz8AsFgWxK4ZtNGLgcpGrYw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "bc6435919140fe282cb73d757de1e9284f45042d7cc461c4b5a79dafe8270724",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "8BkUa80J7C48DVWKpcKjL+nWWyUKSYwh5R3J0iZZ6OX/PHGUf/qUQOnuIiTnMA+iTwNp03hUrOYPhyz8FM2R4A==",
+      "nupkgSha512": "SC/h/SKAk2US2EqS/4D1I9WeOcLYnRPlxTdebdm7KIisR6zCtIo6lnnhz3u9LtMb9IjsKFfARu5yVKlFJQWUdg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "9c8752d6141d718c398ae3a75149fd5f49c25e86f2199c184ec9baf145767f60",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Process",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "VCsPE95U0N9CsiC4fSiKZVaRFXaM8dYuoqCQg63vnw/xOfX48dAVX18FMVTDBUbNsgxMhp2JrAKazu/Sw47G0w==",
+      "nupkgSha512": "YJBq6IaBBqSk7HIJnrH346hXophQJ0RGttbKQIprCzWHwH8MWsXARpFfN5t/Vel4cP8xa2qrgiEt+wrfBIlEgQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "3a1d17e30ae0663a4d3ff05c95620712c93629883bcceb99687d863e97bf5da4",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "0Cefhnmf0tUHH0LVcE47DZ4LIh/ueEVhJ+yUIsZ7DdzvQTCaHzgs+48Iv4ptndbeP/13hL5G7aoBDb0/Sfkpxg==",
+      "nupkgSha512": "sQg1d3WAO9er9BhVomZcV+JsARYJKeMJVBxOBOHQ985rDULZe/Wy3ciF+JTQ8LbkSXIrbJQPncM29YwNQ766tA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "574c2f00d696f5bf8b2ac49d9bd7a8c52a6b94e6df3c4cd7c08804c6a405663c",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "vzv8KbjAg3Qm57RrdwRoXMyeqqGU67pjT8wrD62ceOiobYI5daOTyVVVcn1f08SIH2W8Q9iAbBPA9l9zcWUxqg==",
+      "nupkgSha512": "gYRwudIQMxZ9j1FvDqwjSHcq4JaEx+Rw5ucQnRyYydwg+0OJlWLJjvxnnXnRJrMZTJNIQtRIsfc2KZ12zx350A==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "09c07a58890799861d33c564e9848b1e28ffcf0fa3bb08bd20c3221d1afe7283",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Ktx",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "CH2eVOugIKpyAOOrnCdF04baCjrPUfs3vkZNVB1Z0VeLfGT8NbVjP6IknjteZNVCqWy/22JNyKcp4wuMRaYVig==",
+      "nupkgSha512": "Z7++LM8uewFeop/3WMz+1/Tj8WTCo9iicpwfMh1JVDvkvSkvZoT2E5hS6vLNWGqSbPIgnCB56opcQbITAS35eQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "254fd8bddad817450894a164a8f42fcb9eca856a7dceabfac46453dedafbb858",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Ktx.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "Lz877w1/XEAZPfO6Yn0U1ujU+NCGDjOGm5at6Y9s5eIzcgyJo/iTEFjqLCt+X1FXJ8kDcdFP3RvN0f4wQ+v12w==",
+      "nupkgSha512": "WpvixAFHTUeklIRyWtiK3sQLymOcIU7mEQIvkehOeM2N72kp54EGpH3al4yF8hDsjY/cyO0kZCErtzKcCTiH0w==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "db72606b140e0b6de58d595ad34250b52e8ec24c2f56c08095ef9537a9f38d1a",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "NsrUSK8s5q/31HgiCA6d+Bg93LgvYzSmMAVPQbHmRKM694D6RXlZkd0P1nUk+M40uC4WigSKmJeq6bjLroJFTg==",
+      "nupkgSha512": "F13qIhc6U4sKSE2Y95ox4jSqQ15X/i87y2ZhUhDGZYlnBNXDu426fYslnAJDBKwdloj3Le/yGRJU2RYvemOzfQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "c0d37528696749f6b6b906d3a47d8f712bd00bd5d608c3e619732743db052952",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "eyKWxB0alV+DNWZS3m7rRQxaCR7twRBkbr8N6OIL4p/xq3SIgLCXD+uWoF4cSlRtooaSjasJMlDnZNcbVJplAQ==",
+      "nupkgSha512": "obZaRyqVC0ixFBn7jegJZLyiGEnzPTMiK5DwXwUobcP/khTvPWlz2yVesxE8jpf7H8QAdoibztcFq6+21ndbzw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "c3fd3652b14052019ba21727666166567a74c05af978084cb0ec3b3a030b5244",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel.Ktx",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "YisJfMfjXE7nv9NQnzYatRkzROh4PCy3oLPCt6jBD73YWalk4BPOVm7bhkuqaJfnhVtKDuogHuB8BsOX2GlFow==",
+      "nupkgSha512": "eUu+chWFZx6+9joH9Eh3FHRqqxRMFxYs02exn6euhoEVkp99S3Si6wyts1VYCjMfdxhlKXblZN4N2F05isUbiA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "60eb615937d31c4bd5dfabe9bd9ce5a85125a6e787461d03fd3d6abe0a52958a",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModelSavedState",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "fUwB+NA4O/HgvlJNaoSa6XuhpLd9k9vwSnQSZKx9z1PPEzX3ChYLmIOdZQc9DzcRZoem+AdL86ChXyCQkYS4YA==",
+      "nupkgSha512": "EMlQnafvYbVzzga3B7rCjx4DNnPf01l3rm4ihw3lF1I+KYsWufLS4BV7SOOjjp5S4h8Ncj7Y2DZtFuSdnFthfA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "ce27e788c7cb327b6f57e0e7d0e41dda4c1cd36eed31c63da932570b02484fae",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "+WoE0dnvnn0eCcSCK8IKm5L24BhCsYD6BrgMX9LqWLKVbjynzZBHz1ZkqAH5HSb1luVspwFfARYNQPSlcGyYqA==",
+      "nupkgSha512": "YYjPcW4azO66Xp8Fc9HbSpJuQi8fRAYy74LbsNc/YlYq+j6PdqMQ54An3g/y2cWenhKRyORbuqf9iuyXFQ/Yvg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "fa7d476332e0e686659aae67562c5ee9fbe1e319f4c3a9ffd511675406833010",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Loader",
+      "version": "1.1.0.34",
+      "kind": "transitive",
+      "contentHash": "1LEi7FcyStmPGT9DB1PZrOE28Y6vF+4Vb+rGWuUrVZFV9DDwMdKNqCQZi4VGO6q7q44/bHMTnuDBvylI4x72ww==",
+      "nupkgSha512": "18/ZhqTFNKONRSQrARA/Ku/PxjQyWRfRNrpCRHr9eR6W1o+EyMXdXIfgDNT3QsUeYT6hr7g5NjCQGV3kxzy8mw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "349d6fa850d73bd62d69c4933047dcac466ccb93fbd66fe2ed5bfc5d93aed2d8",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Common",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "LrxZcMFuSXKYKB1bYcKLdKSHu7cEPOoy8g7Rlqf1GjV7bzf+8YjtGIRNWBYgp7zELuSsoin+Esc2T1W5U7tmSg==",
+      "nupkgSha512": "XTV1CGSAYNZPr1CFsIt7jD1XIAQPswmY5zd4aecGEJbQ9EAWG3olx9Jz3ooTSjlw7Ey0IivsXj4dnnV3xI8iZA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "2a9cf29c6b5412dd487506f36dd7ae0b0fd4e6466230f3cb3a739caf693f4d77",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Common.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "iGS4iK8gDgKUYOdEF8ganw57IK0f04Gs/rtHAdanxTpPCMpfdCsBjMtqnXn/Illl7Pqwxe1Gyzlbiej8n6oI5w==",
+      "nupkgSha512": "3jfRCd5qzT+VFWBb2GnA1jGR9/dO2rIQAZ9a/rtz/vsjWwDQajQ/XJfASvs1H6/BVMTd0+hDqrMr24yROg+xnQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "0d75deb36f8941e7a645ba8f71b313a557d2515ad847784286736fadfddcccc4",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Fragment",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "+pV6drgHr2JJgs4iSf71bAz6hI7A0XXANGdT1qDDhT8Pf7YS48j2Cn10UeDcIADk/LQxDf6fShptxbWg18EhTA==",
+      "nupkgSha512": "vprnQ4Q5TzSJyDewHD46zizXfVTIxdymZ1L5+fpjiGxYZ0cZTUyrKp+g9REHSbK9hSEk19bxZeO9VZClm0gLyw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "6382a90fdf31330ea696c73c4b17586c7540be1102b67f5a47ca76d442ade1eb",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Runtime",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "fvFy8nwF4OZ6IPR+beMmsRPLP8aYT42a7ULQ8m3kJPt1Qi9zTCsq180aDJX2u+67G5VRle5NNOhWmVq105ZrCQ==",
+      "nupkgSha512": "hZsAxev4+97pzMx2IzONsnF+vPGHdVTwpkRk3kq3oP9Tpg1nYZRYSqZEZb+zd098ppQZXAgppf5BzD5rTMS6rg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "3fb9e713bb277ac9ee90ec769cdaec83c03ffed86dea134b6adbd7235b0d5e32",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Runtime.Android",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "3DcGdtTt/dPn3uTgrSVHL2cTSiThdz7WUgGRIPvg8KrtSCMGCFjcheFxOy0vVfjkHcz9BYyE/vqNtxgzsw+x/w==",
+      "nupkgSha512": "hPcxZXasGYfWvE3G6buFOBsiExCovZpcuQlW6/EyR1yGQZWJrzyIe5gP5atfyORtz3hpmYCX3r2sQhk436xfCQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "d27d189be45b0afbd394d0a2ae147c7fd6ceed4602992034924d07e269030574",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.UI",
+      "version": "2.9.2.1",
+      "kind": "transitive",
+      "contentHash": "ZL1TtUpA/p5+VDPwBI7IVu7K0l4czutHX2S0+XvDtmakmycLIvL1d2JA6cfJLjzGwHciS5nm9s9OnCRH1xxFhg==",
+      "nupkgSha512": "liWhSA6nK1cWlkCxKIWDSaUv1IT+FhSo1NNvpdyUj7AHRdS2ihNwmauW/5mcto7OnerjC/Jw1ZyGLC1INfwbWA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "91df4bec1be021c947d01e637de765f6803a0f5f5ad7116729690456e554536b",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ProfileInstaller.ProfileInstaller",
+      "version": "1.4.1.5",
+      "kind": "transitive",
+      "contentHash": "wRnVAoFzhllgoonYpoA7JVpBHtsQP81ChagkQ+LtG8JPcu/MLPETg/Yq8cO+bvNwNCvn/5+v4uyv3Pd8j9hT+A==",
+      "nupkgSha512": "8J05CCTyD/un++sjQSzjKeDOQ6K10Id4CunoC/O3Trt5KVvGz5j1l94Uat3SJ39TjD5Tn0P/zUZL+ys2N18wCQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "2ac28bb35c7d32482fbdbb918a5875a750085d62f7ea78df40c078d514787b18",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.RecyclerView",
+      "version": "1.4.0.3",
+      "kind": "transitive",
+      "contentHash": "Xpwo0U+YbkDIkiPiArwDBioDjdeJiZK4mMl777odOaprezVLW5SJvHV/DpkverhlIDp5fTC97cVNXy19e0Tz8g==",
+      "nupkgSha512": "JTPXHCF1PFTA1E+50yOjCMlA5kEAO48EbR8IKr395wznaNMvlWw4HPKg4FJ2ds5sQXnhFTgEW15togU0Ptf+TQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "407e64fb9584ebcae10c591669b948640c0d7da0b27f9658f98b0144f426167f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ResourceInspection.Annotation",
+      "version": "1.0.1.22",
+      "kind": "transitive",
+      "contentHash": "hAD8tWKqwvKQ2bWdRthlBWntBG0zpz5MzLuX2iG2CcFFFS+kx4w7qmXjfPgTEVxHE214ctvaBtYs8r9x3b82og==",
+      "nupkgSha512": "0WAbXNenG38BpKA5jmV7HM9CRX12sIWI/MrjQXBKhX9NQ4ZvhPpqpr13+ttpIc7pWnsY4ra5L7aBwlVZKdvwDQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "0ac864529fe9e71a5dfbea8f8a395274207e97eef9af4e7e34bcb7d3135e4515",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState",
+      "version": "1.3.1.1",
+      "kind": "transitive",
+      "contentHash": "dpP5rrtROOybk/wbtS1nPh+nU2JeqUtgOccY4oxD7IYitEzqRn2cOHmbRnJ/S+C+wwUo0/At/qdLPQ4TqE8n7A==",
+      "nupkgSha512": "GzU6IO26F9C39L6OoFr9zVN0YZEM569h/X7Z8pEvsP6gdvGMMIFu/I2jEp/phlWjaSbNPFWjfSbn4AfY/WE/ag==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "afcd8a5888c6958ef9311455dfdf7f8561aac94083f5567856d68890ce0318ce",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState.SavedState.Android",
+      "version": "1.3.1.1",
+      "kind": "transitive",
+      "contentHash": "Iej96BtfWgZvs+mAlp2p5VUXV7R2AVktYgt7XAqlnTTTaE2Ue88pyjQH7hmxKpMEtBUd+Q4TIZcEsLxn8d2GeA==",
+      "nupkgSha512": "pHa3C0Jy/yD1XS1AJu0hVElrhVRBv/5wVg49TnApWU/Kvn5SvKOv0pkak0dGFSZylmPcn5MU9RoEVE6sXtfDLA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "8d6ab11668ddc7dcfd221d0d56c5f42c135826a06caa7f7a187276c89b7cd697",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState.SavedState.Ktx",
+      "version": "1.3.1.1",
+      "kind": "transitive",
+      "contentHash": "/0Xaj7Cjzv4Ok6j6A3TfWWcwsOHyK9jLBQRQfaS4vNHx3kNtMVLnSyzwIto47Q1oMEC8VlFogLuSBoUpviNWbw==",
+      "nupkgSha512": "/Rm2LOeXPC08u1nbLqGKu2n49Duv5Z3GR4wqwbGIDGsTNc7XTbxdYKEgSAdfmGnIeKwD363xJphW5v/J+09SDw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "aa9d7e58b2f548dc996e0899cc7f7bb6597a11adb41f6dd416e92f971c042224",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Security.SecurityCrypto",
+      "version": "1.1.0.4-alpha07",
+      "kind": "transitive",
+      "contentHash": "Wm2BH+hNOHoMA5Z8iWIlckfgpUntHikfkBIjMpciY6AVnKrSfZcwQDVRGSySDgje52b5Kwkejp4EKrlUBN7uYA==",
+      "nupkgSha512": "cqQA2yYaWJ8Sqp8unXlGXu9UtpHIch9IhEVCaLfLt0g1kfhr4r4Ib/EKZMUeCi2MvtbhCZJllDF4550HhI4VJg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "b239bb54eb01c328f2352f015c14b2713fa3b9260d7f5580e207b1851fec930c",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.SlidingPaneLayout",
+      "version": "1.2.0.22",
+      "kind": "transitive",
+      "contentHash": "uSr7bE1tJ2i3RhfS4yJupUB/X0QfhRyh+YUJsMYVefTtAuixondhHleQREA5N/rmV8qo6xY79hD6mO7Pvtpolg==",
+      "nupkgSha512": "w+u9eJStm4tdvotkx3t6gkU+hNkGxLHf0e7t9Ir0CbbqwQ06O1M95AqX4QFh+6KFtSnldgTwKuLmbfJsojZOuA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "282bd7510267bd5788d92d0b40f0c867c5de656a0f2539a5449cfdedf28d8a71",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Startup.StartupRuntime",
+      "version": "1.2.0.5",
+      "kind": "transitive",
+      "contentHash": "A44F9zM0yqi2jg2AAsfwJqdc8W2MYKHnxKTewn5T9NxAvZg3h3aN7NCVjUWyqdmhzBamPWEyRrIN/1NY1U03/A==",
+      "nupkgSha512": "njcBPp5l0hZDtLR6eOzUzYO/oFkosEPpmFnU7aYVmruwmyXO/ZJgDFTLbrsuvxIo2nXIGPCkqhGCFfRnGmEdHg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "4405b0d9650c56f5c1cb920cb901ae28619ebfdccbbcb3b1fc274b87f76edcda",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.SwipeRefreshLayout",
+      "version": "1.1.0.29",
+      "kind": "transitive",
+      "contentHash": "FSABkMhwOmfqUjRWf3rM4GzLzFiec8OLLNe4uAbi6Leea6U5xNKq2sumiQ2ySnffZ7Hm6l5cuysc+zCfzgWv5Q==",
+      "nupkgSha512": "KAVJS3a3maKfhoxg0wXSNFk0Iruhamuf/kOzYD3RJwkCF29yXpomlRs1i9z0A/xEXha5hdysPPNTEF76jjq6jQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "543df938368296c06c9f46cf0fee6beb5ccc4c6b568045454590a030d7a22466",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Tracing.Tracing",
+      "version": "1.3.0.1",
+      "kind": "transitive",
+      "contentHash": "tgMXLYR6AFc/Hu32MNCPWrjsYnn1XMbse5+g8PNBzdmzmv+HoaJotSTYMI1qjAgZmYVxdPsmt5oU4Mu8q54iVw==",
+      "nupkgSha512": "y6Dk0Uh59XWtk0YYGbxhES1i9sLkTLrV+gy+9jvsqXEyYeRywLg0wtcMckUc8YhJfSYRs064tYLd3aGV6/7j9w==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "1743cbe396a760f8bbe87cc663f6de899d34dd9f185426e2e188a366da43fb30",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Tracing.Tracing.Android",
+      "version": "1.3.0.1",
+      "kind": "transitive",
+      "contentHash": "LkCq6ICPD9S8JBAqinPqx+gOeq/6kPcy7m/MUQlGZv0TjU8IL5qAX6mLKjq//fcAuuCX7FAHk3N8tCVsPmQ3Pw==",
+      "nupkgSha512": "JlBb4NTZ93L3a/JGJBPbwJzLWJjYLnEG6F0du42nFsHL/+LWxiLzqh6ZLG7G3g/yg90SjH66MMVrdChHmeGewQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "cc892b4d4010015f4fd551181736f5509f6141b2c397849e8ef1f4ed87e6e5d5",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Transition",
+      "version": "1.6.0.1",
+      "kind": "transitive",
+      "contentHash": "urEA6HnrFNz9YUAt6vIvTz92+5iAuBVC2HZ9kNwuw0ESB6pMvX6Z9+fD5G4AAdRf2n/7hecE99TyJvKvRdzvuQ==",
+      "nupkgSha512": "ydkctKTSaJ7bhbjRmne8z4msN5kyC5HnR3/M4TZqtoiCpd/TvuqPx5BYAq7IsDXJckumGfhY6/pIOXVMQ7moFg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e16931cbac5a34c7ea9bedaa26174f59e6189c85a9cdbb1bbbc411526ad42065",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.VectorDrawable",
+      "version": "1.2.0.8",
+      "kind": "transitive",
+      "contentHash": "bIAuUzHIp49qy7++UOBcBWfJr4akRVfapPFjg6+C+AIH08+5BExlPYx6edYII5eW22ZCZT6elCTqqI8qdl1vyA==",
+      "nupkgSha512": "tY3ZivxGB37zhfclTrvt+/2phz/E6Njdi748tXUKl6LdrW0UdX/Vq0xy5rE3oW02BO7HMK/6cDS4GWPKfYBRFA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "69840fc040053e0770c8fe8d73c55906a92f183d61f27ec1994d9628d6ef5e76",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.VectorDrawable.Animated",
+      "version": "1.2.0.8",
+      "kind": "transitive",
+      "contentHash": "F1GNMpae4zF0/NOUgUIOEh+blVQ/nLO5eY2AKlFigD7wvt7wlY0wk5h6B2jwPzvFYpsPdWvZsQoI1tgmsrXT0Q==",
+      "nupkgSha512": "waXNklhjHR0ehOJWJpVZyTnQOpgqd4OOMVM7br5xU9tHtXxg144fndoKQqWS84fqQyBVP1uOFtxjcxxmHGdejw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "a1eeff38f86ca730ae3778fa934cd4df4d38bb51d2cce91927f1321aa00fc3ce",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.VersionedParcelable",
+      "version": "1.2.1.3",
+      "kind": "transitive",
+      "contentHash": "UmcG3rQreb/ObIjObemxQ6Dw1xX3eDtpB9ICa+Dj05qYDKP3WK7dlfmYZGqvwu3TeoZQ1NSR6UjzePaXfvQwQA==",
+      "nupkgSha512": "mAzCIXId89RNedCKa7x8nJFX/9NhG2VY8WMFxluB1HBqL4d0USWoX/5TMaln9IPKki+jjcbQTte2OdvVbqZAgw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "934047f9a5db863b279fff66f52dcaa23fd284d0416004121649ec6a47d2baee",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ViewPager",
+      "version": "1.1.0.4",
+      "kind": "transitive",
+      "contentHash": "EY90yxGRM1jfPRheLwGhP1mZfySmGRcH0pIFjdDVHBACm81z+ebffFKykZYrCb/JkTNJRiLS5ZEEwqzR5HNX8Q==",
+      "nupkgSha512": "7S3OwSRoZWTU4klTN4Ct2c9le82vy8ejsVP+4ve2vNBxW7enNr2ANwTOuYQnRmB1PW0bTwOXX5c2/KdsgF/l3Q==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e62ab835cb27f7c47ae20e1969f377e7b0059ac83bb701c995f5664d403aece4",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.ViewPager2",
+      "version": "1.1.0.8",
+      "kind": "transitive",
+      "contentHash": "wYJ8lQ3AOr0H2y9Vl/sPnRwXmZuqyEDV8xV9U2K51DSZ/0fjLK2qousI+kLOkGfdqbvv9j82q51TUiOx4JMbzg==",
+      "nupkgSha512": "MMzOKnBpAHveUW4rJnPYlmD1R+yErWNS95J7PApzNOvJdoWHItxTT+F1a24wja1AwYVY5MJkD9SJOZ+o/pl0eA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "b0a2a97726674df2f6301237e5702d6b044dbc2acda53cec39409f8be612006b",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Window",
+      "version": "1.4.0.1",
+      "kind": "transitive",
+      "contentHash": "uV20G1H8Woeja+h9rt6SzzbVIuequ7yMpcY8q7QstEH2eEQvFmAteE0v9Sc19RV52Du0tkbp0ccNWYzRQ5GTQg==",
+      "nupkgSha512": "UcY0IscXSo8XW7ipVrOx0EPv/ZHyyViWp/XAaP98herY+8kvpVdD1rU6IQ6+Dp1z/Fax7SbTDczXXjm0XAig1Q==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "89f07385f67a12d40557c496e221b2347702f8a26f5a198045c800c5b20b6f96",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Window.WindowCore",
+      "version": "1.4.0.1",
+      "kind": "transitive",
+      "contentHash": "VHzqNYlfD4QY+81PaMH5WKNoczwQqNocyAG5AaazMSUne9y5SywjkmIBzFDmu0bxgWqkD2e6dAmXaxY8vntGBw==",
+      "nupkgSha512": "/SADSbmJ+rqaSjOtGAPN/eKaOK0DW1626RFXbvY6/3+oAjxh8hTUoLbl9wJr2tbY9KRRFneJRB3KnYJv0jRfng==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "7c14ff0f128c005b3b1d2d4c4c42fe5d53b6a452ad9f6fdc40778932830a8a0a",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.AndroidX.Window.WindowCore.Jvm",
+      "version": "1.4.0.1",
+      "kind": "transitive",
+      "contentHash": "et2icsl112iTtREGS2BQnPFTKfvmQT64KfIm5r8GYiEoR6z3kCYwal7Irdf6NYm5n8G4JeltnozdW4o9TQTTqg==",
+      "nupkgSha512": "O93/bwMPTwJsYCLQRQN+52K3B8Q9KxWatUBs6AL14oflBC4F8qBdmqWWyRStY4X9dID24rafrDA+qd2PD/4ZiQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "99cf50c728bd61d4b47470cae9a5dbfa1039a09c4aef7019c68bdc2d38f9225d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Google.Android.Material",
+      "version": "1.12.0.5",
+      "kind": "transitive",
+      "contentHash": "F3qEyoazFbkeN0xXckfcPtIibVYkF0RU0Dbxgp4NZemK4q88twGmyiqLUx/5DAdwEcVitTVyT5V040EN8c6SBg==",
+      "nupkgSha512": "Vo+/0xEmZr2T/AvK1sVZHGwN3tT02eoVR3v3q7eZYhNtt/5hSELVOdHv6U2mqjIeDjOAFJBCYT7YLsSUF0CWEg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "a68b1602b549b84cc870c932af7817f89ebd8c6819bd839dc0cd3dc6c2800e31",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Google.Code.FindBugs.JSR305",
+      "version": "3.0.2.21",
+      "kind": "transitive",
+      "contentHash": "7vV5upoSB+npYC6UZGkLQANdn0nKlNG7lEGwrJgF9HLCCSQvhbwTuU25mQHDBVfhGTHKtiGKdlS44hOkips/6Q==",
+      "nupkgSha512": "Ll4b/veNZbYb+Szaug1DlWCpC5v0aD7QP/Mk+Ks8/Sj8H/24des+7ba6uUG11zz5S9UE/KWFISrndrCJk0ORPw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "a1add608c8ad580c6c7961e4f92f6ee9dc8c97362fa493bdd1e1ea70cc6b257b",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Google.Crypto.Tink.Android",
+      "version": "1.18.0.1",
+      "kind": "transitive",
+      "contentHash": "sNFZmNxrVFXNgo8OhIIC567dPKli2u0ZKP/RbXS0hbr6nCzMqoZSk18nMWDfu83/FcTgMcaUi+EXna5oTs9Oig==",
+      "nupkgSha512": "XqFCmfC/OA1AmzSU84GQO66DwwcNg/vnwHubeG7QDeExTQnf18Mg4pciO9gcVg1YpFQRILwljdBk7DHd1MJe4w==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "f2cddf6e5c78b0c55bc37a7d74b133be5eecc79237ada9103b8dbc0a88b8d504",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Google.ErrorProne.Annotations",
+      "version": "2.41.0.1",
+      "kind": "transitive",
+      "contentHash": "+emGBrib8sHMJd1miJgozqQsS29e0U6Ns0iCj6SeGSosEki2Whg+5NKqgpfFKJPrKNPrmcglj3TPsNubDuViwQ==",
+      "nupkgSha512": "URdv6JzJxtOQORGRh4aWP/Wkz4KlxL8dAux5MzbnHjXIz7O2cgxxPdxfGXSyY3yP6BRcaC5B8Z5tDtlZgOnSIw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "81bc6696296d97b06b6015cdfb8554edab9c15edbe41a4428c9f7430f7b5ae67",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Google.Guava.ListenableFuture",
+      "version": "1.0.0.29",
+      "kind": "transitive",
+      "contentHash": "5w1ErO9PmpGR3ii2qJkzV1ntOJGSrd7NyOdop3Sw+q/DQ6oCdyoOq3jbJ3Stg0ACOUItN7XO6EqAvNQ8jQaV0g==",
+      "nupkgSha512": "zdQsTdRf2tXlF0DBYDlyBc1tSyPffvp40Pk0tBpDV10nso/pzm9PzNNBKAnNMJN1VgBnl5PeGNTg9Ri8qIMMZQ==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e75d445509b88687cee7d0134379167db71ef30c99b2bdf68e073dc7fbab0ecd",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Jetbrains.Annotations",
+      "version": "26.0.2.3",
+      "kind": "transitive",
+      "contentHash": "dSXWSYq/F7UAb2B3skXLkW7ZRK8lYkAyUWKXeL6Cn8EyubnDGrpLd0FN7akLFjsG7Li7WdSj4NdDTWbfOLnCOA==",
+      "nupkgSha512": "1aPKzeRvEuD8xAypIim/B4gGqRnwKnaGuNAnp7g28t8qX7ZNQdEcdDbzwIVg4gwPr7HkjS57IkwhyggdTuI9/A==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "7f6d326113fdf30234625ac58b10d7f02b8ed3ff291de76855f90f9ffe41bf30",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.JSpecify",
+      "version": "1.0.0.4",
+      "kind": "transitive",
+      "contentHash": "/rjNkRuJWpyPcXs2ymK/jFvI5PVrTc/0ODpMKNPaQSOpBtiPgicHqjxrDlM0VAUdRr5+WB8PCpdSFqrWKtdcAg==",
+      "nupkgSha512": "q2CoNN+Z1ZXwLGaVAmx+jbe/qt0bYWFEx8DfHsPPOy1dry4OsKaF6VmM0u0zvOrU2arAgXRKAuJ2NEQ9koDHAw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e3247039137a045c9792d0492f65676bdf1d2e6fd8172de4e3dc3ae111d4353f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.Kotlin.StdLib",
+      "version": "2.2.0.1",
+      "kind": "transitive",
+      "contentHash": "jPxSvOvFabE8sTl+3v66s2q0RobE+KwJ9OkOqaxOFDesJJhNxo0qPa5DAoAiPRU00vbIQTu3op/cOpcK5ptRSQ==",
+      "nupkgSha512": "Nms/tfXddNb9hOrhTD1nLdCINza7LzT5cs+WPW0OX2nMsgqi1iqYl1hBAfWc/huAX35pfs6seJ7Rl5BwJfglTg==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "2333199ad08e7a1b7a72e6e4ddade48edde119c4d85dc16d656884bf23d27e5d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Android",
+      "version": "1.10.2.1",
+      "kind": "transitive",
+      "contentHash": "FsJqCEgV27IiiSg19xgcwmK0N89e3EL2uITws7b3D/HzoP/yyo9ddwWitxpI8PO0VTpRtrMxs4wUI7gy671wtQ==",
+      "nupkgSha512": "dgydFvVRMTfF0qMCP+szymQCc0l1EWTLMJm55Pogbw0rVx7VGiUY8yds785s7iiqxl40i77I5G3gjYLZkenaiw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "9bd0ebe3fe46c24f29b6c1d51d0a7a42f2f9e2ad435b5ab51ac7fa1c318247a3",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Core",
+      "version": "1.10.2.1",
+      "kind": "transitive",
+      "contentHash": "4l0lpiEtS4lksxeLchfbSYwWVz7EgjIVfZUNmjgw4LfoHoI+6xptF05qryvAVnOZsORXXZMD9uKrsL6J3J2fxA==",
+      "nupkgSha512": "P3Q/HdbhJQIt72EYjfXYnQWK30SxkS0XqTRZHY5HrblIvP0GmUgyw87t79xfZyKDf3tjwu6bb4VhPBvr9EtVtw==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "e43ed3db1b7fc78fbad8c2791d91ae4edf361dbbbfe663ca8b54e792a1e2435f",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Core.Jvm",
+      "version": "1.10.2.1",
+      "kind": "transitive",
+      "contentHash": "fKzLo4b9d8g6LCDf5YaJjxouNZxG2a6B6l68z3ifrvTjduRhcK9esjtQBhvJ+pl6EYBwHNOQPOxeeqOFdlTQ2g==",
+      "nupkgSha512": "dt1pR2bQIhQeYu1QIQ8OqADQqWz31WMZwt+WlrjMVx7A9K9tDHByjXTo/dBZaKm6Xmx25oq1/2SgjGJy1WLCeA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "36bc1ca37140d2a7ee674b4c3730aecbf57fe95263363cc4861b0b3dc067469d",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.KotlinX.Serialization.Core",
+      "version": "1.9.0.1",
+      "kind": "transitive",
+      "contentHash": "CUUY2+3xeWkbeMK8vBV62eqbJxKBxzqezxoBpN+D54kz7QrONS+a+shldNpKq8pwvfplqRb5wNDICHuIGPTlkA==",
+      "nupkgSha512": "KDsHtW5T867U3+1JKXzV2BnseQS3hi5cs5kvDCVbwvdnvFPd+hewwE3zqUmJo1cEHnYBYOZNdjD3xcqa9RC3HA==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "1a483095812c248cd6966f4f9451bda86f3ca3fc5f9f86b760632ae9ad92843e",
+      "noticeDisposition": "packaged-in-nupkg"
+    },
+    {
+      "id": "Xamarin.KotlinX.Serialization.Core.Jvm",
+      "version": "1.9.0.1",
+      "kind": "transitive",
+      "contentHash": "wxycnKINoRwSmVNV80NcZf7OUwPDVzgPwL3uz6W/hDQ1eJ/IxhzaSoElSKwICEsRwSFSpTQMjE6b6nRyAiUByA==",
+      "nupkgSha512": "6ZyLJ6KqV0pWTQeYrd4j3jYz5p5JQbcbEmLd82v90+EuBzNOhMMzCX7j3cxyHutMIWXBfgknudHeJ1Bqqg+s3A==",
+      "licence": "MIT AND Apache-2.0",
+      "licenceFiles": [
+        "LICENSE.md",
+        "THIRD-PARTY-NOTICES.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://aka.ms/android-libraries",
+      "nuspecSha256": "1a763b8ffbdbd22f6fd322b06ec916a79b01c41636cec9825b0be887ce1161bc",
+      "noticeDisposition": "packaged-in-nupkg"
+    }
+  ]
+}

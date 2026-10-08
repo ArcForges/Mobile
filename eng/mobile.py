@@ -21,6 +21,7 @@ from licences import project_audit, verify_distribution
 import check_provenance
 import resources
 import dependency_policy
+import maui_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD_TOOLS = "37.0.0"
@@ -64,6 +65,7 @@ def version():
 def repository_check():
     project_audit()
     resources.save(ROOT / 'artifacts/evidence/dependency-policy.json', dependency_policy.check(ROOT))
+    maui_identity.check_maui(ROOT)  # AND.01: MAUI identity, SDK pin and NuGet admission
     provenance_report = check_provenance.run(ROOT, 'Mobile')
     resources.verify_profile_history(ROOT)
     resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)
@@ -75,7 +77,8 @@ def repository_check():
         text = path.read_text(encoding="utf-8")
         if name.startswith("third-party/notices/"):
             continue  # Preserve upstream notice text; the licence gate verifies its reviewed hash.
-        if not text.endswith("\n"):
+        if not text.endswith("\n") and not name.endswith("packages.lock.json"):
+            # NuGet writes packages.lock.json without a final newline; its bytes are bound by eng/policy/nuget-admission.json.
             raise ValueError(f"Missing final newline: {name}")
         if any(line.rstrip() != line for line in text.splitlines()):
             raise ValueError(f"Trailing whitespace: {name}")

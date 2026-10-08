@@ -48,3 +48,14 @@ Release tags are `android-<versionName>`. They are development prereleases, avai
 A successful PR proves candidate validation, not the main-only release job. A locally signed install proves the key and APK work together, not that GitHub has published them. After merge, record the expected merge SHA, required main build/publish status and clean primary fast-forward. Do not start a public download/install verification cycle.
 
 Build identity and independent version sources are described in [build-identity.md](build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.
+
+## Application identity change to com.arcforges.mobile (AND.01)
+
+The permanent Android applicationId is `com.arcforges.mobile` (IRD-23; P2-021 item 3). The development prereleases published under `io.github.arcforges.mobile` (and `io.github.arcforges.mobile.debug`) hold no production user data, so the disposition is reinstall guidance with no data migration.
+
+- Android treats `com.arcforges.mobile` as a different application. Installing it does not upgrade an `io.github.arcforges.mobile` prerelease and does not carry its data across.
+- To move a device: uninstall the `io.github.arcforges.mobile` prerelease first. That discards its local data, including its Kotlin secure-storage data, which is expected for development builds. Then install the `com.arcforges.mobile` build. No migration is provided or required.
+- The development prereleases stay immutable on the Releases list. They receive no further updates.
+- The persistent android-release signing identity is kept (certificate SHA-256 `7a8b3b14…`, recorded in `eng/published.py`). The same key is intended for the MAUI release channel. Keeping it does not avoid the reinstall, because the applicationId itself changes.
+- No release may claim `com.arcforges.mobile` until its release channel is published (AND.40 for the MAUI application). The Gradle/Kotlin application still builds `io.github.arcforges.mobile` as the frozen baseline until then.
+- The identity and toolchain pins are checked offline by `python eng/maui_identity.py` (and by `python eng/mobile.py check`). See [maui-toolchain.md](maui-toolchain.md).
