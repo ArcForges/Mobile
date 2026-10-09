@@ -18,7 +18,7 @@
        src/ArcForges.Mobile. Test projects reference them without a version. -->
   <ItemGroup Label="Test-only">
     <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <!-- AND.40 decision 18: the canonical naming policy is read from this package by tests/ArcForges.Mobile.Policy only.
          Build-only test input, never in the app closure. Source commit 696242d (an ancestor of Contracts origin/main). -->
