@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "owner": "Mobile",
-  "reviewer": "w-deku-20261008-rev-and-01",
+  "reviewer": "w-deku-20261008-rev-and-40",
   "licenceBoundary": "Apache",
-  "reviewId": "maui-10-0-20-android-closure-r1",
-  "reviewedOn": "2026-10-08",
+  "reviewId": "maui-10-0-20-android-closure-r2",
+  "reviewedOn": "2026-10-09",
   "source": "https://api.nuget.org/v3/index.json",
   "lockFile": "src/ArcForges.Mobile/packages.lock.json",
-  "lockSha256": "93b86e8f16ddbd38c89cebb509518366a70921a3badef0cf29576d7889c3b6a0",
+  "lockSha256": "003d1e1f7e803d204aacbf7a2e766cd0cc8de7272e00cf1913d3cbac2d78d9cf",
   "targetFramework": "net10.0-android36.1",
   "admittedLicences": [
     "Apache-2.0",
@@ -18,6 +18,14 @@
   "licenceExceptions": {
     "BSD-2-Clause": "Admitted as a permissive licence by coordinator adjudication (2026-10-08, migration brief section 10), only as a transitive licence of Xamarin.Android.Glide (four packages below), pulled by Microsoft.Maui.Controls. Its copyright notice is an obligation of AND.40: the MAUI release notices must carry the BSD-2-Clause notice (owner AND.40; trigger: the first MAUI Android release candidate; consequence: no MAUI release candidate is published until the notice ships). No separate licence-owner confirmation is recorded."
   },
+  "prereleaseExceptions": [
+    {
+      "id": "Xamarin.AndroidX.Security.SecurityCrypto",
+      "version": "1.1.0.4-alpha07",
+      "requiredBy": "Microsoft.Maui.Essentials",
+      "reason": "AND.40 decision 10: the only prerelease in the MAUI closure. Microsoft.Maui.Essentials 10.0.20 requires it at exactly this version (locked dependencies), so it cannot be dropped without changing the reviewed MAUI tuple. Its explicit exception names that parent."
+    }
+  ],
   "hashes": {
     "contentHash": "packages.lock.json contentHash: the NuGet content hash that restore records and verifies in locked mode. It is equal for the SDK library-packs copy and the nuget.org copy of each package, except where noted in the coordinator report.",
     "nupkgSha512": "SHA-512 of the nupkg bytes served by api.nuget.org (catalog packageHash). The repository-countersigned nuget.org copy differs in bytes from the unsigned library-packs copy."
@@ -128,6 +136,58 @@
       }
     },
     {
+      "id": "ArcForges.Contracts.Events",
+      "version": "1.0.0-ci.324.1",
+      "kind": "direct",
+      "contentHash": "+RmSooWmQAfMjrBoPUp0byaFWkbJ47JXKEn2K+pBEP27kG+o72B9RQLQOFaStXGSfgXMLSyoyiKgtwWI0usyqw==",
+      "nupkgSha512": "MUsauWp7zHTN669YOXWz+1Eqa/Z9KH0oChLHQ8/nARQADGzdhA9NU4n6zCacrXDEe0t5RU9E4Npftnc19yFLLA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "authors": "ArcForges",
+      "projectUrl": "",
+      "nuspecSha256": "13a2399fef4096deb480e7a6f90d3c0a558189bebdbddcc1a5e31f52ca979e33",
+      "noticeDisposition": "packaged-in-nupkg",
+      "publisher": {
+        "repository": "https://github.com/ArcForges/Contracts",
+        "commit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+        "dirty": false,
+        "pullRequest": "https://github.com/ArcForges/Contracts/pull/87",
+        "branch": "task/gov-16",
+        "candidateVersion": "1.0.0-ci.324.1",
+        "candidateRun": {
+          "runId": 37388554007,
+          "runAttempt": 1,
+          "url": "https://github.com/ArcForges/Contracts/actions/runs/37388554007",
+          "event": "push",
+          "branch": "main",
+          "headSha": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "conclusion": "success",
+          "jobs": {
+            "Build candidate": "success",
+            "Verify": "success",
+            "Publish NuGet": "success",
+            "Publish npm": "success",
+            "Publish Maven channel": "success"
+          },
+          "completedOn": "2026-10-05T23:45:29Z"
+        },
+        "nupkgReceipt": {
+          "sourceJson": "nupkg source.json: commit, dirty=false and schemaSources match the publisher commit",
+          "sourceJsonDescriptorSha256": "c63860b0a9bd11b3bdca1a39aa49cc3bcfe37d49e248b6bbbd5b1c89e9d115f4",
+          "nuspecRepositoryCommit": "330e46bd158bfbb7cdc94c7006565c87e27b1cc6",
+          "nupkgSha512Matches": "nupkgSha512 was recomputed from the cached nupkg on 2026-10-09"
+        },
+        "publication": {
+          "feed": "https://api.nuget.org/v3-flatcontainer/arcforges.contracts.events/index.json",
+          "listedVersion": "1.0.0-ci.324.1",
+          "checkedOn": "2026-10-09"
+        }
+      }
+    },
+    {
       "id": "Google.Protobuf",
       "version": "3.36.1",
       "kind": "transitive",
@@ -167,6 +227,45 @@
       "authors": "The gRPC Authors",
       "projectUrl": "https://github.com/grpc/grpc-dotnet",
       "nuspecSha256": "bba00f5d5be8423dd351662e313648b0abd13100ef67d55f6fc29de44c544a96",
+      "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
+    },
+    {
+      "id": "Grpc.Net.Client",
+      "version": "2.84.0",
+      "kind": "direct",
+      "contentHash": "My6Fms2YCyAbihTBZZ3kLS39iTY2pkMAzGDBTC6XhPOujg70eB07AEJ7tPiW3tZ70bhFzHcc3+d4j3DaIPF3aA==",
+      "nupkgSha512": "9TzKae17a8qdDKj7/fJenaoSSpe9CHuuNyDe2t9d3KxqAYkE2LQ2kGzVhBDGcHvxaLeNxr6dOWfW2JGvU+dtlw==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "The gRPC Authors",
+      "projectUrl": "https://github.com/grpc/grpc-dotnet",
+      "nuspecSha256": "32a43f3448ab90bb71c946533db4d5135cef4728a3ee29bf88d9a0cbf1e67413",
+      "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
+    },
+    {
+      "id": "Grpc.Net.Client.Web",
+      "version": "2.84.0",
+      "kind": "direct",
+      "contentHash": "6KB6IFGx+KfGMaN06nATBVgvgsOEVf12/nJHvdAPsY2mULmWCSn4moFUT8UnCnQ19C3tpGbc2CnB1/e0hVUmaA==",
+      "nupkgSha512": "S2/k9FCGGkn7/UxIjA7+LNp8PX57/Ukq9XWvnNQdZNohjQmQSyBydTEXtvXqMS/KG9dn8hLujzG3Y2uu8upMSQ==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "The gRPC Authors",
+      "projectUrl": "https://github.com/grpc/grpc-dotnet",
+      "nuspecSha256": "da47ce027ddbbbf7c0b1f242b1efe64a5aeaa2959da54716a100fcc6e4520efb",
+      "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
+    },
+    {
+      "id": "Grpc.Net.Common",
+      "version": "2.84.0",
+      "kind": "transitive",
+      "contentHash": "DPxm/H8G/lDRrz997wM0M2zN/PGqVeZKDakhBbtABEbv6WIW4HI9g3BvntBQT6ZUROuGacMzfyyF9e5kiTVFfQ==",
+      "nupkgSha512": "8oscwZdDPL6yU/ffrced0PPVQmLfEshoBMtd6xq/QxwszRyeIhkCVuDURzaRz9/j2eDI7BLdClrEcm8qZL6MMA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "The gRPC Authors",
+      "projectUrl": "https://github.com/grpc/grpc-dotnet",
+      "nuspecSha256": "f621aa566e63340b572a4f0bd2b996b934407c77b8cdf121f38578e93ee796cb",
       "noticeDisposition": "nuspec-expression-only: release packaging must include the licence text (AND.40)"
     },
     {
@@ -1949,5 +2048,11 @@
       "nuspecSha256": "1a763b8ffbdbd22f6fd322b06ec916a79b01c41636cec9825b0be887ce1161bc",
       "noticeDisposition": "packaged-in-nupkg"
     }
-  ]
+  ],
+  "priorReview": {
+    "reviewId": "maui-10-0-20-android-closure-r1",
+    "reviewer": "w-deku-20261008-rev-and-01",
+    "reviewedOn": "2026-10-08",
+    "note": "AND.01 closure review of the identity-only tuple (117 locked packages). Superseded in place by this AND.40 unit 1 record; history stays in git."
+  }
 }

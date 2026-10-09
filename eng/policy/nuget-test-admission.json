@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "reviewer": "w-deku-20261008-rev-and-40",
+  "licenceBoundary": "Apache",
+  "reviewId": "maui-test-scope-closure-r1",
+  "reviewedOn": "2026-10-09",
+  "source": "https://api.nuget.org/v3/index.json",
+  "scope": "test-only: xUnit test framework and Microsoft.NET.Test.Sdk for host test projects that target net10.0 (AND.40 decision 1). Never referenced by src/ArcForges.Mobile and never distributed in the app.",
+  "targetFramework": "net10.0",
+  "restoreRecord": "Restored from a scratch net10.0 project with RestorePackagesWithLockFile (unlocked restore into a clean NUGET_PACKAGES folder, then locked restore into a second clean folder). No test project is committed in this unit; the consuming projects arrive with their own packages.lock.json in a later unit.",
+  "packages": [
+    {
+      "id": "Microsoft.CodeCoverage",
+      "version": "18.10.1",
+      "kind": "transitive",
+      "contentHash": "tV7tCyp/t+DuwQugLkCeUN7NBFFB4fEGRPr0gkMQ2nQgAvQQjmGlZZi1dsLzbyoe/A0mbnKybmkIh8qhT9p4Zw==",
+      "nupkgSha512": "XsrMvqKqOId/2Zi3ocKO9v9aDgxo1YowYb/HDgw9EQ1n9n2dA17bl4J0yuWpVsLKJtQylbtGjN0pf9B/CmuR+g==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "ThirdPartyNotices.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/microsoft/vstest",
+      "nuspecSha256": "e7473877d0450d94c304469a0e89932731f4ba498edd3583211a0cda6ca68c57"
+    },
+    {
+      "id": "Microsoft.NET.Test.Sdk",
+      "version": "18.10.1",
+      "kind": "direct",
+      "contentHash": "SxCFvJE/2ltUQgCgv6+Ixagohw4sZc9hM7Wid2foaNM7paBscktoHLoRDz91fW8wbHG87Rg9Ku59/8PXumqUrA==",
+      "nupkgSha512": "a6948m6qXF9YN+on655ksENmiL0k9jtYs5WlI8LAI7Ql3rUjid6/yrzxmfamk6YS1GL3uagsvQOFkNFb4Gmlvg==",
+      "licence": "MIT",
+      "licenceFiles": [],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/microsoft/vstest",
+      "nuspecSha256": "84c823b74b806f5b1f4cce2bdaf81ba78abbe0ae93c9828f578205f3d48abca8",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "Microsoft.TestPlatform.ObjectModel",
+      "version": "18.10.1",
+      "kind": "transitive",
+      "contentHash": "o+PuLDRVp1iwiVAPBADZItXgm9Ck23XtPhE4kZtZVi0uYnMiiz1Dx9Cjh75kJ+ijfqnORL3VOTOaQVKi0f/ixg==",
+      "nupkgSha512": "Uq4yA61fmEJkFGw3ai3tkhYGWEF6pnUQUkBQlN/8NtUDOxsNYVlWZ/oRQazwvV3qNjVRN4IO+YSp8UCCXM10Xw==",
+      "licence": "MIT",
+      "licenceFiles": [],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/microsoft/vstest",
+      "nuspecSha256": "3af65b097b8d4c5bc7c1242e3f56fdb3578a38b313f3bdd7472257f1cdd8d98b",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "Microsoft.TestPlatform.TestHost",
+      "version": "18.10.1",
+      "kind": "transitive",
+      "contentHash": "KYz2omqkoz9E2mWa4fdgT+Ycie1wi5968EmyJlusjlp87RxxtA2FvDm8tcBEYIDzLnkWGnsKjE4d13Z7/rxkQA==",
+      "nupkgSha512": "rb8uAkgluEbsAOqQzGHKOK4uJppQ5WhUjY2A+OXQexuzCqAyuOKGBw+NCMvfwNY7RhEERs8VfpOj1NETH3sHqA==",
+      "licence": "MIT",
+      "licenceFiles": [
+        "ThirdPartyNotices.txt"
+      ],
+      "authors": "Microsoft",
+      "projectUrl": "https://github.com/microsoft/vstest",
+      "nuspecSha256": "801559164f0ab5079bad2f8bfa206046919f6a97ae2af8ef77d7a0bc80317457"
+    },
+    {
+      "id": "xunit",
+      "version": "2.9.3",
+      "kind": "direct",
+      "contentHash": "TlXQBinK35LpOPKHAqbLY4xlEen9TBafjs0V5KnA4wZsoQLQJiirCR4CbIXvOH8NzkW4YeJKP5P/Bnrodm0h9Q==",
+      "nupkgSha512": "3/ayVPC7NQWQENR5REbOgXYsbhoJsmpnxQa5pO4lxbjGbckOs62nsm4kLErzc8ng7V5Xz08uwVjMqaZGJiXCrg==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "8f3373c5260b2acec2874a280640e0fbb9ac538d754880d7abaa4473c3497d25",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.abstractions",
+      "version": "2.0.3",
+      "kind": "transitive",
+      "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg==",
+      "nupkgSha512": "PKJri5f0qEQPFvgY6CZR9XG8JROlWSdC/ZYLkkDQuID++Egn+yWjB+Yf57AZ8U6GRlP7z33uDQ4/r5BZPer2JA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "James Newkirk,Brad Wilson",
+      "projectUrl": "https://github.com/xunit/xunit",
+      "nuspecSha256": "e59191df9e3047dd953b695c886597786ac2771f66897baa40877f643da9f7b1",
+      "licenceNote": "xunit.abstractions 2.0.3 has no licence expression in its nuspec; its licenseUrl names the xunit project licence (https://raw.githubusercontent.com/xunit/xunit/master/license.txt), which is the Apache-2.0 licence of the xunit v2 repository. Recorded as Apache-2.0 for a test-only package that is never distributed; the reviewer confirms the basis.",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec and the licence URL, see licenceNote."
+    },
+    {
+      "id": "xunit.analyzers",
+      "version": "1.18.0",
+      "kind": "transitive",
+      "contentHash": "OtFMHN8yqIcYP9wcVIgJrq01AfTxijjAqVDy/WeQVSyrDC1RzBWeQPztL49DN2syXRah8TYnfvk035s7L95EZQ==",
+      "nupkgSha512": "Yy9tOAzVncE1avA2GrOJoUxTmT6fQJOcqxsg9f53Ox7Y7V//BtQ4GV9zg7qnqMzyzymabriJ55SGKb1HKbPOOA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson,marcind",
+      "projectUrl": "",
+      "nuspecSha256": "270ffb0dce41126154f16bad2ee025da605185fb5308247877745e5eef97689e",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.assert",
+      "version": "2.9.3",
+      "kind": "transitive",
+      "contentHash": "/Kq28fCE7MjOV42YLVRAJzRF0WmEqsmflm0cfpMjGtzQ2lR5mYVj1/i0Y8uDAOLczkL3/jArrwehfMD0YogMAA==",
+      "nupkgSha512": "wfqwCKAhSWGy9P/dPqDGSIBnPW3sUJ49MEfcTqNF+5BgJwjwtHb9SE7ajYZuR8ymTd8dwxoEGnlJHiejbgDv9w==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "e3f99045088c262b14a62dd93cf025912e9e653f5ce1d77e7f858238e0bcb508",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.core",
+      "version": "2.9.3",
+      "kind": "transitive",
+      "contentHash": "BiAEvqGvyme19wE0wTKdADH+NloYqikiU0mcnmiNyXaF9HyHmE6sr/3DC5vnBkgsWaE6yPyWszKSPSApWdRVeQ==",
+      "nupkgSha512": "cv2sO37qJkIbBL3fXDIn3EPQ2zK8LQ6FkMJNnn1xc9n8mo3ik0URA4MfUNCmwDDCx83ZiJeRrJ0y1ykasojNJg==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "08c844d40924a386d7600e2523c57f1a2a1d6a77c03b8c0001501831944a0691",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.extensibility.core",
+      "version": "2.9.3",
+      "kind": "transitive",
+      "contentHash": "kf3si0YTn2a8J8eZNb+zFpwfoyvIrQ7ivNk5ZYA5yuYk1bEtMe4DxJ2CF/qsRgmEnDr7MnW1mxylBaHTZ4qErA==",
+      "nupkgSha512": "S0a+jmIF/DraKuJ+FfWbqXMwvpcKxjP3GdrQzz5pr3GYtgII2XfDdAhkU/5VIWqWon2R6Q31X/9sTGaU+koDaQ==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "0c5886e9320c6dd828e50048c27cf355314fe20e2d8d4026b4a3a9fe42d4a359",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.extensibility.execution",
+      "version": "2.9.3",
+      "kind": "transitive",
+      "contentHash": "yMb6vMESlSrE3Wfj7V6cjQ3S4TXdXpRqYeNEI3zsX31uTsGMJjEw6oD5F5u1cHnMptjhEECnmZSsPxB6ChZHDQ==",
+      "nupkgSha512": "IidoBSrGw/KhWzZsKXIcStohj/oRFZizbWeUv+0hOFLeMJMegSW5QoGNzmjQuF8BuRtCyPQQukWSYdNnnfPAkA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "9c5498549b5200b65ba0c7e0d4597c269c6bbb2e374ea8f1c28d76dc3f3a0bdd",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    },
+    {
+      "id": "xunit.runner.visualstudio",
+      "version": "2.8.2",
+      "kind": "direct",
+      "contentHash": "vm1tbfXhFmjFMUmS4M0J0ASXz3/U5XvXBa6DOQUL3fEz4Vt6YPhv+ESCarx6M6D+9kJkJYZKCNvJMas1+nVfmQ==",
+      "nupkgSha512": "z+EzhXxLlgn/n7FQ5J0DJxbGns/1vx1kPJh4Uq+OPChRpdSy3x/MCqQ/jtkboc7BRMthz14k7pL0D3iq/e4d0A==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [],
+      "authors": "jnewkirk,bradwilson",
+      "projectUrl": "",
+      "nuspecSha256": "b64842fdfb5a1294674fc4fd9f3469de0a7846ac852954a756da2272fb93c704",
+      "noticeDisposition": "test-only: not distributed; no licence file in the nupkg. The licence expression is recorded from the nuspec."
+    }
+  ]
+}

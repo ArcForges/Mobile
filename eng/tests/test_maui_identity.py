@@ -29,10 +29,14 @@ PAYLOAD = [
     "Directory.Packages.props",
     "NuGet.config",
     "eng/published.py",
+    "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/maui-identity-inventory-r3.json",
+    "eng/policy/dependency-reviews/maui-identity-inventory-r4.json",
     "eng/policy/dotnet-licence-boundary.json",
     "eng/policy/dotnet-toolchain.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/nuget-admission.json",
+    "eng/policy/nuget-test-admission.json",
     "eng/policy/workload-admission.json",
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
     "src/ArcForges.Mobile/packages.lock.json",
@@ -219,6 +223,94 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
                   "<AndroidEnableProfiler>false</AndroidEnableProfiler>",
                   "<AndroidEnableProfiler>true</AndroidEnableProfiler>")
+        self.refused()
+
+    # AND.40 unit 1: transport, events, test-only scope, prerelease exceptions and receipt reviewers.
+
+    def test_test_only_package_referenced_by_the_identity_project_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  '<PackageReference Include="Grpc.Net.Client.Web" />',
+                  '<PackageReference Include="Grpc.Net.Client.Web" />\n    <PackageReference Include="xunit" />')
+        self.refused()
+
+    def test_removed_transport_reference_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  '    <PackageReference Include="Grpc.Net.Client.Web" />\n', "")
+        self.refused()
+
+    def test_unpinned_test_package_in_central_versions_is_refused(self):
+        self.edit("Directory.Packages.props", '<PackageVersion Include="xunit" Version="2.9.3" />',
+                  '<PackageVersion Include="xunit" Version="2.9.3" />\n'
+                  '    <PackageVersion Include="Example.Testing" Version="1.0.0" />')
+        self.refused()
+
+    def test_test_pin_drift_is_refused(self):
+        self.edit("Directory.Packages.props", 'Version="2.9.3"', 'Version="2.9.4"')
+        self.refused()
+
+    def test_transport_pin_drift_is_refused(self):
+        self.edit("Directory.Packages.props", 'Version="2.84.0"', 'Version="2.83.0"')
+        self.refused()
+
+    def test_test_package_outside_apache_and_mit_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-test-admission.json",
+                          lambda doc: doc["packages"][0].update(licence="GPL-2.0-only"))
+        self.refused()
+
+    def test_test_package_without_a_test_only_disposition_is_refused(self):
+        def mutate(doc):
+            for item in doc["packages"]:
+                item["licenceFiles"] = []
+                item["noticeDisposition"] = "nuspec-expression-only: release packaging must include the licence text"
+        self.rewrite_json("eng/policy/nuget-test-admission.json", mutate)
+        self.refused()
+
+    def test_product_package_in_the_test_only_record_is_refused(self):
+        def mutate(doc):
+            doc["packages"].append(dict(doc["packages"][0], id="Microsoft.Maui.Controls", kind="direct"))
+        self.rewrite_json("eng/policy/nuget-test-admission.json", mutate)
+        self.refused()
+
+    def test_test_scope_reviewer_drift_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-test-admission.json",
+                          lambda doc: doc.update(reviewer="w-deku-20261008-rev-and-01"))
+        self.refused()
+
+    def test_pending_reviewer_in_an_admission_record_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json", lambda doc: doc.update(reviewer="PENDING"))
+        self.refused()
+
+    def test_active_inventory_receipt_must_name_the_reviewer(self):
+        self.rewrite_json("eng/policy/dependency-reviews/maui-identity-inventory-r4.json",
+                          lambda doc: doc.update(reviewer="w-deku-20261008-rev-and-01"))
+        self.refused()
+
+    def test_events_first_party_with_a_non_apache_licence_is_refused(self):
+        def mutate(doc):
+            item = next(p for p in doc["packages"] if p["id"] == "ArcForges.Contracts.Events")
+            item["licence"] = "MIT"
+        self.rewrite_json("eng/policy/nuget-admission.json", mutate)
+        self.refused()
+
+    def test_prerelease_package_without_an_exception_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json", lambda doc: doc.pop("prereleaseExceptions"))
+        self.refused()
+
+    def test_stale_prerelease_exception_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"].append(
+                              {"id": "Example.Package", "version": "1.0.0-beta", "requiredBy": "Microsoft.Maui.Essentials",
+                               "reason": "Not in the closure."}))
+        self.refused()
+
+    def test_prerelease_exception_naming_a_parent_that_does_not_require_it_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"][0].update(requiredBy="Microsoft.Maui.Controls"))
+        self.refused()
+
+    def test_prerelease_exception_without_a_reason_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"][0].update(reason=""))
         self.refused()
 
     def add(self, name, text):

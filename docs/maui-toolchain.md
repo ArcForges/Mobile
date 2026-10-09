@@ -57,7 +57,12 @@ Build facts that shaped the manifest and the project:
 
 ## Local toolchain setup
 
-Windows has SDK 10.0.401 and no 10.0.400. For local builds only, replace `global.json` with this uncommitted adapter, build, and restore the committed file before any commit or check:
+The Windows host has two .NET roots, and only one of them can build the pinned MAUI tuple (correction recorded by AND.40 unit 1, 2026-10-09; migration brief section 10, decision 13):
+
+- `C:\Program Files\dotnet` holds SDK 10.0.401 and the pinned workloads `android` 36.1.69 and `maui-android` 10.0.20. Every MAUI build on this host uses it.
+- `C:\Users\J7Rdm\.dotnet` holds SDK 10.0.400, the committed pin, but no `maui-android` workload and no Android or MAUI packs. It reports only the Visual Studio `android` 36.1.2 and `maui-windows` 10.0.0 manifests, so a build there cannot reach the pinned tuple. The 10.0.400 pin is first exercised by hosted CI (AND.40 unit 5).
+
+For local builds only, replace `global.json` with this uncommitted adapter, which selects SDK 10.0.401 under Program Files. Build, and restore the committed file before any commit or check:
 
 ```json
 {

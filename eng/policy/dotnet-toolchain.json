@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "owner": "Mobile",
   "licenceBoundary": "Apache",
-  "reviewId": "maui-10-0-20-android-tuple-r1",
-  "reviewedOn": "2026-10-08",
-  "reviewer": "w-deku-20261008-rev-and-01",
+  "reviewId": "maui-10-0-20-android-tuple-r2",
+  "reviewedOn": "2026-10-09",
+  "reviewer": "w-deku-20261008-rev-and-40",
   "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (compile/target API 36.1 decided by the coordinator, 2026-10-08, migration brief section 10; minimum API and .NET 11 posture open)",
   "targetFramework": "net10.0-android",
   "dotnet": {
@@ -13,15 +13,33 @@
     "allowPrerelease": false,
     "wslSdkVersion": "10.0.400",
     "localWindowsAdapter": {
-      "note": "Uncommitted global.json for local builds only, because the Windows machine has SDK 10.0.401 and no 10.0.400. Never committed.",
+      "note": "Uncommitted global.json for local MAUI builds only. Use the Program Files dotnet root (C:\\Program Files\\dotnet), which holds SDK 10.0.401 and the pinned android 36.1.69 and maui-android 10.0.20 workloads. The user root C:\\Users\\J7Rdm\\.dotnet holds SDK 10.0.400 but no maui-android workload and no Android or MAUI packs (only VS-sourced android 36.1.2 and maui-windows 10.0.0), so it cannot build the pinned tuple. Never committed.",
       "sdkVersion": "10.0.401",
       "rollForward": "latestPatch"
     }
   },
   "workloads": {
-    "android": {"id": "microsoft.net.sdk.android", "manifestVersion": "36.1.69", "packVersion": "36.1.69", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
-    "maui-android": {"id": "microsoft.net.sdk.maui", "manifestVersion": "10.0.20", "packVersion": "10.0.20", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
-    "mono-toolchain": {"id": "microsoft.net.workload.mono.toolchain.current", "manifestVersion": "10.0.112", "packVersion": "10.0.12", "installedFor": "SDK band 10.0.100 on the Windows host; extended by the android workload for the Mono runtime and Mono AOT packs", "admission": "eng/policy/workload-admission.json"}
+    "android": {
+      "id": "microsoft.net.sdk.android",
+      "manifestVersion": "36.1.69",
+      "packVersion": "36.1.69",
+      "installedFor": "C:\\Program Files\\dotnet (SDK 10.0.401 adapter; the workload list reports installation source SDK 10.0.400)",
+      "admission": "eng/policy/workload-admission.json"
+    },
+    "maui-android": {
+      "id": "microsoft.net.sdk.maui",
+      "manifestVersion": "10.0.20",
+      "packVersion": "10.0.20",
+      "installedFor": "C:\\Program Files\\dotnet (SDK 10.0.401 adapter; the workload list reports installation source SDK 10.0.400)",
+      "admission": "eng/policy/workload-admission.json"
+    },
+    "mono-toolchain": {
+      "id": "microsoft.net.workload.mono.toolchain.current",
+      "manifestVersion": "10.0.112",
+      "packVersion": "10.0.12",
+      "installedFor": "C:\\Program Files\\dotnet; extended by the android workload for the Mono runtime and Mono AOT packs",
+      "admission": "eng/policy/workload-admission.json"
+    }
   },
   "trimmer": {
     "package": "Microsoft.NET.ILLink.Tasks",
@@ -65,7 +83,8 @@
   },
   "nuget": {
     "admissionRecord": "eng/policy/nuget-admission.json",
-    "lockFile": "src/ArcForges.Mobile/packages.lock.json"
+    "lockFile": "src/ArcForges.Mobile/packages.lock.json",
+    "testAdmissionRecord": "eng/policy/nuget-test-admission.json"
   },
   "deferrals": [
     {
@@ -115,6 +134,50 @@
       "owner": "AND.40",
       "trigger": "The first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project.",
       "consequence": "A licence outside the admitted set or a missing licence file reopens AND.01 and AND.40."
+    },
+    {
+      "id": "nuget-notice-grpc-net-client-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Client 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Client",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+    },
+    {
+      "id": "nuget-notice-grpc-net-client-web-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Client.Web 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Client.Web",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+    },
+    {
+      "id": "nuget-notice-grpc-net-common-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Common 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Common",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
     }
-  ]
+  ],
+  "priorReview": {
+    "reviewId": "maui-10-0-20-android-tuple-r1",
+    "reviewer": "w-deku-20261008-rev-and-01",
+    "reviewedOn": "2026-10-08",
+    "note": "AND.01 review of the identity-only tuple. Superseded in place by this AND.40 unit 1 record; history stays in git."
+  },
+  "packages": {
+    "direct": {
+      "ArcForges.Contracts.Events": "1.0.0-ci.324.1",
+      "Grpc.Net.Client": "2.84.0",
+      "Grpc.Net.Client.Web": "2.84.0"
+    },
+    "note": "Direct product packages of the identity project added by AND.40 unit 1. Events is built from Contracts main 330e46bd, which is an ancestor of Contracts main. The gRPC packages are the transport of the Hello client."
+  }
 }

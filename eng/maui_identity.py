@@ -36,12 +36,24 @@ MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
 MAUI_LICENCE_REGISTRY = "eng/policy/dotnet-licence-boundary.json"
 MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
+# AND.40 unit 1: test-only packages (xUnit family, Microsoft.NET.Test.Sdk). Never referenced by the identity project.
+MAUI_TEST_ADMISSION = "eng/policy/nuget-test-admission.json"
+MAUI_DEPENDENCY_POLICY = "eng/policy/dependency-policy.json"
+MAUI_REVIEWS = "eng/policy/dependency-reviews"
 MAUI_WORKLOADS = "eng/policy/workload-admission.json"
 MAUI_PUBLISHED = "eng/published.py"
 MAUI_CONTROLS = "Microsoft.Maui.Controls"
 MAUI_CONTRACTS = "ArcForges.Contracts.PublicApi"
+MAUI_EVENTS = "ArcForges.Contracts.Events"
+MAUI_GRPC_CLIENT = "Grpc.Net.Client"
+MAUI_GRPC_WEB = "Grpc.Net.Client.Web"
 MAUI_TRIMMER = "Microsoft.NET.ILLink.Tasks"
-MAUI_FIRST_PARTY = {"ArcForges.Contracts.Foundation", "ArcForges.Contracts.PublicApi"}
+# Every direct package of the identity project. Products are pinned in dotnet-toolchain.json; no other package may be referenced.
+MAUI_DIRECT = {MAUI_CONTROLS, MAUI_CONTRACTS, MAUI_EVENTS, MAUI_GRPC_CLIENT, MAUI_GRPC_WEB, MAUI_TRIMMER}
+MAUI_PRODUCT_DIRECT = {MAUI_EVENTS, MAUI_GRPC_CLIENT, MAUI_GRPC_WEB}
+MAUI_FIRST_PARTY = {"ArcForges.Contracts.Foundation", "ArcForges.Contracts.PublicApi", MAUI_EVENTS}
+# The reviewer named by every AND.40 receipt and admission record; never PENDING (coordinator adjudication 2026-10-08).
+MAUI_REVIEWER = "w-deku-20261008-rev-and-40"
 MAUI_ADMITTED_LICENCES = {"Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "MIT"}
 MAUI_FORBIDDEN_LICENCE = re.compile(r"AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED", re.IGNORECASE)
 MAUI_SHA512 = re.compile(r"[A-Za-z0-9+/]{86}==")
@@ -145,8 +157,8 @@ def check_project(root: Path, toolchain: dict) -> None:
     signing += [name for name in plain if name.startswith("AndroidSigning") or name == "AndroidKeyStore"]
     _require(not signing, "Signing belongs to the protected release job, not the identity project build")
     references = [item.get("Include") for item in project.iter("PackageReference")]
-    _require(sorted(references) == sorted([MAUI_CONTROLS, MAUI_CONTRACTS, MAUI_TRIMMER]),
-             "The identity project references only Maui, the Contracts client and the pinned trimmer")
+    _require(len(references) == len(set(references)) and set(references) == MAUI_DIRECT,
+             "The identity project references only Maui, the Contracts client and events, the Hello transport and the pinned trimmer")
     for item in project.iter("PackageReference"):
         _require(item.get("Version") is None and item.get("VersionOverride") is None,
                  "PackageReference versions must come from Directory.Packages.props")
@@ -206,13 +218,22 @@ def check_records(toolchain: dict, admission: dict) -> None:
              "The BSD-2-Clause exception must name its AND.40 notice obligation")
 
 
-def check_packages_props(root: Path, toolchain: dict) -> None:
+def check_packages_props(root: Path, toolchain: dict, test_record: dict) -> None:
+    """Central versions: the product pins of dotnet-toolchain.json plus the test-only pins of the test-scope record, nothing else."""
     versions = {item.get("Include"): item.get("Version")
                 for item in ET.parse(root / "Directory.Packages.props").getroot().iter("PackageVersion")}
-    _require(versions == {MAUI_CONTROLS: toolchain["maui"]["controlsVersion"],
-                          MAUI_CONTRACTS: toolchain["contracts"]["version"],
-                          MAUI_TRIMMER: toolchain["trimmer"]["version"]},
-             "Directory.Packages.props differs from the reviewed MAUI, Contracts and trimmer pins")
+    product = toolchain["packages"]["direct"]
+    _require(set(product) == MAUI_PRODUCT_DIRECT,
+             "dotnet-toolchain.json must pin exactly the Contracts events and the Grpc transport packages as product directs")
+    test_direct = {item["id"]: item["version"] for item in test_record["packages"] if item["kind"] == "direct"}
+    expected = {MAUI_CONTROLS: toolchain["maui"]["controlsVersion"],
+                MAUI_CONTRACTS: toolchain["contracts"]["version"],
+                MAUI_TRIMMER: toolchain["trimmer"]["version"]}
+    expected.update(product)
+    _require(not set(test_direct) & set(expected), "A test-only package must not be a product pin")
+    expected.update(test_direct)
+    _require(versions == expected,
+             "Directory.Packages.props differs from the reviewed MAUI, Contracts, trimmer, transport and test-only pins")
 
 
 def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
@@ -234,8 +255,9 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
         locked.add((name, info["resolved"], info["contentHash"], kind))
     recorded = {(item["id"], item["version"], item["contentHash"], item["kind"]) for item in admission["packages"]}
     _require(locked == recorded, "The locked closure differs from the NuGet admission record")
-    _require(direct == {MAUI_CONTROLS, MAUI_CONTRACTS, MAUI_TRIMMER},
-             "Direct packages must be Maui, the Contracts client and the pinned trimmer")
+    _require(direct == MAUI_DIRECT,
+             "Direct packages must be Maui, the Contracts client and events, the Hello transport and the pinned trimmer")
+    check_prerelease(lock["dependencies"][target], admission)
     # A package whose nupkg carries no licence file needs one AND.40 notice deferral naming it, and no deferral may be stale.
     unnoticed = {(item["id"], item["version"], item["licence"]) for item in admission["packages"] if not item["licenceFiles"]}
     notice_deferrals = [item for item in toolchain.get("deferrals", []) if "package" in item]
@@ -258,6 +280,29 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
             _require(item["noticeDisposition"].startswith("nuspec-expression-only"), f"Missing notice disposition: {name}")
     if "BSD-2-Clause" in admitted:
         _require(admission.get("licenceExceptions", {}).get("BSD-2-Clause"), "BSD-2-Clause needs its recorded exception")
+
+
+def check_prerelease(locked_target: dict, admission: dict) -> None:
+    """Every prerelease third-party package needs one explicit exception naming a parent that really depends on it.
+
+    First-party candidates are admitted by their own rule (exact Contracts versions). AND.40 decision 10: the
+    Xamarin.AndroidX.Security.SecurityCrypto 1.1.0.4-alpha07 pulled in by Microsoft.Maui.Essentials is required by MAUI.
+    """
+    exceptions = {(item.get("id"), item.get("version")): item for item in admission.get("prereleaseExceptions", [])}
+    used = set()
+    for item in admission["packages"]:
+        name, version = item["id"], item["version"]
+        if "-" not in version or name in MAUI_FIRST_PARTY:
+            continue
+        exception = exceptions.get((name, version))
+        _require(exception is not None, f"Prerelease package needs an explicit admission exception: {name} {version}")
+        parent = exception.get("requiredBy", "")
+        parent_info = locked_target.get(parent)
+        _require(parent_info is not None and parent_info.get("dependencies", {}).get(name) == version,
+                 f"Prerelease exception for {name} {version} names a parent that does not require it: {parent}")
+        _require(str(exception.get("reason", "")).strip(), f"Prerelease exception for {name} {version} lacks a reason")
+        used.add((name, version))
+    _require(set(exceptions) == used, "A prerelease exception is stale or names a package outside the locked closure")
 
 
 def _check_workload_pack(pack: dict, pin: dict, nuget_versions: dict, deferral_ids: set, alias: str) -> None:
@@ -323,10 +368,52 @@ def check_workloads(root: Path, toolchain: dict, admission: dict) -> None:
                  f"Excluded manifest lacks a version or reason: {item.get('id')}")
 
 
+def check_test_admission(test_record: dict) -> None:
+    """Test-only closure (xUnit family, Microsoft.NET.Test.Sdk): Apache or MIT, never distributed, reviewed by AND.40."""
+    _require(test_record.get("schemaVersion") == 1 and test_record.get("owner") == "Mobile"
+             and test_record.get("licenceBoundary") == "Apache", "Invalid test-scope admission owner")
+    _require(test_record.get("reviewer") == MAUI_REVIEWER, "The test-scope admission must name the AND.40 reviewer")
+    _require(test_record.get("targetFramework") == "net10.0", "Test projects target net10.0 (AND.40 decision 1)")
+    _require("test-only" in str(test_record.get("scope", "")), "The test-scope record must state its test-only scope")
+    ids = [item.get("id") for item in test_record.get("packages", [])]
+    _require(ids and len(ids) == len(set(ids)), "The test-scope record needs unique packages")
+    _require(MAUI_TRIMMER not in ids and not set(ids) & MAUI_DIRECT, "A product package appears in the test-only record")
+    for item in test_record["packages"]:
+        name, licence = item["id"], item["licence"]
+        _require(item.get("kind") in {"direct", "transitive"}, f"Invalid test-scope kind: {name}")
+        _require(MAUI_SHA512.fullmatch(item.get("contentHash", "")) is not None, f"Invalid test-scope content hash: {name}")
+        _require(MAUI_SHA512.fullmatch(item.get("nupkgSha512", "")) is not None, f"Invalid test-scope nupkg hash: {name}")
+        _require(not MAUI_FORBIDDEN_LICENCE.search(licence), f"Forbidden test-scope licence: {name}")
+        tokens = [t for t in re.split(r"\s+(?:AND|OR|WITH)\s+|[()]", licence) if t.strip()]
+        _require(tokens and all(token.strip() in {"Apache-2.0", "MIT"} for token in tokens),
+                 f"Test-scope licence outside Apache-2.0 and MIT: {name}: {licence}")
+        if not item.get("licenceFiles"):
+            _require(str(item.get("noticeDisposition", "")).startswith("test-only:"),
+                     f"A test-scope package without licence files needs a test-only disposition: {name}")
+    _require(any(item["kind"] == "direct" for item in test_record["packages"]),
+             "The test-scope record must name its direct packages")
+
+
+def check_receipts(root: Path, admission: dict, test_record: dict, toolchain: dict) -> None:
+    """Every AND.40 admission record and the active inventory receipt name the AND.40 reviewer; none says PENDING."""
+    records = {MAUI_ADMISSION: admission, MAUI_TEST_ADMISSION: test_record, MAUI_TOOLCHAIN: toolchain}
+    for name, record in records.items():
+        _require(record.get("reviewer") == MAUI_REVIEWER, f"{name} must name the AND.40 reviewer")
+        _require("PENDING" not in (root / name).read_text(encoding="utf-8"), f"{name} must not say PENDING")
+    policy = _load_json(root / MAUI_DEPENDENCY_POLICY)
+    inventory = [name for name in policy["reviews"] if name.startswith("maui-identity-inventory-")]
+    _require(inventory, "The MAUI identity inventory receipt chain is empty")
+    active = _load_json(root / MAUI_REVIEWS / inventory[-1])
+    _require(active.get("reviewer") == MAUI_REVIEWER, f"The active MAUI inventory receipt {inventory[-1]} must name the AND.40 reviewer")
+    _require("PENDING" not in (root / MAUI_REVIEWS / inventory[-1]).read_text(encoding="utf-8"),
+             f"The active MAUI inventory receipt {inventory[-1]} must not say PENDING")
+
+
 def check_maui(root: Path = ROOT) -> dict:
     """Offline AND.01 identity and toolchain gate; raises ValueError on any drift."""
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
     admission = _load_json(root / MAUI_ADMISSION)
+    test_record = _load_json(root / MAUI_TEST_ADMISSION)
     _require(toolchain.get("schemaVersion") == 1 and toolchain.get("owner") == "Mobile"
              and toolchain.get("licenceBoundary") == "Apache", "Invalid toolchain record owner")
     _require(toolchain["targetFramework"] == "net10.0-android", "Only net10.0-android is admitted for Mobile projects")
@@ -338,8 +425,10 @@ def check_maui(root: Path = ROOT) -> dict:
     check_build_policy(root)
     check_project(root, toolchain)
     check_licence_registration(root)
-    check_packages_props(root, toolchain)
+    check_packages_props(root, toolchain, test_record)
     check_lock(root, toolchain, admission)
+    check_test_admission(test_record)
+    check_receipts(root, admission, test_record, toolchain)
     check_workloads(root, toolchain, admission)
     check_records(toolchain, admission)
     android = toolchain["android"]

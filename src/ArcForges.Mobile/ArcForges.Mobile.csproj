@@ -49,6 +49,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="ArcForges.Contracts.PublicApi" />
+    <!-- AND.40 unit 1: admitted and locked here so the lock covers their closure. No source uses them yet; the
+         Hello transport and streaming consumer (units 2 and 3) do. Versions come from Directory.Packages.props. -->
+    <PackageReference Include="ArcForges.Contracts.Events" />
+    <PackageReference Include="Grpc.Net.Client" />
+    <PackageReference Include="Grpc.Net.Client.Web" />
     <!-- Central version (Directory.Packages.props) pins the trimmer across SDK patch versions. -->
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
   </ItemGroup>
