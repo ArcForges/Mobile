@@ -1,5 +1,7 @@
 # Android Cloud Hello integration
 
+Historical plan for the Kotlin application. That application retired in AND.40 PR B; the current Hello transport and its rules are in [development.md](development.md) and the MAUI application in [maui-toolchain.md](maui-toolchain.md).
+
 Historical implementation/evidence record. Former hosted device/live/public-download requirements below are superseded by Design P2-017 and the current development/releasing policy; they are not commands to repeat.
 
 ## Scope and collected gaps

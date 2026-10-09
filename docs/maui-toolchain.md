@@ -20,7 +20,7 @@ The Android companion is .NET MAUI for `net10.0-android` only, using the Mono ru
 | Namespace | `ArcForges.Mobile` (root namespace; every source namespace under `src/ArcForges.Mobile` starts with it) | project (`RootNamespace`); `eng/maui_identity.py` |
 | Target API | `36.1` compile/target platform, the coordinator's D-016 decision of 2026-10-08 | project (`TargetPlatformVersion`); `eng/policy/dotnet-toolchain.json` (`targetPlatformDecision`) |
 | Build tools | `36.1.0` | project (`AndroidSdkBuildToolsVersion`) |
-| JDK | 21 (`JAVA_HOME`, mapped to `JavaSdkDirectory` by the environment) | environment; checked by the release job, not committed |
+| JDK | Temurin 21.0.12, Android platform tooling only (no Java or Kotlin product code); `JAVA_HOME` for local builds | `.github/workflows/ci.yml` (`java-version`, maui job); environment, not committed |
 | Release certificate | SHA-256 `7a8b3b14…` (persistent key, `eng/published.py`) | `eng/published.py`; `eng/policy/dotnet-toolchain.json` |
 
 Why these values:
@@ -132,7 +132,7 @@ Not proven by AND.01 and transferred explicitly: the persistent-key signature on
 
 ## CI, restore hygiene and release notices (AND.40 unit 5)
 
-PR A adds the MAUI jobs beside the Kotlin jobs in `.github/workflows/ci.yml`. The Kotlin jobs, the Kotlin publish and the Gradle path are unchanged until PR B.
+The Kotlin jobs, the Kotlin publish and the Gradle path were retired in AND.40 PR B. The `maui` job and the `publish` job in `.github/workflows/ci.yml` are the Android CI path.
 
 ### Restore hygiene (AND.40 decision 17)
 
@@ -152,7 +152,7 @@ The maui job runs `dotnet workload install android maui-android` on the SDK pinn
 
 ### CodeQL (AND.40 decision 12)
 
-`codeql-csharp` uses manual build mode with an explicit locked restore and Release build of the host-run projects (`ArcForges.Mobile.Policy` and `ArcForges.Mobile.Tests`). The Android app projects need the Android workload and are covered by the maui job, not by this analysis. `java-kotlin` stays until PR B.
+`codeql-csharp` uses manual build mode with an explicit locked restore and Release build of the host-run projects (`ArcForges.Mobile.Policy` and `ArcForges.Mobile.Tests`). The Android app projects need the Android workload and are covered by the maui job, not by this analysis. The `java-kotlin` category was retired in AND.40 PR B.
 
 ### MAUI candidate and release (PR A)
 

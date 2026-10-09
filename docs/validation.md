@@ -1,5 +1,7 @@
 # Bootstrap validation
 
+Historical record (2026). The Kotlin/Gradle toolchain described below retired with the Kotlin baseline in AND.40 PR B. The current validation procedure is [development.md](development.md); the current MAUI pins and local gaps are in [maui-toolchain.md](maui-toolchain.md).
+
 Historical implementation/evidence record. Former hosted device/live/public-download requirements below are superseded by Design P2-017 and the current development/releasing policy; they are not commands to repeat.
 
 The initial bootstrap was checked on Windows with Temurin 21.0.11, Gradle 9.7.1, AGP 9.4.0 and the committed Kotlin/Compose versions. Evidence files produced during local checks are kept in the ignored `artifacts` directory, not distributed as source.

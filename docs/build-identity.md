@@ -1,32 +1,13 @@
-# Android build and version identity (WP02.04)
+# Android build and version identity (WP02.04, AND.40 MAUI)
 
-The installed app exposes **Build information** above the greeting. It reads the
-packaged `build-identity.json` offline and compares its source commit, build ID,
-app version and Android versionCode to compiled BuildConfig constants. Opening
-and closing it does not invoke Cloud or reset the greeting. The view shows the
-complete commit, run/attempt, UTC source epoch, local/CI and dirty state, every
-version axis and the SHA-256 of the actual embedded report. The complete runtime
-package inventory is retained in that report and its published companion.
+The installed app exposes **Build information** on its Hello page. It reads the embedded `build-identity.json` offline and shows the complete source commit, run and attempt, UTC source epoch, local or CI and dirty state, every version axis and the SHA-256 of the embedded report. Opening it does not invoke Cloud or reset the greeting. The view says "none embedded" only for Debug builds.
 
-`eng/version-sources.json` declares exactly nine independent sources. AppVersion
-comes from the allocated release name; Android versionCode remains a separate
-monotonic packaging value. ContractSet comes from the schema namespace and
-descriptor digest in the actual checksum-verified published Contracts JAR's
-`source.json`. PackageVersion enumerates only `releaseRuntimeClasspath` entries
-in `app/gradle.lockfile`, excluding instrumentation/test-only versions. Neither
-Maven release numbers nor Android ABI labels are substituted for protocol or
-first-party C ABI versions. Unimplemented axes name their future producer;
-NativeAbiVersion is not applicable to this owner's first-party boundary.
+`eng/version-sources.json` declares exactly nine independent sources. AppVersion comes from the allocated release name. Android versionCode remains a separate monotonic packaging value. ContractSet comes from the schema namespace and descriptor digest of the reviewed Contracts producer source in `eng/policy/contracts-source.json`, whose SHA-256 is pinned in `eng/build_identity.py`. PackageVersion is the MAUI NuGet lock: `eng/build_identity.py` enumerates every resolved package of the `net10.0-android36.1` closure in `src/ArcForges.Mobile/packages.lock.json`. Neither NuGet release numbers nor Android ABI labels are substituted for protocol or first-party C ABI versions. Unimplemented axes name their future producer, and NativeAbiVersion is not applicable because Mobile declares no first-party native C ABI.
 
-The generator compares the actual restored Contracts receipt with the immutable
-reviewed resource profile. Verification derives expectations from checked-out
-source, the trusted GitHub run, committed locks and that reviewed producer
-receipt, independently of candidate JSON. Aliases, missing axes, duplicate
-subjects, dirty CI, wrong commits and resealed report tampering fail. Local
-build IDs include the complete source SHA and explicitly report dirty state.
+The report also records the toolchain: the pinned SDK 10.0.400 and the SDK that built the candidate, the workload manifests, the MAUI and Android values, and the digest of each source input (`global.json` is read from its committed bytes, so a local SDK adapter does not change the identity). `python eng/build_identity.py --maui` writes `build/generated/licence-assets/build-identity.json` before the release builds; the csproj embeds it in every build that has it.
 
-The release APK/AAB carry identical report bytes. Candidate sealing and protected permanent signing preserve the companion. CI does not install the candidate or download/reinstall public releases. The report contains no credentials, machine paths or developer identity.
+Verification derives its expectations from the checked-out source, the committed lock and the trusted run. Dirty CI, wrong commits, aliased or missing axes and resealed report tampering fail. Local build IDs include the complete source SHA and report dirty state. The release APK carries the identical report bytes, and the signed APK is checked by `eng/maui_identity.py` before publication.
 
-Apache Contracts resolver reuse is admitted by `contracts-build-identity-r1`. Resource profile r6 retains r5's independent expectations and all historical debug/test admissions, but only release APK/AAB enter the CI candidate. Its verifier recipe enumerates those two promoted archives. Old admissions remain immutable. r6 changed no dependency versions, app behavior, signing identity or public version ordering. Resource profile r7 supersedes r6 only for the Compose 1.12.1 patch upgrade: moved Compose inputs, their upstream `.version` resources and the bundle dependency-table versions and digests; every other r6 expectation is retained. Resource profile r8 supersedes r7 only for the Gradle 9.8.0 wrapper distribution: the owned wrapper, Gradle properties and build-script checksum inputs and the verifier's Gradle transform-cache normalization change, and every r7 archive expectation is retained.
+The eng unit tests (`eng/tests/test_maui_build_identity.py` and `eng/tests/test_build_identity.py`) cover the MAUI report, the closed axis set, the locked package derivation and the tamper cases. The Kotlin identity report and its resource-profile binding retired with the Kotlin baseline in AND.40 PR B.
 
-CodeQL runs once for a PR through the reusable security workflow. Scheduled/manual analysis uses explicit matching categories; obsolete duplicate standalone categories are retired. Both compilation entry points allocate the actual CI version before generating metadata. See [development.md](development.md) for local runtime opt-in and [releasing.md](releasing.md) for the reduced publication boundary.
+CodeQL runs once for a PR through the reusable security workflow. See [development.md](development.md) for local runtime opt-in and [releasing.md](releasing.md) for the publication boundary.

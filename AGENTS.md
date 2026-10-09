@@ -1,20 +1,20 @@
 # Repository guidance
 
-- The current product target is Android. `shared` also hosts a JVM Compose Hot Reload preview used only for development. Do not add desktop or iOS product distribution.
-- Keep Kotlin and Java compiler targets at JVM 21. The JDK running Gradle and the JetBrains Runtime running Hot Reload are separate choices.
-- Consume published Contracts artifacts with exact Maven versions. No submodules, neighboring source dependencies, copied generated contracts or local Maven publishing shortcuts.
+- The current product target is Android: the .NET MAUI application under `src/ArcForges.Mobile`. The Kotlin application, its KMP module and its Gradle build are retired (AND.40 PR B). Do not add desktop, iOS or macOS product distribution.
+- Shipped projects target `net10.0-android` only; host-run test, policy and architecture projects target `net10.0`. Product logic is C#. Kotlin and Java product code is not allowed. The JDK 21.0.12 pin in `ci.yml` is Android platform tooling only.
+- Consume published `ArcForges.Contracts.*` NuGet packages with exact versions. No submodules, neighboring source dependencies, copied generated contracts or local NuGet publishing shortcuts.
 - Plan changes before implementation, finish collecting related issues before fixing them, and keep verification proportional to the change.
 - Keep documentation and code comments in English. Never commit SDK paths, signing material, APKs, AABs or build caches.
 - Preserve the release dependency chain: candidate build, all required checks, protected signing of that candidate, publication. PRs must not use release secrets.
 - Run the scoped offline checks from `docs/development.md`; runtime checks require explicit local opt-in. Distinguish compilation, local runtime observations and publication.
-- Dependabot updates must also update affected locks and checksum metadata. Do not weaken verification to avoid maintaining those files.
+- NuGet updates must update the affected `packages.lock.json` files and carry an admission record. Do not weaken locked restores to avoid maintaining those files.
 - Apache-2.0 applies to original code and tooling. Respect dependency licenses and retained notices.
 
 ## Delivery model (P2-018)
 
 Work is scheduled as delivery tasks in the [delivery graph](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/planning/delivery/README.md) and executed through the [Plan execution entry](https://github.com/ArcForges/Plan/blob/main/arcforges-implementation.md). There is no Current task, numbered substep order or single main context.
 
-- Baseline: The accepted bootstrap is the Android application with its development package identity, the preview-only shared module and the transport probe client, with the WP02 build, dependency and provenance baselines. Every Android companion capability is an open task. This repository's tasks are in the [android](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/planning/delivery/lanes/android.md) lane and parts of the governance, release and runtime-proof lanes.
+- Baseline: The accepted bootstrap was the Kotlin Android application, retired by AND.40 PR B; the current application is the .NET MAUI Android application (AND.40), with the WP02 build, dependency and provenance baselines carried forward. Every Android companion capability is an open task. This repository's tasks are in the [android](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/planning/delivery/lanes/android.md) lane and parts of the governance, release and runtime-proof lanes.
 - Start only a task that Plan's `python tools/delivery.py ready` lists and whose claim you hold (`python tools/delivery.py claim <TASK-ID> --worker <name>`, recorded as `claims/<key>`, the ID in lower case with dots replaced by hyphens, such as `claims/and-01`); continue interrupted work from its handoff record (`python tools/delivery.py show <TASK-ID>`) rather than restarting it. A task here becomes ready only after the adoption slice for its lane (`ADOPT.10.<lane>`) is recorded.
 - Several workers may work here at once, each on a different claimed task in its own retained worktree and `task/<key>` branch, inside the task's write scope. After the module skeleton task, each feature task edits only its own module, so storage, security, network and screen work proceed in parallel.
 - Shared files follow their [declared protocols](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/planning/delivery/shared-resources.md): the module skeleton task registers all modules once and later tasks edit only their module; version catalog entries are appended and locks and verification metadata regenerated after rebase; dependency additions carry admission receipts; signing identities and store listings are used only by release tasks through protected CI environments. The Mobile integration owner (the holder of `roles/integration-mobile`) orders merges and merges only at the head commit reviewed for the claimant at the current claim epoch, keeping the task IDs in the merge title.

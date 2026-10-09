@@ -1,7 +1,6 @@
-# Gradle, Kotlin and IDE state
-.gradle/
-.kotlin/
-**/build/
+# IDE state
+# Release build outputs of the MAUI app (build/generated/licence-assets is embedded by the csproj)
+/build/
 # .NET build outputs (AND.01 MAUI identity project)
 /src/ArcForges.Mobile/bin/
 /src/ArcForges.Mobile/obj/
