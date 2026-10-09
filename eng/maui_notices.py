@@ -222,9 +222,113 @@ def write_markdown(root: Path = ROOT) -> None:
     path.write_text(text, encoding="utf-8", newline="\n")
 
 
+# AND.40 unit 5: the release notice set. Every shipped package contributes the licence files its restored nupkg
+# carries (from the NuGet global packages folder, verified against the admitted nupkg SHA-512) and the retained
+# texts recorded for it. Build-only and test-only packages never contribute.
+DISTRIBUTION_OUTPUT = "build/generated/maui-licence-assets/THIRD_PARTY_NOTICES.txt"
+DISTRIBUTION_EVIDENCE = "artifacts/evidence/maui-notices-distribution.json"
+LINUX_EVIDENCE = "artifacts/evidence/linux-licence-evidence.json"
+LICENCE_MEMBER = re.compile(r"^(LICEN[CS]E|NOTICE|THIRD[-_ ]PARTY)", re.IGNORECASE)
+LINUX_PACKS = {
+    "Microsoft.Android.Sdk.Linux": ("LICENSE.TXT", "THIRD-PARTY-NOTICES.TXT"),
+    "Microsoft.NET.Runtime.MonoAOTCompiler.Task": ("THIRD-PARTY-NOTICES.TXT",),
+    "Microsoft.NET.Runtime.MonoTargets.Sdk": ("THIRD-PARTY-NOTICES.TXT",),
+}
+LINUX_CROSS_HOSTS = ("linux-x64", "linux-arm64")
+
+
+def distribution(root: Path = ROOT, nuget_root: Path | None = None) -> dict:
+    import base64
+    import os
+    import zipfile
+    nuget_root = Path(nuget_root or os.environ.get("NUGET_PACKAGES", "")).resolve()
+    require(nuget_root.is_dir(), "A restored NuGet packages folder is required (NUGET_PACKAGES)")
+    data = read_json(root, NOTICE_DATA)
+    report = closure(root)
+    entries = {}
+    for row in report["rows"]:
+        if row["kind"] == "project" or row.get("distribution") != "shipped":
+            continue
+        identifier = row["id"].lower()
+        nupkg = nuget_root / identifier / row["version"] / f"{identifier}.{row['version']}.nupkg"
+        require(nupkg.is_file(), f"Restored nupkg missing for shipped package {row['id']} {row['version']}")
+        payload = nupkg.read_bytes()
+        require(base64.b64encode(hashlib.sha512(payload).digest()).decode("ascii") == row["nupkgSha512"],
+                f"Restored nupkg differs from the admitted SHA-512: {row['id']}")
+        with zipfile.ZipFile(nupkg) as archive:
+            for member in sorted(archive.namelist()):
+                if member.endswith("/") or not LICENCE_MEMBER.match(member.rsplit("/", 1)[-1]):
+                    continue
+                text = archive.read(member).replace(b"\r\n", b"\n")
+                entries[(row["id"], row["version"], member, digest(text))] = text
+        for shadow in sorted(data["packages"].get(row["id"], [])):
+            text = (root / "third-party/notices" / (shadow + ".txt")).read_bytes()
+            require(digest(text) == shadow, f"Retained notice changed: {shadow}")
+            entries[(row["id"], row["version"], "retained", shadow)] = text
+    require(entries, "No shipped package carries licence text")
+    lines = []
+    for key in sorted(entries):
+        identifier, version_value, member, checksum = key
+        text = entries[key].decode("utf-8")
+        lines.append(f"==== {identifier} {version_value} :: {member} (sha256 {checksum}) ====\n{text.rstrip(chr(10))}\n")
+    output = root / DISTRIBUTION_OUTPUT
+    output.parent.mkdir(parents=True, exist_ok=True)
+    body = "\n".join(lines).encode("utf-8")
+    output.write_bytes(body)
+    summary = {"schemaVersion": 1, "result": "written", "file": DISTRIBUTION_OUTPUT,
+               "sha256": hashlib.sha256(body).hexdigest(), "texts": len(entries),
+               "packages": sorted({key[0] for key in entries}), "lockSha256": report["lockSha256"]}
+    evidence = root / DISTRIBUTION_EVIDENCE
+    evidence.parent.mkdir(parents=True, exist_ok=True)
+    evidence.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
+    return summary
+
+
+def linux_evidence(dotnet_root: Path, root: Path = ROOT) -> dict:
+    """Licence files of the Linux host packs the Android build needs (run on the hosted Linux runner)."""
+    packs = Path(dotnet_root) / "packs"
+    require(packs.is_dir(), f"No packs folder under {dotnet_root}")
+    found = {}
+    for name, files in LINUX_PACKS.items():
+        versions = sorted(p for p in (packs / name).glob("*") if p.is_dir()) if (packs / name).is_dir() else []
+        require(versions, f"Linux licence evidence: pack {name} is not installed")
+        folder = versions[-1]
+        present = {}
+        for file in files:
+            path = folder / file
+            require(path.is_file(), f"Linux licence evidence: {name} {folder.name} lacks {file}")
+            present[file] = digest(path.read_bytes().replace(b"\r\n", b"\n"))
+        found[name] = {"version": folder.name, "files": present}
+    crosses = {}
+    for host in LINUX_CROSS_HOSTS:
+        matches = sorted(p for p in packs.glob(f"Microsoft.NETCore.App.Runtime.AOT.{host}.Cross.android-arm64") if p.is_dir())
+        require(matches, f"Linux licence evidence: no Cross alias for {host}")
+        folder = sorted(matches[-1].glob("*"))[-1]
+        path = folder / "THIRD-PARTY-NOTICES.TXT"
+        require(path.is_file(), f"Linux licence evidence: Cross alias {host} lacks THIRD-PARTY-NOTICES.TXT")
+        crosses[host] = {"pack": matches[-1].name, "version": folder.name,
+                         "thirdPartyNotices": digest(path.read_bytes().replace(b"\r\n", b"\n"))}
+    report = {"schemaVersion": 1, "result": "produced", "host": "linux", "packs": found, "crossAliases": crosses}
+    output = root / LINUX_EVIDENCE
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
+    return report
+
+
+def release_ready(root: Path = ROOT) -> dict:
+    """A MAUI release is published only when no notice escalation is open (fail closed)."""
+    data = read_json(root, NOTICE_DATA)
+    open_items = [item["id"] for item in data.get("escalated", []) if item.get("status") != "resolved"]
+    require(not open_items, "Open notice escalations block the MAUI release: " + ", ".join(sorted(open_items)))
+    return {"result": "ready", "openEscalations": 0}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["closure", "reproof", "check", "render"])
+    parser.add_argument("command", choices=["closure", "reproof", "check", "render", "distribution",
+                                            "linux-evidence", "release-ready"])
+    parser.add_argument("--nuget-root", type=Path, default=None, help="distribution: the restored NuGet packages folder")
+    parser.add_argument("--dotnet-root", type=Path, default=None, help="linux-evidence: the dotnet root holding packs")
     args = parser.parse_args()
     try:
         if args.command == "closure":
@@ -237,6 +341,14 @@ def main() -> int:
             print(json.dumps(reproof(ROOT), indent=2))
         elif args.command == "check":
             print(json.dumps(check(ROOT), indent=2))
+        elif args.command == "distribution":
+            print(json.dumps(distribution(ROOT, args.nuget_root), indent=2))
+        elif args.command == "linux-evidence":
+            if args.dotnet_root is None:
+                raise ValueError("linux-evidence requires --dotnet-root")
+            print(json.dumps(linux_evidence(args.dotnet_root, ROOT), indent=2))
+        elif args.command == "release-ready":
+            print(json.dumps(release_ready(ROOT), indent=2))
         else:
             write_markdown(ROOT)
             print(json.dumps({"result": "rendered", "file": MARKDOWN}))

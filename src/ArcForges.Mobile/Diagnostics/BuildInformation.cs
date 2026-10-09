@@ -15,16 +15,21 @@ internal static class BuildInformation
     internal const string ResourceName = "build-identity.json";
     private const string Schema = "arcforges.build-identity.v1";
     private const string Owner = "Mobile";
-    private const string NotEmbedded = "No build identity is embedded in this build. Release builds embed build-identity.json.";
+    private const string NotEmbeddedDebug = "No build identity is embedded in this Debug build. Debug builds embed no release identity.";
+    private const string ReleaseMissing = "The build identity is missing from this release build. Do not distribute this build.";
     private const string Unreadable = "The embedded build identity could not be read.";
 
-    /// <summary>The text of the embedded report, or a plain statement when none is embedded or it cannot be read.</summary>
+    /// <summary>The text of the embedded report. Only a Debug build may say that none is embedded.</summary>
     public static string Load()
     {
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName);
         if (stream is null)
         {
-            return NotEmbedded;
+#if DEBUG
+            return NotEmbeddedDebug;
+#else
+            return ReleaseMissing;
+#endif
         }
 
         using var buffer = new MemoryStream();

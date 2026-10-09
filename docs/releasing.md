@@ -60,3 +60,11 @@ The permanent Android applicationId is `com.arcforges.mobile` (IRD-23; P2-021 it
 - No release may claim `com.arcforges.mobile` until its release channel is published (AND.40 for the MAUI application). The Gradle/Kotlin application still builds `io.github.arcforges.mobile` as the frozen baseline until then.
 - The MAUI project at `src/ArcForges.Mobile` is identity-only in AND.01: it has no launchable activity, no UI and no network permission, so its APK is an identity and toolchain proof, not a user-facing application and not a release candidate. AND.40 adds the application and the release channel.
 - The identity and toolchain pins are checked offline by `python eng/maui_identity.py` (and by `python eng/mobile.py check`). See [maui-toolchain.md](maui-toolchain.md).
+
+## MAUI prerelease (AND.40 PR A)
+
+The MAUI Android prerelease is published from `main` by the `publish-maui` job of `.github/workflows/ci.yml`, in the `android-release` environment, after the `verify` gate passes. It uses the tag namespace `android-maui-VERSION` and sits beside the Kotlin prerelease `android-VERSION`, which is unchanged. The signing secrets are the same five the Kotlin job uses. The persistent identity is the certificate `7a8b3b14...` (`eng/policy/dotnet-toolchain.json`). The release is an APK with its companions (`mapping.txt`, `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`, `build-identity.json`, `maui-archive.json`), `release.json` and `SHA256SUMS`.
+
+The release fails closed while any notice escalation is open in `eng/policy/maui-notices.json`. See [maui-toolchain.md](maui-toolchain.md#release-notices) for the open escalation and the decision it needs. Reinstall guidance is unchanged: see [application identity change](#application-identity-change-to-comarcforgesmobile-and-01).
+
+Local opt-in verification of a downloaded MAUI prerelease: `python eng/published.py maui-prepare --directory <new folder> --candidate <sealed candidate folder>`. The public download and any device check are local only and are refused in CI.

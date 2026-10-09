@@ -20,8 +20,9 @@
     <!-- Permanent Android application identity (IRD-23, P2-021 item 3). -->
     <ApplicationId>com.arcforges.mobile</ApplicationId>
     <ApplicationTitle>ArcForges</ApplicationTitle>
-    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
-    <!-- Android versionCode: monotonic packaging value, supplied by the release pipeline (AND.40). -->
+    <ApplicationDisplayVersion Condition="'$(ArcForgesAndroidVersionName)' != ''">$(ArcForgesAndroidVersionName)</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion Condition="'$(ArcForgesAndroidVersionName)' == ''">0.1.0</ApplicationDisplayVersion>
+    <!-- Android versionName and versionCode: supplied by the release pipeline (AND.40): the allocated CI version. -->
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' != ''">$(ArcForgesAndroidVersionCode)</ApplicationVersion>
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' == ''">1</ApplicationVersion>
 

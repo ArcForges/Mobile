@@ -62,6 +62,7 @@
     "eng/mobile.py",
     "eng/policy/android-licences.json",
     "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/and-40-u5-r1.json",
     "eng/policy/dependency-reviews/compose-1-12-1.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r1.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r2.json",
@@ -94,6 +95,7 @@
     "eng/provenance/artifact-profiles/android-resources-r11.json",
     "eng/provenance/artifact-profiles/android-resources-r12.json",
     "eng/provenance/artifact-profiles/android-resources-r13.json",
+    "eng/provenance/artifact-profiles/android-resources-r14.json",
     "eng/provenance/artifact-profiles/android-resources-r2.json",
     "eng/provenance/artifact-profiles/android-resources-r3.json",
     "eng/provenance/artifact-profiles/android-resources-r4.json",
@@ -109,6 +111,7 @@
     "eng/provenance/records/android-packaged-resources-r11.json",
     "eng/provenance/records/android-packaged-resources-r12.json",
     "eng/provenance/records/android-packaged-resources-r13.json",
+    "eng/provenance/records/android-packaged-resources-r14.json",
     "eng/provenance/records/android-packaged-resources-r2.json",
     "eng/provenance/records/android-packaged-resources-r3.json",
     "eng/provenance/records/android-packaged-resources-r4.json",
@@ -123,6 +126,7 @@
     "eng/provenance/records/apache-terms-r1.json",
     "eng/provenance/records/compiler-rt-legal-r1.json",
     "eng/provenance/records/contracts-build-identity-r1.json",
+    "eng/provenance/records/contracts-build-identity-r2.json",
     "eng/provenance/records/contracts-ci44-notices-r1.json",
     "eng/provenance/records/contracts-ci54-notices-r2.json",
     "eng/provenance/records/contracts-ci60-notices-r3.json",
@@ -146,6 +150,7 @@
     "eng/tests/test_build_identity.py",
     "eng/tests/test_dependency_policy.py",
     "eng/tests/test_licences.py",
+    "eng/tests/test_maui_build_identity.py",
     "eng/tests/test_maui_identity.py",
     "eng/tests/test_maui_notices.py",
     "eng/tests/test_mobile.py",
@@ -224,10 +229,10 @@
   ],
   "reused": {
     "LICENSE": "apache-terms-r1",
-    "eng/build_identity.py": "contracts-build-identity-r1",
+    "eng/build_identity.py": "contracts-build-identity-r2",
     "eng/check_provenance.py": "contracts-provenance-port-r1",
     "eng/tests/test_provenance.py": "contracts-provenance-port-r1",
-    "eng/version-sources.json": "contracts-build-identity-r1",
+    "eng/version-sources.json": "contracts-build-identity-r2",
     "gradle/wrapper/gradle-wrapper.jar": "gradle-wrapper-9-7-1-r2",
     "gradlew": "gradle-wrapper-9-7-1-r2",
     "gradlew.bat": "gradle-wrapper-9-7-1-r2",
@@ -251,6 +256,6 @@
     "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt": "apache-terms-r1"
   },
   "artifacts": [
-    "android-packaged-resources-r13"
+    "android-packaged-resources-r14"
   ]
 }

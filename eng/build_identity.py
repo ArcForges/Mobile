@@ -209,11 +209,139 @@ def generate(resolved: Path, version: str, code: int) -> None:
     save(ROOT / "build/generated/licence-assets/build-identity.json", report(version, code))
 
 
+# AND.40 decision 14: the MAUI path. The identity is generated from the NuGet lock of the shipped
+# net10.0-android closure, the pinned toolchain, the SDK that built the candidate and the source inputs.
+MAUI_ARTIFACT = "com.arcforges.mobile"
+MAUI_FRAMEWORK = "net10.0-android"
+MAUI_LOCK_TARGET = "net10.0-android36.1"  # the NuGet lock keys the closure by the moniker with the platform version
+MAUI_PROJECT = "src/ArcForges.Mobile/ArcForges.Mobile.csproj"
+MAUI_LOCK = "src/ArcForges.Mobile/packages.lock.json"
+MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
+MAUI_WORKLOAD_ADMISSION = "eng/policy/workload-admission.json"
+MAUI_SOURCE_INPUTS = ("global.json", "Directory.Build.props", "Directory.Packages.props", "NuGet.config",
+                      MAUI_PROJECT, MAUI_LOCK, MAUI_TOOLCHAIN, MAUI_WORKLOAD_ADMISSION)
+MAUI_OUTPUT = "build/generated/licence-assets/build-identity.json"
+
+
+def lf_source(path: str, root: Path = ROOT) -> dict:
+    """Evidence for one repository input, hashed over its LF-normalised bytes (the rule of `source`)."""
+    content = (root / path).read_bytes().replace(b"\r\n", b"\n")
+    return {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
+
+
+def maui_packages(root: Path = ROOT) -> list[dict]:
+    """Every package of the net10.0-android closure in the NuGet lock, with its resolved version.
+
+    Project references carry no resolved version and are skipped; the lock itself is bound by its digest.
+    """
+    evidence = lf_source(MAUI_LOCK, root)
+    content = (root / MAUI_LOCK).read_bytes().replace(b"\r\n", b"\n")
+    closure = json.loads(content)["dependencies"].get(MAUI_LOCK_TARGET)
+    if not isinstance(closure, dict) or not closure:
+        raise ValueError(f"{MAUI_LOCK} has no {MAUI_LOCK_TARGET} closure")
+    values = []
+    for name, entry in closure.items():
+        if "resolved" not in entry:
+            continue
+        if not re.fullmatch(r"[0-9]+(?:[.][0-9]+)*(?:[-+][A-Za-z0-9.-]+)?", entry["resolved"]):
+            raise ValueError(f"Malformed locked version for {name}")
+        values.append({"subject": name, "version": entry["resolved"], "source": evidence})
+    if not values:
+        raise ValueError(f"{MAUI_LOCK} lists no resolved package for {MAUI_LOCK_TARGET}")
+    return sorted(values, key=lambda item: item["subject"].lower())
+
+
+def committed_source(path: str, root: Path = ROOT) -> dict:
+    """Evidence for an input read from HEAD rather than the working tree.
+
+    global.json is read from its committed bytes: a local MAUI build swaps in the uncommitted SDK adapter, and the
+    identity must not depend on that swap. The repository gates still require the committed pin.
+    """
+    content = subprocess.check_output(["git", "show", f"HEAD:{path}"], cwd=root,
+                                      env={k: v for k, v in os.environ.items() if not k.upper().startswith("GIT_")})
+    content = content.replace(b"\r\n", b"\n")
+    return {"path": path, "sha256": hashlib.sha256(content).hexdigest(), "source": "HEAD"}
+
+
+def maui_toolchain(root: Path = ROOT, observed_sdk: str = "") -> dict:
+    """The pinned SDK, workload, MAUI and Android values, with the SDK that built this candidate."""
+    toolchain = json.loads((root / MAUI_TOOLCHAIN).read_bytes().replace(b"\r\n", b"\n"))
+    workloads = {alias: {"id": item["id"], "manifestVersion": item["manifestVersion"], "packVersion": item["packVersion"]}
+                 for alias, item in toolchain["workloads"].items()}
+    return {
+        "framework": MAUI_FRAMEWORK,
+        "sdk": {"pinned": toolchain["dotnet"]["sdkVersion"], "rollForward": toolchain["dotnet"]["rollForward"],
+                "observed": observed_sdk},
+        "workloads": workloads,
+        "maui": {"controlsVersion": toolchain["maui"]["controlsVersion"], "runtime": toolchain["maui"]["runtime"],
+                 "useMonoRuntime": toolchain["maui"]["useMonoRuntime"], "linkTool": toolchain["maui"]["linkTool"],
+                 "linkToolCondition": toolchain["maui"]["linkToolCondition"]},
+        "android": {"applicationId": toolchain["android"]["applicationId"],
+                    "minSdkVersion": toolchain["android"]["minSdkVersion"],
+                    "targetPlatformVersion": toolchain["android"]["targetPlatformVersion"],
+                    "buildToolsVersion": toolchain["android"]["buildToolsVersion"]},
+        "sourceInputs": [committed_source(path, root) if path == "global.json" else lf_source(path, root)
+                         for path in MAUI_SOURCE_INPUTS],
+    }
+
+
+def maui_report(version: str, code: int, root: Path = ROOT, environment: dict | None = None,
+                identity: dict | None = None, observed_sdk: str = "") -> dict:
+    """The build identity of the MAUI candidate. `identity` may be supplied by tests; a build reads it from git."""
+    from resources import profile
+    if type(code) is not int or not 1 <= code <= 2_100_000_000:
+        raise ValueError("Invalid Android versionCode")
+    build_identity = build(root, environment) if identity is None else identity
+    validate_build(build_identity)
+    env = os.environ if environment is None else environment
+    if build_identity["kind"] == "ci":
+        number, attempt = int(env["GITHUB_RUN_NUMBER"]), build_identity["runAttempt"]
+        if not 1 <= number <= 20_999_999 or not 1 <= attempt <= 99 or code != number * 100 + attempt or version != f"0.1.0-ci.{number}.{attempt}":
+            raise ValueError("App version differs from allocated CI version")
+    toolchain = maui_toolchain(root, observed_sdk)
+    if build_identity["kind"] == "ci" and observed_sdk != toolchain["sdk"]["pinned"]:
+        raise ValueError("The CI build did not run the pinned SDK")
+    catalog = json.loads((root / "eng/version-sources.json").read_text(encoding="utf-8"))
+    # The Kotlin catalog reads app/gradle.lockfile for PackageVersion. The MAUI identity reads its own lock, so that
+    # axis is taken out of the shared derivation and replaced below; every other axis is derived as for Kotlin.
+    catalog["axes"]["PackageVersion"] = {"kind": "packages", "absence": "not-applicable",
+                                         "reason": "Replaced by the NuGet lock of the MAUI closure (AND.40)."}
+    axes_output = axes(version, profile(root)[2]["contractSourceText"], root, catalog)
+    axes_output["PackageVersion"] = {"status": "present", "values": maui_packages(root)}
+    return {"schema": "arcforges.build-identity.v1", "owner": "Mobile",
+            "artifact": {"id": MAUI_ARTIFACT, "version": version}, "build": build_identity,
+            "axes": dict(sorted(axes_output.items())), "packaging": {"androidVersionCode": code},
+            "toolchain": toolchain}
+
+
+def verify_maui_report(data: bytes, info: dict, root: Path = ROOT, observed_sdk: str = "") -> None:
+    """Refuse an embedded or packaged MAUI identity that differs from the one this checkout derives."""
+    from check_provenance import document
+    expected = maui_report(info["version_name"], info["version_code"], root, observed_sdk=observed_sdk)
+    if document(data) != expected or expected["build"]["sourceCommit"] != info["commit"]:
+        raise ValueError("Packaged MAUI build identity differs from the checkout")
+
+
+def generate_maui(version: str, code: int, observed_sdk: str, root: Path = ROOT) -> dict:
+    """Write build/generated/licence-assets/build-identity.json, which the csproj embeds in every build that has it."""
+    from resources import save
+    report_value = maui_report(version, code, root, observed_sdk=observed_sdk)
+    save(root / MAUI_OUTPUT, report_value)
+    return report_value
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--resolved", type=Path, required=True)
+    parser.add_argument("--resolved", type=Path, help="Kotlin path: the resolved Gradle configurations")
+    parser.add_argument("--maui", action="store_true", help="MAUI path: derive the identity from the NuGet lock")
+    parser.add_argument("--observed-sdk", default="", help="MAUI path: the output of `dotnet --version` for this build")
     parser.add_argument("--version", required=True)
     parser.add_argument("--code", type=int, required=True)
     args = parser.parse_args()
-    generate(args.resolved, args.version, args.code)
+    if args.maui:
+        generate_maui(args.version, args.code, args.observed_sdk)
+    else:
+        if args.resolved is None:
+            parser.error("--resolved is required unless --maui is given")
+        generate(args.resolved, args.version, args.code)
