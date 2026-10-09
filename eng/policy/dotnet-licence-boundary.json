@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repository": "Mobile",
+  "spdxLicense": "Apache-2.0",
+  "licenceBoundary": "Apache",
+  "projects": [
+    {
+      "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+      "kind": "dotnet"
+    }
+  ]
+}

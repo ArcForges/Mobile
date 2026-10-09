@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    AND.01 identity-only .NET MAUI shell. Application behaviour is ported by AND.40;
+    this project fixes the Android identity, the toolchain pins and the release-signing boundary.
+    Machine-specific SDK and JDK locations are never committed: JAVA_HOME and ANDROID_HOME
+    come from the environment. Signing is not configured here: the persistent release key signs
+    the candidate in the protected release job, outside the build (AGENTS.md; docs/releasing.md).
+    See docs/maui-toolchain.md.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
+    <RootNamespace>ArcForges.Mobile</RootNamespace>
+    <AssemblyName>ArcForges.Mobile</AssemblyName>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+
+    <!-- Permanent Android application identity (IRD-23, P2-021 item 3). -->
+    <ApplicationId>com.arcforges.mobile</ApplicationId>
+    <ApplicationTitle>ArcForges</ApplicationTitle>
+    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <!-- Android versionCode: monotonic packaging value, supplied by the release pipeline (AND.40). -->
+    <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' != ''">$(ArcForgesAndroidVersionCode)</ApplicationVersion>
+    <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' == ''">1</ApplicationVersion>
+
+    <!-- Android minimum API 26 is carried from the Kotlin baseline; the D-016 minimum-API review stays open.
+         Compile/target API 36.1 is the coordinator's D-016 decision (2026-10-08, migration brief section 10): the
+         highest platform the pinned maui-android 10.0.20 workload accepts (37.0 is rejected by NETSDK1140). -->
+    <!-- The root namespace is ArcForges.Mobile; eng/maui_identity.py refuses any other source namespace. -->
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
+    <TargetPlatformVersion>36.1</TargetPlatformVersion>
+    <AndroidSdkBuildToolsVersion>36.1.0</AndroidSdkBuildToolsVersion>
+
+    <!-- P2-021 item 3: Mono runtime, set explicitly. Release AOT is proven by AND.40, not here. -->
+    <UseMonoRuntime>true</UseMonoRuntime>
+
+    <!-- Identity-only (AND.01): the SDK forces android.permission.INTERNET into Debug builds when the profiler is
+         enabled, which Debug does by default (EnableDiagnostics). Off here, so Debug and Release carry no INTERNET. -->
+    <AndroidEnableProfiler>false</AndroidEnableProfiler>
+  </PropertyGroup>
+
+  <!-- P2-021 item 3: .NET trimming plus R8 for the shrunk release build only; Debug uses fast deployment (XA0119). -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <AndroidLinkTool>r8</AndroidLinkTool>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" />
+    <PackageReference Include="ArcForges.Contracts.PublicApi" />
+    <!-- Central version (Directory.Packages.props) pins the trimmer across SDK patch versions. -->
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
+  </ItemGroup>
+</Project>

@@ -2,10 +2,13 @@
 
 The accepted [Design declaration profile](https://github.com/ArcForges/ArcForges-Design/blob/3825a24fd7530cb51c3fb30b757e644ebab33459/docs/architecture/01-solution-and-project-layout.md#41-project-declaration-and-verification-profile)
 assigns all three Mobile Gradle scopes to `Apache-2.0` / `Apache`. Each build file
-declares its own metadata. `eng/policy/licence-boundary.json` records the complete
-inventory; `eng/licences.py projects` discovers actual tracked/nonignored manifests
-and rejects missing declarations, other build systems and unpublished/unknown
-first-party inputs. Original Mobile tooling is Apache-2.0 and imports no AGPL checker.
+declares its own metadata. `eng/policy/licence-boundary.json` records the Gradle
+inventory that the Kotlin baseline gates read, unchanged until AND.40. The .NET identity
+project is recorded separately in `eng/policy/dotnet-licence-boundary.json` and audited
+by `eng/licences.py` against its own csproj declarations. `eng/licences.py projects`
+discovers actual tracked/nonignored manifests and rejects missing declarations, other
+build systems and unpublished/unknown first-party inputs. Original Mobile tooling is
+Apache-2.0 and imports no AGPL checker.
 
 `eng/licences.gradle.kts` checks effective Gradle project properties and references
 after evaluation. The app's `verifyAndroidLicences` task resolves release, debug,
@@ -97,3 +100,25 @@ version strings; source and SBOM identity also change. Superseding legal/resourc
 records preserve previous admissions. New archive expectations derive from the
 verified public Android ci.14.1 baseline and the inspected Maven input bytes,
 before building the replacement candidate. Release lint remains enabled.
+
+On 2026-10-08, the .NET MAUI identity admission (AND.01) pins the NuGet Contracts packages
+`ArcForges.Contracts.PublicApi` and `ArcForges.Contracts.Foundation` at `1.0.0-ci.324.1`. That candidate was
+published from Contracts main commit `330e46bd158bfbb7cdc94c7006565c87e27b1cc6` (PR 87, merged to `main`), by
+CI run `37388554007`, attempt 1, a push to `main` whose jobs (Build candidate, Verify, Publish NuGet, Publish npm,
+Publish Maven channel) all succeeded. The commit is an ancestor of Contracts main, checked on 2026-10-08 against the
+local Contracts checkout. The earlier `1.0.0-ci.350.1` was published from `74c298c90ba56cd9f9e6932c006259c7d0376989`,
+a commit rolled back from `main` on 2026-10-07, so it is not admitted and stays immutable on the feed only
+(coordinator adjudication, 2026-10-08, rolled-back package rule). The nupkg SHA-512 values of these two
+Contracts packages in `eng/policy/nuget-admission.json` were recomputed from the nupkgs restored from nuget.org into
+the NuGet cache, and the nuget.org flat-container index lists `1.0.0-ci.324.1` for both IDs (checked 2026-10-08).
+For the eight `Microsoft.Maui.*` 10.0.20 packages the local cache holds SDK library-packs copies whose bytes differ
+from the nuget.org packages, so their recorded `nupkgSha512` values were not recomputed from the cache. The value
+for `Microsoft.Maui.Controls` was checked against the nuget.org catalog `packageHash`; the other seven recorded
+`Microsoft.Maui.*` values were not individually compared with the catalog. In the AND.01 independent review
+(reviewer session `w-deku-20261008-rev-and-01`, round 1, 2026-10-08), `dotnet restore --locked-mode` of a
+git-archive scratch copy of commit `c48eb7c`, with an uncommitted `global.json` adapter pinning SDK 10.0.401, into a
+fresh, empty `NUGET_PACKAGES` folder (not the default cache above) succeeded; in that folder the `.nupkg.metadata`
+source of the MAUI and Contracts packages was `https://api.nuget.org/v3/index.json`, and their `contentHash` values
+equalled the lock. The committed SDK 10.0.400 pin was not exercised by that restore; its first restore and build is
+the AND.40 CI run. The admitted licence is Apache-2.0 with the packaged `LICENSE` and
+`NOTICE`, so no AND.40 notice deferral is needed for these two packages.
