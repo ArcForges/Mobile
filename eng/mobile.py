@@ -285,6 +285,7 @@ def maui_stage(destination):
         strip_signature(apk, stripped)
         run(maui_sdk_tool("zipalign"), "-P", "16", "-f", "4", stripped, destination / MAUI_UNSIGNED)
     run(maui_sdk_tool("zipalign"), "-c", "-P", "16", "4", destination / MAUI_UNSIGNED)
+    maui_notices.apk_host_only(destination / MAUI_UNSIGNED)  # decision 20: a sealed candidate never carries binutils
     shutil.copyfile(MAUI_OUTPUT_DIR / "mapping.txt", destination / "mapping.txt")
     shutil.copyfile(ROOT / maui_notices.DISTRIBUTION_OUTPUT, destination / "THIRD_PARTY_NOTICES.txt")
     shutil.copyfile(ROOT / maui_notices.EVIDENCE, destination / "licence-closure.json")
@@ -331,18 +332,22 @@ def maui_sign(candidate, destination):
         run(maui_sdk_tool("zipalign"), "-c", "-P", "16", "4", apk)
         if fingerprint != expected:
             raise ValueError("The configured signing certificate differs from eng/policy/dotnet-toolchain.json")
+    maui_notices.apk_host_only(apk)  # decision 20: the signed release APK carries no binutils member either
     release_identity = maui_identity.inspect_apk(apk, ROOT, release=True, configuration="Release")
     if release_identity["identity"]["versionCode"] != str(info["version_code"]):
         raise ValueError("Signed MAUI APK version differs from the candidate")
     info["certificate_sha256"] = fingerprint
     for name in MAUI_COMPANIONS:
-        shutil.copyfile(candidate / name, destination / name)
+        if name != "maui-archive.json":  # derived from the signed APK below (its digest and signer), not copied
+            shutil.copyfile(candidate / name, destination / name)
     resources.save(destination / "maui-archive.json",
                    resources.maui_archive(apk, destination / "build-identity.json", ROOT, release=True))
     info["candidate_sha256"] = info.pop("sha256")
     info["track"] = MAUI_TRACK
     info["tag"] = f"android-maui-{info['version_name']}"
     release_names = sorted(p.name for p in destination.iterdir())
+    # The seal lists each published member by digest, as published.maui_verify reads it (the Kotlin path does too).
+    info["sha256"] = {name: sha256(destination / name) for name in release_names}
     (destination / "release.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
     checksums = "".join(f"{sha256(destination / name)}  {name}\n" for name in sorted(release_names + ["release.json"]))
     (destination / "SHA256SUMS").write_text(checksums, encoding="utf-8")

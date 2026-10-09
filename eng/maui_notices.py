@@ -362,21 +362,27 @@ BINUTILS_MEMBER = re.compile(r"(^|/)(as|ld|ld\.bfd|ld\.gold|gold|objcopy|objdump
 BINUTILS_CONTENT = (b"GNU ld", b"GNU assembler", b"GNU objcopy", b"GNU Binutils", b"binutils-gdb", b"libbfd", b"GNU gold")
 
 
-def host_only(root: Path = ROOT) -> dict:
-    """AND.40 unit 5b: prove from the APK contents that the GPL-3.0 gnu/binutils tools are host-only."""
+def apk_host_only(apk: Path) -> dict:
+    """AND.40 decision 20: refuse an APK that carries a gnu/binutils member or its content signature.
+
+    The MAUI candidate stage, the signing job, the published-prerelease verification and the local gate call this on
+    the APK they handle, so a binutils copy cannot reach a sealed candidate or a public release unnoticed.
+    """
     import zipfile
-    builds = []
-    for relative in HOST_ONLY_APKS:
-        path = root / relative
-        require(path.is_file(), f"APK missing for the host-only proof: {relative}")
-        with zipfile.ZipFile(path) as archive:
-            names = [name for name in archive.namelist() if not name.endswith("/")]
-            findings = [name for name in names if BINUTILS_MEMBER.search(name)]
-            for name in names:
-                data = archive.read(name)
-                findings.extend(f"{name} contains {pattern.decode()}" for pattern in BINUTILS_CONTENT if pattern in data)
-        require(not findings, "binutils is inside the APK (stop): " + "; ".join(findings[:10]))
-        builds.append({"apk": relative, "entries": len(names), "binutilsMembers": 0})
+    require(apk.is_file(), f"APK missing for the host-only proof: {apk.name}")
+    with zipfile.ZipFile(apk) as archive:
+        names = [name for name in archive.namelist() if not name.endswith("/")]
+        findings = [name for name in names if BINUTILS_MEMBER.search(name)]
+        for name in names:
+            data = archive.read(name)
+            findings.extend(f"{name} contains {pattern.decode()}" for pattern in BINUTILS_CONTENT if pattern in data)
+    require(not findings, "binutils is inside the APK (stop): " + "; ".join(findings[:10]))
+    return {"entries": len(names), "binutilsMembers": 0}
+
+
+def host_only(root: Path = ROOT, relatives: tuple[str, ...] = HOST_ONLY_APKS) -> dict:
+    """AND.40 unit 5b: prove from the APK contents that the GPL-3.0 gnu/binutils tools are host-only."""
+    builds = [{"apk": relative, **apk_host_only(root / relative)} for relative in relatives]
     return {"result": "absent", "component": "gnu/binutils", "builds": builds}
 
 

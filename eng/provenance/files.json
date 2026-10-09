@@ -160,6 +160,7 @@
     "eng/tests/test_maui_build_identity.py",
     "eng/tests/test_maui_identity.py",
     "eng/tests/test_maui_notices.py",
+    "eng/tests/test_maui_release.py",
     "eng/tests/test_mobile.py",
     "eng/tests/test_resources.py",
     "eng/verify_published_fixture.py",

@@ -11,6 +11,7 @@ import subprocess
 import sys
 import urllib.request
 
+import maui_notices
 import mobile
 import resources
 
@@ -187,7 +188,7 @@ def maui_verify(directory, candidate, expected_certificate=CERTIFICATE):
                       sorted(checksums.splitlines()), 'MAUI SHA256SUMS mismatch')
     for name in names:
         resources.require(mobile.sha256(directory / name) == release['sha256'][name], 'Changed MAUI release member: ' + name)
-    for name in MAUI_COMPANIONS:
+    for name in MAUI_COMPANIONS - {'maui-archive.json'}:
         resources.require((directory / name).read_bytes() == (candidate / name).read_bytes(), 'Changed MAUI companion: ' + name)
     apk = directory / (stem + '.apk')
     certificate = mobile.run(mobile.maui_sdk_tool('apksigner'), 'verify', '--verbose', '--print-certs', apk, capture=True)
@@ -195,6 +196,11 @@ def maui_verify(directory, candidate, expected_certificate=CERTIFICATE):
     import maui_identity
     maui_identity.inspect_apk(apk, mobile.ROOT, release=True, configuration='Release')
     mobile.run(mobile.maui_sdk_tool('zipalign'), '-c', '-P', '16', '4', apk)
+    maui_notices.apk_host_only(apk)  # decision 20: the public APK carries no gnu/binutils member
+    # The release archive names the signed APK's digest and signer, so it is derived again from the public APK.
+    resources.require(resources.read_json(directory / 'maui-archive.json') ==
+                      resources.maui_archive(apk, directory / 'build-identity.json', mobile.ROOT, release=True),
+                      'Public MAUI archive differs from the signed APK')
     return {**info, 'certificate_sha256': expected_certificate, 'public_sha256': release['sha256']}
 
 
