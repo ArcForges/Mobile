@@ -43,14 +43,14 @@
       },
       "Microsoft.Maui.Controls": {
         "type": "Direct",
-        "requested": "[10.0.20, )",
-        "resolved": "10.0.20",
-        "contentHash": "c/Tsp1TGBQNkqpKd/aNkTnFV0FOtjyMyV04Naigg/7MphJwdc0ZI0Dw2P0TvC+tm//Ut+SnviTqlDow6V4tSmA==",
+        "requested": "[10.0.110, )",
+        "resolved": "10.0.110",
+        "contentHash": "QeXQZlZzqY+ynRb/trEgAA0NNFsmiXDKwsklDjY9hPfFJEjWXzNiaxq3XgmEFbse9yNTILG9LeIpmNthUh+ASQ==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Build.Tasks": "10.0.20",
-          "Microsoft.Maui.Controls.Core": "10.0.20",
-          "Microsoft.Maui.Controls.Xaml": "10.0.20",
-          "Microsoft.Maui.Resizetizer": "10.0.20"
+          "Microsoft.Maui.Controls.Build.Tasks": "10.0.110",
+          "Microsoft.Maui.Controls.Core": "10.0.110",
+          "Microsoft.Maui.Controls.Xaml": "10.0.110",
+          "Microsoft.Maui.Resizetizer": "10.0.110"
         }
       },
       "Microsoft.NET.ILLink.Tasks": {
@@ -186,48 +186,48 @@
       },
       "Microsoft.Maui.Controls.Build.Tasks": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "8DbAwGgvgf3QPV1WCu6CabRDTZjtq7kd11sELwYhZ2ZFCdHtGTeLyvpMgnbAtMUwix4hnGyWH8fZKQJlVDBuYA==",
+        "resolved": "10.0.110",
+        "contentHash": "+7Jg5SjRq0FvZLI2fT7HqLA01D+iywvYqFcCdJiYUO3GHh6EdQczyBvdDBjxd40OBK+taJp81ttNy/6mTYxMpQ==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Core": "10.0.20",
-          "Microsoft.Maui.Controls.Xaml": "10.0.20"
+          "Microsoft.Maui.Controls.Core": "10.0.110",
+          "Microsoft.Maui.Controls.Xaml": "10.0.110"
         }
       },
       "Microsoft.Maui.Controls.Core": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "Go8C7a0QaGiQ2EBMsxbbm52DI5+HipgT7C9AslfyfkCU8/H6gicLsPUxae5r9TyrZbgsw5KUnnPEUPJlUwtBcw==",
+        "resolved": "10.0.110",
+        "contentHash": "86tIdXecm7E7HbFmB2B8JRGrzYqafM3W64cX3B4FQNX8IC6z//uW24yejXbvU9AhJiEEQZH3vzCb2MnxwVq1bA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Core": "10.0.20",
+          "Microsoft.Maui.Core": "10.0.110",
           "Xamarin.AndroidX.DynamicAnimation": "1.1.0.3"
         }
       },
       "Microsoft.Maui.Controls.Xaml": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "Ih2rMfJ5B8HbFeNgwsOi31Ngo1A31Zixl8lEuJME+7mXE8VFwVcZcfeKljKG0XTULWxe4/ALZ/nL5tTMMjIFnw==",
+        "resolved": "10.0.110",
+        "contentHash": "FGvMa7vNfj5A+Lg/x9fRwC9p4+1ZWI9EkPYLaaWbgN4z11j4EePTc5bw5oZX61N9pPETm6aw0XflJeBEIF2GtA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
-          "Microsoft.Maui.Controls.Core": "10.0.20",
-          "Microsoft.Maui.Core": "10.0.20"
+          "Microsoft.Maui.Controls.Core": "10.0.110",
+          "Microsoft.Maui.Core": "10.0.110"
         }
       },
       "Microsoft.Maui.Core": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "xbrQSNTMJzwpR80ga7eWVTU544NJUJM6zXdmfx1LenuizoFc8oejr1nJ1zRgISTQ0ZuQEs6flF72DyF/YemP8w==",
+        "resolved": "10.0.110",
+        "contentHash": "FsQqFkS5Qq+vHu9yHNy5KJPmbn1slX9QBzDriNcTvncvfoUHxPpEhtbegjY8kXOoZXc0nmovX1U7eD+NozR93Q==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Essentials": "10.0.20",
-          "Microsoft.Maui.Graphics": "10.0.20",
+          "Microsoft.Maui.Essentials": "10.0.110",
+          "Microsoft.Maui.Graphics": "10.0.110",
           "Xamarin.Android.Glide": "4.16.0.14",
           "Xamarin.AndroidX.Lifecycle.LiveData": "2.9.2.1",
           "Xamarin.AndroidX.Navigation.Common": "2.9.2.1",
@@ -240,10 +240,10 @@
       },
       "Microsoft.Maui.Essentials": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "jalsUhCCL+T5qng/OXAkJhSaV/Uhml3s4LLExx/RBVz4z/kSIOjyXLkV/O66BBUxy/0nPFILeNx9p21TVqWrMg==",
+        "resolved": "10.0.110",
+        "contentHash": "9QAmmko3oez5jO+bpT64Wsef0W2xrQtug5/UClYEPqkJo95UWHdTVOWfdypCl/26yoggflZU/Swd1w56+H+DWQ==",
         "dependencies": {
-          "Microsoft.Maui.Graphics": "10.0.20",
+          "Microsoft.Maui.Graphics": "10.0.110",
           "Xamarin.AndroidX.Activity": "1.10.1.3",
           "Xamarin.AndroidX.Browser": "1.8.0.11",
           "Xamarin.AndroidX.Security.SecurityCrypto": "1.1.0.4-alpha07",
@@ -252,13 +252,13 @@
       },
       "Microsoft.Maui.Graphics": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "X1IfBjN/0KcrcbaDU47xNrZufQeI/PJyBVPxt+3a/yNDhduGS+jlihi4sByil7E4VbQTFVPxclevnbhLtWxNQw=="
+        "resolved": "10.0.110",
+        "contentHash": "+7WK3GKUg+osnQEsgsun5s6VpwKegjpAnBnlMmgK9iX5KO0ImBQwiOqmHOslfDr8E9r44bNmUnj33wSbEE5RKg=="
       },
       "Microsoft.Maui.Resizetizer": {
         "type": "Transitive",
-        "resolved": "10.0.20",
-        "contentHash": "6MVR9wsKgfN25AuEL/KzDLd5x8TpuBrC0DRvlUq2Ddi0WdO1q0B9VsTePJF8mdDmdLybo4h/F5F59kfOTPzIXA=="
+        "resolved": "10.0.110",
+        "contentHash": "8b911sZEcqcQcJbtUaeaPJSkg+9tIbJ1Wz2s9UY13eqZFAeCgqOQbb/03kdlaV7cRTU/shS1ot52+536mlsp/g=="
       },
       "Xamarin.Android.Glide": {
         "type": "Transitive",
@@ -1296,8 +1296,6 @@
           "Grpc.Net.Client.Web": "[2.84.0, )"
         }
       }
-    },
-    "net10.0-android36.1/android-arm64": {},
-    "net10.0-android36.1/android-x64": {}
+    }
   }
 }
