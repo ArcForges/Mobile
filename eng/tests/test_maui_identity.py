@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -48,6 +49,9 @@ PAYLOAD = [
 ]
 # AND.40 unit 3: every reviewed app file is copied into the fixture, so the shape gate sees the real set.
 PAYLOAD = sorted(set(PAYLOAD) | identity.MAUI_APP_FILES)
+# AND.40 PR B: every dependency review, retained or retired, is copied so the set-equality and immutability checks see the real chain.
+PAYLOAD = sorted(set(PAYLOAD) | {f"{identity.MAUI_REVIEWS}/{path.name}"
+                                 for path in (ROOT / identity.MAUI_REVIEWS).glob("*.json")})
 
 
 def workload(doc, alias):
@@ -315,6 +319,23 @@ class MauiIdentityGateTests(unittest.TestCase):
                           lambda doc: doc.update(reviewer="w-deku-20261008-rev-and-01"))
         self.refused()
 
+    def test_wrong_release_publisher_is_refused(self):
+        self.rewrite_json("eng/policy/dependency-policy.json",
+                          lambda doc: doc["publisher"].update(ref="refs/heads/feature"))
+        with self.assertRaisesRegex(ValueError, "Wrong publisher identity"):
+            identity.check_dependency_policy(self.root)
+
+    def test_publish_job_without_the_android_release_environment_is_refused(self):
+        self.edit(".github/workflows/ci.yml", "environment: android-release", "environment: android-staging")
+        with self.assertRaisesRegex(ValueError, "Publisher workflow no longer matches policy"):
+            identity.check_dependency_policy(self.root)
+
+    def test_dropped_retained_review_is_refused(self):
+        self.rewrite_json("eng/policy/dependency-policy.json",
+                          lambda doc: doc.update(retiredReviews=doc["retiredReviews"][1:]))
+        with self.assertRaisesRegex(ValueError, "Dropped retained review"):
+            identity.check_dependency_policy(self.root)
+
     def test_events_first_party_with_a_non_apache_licence_is_refused(self):
         def mutate(doc):
             item = next(p for p in doc["packages"] if p["id"] == "ArcForges.Contracts.Events")
@@ -515,6 +536,61 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.rewrite_json("eng/policy/workload-admission.json",
                           lambda doc: doc["excludedManifests"][0].update(reason=""))
         self.refused()
+
+
+class DependencyReviewHistoryTests(unittest.TestCase):
+    """A git checkout: a retained dependency review may be superseded, never deleted or rewritten (AND.40 PR B)."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        for name in PAYLOAD:
+            target = self.root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / name, target)
+        self.git("init", "-q")
+        self.git("add", "-A")
+        self.git("commit", "-q", "-m", "fixture")
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def git(self, *args):
+        subprocess.run(["git", "-c", "user.name=fixture", "-c", "user.email=fixture@example.invalid",
+                        "-c", "commit.gpgsign=false", *args], cwd=self.root, check=True, capture_output=True)
+
+    def review(self, name):
+        return self.root / identity.MAUI_REVIEWS / name
+
+    def test_committed_chain_passes(self):
+        identity.check_dependency_policy(self.root)
+
+    def test_successor_review_supersedes_without_rewriting_history(self):
+        successor = self.review("maui-identity-inventory-r5.json")
+        successor.write_bytes(self.review("maui-identity-inventory-r4.json").read_bytes())
+        self.rewrite_json("eng/policy/dependency-policy.json",
+                          lambda doc: doc["reviews"].append("maui-identity-inventory-r5.json"))
+        identity.check_dependency_policy(self.root)
+
+    def test_rewritten_retained_review_is_refused(self):
+        path = self.review("maui-identity-inventory-r3.json")
+        path.write_bytes(path.read_bytes().replace(b"AND.01", b"AND.02", 1))
+        with self.assertRaisesRegex(ValueError, "Changed retained dependency review"):
+            identity.check_dependency_policy(self.root)
+
+    def test_deleted_retained_review_is_refused(self):
+        self.review("wp02-05-baseline.json").unlink()
+        self.rewrite_json("eng/policy/dependency-policy.json",
+                          lambda doc: doc.update(retiredReviews=[n for n in doc["retiredReviews"]
+                                                                 if n != "wp02-05-baseline.json"]))
+        with self.assertRaisesRegex(ValueError, "Deleted retained dependency review"):
+            identity.check_dependency_policy(self.root)
+
+    def rewrite_json(self, name, mutate):
+        path = self.root / name
+        document = json.loads(path.read_text(encoding="utf-8"))
+        mutate(document)
+        path.write_text(json.dumps(document, indent=2), encoding="utf-8")
 
 
 class ApkIdentityTests(unittest.TestCase):

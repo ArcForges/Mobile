@@ -76,6 +76,11 @@ MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 MAUI_TEST_ADMISSION = "eng/policy/nuget-test-admission.json"
 MAUI_DEPENDENCY_POLICY = "eng/policy/dependency-policy.json"
 MAUI_REVIEWS = "eng/policy/dependency-reviews"
+# Re-homed from the retired eng/dependency_policy.py (AND.40 PR B): the publisher binding of the release job.
+MAUI_PUBLISHER = {"repository": "ArcForges/Mobile", "workflow": ".github/workflows/ci.yml",
+                  "environment": "android-release", "ref": "refs/heads/main", "event": "push"}
+MAUI_PUBLISH_CONDITIONS = ("environment: android-release", "github.ref == 'refs/heads/main'",
+                           "github.event_name == 'push'")
 MAUI_WORKLOADS = "eng/policy/workload-admission.json"
 MAUI_PUBLISHED = "eng/published.py"
 MAUI_CONTROLS = "Microsoft.Maui.Controls"
@@ -467,6 +472,45 @@ def check_receipts(root: Path, admission: dict, test_record: dict, toolchain: di
              f"The active MAUI inventory receipt {inventory[-1]} must not say PENDING")
 
 
+def _git_lines(root: Path, *args: str) -> list[str]:
+    output = subprocess.run(["git", "-C", str(root), *args], check=True, capture_output=True, text=True,
+                            encoding="utf-8").stdout
+    return output.splitlines()
+
+
+def check_dependency_policy(root: Path) -> None:
+    """Publisher binding, dropped-review set equality and retained-review immutability (re-homed from the retired
+    eng/dependency_policy.py). Every review file is listed exactly once, in reviews (the MAUI chain) or retiredReviews
+    (the Gradle/Kotlin history). In a git checkout, no retained review may be deleted from history or rewritten after
+    its first addition: a successor review supersedes it instead."""
+    policy = _load_json(root / MAUI_DEPENDENCY_POLICY)
+    _require(policy.get("publisher") == MAUI_PUBLISHER, "Wrong publisher identity")
+    workflow = (root / MAUI_PUBLISHER["workflow"]).read_text(encoding="utf-8")
+    for condition in MAUI_PUBLISH_CONDITIONS:
+        _require(condition in workflow, f"Publisher workflow no longer matches policy: {condition}")
+    listed = policy.get("reviews", [])
+    retired = policy.get("retiredReviews", [])
+    names = listed + retired
+    _require(len(names) == len(set(names)), "Duplicate dependency review")
+    _require(all(re.fullmatch(r"[a-z0-9-]+\.json", name) for name in names), "Invalid review path")
+    _require(bool(listed), "Empty dependency review chain")
+    files = {path.name for path in (root / MAUI_REVIEWS).glob("*.json")}
+    _require(set(names) == files, "Dropped retained review: the policy does not list every review file exactly once")
+    if not (root / ".git").exists():
+        return  # a fixture copy has no history; the repository checkout always does
+    historical = {line for line in _git_lines(root, "log", "--diff-filter=A", "--name-only", "--format=", "--",
+                                              MAUI_REVIEWS) if line}
+    _require(all((root / path).is_file() for path in historical), "Deleted retained dependency review")
+    for name in names:
+        path = f"{MAUI_REVIEWS}/{name}"
+        commits = _git_lines(root, "log", "--diff-filter=A", "--format=%H", "--", path)
+        if commits:
+            original = subprocess.run(["git", "-C", str(root), "show", f"{commits[-1]}:{path}"], check=True,
+                                      capture_output=True).stdout
+            _require(original.replace(b"\r\n", b"\n") == (root / path).read_bytes().replace(b"\r\n", b"\n"),
+                     "Changed retained dependency review")
+
+
 def check_maui(root: Path = ROOT) -> dict:
     """Offline AND.01 identity and toolchain gate; raises ValueError on any drift."""
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
@@ -488,6 +532,7 @@ def check_maui(root: Path = ROOT) -> dict:
     check_lock(root, toolchain, admission)
     check_test_admission(test_record)
     check_receipts(root, admission, test_record, toolchain)
+    check_dependency_policy(root)
     check_workloads(root, toolchain, admission)
     check_records(toolchain, admission)
     android = toolchain["android"]

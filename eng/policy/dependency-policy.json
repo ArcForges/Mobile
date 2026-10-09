@@ -32,5 +32,24 @@
     "maui-identity-inventory-r2.json",
     "maui-identity-inventory-r3.json",
     "maui-identity-inventory-r4.json"
-  ]
+  ],
+  "retiredReviews": [
+    "and-40-u5-r1.json",
+    "and-40-u5-r2.json",
+    "and-40-u5-r3.json",
+    "compose-1-12-1.json",
+    "gov-12-mobile-r1.json",
+    "gov-12-mobile-r2.json",
+    "gov-12-mobile-r3.json",
+    "gov-12-mobile-r4.json",
+    "gov-12-mobile-r5.json",
+    "gov-12-mobile-r6.json",
+    "gradle-9-8-0.json",
+    "gradle-9-8-1-r2.json",
+    "gradle-9-8-1.json",
+    "kotlin-2-4-21-spotless-8-10-4.json",
+    "spotless-8-10-3.json",
+    "wp02-05-baseline.json"
+  ],
+  "retiredReviewsReason": "Gradle, Kotlin, Maven and Compose/Spotless admissions retired with the Kotlin baseline (AND.40 PR B). Their files stay under eng/policy/dependency-reviews as immutable history; the Python validator eng/dependency_policy.py was removed in d3ea1e6. eng/maui_identity.py check_dependency_policy enforces that every review file is listed exactly once in reviews or retiredReviews and that no retained review is deleted or rewritten."
 }

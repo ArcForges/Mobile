@@ -72,8 +72,8 @@
   "review": {
     "owner": "Licensing and Provenance Owner",
     "reviewer": "w-deku-20261008-rev-and-40",
-    "reviewedOn": "2026-10-09",
-    "decision": "approved",
+    "reviewedOn": null,
+    "decision": "pending",
     "rationale": "Successor of contracts-build-identity-r2 for AND.40 PR B unit 6: the Kotlin resolver path (generate, report, verify_report, the Gradle lock PackageVersion source) is removed from eng/build_identity.py and eng/version-sources.json; the MAUI ContractSet source text now comes from the admitted, digest-pinned eng/policy/contracts-source.json, whose bytes equal the text the retired Kotlin resource profile carried. The upstream licence evidence (the Contracts source sha) is unchanged; the Mobile transformation is the reviewed change recorded here. Correction before merge, from the AND.40 PR B review of 0dda214: AppVersion no longer reads release/app.json (an untracked file that synthesised the retired io.github.arcforges.mobile subject); it is the allocated release name under com.arcforges.mobile, and the two target digests are the corrected ones.",
     "baselineCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
     "reconciliation": false

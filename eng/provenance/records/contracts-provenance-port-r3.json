@@ -77,8 +77,8 @@
   "review": {
     "owner": "Licensing and Provenance Owner",
     "reviewer": "w-deku-20261008-rev-and-40",
-    "reviewedOn": "2026-10-09",
-    "decision": "approved",
+    "reviewedOn": null,
+    "decision": "pending",
     "rationale": "Successor to contracts-provenance-port-r2 for AND.40 PR B unit 7: the inventory gains the explicit retired-artifact status so that the Kotlin android-packaged-resources-r14 artifact can retire without a replacement, and eng/tests/test_provenance.py gains its two tests. r2 stays as history.",
     "baselineCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
     "reconciliation": false

@@ -99,8 +99,8 @@
   "review": {
     "owner": "Licensing and Provenance Owner",
     "reviewer": "w-deku-20261008-rev-and-40",
-    "reviewedOn": "2026-10-09",
-    "decision": "approved",
+    "reviewedOn": null,
+    "decision": "pending",
     "rationale": "Retirement receipt for AND.40 PR B (migration brief section 10, decisions 5 and 17; the user scope correction of 2026-10-09). It lists every Kotlin, KMP, Gradle and Build.Policy consumer path removed in this pull request as sourcePaths. The earlier records under eng/provenance/records stay unchanged as history. The notice texts removed here were bound only by the Kotlin closure; the three shared Apache and Contracts notice texts remain bound by active records.",
     "baselineCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
     "reconciliation": false
