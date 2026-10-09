@@ -27,7 +27,12 @@ EVIDENCE = "artifacts/evidence/maui-closure.json"
 TARGET = "net10.0-android36.1"
 NUGET_SOURCE = "https://api.nuget.org/v3/index.json"
 REVIEWER = "w-deku-20261008-rev-and-40"
-ADMITTED = {"Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "MIT"}
+ADMITTED = {"Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "MIT", "Zlib", "Unicode-3.0"}
+# AND.40 unit 5b: the workload bundles of the APK (Mono runtime, AOT Cross) and the SDK bundle (build tooling).
+WORKLOAD_ADMITTED = ADMITTED | {"CC0-1.0", "LLVM-exception", "NCSA", "W3C-20150513",
+                               "LicenseRef-IETF-RFC-Notice", "LicenseRef-ISO-8879-Notice", "LicenseRef-OSF-UUID-Notice",
+                               "LicenseRef-Practice-of-Programming-Notice", "LicenseRef-Public-Domain-Dedication",
+                               "LicenseRef-Slicing-by-8-BSD-Notice"}
 FORBIDDEN = re.compile(r"AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED", re.IGNORECASE)
 BUILD_ONLY = ["Microsoft.Maui.Controls.Build.Tasks", "Microsoft.Maui.Resizetizer", "Microsoft.NET.ILLink.Tasks"]
 BEGIN = "<!-- maui-notices:begin -->"
@@ -162,6 +167,22 @@ def check(root: Path = ROOT) -> dict:
     unnoticed = {item["id"] for item in admission["packages"] if not item["licenceFiles"]}
     require(unnoticed <= set(data["packages"]), "A package without licence files has no retained notice: " +
             ", ".join(sorted(unnoticed - set(data["packages"]))))
+    for pack in data["workloadPacks"]:
+        require(pack.get("contributes") in {"apk", "build-tooling"}, f"Workload pack without a contribution class: {pack['pack']}")
+        if pack["contributes"] == "apk":
+            require(pack.get("licence") and set(licence_tokens(pack["licence"])) <= WORKLOAD_ADMITTED,
+                    f"APK workload pack licence outside the admitted set: {pack['pack']}")
+        for sha in pack["notices"]:
+            retained = root / "third-party/notices" / (sha + ".txt")
+            require(retained.is_file() and digest(retained.read_bytes()) == sha, f"Workload pack notice is not retained: {sha}")
+    for item in data.get("admissions", []):
+        require(item.get("reviewer") == REVIEWER and item.get("decision") == "admitted"
+                and set(licence_tokens(item["licence"])) <= WORKLOAD_ADMITTED,
+                f"Admission is not reviewed or names an unadmitted licence: {item.get('licence')}")
+    host = data.get("hostOnly", [])
+    require(len(host) == 1 and host[0].get("component") == "gnu/binutils" and host[0].get("classification") == "host-only"
+            and host[0].get("distributionNoticeSet") == "excluded" and host[0].get("binutilsMemberCount") == 0,
+            "The gnu/binutils host-only evidence is missing or does not exclude the component")
     toolchain = read_json(root, TOOLCHAIN)
     for item in toolchain["deferrals"]:
         if "package" in item:
@@ -203,7 +224,8 @@ def render(root: Path = ROOT) -> str:
         lines.append(f"| {pack['pack']} | {pack['version']} | {shas} |")
     lines += ["", "### Open notice obligations", ""]
     for item in data.get("escalated", []):
-        lines.append(f"- {item['item']}")
+        if item.get("status") != "resolved":
+            lines.append(f"- {item['item']}")
     for item in data.get("pending", []):
         lines.append(f"- Pending ({item['owner']}): " + " ".join(item["items"]))
     return "\n".join(lines)
@@ -265,6 +287,15 @@ def distribution(root: Path = ROOT, nuget_root: Path | None = None) -> dict:
             text = (root / "third-party/notices" / (shadow + ".txt")).read_bytes()
             require(digest(text) == shadow, f"Retained notice changed: {shadow}")
             entries[(row["id"], row["version"], "retained", shadow)] = text
+    apk_notices = {}
+    for pack in data["workloadPacks"]:
+        if pack.get("contributes") == "apk":
+            for sha in pack["notices"]:
+                apk_notices.setdefault(sha, []).append(pack["pack"] + " " + pack["version"])
+    for sha in sorted(apk_notices):
+        text = (root / "third-party/notices" / (sha + ".txt")).read_bytes()
+        require(digest(text) == sha, f"Retained notice changed: {sha}")
+        entries[("APK workload packs: " + "; ".join(sorted(apk_notices[sha])), "workload", "retained", sha)] = text
     require(entries, "No shipped package carries licence text")
     lines = []
     for key in sorted(entries):
@@ -323,10 +354,36 @@ def release_ready(root: Path = ROOT) -> dict:
     return {"result": "ready", "openEscalations": 0}
 
 
+HOST_ONLY_APKS = (
+    "src/ArcForges.Mobile/bin/Debug/net10.0-android/com.arcforges.mobile-Signed.apk",
+    "src/ArcForges.Mobile/bin/Release/net10.0-android/com.arcforges.mobile-Signed.apk",
+)
+BINUTILS_MEMBER = re.compile(r"(^|/)(as|ld|ld\.bfd|ld\.gold|gold|objcopy|objdump|ar|nm|ranlib|strip|readelf|addr2line|size|strings|gprof|c\+\+filt|elfedit)(\.exe)?$|libbfd|libopcodes|libctf|libiberty|binutils", re.IGNORECASE)
+BINUTILS_CONTENT = (b"GNU ld", b"GNU assembler", b"GNU objcopy", b"GNU Binutils", b"binutils-gdb", b"libbfd", b"GNU gold")
+
+
+def host_only(root: Path = ROOT) -> dict:
+    """AND.40 unit 5b: prove from the APK contents that the GPL-3.0 gnu/binutils tools are host-only."""
+    import zipfile
+    builds = []
+    for relative in HOST_ONLY_APKS:
+        path = root / relative
+        require(path.is_file(), f"APK missing for the host-only proof: {relative}")
+        with zipfile.ZipFile(path) as archive:
+            names = [name for name in archive.namelist() if not name.endswith("/")]
+            findings = [name for name in names if BINUTILS_MEMBER.search(name)]
+            for name in names:
+                data = archive.read(name)
+                findings.extend(f"{name} contains {pattern.decode()}" for pattern in BINUTILS_CONTENT if pattern in data)
+        require(not findings, "binutils is inside the APK (stop): " + "; ".join(findings[:10]))
+        builds.append({"apk": relative, "entries": len(names), "binutilsMembers": 0})
+    return {"result": "absent", "component": "gnu/binutils", "builds": builds}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("command", choices=["closure", "reproof", "check", "render", "distribution",
-                                            "linux-evidence", "release-ready"])
+                                            "linux-evidence", "release-ready", "host-only"])
     parser.add_argument("--nuget-root", type=Path, default=None, help="distribution: the restored NuGet packages folder")
     parser.add_argument("--dotnet-root", type=Path, default=None, help="linux-evidence: the dotnet root holding packs")
     args = parser.parse_args()
@@ -347,6 +404,8 @@ def main() -> int:
             if args.dotnet_root is None:
                 raise ValueError("linux-evidence requires --dotnet-root")
             print(json.dumps(linux_evidence(args.dotnet_root, ROOT), indent=2))
+        elif args.command == "host-only":
+            print(json.dumps(host_only(ROOT), indent=2))
         elif args.command == "release-ready":
             print(json.dumps(release_ready(ROOT), indent=2))
         else:

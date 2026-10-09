@@ -48,9 +48,10 @@ The MAUI Android app (AND.40) is redistributed under the NuGet closure in
 | --- | --- | --- |
 | Microsoft.Android.Sdk.Windows | 36.1.69 | `cfc21f5e8bd655ae` |
 | Microsoft.Maui.Sdk | 10.0.20 | `cfc21f5e8bd655ae`, `c0a274fea4b590fb` |
+| Microsoft.NETCore.App.Runtime.Mono.android-arm64 | 10.0.12 | `66f1d4e449731855`, `aeacdb4777e6e3c6`, `de4a44cff385b182` |
+| Microsoft.NETCore.App.Runtime.AOT.win-x64.Cross.android-arm64 | 10.0.12 | `66f1d4e449731855` |
 
 ### Open notice obligations
 
-- THIRD-PARTY-NOTICES.TXT of Microsoft.Android.Sdk.Windows 36.1.69, Microsoft.NETCore.App.Runtime.Mono.android-arm64 10.0.12 and the AOT Cross 10.0.12 packs contain BSD-2-Clause text. Their licence families need a compound SPDX expression that the Contracts-ported provenance table does not admit, so they are not yet carried. The provenance checker was not changed in unit 4.
 - Pending (AND.40 unit 5): Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross pack aliases (hosted Linux run). Licence statements of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (THIRD-PARTY-NOTICES.TXT only; no LICENSE.TXT).
 <!-- maui-notices:end -->

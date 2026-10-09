@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "id": "maui-android-sdk-bundle-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/dotnet/android",
+  "sourceCommit": "d549e1dc4e2a083b08b4f24cb5495e81b99d79b5",
+  "sourcePaths": [
+    "THIRD-PARTY-NOTICES.TXT"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND NCSA",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "THIRD-PARTY-NOTICES.TXT",
+        "sha256": "f7b09b6ee5286596d12bd4eb6f82e203b59bcf0b10e48845eacb56f4c3f2b227",
+        "finding": "Microsoft.Android.Sdk.Windows 36.1.69 THIRD-PARTY-NOTICES.TXT as installed; the pack versions file names dotnet/android d549e1dc. The gnu/binutils GPL-3.0 section is host-only and excluded (eng/maui_notices.py host-only)."
+      }
+    ],
+    "scope": "Build tooling of the Android SDK pack, not packaged in the APK. The expression covers the 27 non-binutils components: Apache-2.0, MIT, BSD-2-Clause (lz4), BSD-3-Clause (crc, r8, libzip and the ELFSharp and Intel-style notices) and NCSA (LLVM Release License in ELFSharp). The gnu/binutils GPL-3.0 section is host-only and excluded.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright notices and licence terms as printed in the upstream legal document; this record binds no retained text."
+  ],
+  "targets": [],
+  "artifactTargets": [],
+  "disposition": "Reference Only",
+  "verification": {
+    "kind": "byte-match",
+    "command": "Compare the LF-normalized bundle bytes with the recorded bundle SHA-256 named in the scope.",
+    "expected": "The referenced bundle is byte-identical after LF normalization; no retained text is bound by this record.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": false,
+    "text": "Build tooling; not packaged in the APK. Its gnu/binutils section is host-only and excluded from the distribution notice set.",
+    "files": [],
+    "distribution": "documentation",
+    "reason": "Not packaged in the APK, so not carried in the distribution notice set; recorded so the SDK pack licence expression is accounted for (AND.40 unit 5b, decision 19)."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-deku-20261008-rev-and-40",
+    "reviewedOn": "2026-10-09",
+    "decision": "approved",
+    "rationale": "Build tooling only. The gnu/binutils GPL-3.0 section is host-only; the APK contents contain no binutils member (eng/maui_notices.py host-only). Admitted as build tooling for the Android SDK pack (AND.40 unit 5b).",
+    "baselineCommit": "35fdfa63b8f757670246130133b18ee6e0fe5968",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

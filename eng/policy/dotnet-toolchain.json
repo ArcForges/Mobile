@@ -130,7 +130,8 @@
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
       "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open.",
-      "resolution": "Partly carried by eng/policy/maui-notices.json: the MIT LICENSE.TXT of Microsoft.Android.Sdk.Windows and Microsoft.Maui.Sdk, and the Apache-2.0 AND MIT notice bundles of both packs. OPEN: the Android SDK bundle, and the Mono runtime and AOT Cross bundles, contain BSD-2-Clause text that the provenance table cannot express yet (escalated in maui-notices.json)."
+      "resolution": "Resolved in AND.40 unit 5b (decisions 19 and 20). The Android SDK, Mono runtime and AOT Cross bundles are recorded (maui-android-sdk-bundle-r1, maui-mono-runtime-bundle-r1, maui-mono-aot-cross-bundle-r1) with their compound SPDX expressions admitted in eng/check_provenance.py. The Mono runtime bundle text, with the zlib-ng and Unicode-3.0 sections, is retained and carried by the distribution notice set. The SDK pack is build tooling and its gnu/binutils GPL-3.0 section is host-only (maui-notices hostOnly).",
+      "status": "resolved"
     },
     {
       "id": "workload-licence-evidence",

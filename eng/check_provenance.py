@@ -34,7 +34,10 @@ LICENCES = {**{name: "permissive" for name in
                "Apache-2.0 WITH LLVM-exception", "Apache-2.0 AND BSD-3-Clause", "Apache-2.0 AND MIT",
                "Apache-2.0 WITH LLVM-exception AND MIT",
                "Apache-2.0 AND BSD-3-Clause AND MIT",
-               "Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)")},
+               "Apache-2.0 AND BSD-3-Clause AND MIT AND (Apache-2.0 WITH LLVM-exception)",
+               "Zlib", "Unicode-3.0",
+               "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND NCSA",
+               "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND LicenseRef-IETF-RFC-Notice AND LicenseRef-ISO-8879-Notice AND LicenseRef-OSF-UUID-Notice AND LicenseRef-Practice-of-Programming-Notice AND LicenseRef-Public-Domain-Dedication AND LicenseRef-Slicing-by-8-BSD-Notice AND MIT AND NCSA AND Unicode-3.0 AND W3C-20150513 AND Zlib AND (Apache-2.0 WITH LLVM-exception)")},
             "AGPL-3.0-only": "agpl-compatible", "MPL-2.0": "agpl-compatible", "GPL-2.0-only": "gpl-only",
             "GPL-3.0-only": "gpl-only", "NOASSERTION": "unclear", "EPL-1.0": "incompatible"}
 

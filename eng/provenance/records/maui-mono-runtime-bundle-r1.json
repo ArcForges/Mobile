@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "maui-mono-runtime-bundle-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/dotnet/runtime",
+  "sourceCommit": "f3c422da807f2a8698a7b1b95cb1badd4572ac4c",
+  "sourcePaths": [
+    "THIRD-PARTY-NOTICES.TXT"
+  ],
+  "licence": {
+    "spdx": "Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND LicenseRef-IETF-RFC-Notice AND LicenseRef-ISO-8879-Notice AND LicenseRef-OSF-UUID-Notice AND LicenseRef-Practice-of-Programming-Notice AND LicenseRef-Public-Domain-Dedication AND LicenseRef-Slicing-by-8-BSD-Notice AND MIT AND NCSA AND Unicode-3.0 AND W3C-20150513 AND Zlib AND (Apache-2.0 WITH LLVM-exception)",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "THIRD-PARTY-NOTICES.TXT",
+        "sha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+        "finding": "Microsoft.NETCore.App.Runtime.Mono.android-arm64 10.0.12 THIRD-PARTY-NOTICES.TXT as installed (LF-normalized sha256 66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54); the pack versions file names dotnet/runtime f3c422da."
+      }
+    ],
+    "scope": "Verbatim Mono runtime bundle (every section, LF-normalized) as shipped in the APK-contributing runtime pack. Licence families are the SPDX ids the sections state, with LicenseRef identifiers for public-domain dedications and RFC, ISO and OSF notices that have no SPDX id.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright notices and licence terms as printed in the upstream legal document; see the retained section."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54.txt",
+      "sha256": "66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Split the pinned legal document at its section headers; compare the LF-normalized section bytes with the target SHA-256 and the target file name.",
+    "expected": "The retained section is verbatim, after LF normalization, from the pinned legal document.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain this legal text verbatim with the MAUI Android release notices.",
+    "files": [
+      "third-party/notices/66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54.txt"
+    ],
+    "distribution": "packages",
+    "reason": "The MAUI Android release notices must carry the Mono runtime bundle notices (AND.40 unit 5b; decisions 19 and 20)."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-deku-20261008-rev-and-40",
+    "reviewedOn": "2026-10-09",
+    "decision": "approved",
+    "rationale": "Mono runtime bundle of the APK (AND.40 unit 5b). Its licence families are permissive; the Zlib and Unicode-3.0 sections are also recorded separately; no implementation is admitted by this record.",
+    "baselineCommit": "35fdfa63b8f757670246130133b18ee6e0fe5968",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

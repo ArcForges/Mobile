@@ -58,7 +58,7 @@ Notice scope: packages
 Copyright 2026 ArcForges contributors. Dependencies retain the licences listed in each unchanged package notice.
 Preserve complete Contracts 1.0.0-ci.60.1 package notices, including original binding-generator copyrights and protobuf BSD terms.
 
-contracts-provenance-port-r1
+contracts-provenance-port-r2
 Source: https://github.com/ArcForges/Contracts @ aa2f187a4adae8ee4f79cee192c0d382cb7fec7f
 Material licence: Apache-2.0
 Notice scope: source
@@ -124,6 +124,27 @@ Retain this legal text verbatim with the MAUI Android release notices.
 maui-maui-bundle-apache20andmit-r1
 Source: https://github.com/dotnet/maui @ 0d1705adc4a6b4ec531e316ec956755abbe059c5
 Material licence: Apache-2.0 AND MIT
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-mono-runtime-bundle-r1
+Source: https://github.com/dotnet/runtime @ f3c422da807f2a8698a7b1b95cb1badd4572ac4c
+Material licence: Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND CC0-1.0 AND LicenseRef-IETF-RFC-Notice AND LicenseRef-ISO-8879-Notice AND LicenseRef-OSF-UUID-Notice AND LicenseRef-Practice-of-Programming-Notice AND LicenseRef-Public-Domain-Dedication AND LicenseRef-Slicing-by-8-BSD-Notice AND MIT AND NCSA AND Unicode-3.0 AND W3C-20150513 AND Zlib AND (Apache-2.0 WITH LLVM-exception)
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-mono-unicode-data-r1
+Source: https://github.com/dotnet/runtime @ f3c422da807f2a8698a7b1b95cb1badd4572ac4c
+Material licence: Unicode-3.0
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-mono-zlib-r1
+Source: https://github.com/dotnet/runtime @ f3c422da807f2a8698a7b1b95cb1badd4572ac4c
+Material licence: Zlib
 Notice scope: packages
 Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
 Retain this legal text verbatim with the MAUI Android release notices.

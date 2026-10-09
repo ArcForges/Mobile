@@ -26,7 +26,7 @@ MAUI_LOCK = 'src/ArcForges.Mobile/packages.lock.json'
 MAUI_ADMISSION = 'eng/policy/nuget-admission.json'
 MAUI_NOTICE_DATA = 'eng/policy/maui-notices.json'
 MAUI_TARGET = 'net10.0-android36.1'
-MAUI_ADMITTED_LICENCES = {'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT'}
+MAUI_ADMITTED_LICENCES = {'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT', 'Zlib', 'Unicode-3.0'}
 MAUI_FORBIDDEN_LICENCE = re.compile(r'AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED', re.IGNORECASE)
 
 
@@ -136,7 +136,11 @@ def notice_entries(data):
 def maui_notice_hashes(root=ROOT):
     """Retained notices of the MAUI closure (eng/policy/maui-notices.json). They sit outside the Android closure."""
     path = root / MAUI_NOTICE_DATA
-    return {row['sha256'] for row in read_json(path)['notices']} if path.exists() else set()
+    if not path.exists():
+        return set()
+    data = read_json(path)
+    # AND.40 unit 5b: the workload-pack notices (APK runtime and build tooling) are retained in the same directory.
+    return {row['sha256'] for row in data['notices']} | {sha for pack in data.get('workloadPacks', []) for sha in pack['notices']}
 
 
 def maui_closure_audit(root=ROOT):
