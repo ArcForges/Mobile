@@ -17,7 +17,7 @@ import tomllib
 import xml.etree.ElementTree as ET
 import zipfile
 
-from licences import maui_closure_audit
+from licences import dotnet_project_audit, maui_closure_audit
 import check_provenance
 import maui_notices
 import resources
@@ -50,6 +50,7 @@ def version():
 
 
 def repository_check():
+    dotnet_project_audit(ROOT)  # AND.01: every tracked .NET project is a reviewed csproj in the .NET inventory
     maui_identity.check_maui(ROOT)  # AND.01: MAUI identity, SDK pin and NuGet admission
     maui_closure_audit(ROOT)  # AND.40 unit 4: MAUI NuGet closure audit (licences, admission equality, one Android target)
     maui_notices.reproof(ROOT)  # AND.40 unit 4: F-023-class re-proof of the shipped closure

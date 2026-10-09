@@ -96,14 +96,13 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.refused()
 
     def test_identity_project_on_the_gradle_roster_is_refused(self):
-        self.edit("eng/policy/licence-boundary.json", '"projects": [',
-                  '"projects": [\n    {\n      "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",\n      "kind": "gradle"\n    },', 1)
+        self.edit("eng/policy/licence-boundary.json", '"projects": []',
+                  '"projects": [\n    {\n      "path": "src/ArcForges.Mobile/ArcForges.Mobile.csproj",\n      "kind": "gradle"\n    }\n  ]', 1)
         self.refused()
 
-    def test_repository_audit_keeps_the_gradle_roster_and_audits_the_identity_project_apart(self):
-        audit = licences.project_audit(ROOT)
-        self.assertEqual([row["path"] for row in audit["projects"]],
-                         ["app/build.gradle.kts", "build.gradle.kts", "shared/build.gradle.kts"])
+    def test_repository_audit_has_no_gradle_roster_and_audits_the_identity_project(self):
+        audit = licences.dotnet_project_audit(ROOT)
+        self.assertNotIn("projects", audit)
         self.assertEqual(audit["dotnetProjects"],
                          sorted(({"path": path, "kind": "dotnet"} for path in identity.MAUI_REVIEWED_DOTNET_PROJECTS),
                                 key=lambda row: row["path"]))

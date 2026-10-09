@@ -59,7 +59,7 @@ MAUI_KEYSTORE_PROJECT = "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Sec
 MAUI_NAME_ATTRIBUTE = "{http://schemas.android.com/apk/res/android}name"
 MAUI_TOOLS_NODE = "{http://schemas.android.com/tools}node"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
-# The identity project is classified here, apart from the Gradle roster that the Kotlin baseline gates read (AND.01).
+# The identity project is classified here. The Gradle licence roster is retired with the Kotlin baseline (AND.40 PR B).
 MAUI_LICENCE_REGISTRY = "eng/policy/dotnet-licence-boundary.json"
 MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
 # AND.40 unit 2: the platform-neutral Hello transport library and its host tests are reviewed .NET projects too. Each is
@@ -160,7 +160,7 @@ def check_build_policy(root: Path) -> None:
 
 
 def check_licence_registration(root: Path) -> None:
-    """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit) and is absent from the Gradle roster."""
+    """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit); the retired Gradle roster stays empty."""
     registry = _load_json(root / MAUI_LICENCE_REGISTRY)
     expected = sorted(({"path": path, "kind": "dotnet"} for path in MAUI_REVIEWED_DOTNET_PROJECTS), key=lambda item: item["path"])
     registered = registry.get("projects")
@@ -168,9 +168,8 @@ def check_licence_registration(root: Path) -> None:
              and registry.get("spdxLicense") == "Apache-2.0" and registry.get("licenceBoundary") == "Apache",
              f"{MAUI_LICENCE_REGISTRY} must register exactly the reviewed .NET projects as Apache-2.0 / Apache")
     roster = _load_json(root / MAUI_GRADLE_ROSTER)
-    rostered = {item.get("path") for item in roster.get("projects", [])}
-    _require(not rostered & set(MAUI_REVIEWED_DOTNET_PROJECTS),
-             f"The Gradle licence roster ({MAUI_GRADLE_ROSTER}) must not carry a .NET project")
+    _require(roster.get("projects") == [],
+             f"The retired Gradle licence roster ({MAUI_GRADLE_ROSTER}) must stay empty; no project is Gradle-built")
 
 
 def check_project(root: Path, toolchain: dict) -> None:
