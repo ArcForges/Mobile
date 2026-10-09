@@ -99,7 +99,8 @@
       "item": "The BSD-2-Clause copyright notice of Xamarin.Android.Glide, a transitive MAUI dependency admitted by coordinator adjudication (2026-10-08, migration brief section 10).",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json (Xamarin.Android.Glide BSD-2-Clause section, verbatim, third-party/notices). Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-google-protobuf-3-36-1",
@@ -109,7 +110,8 @@
       "licence": "BSD-3-Clause",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the BSD-3-Clause licence text; a candidate without it is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the BSD-3-Clause licence text; a candidate without it is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained BSD-3-Clause text of protobuf 36.1 (protobuf-36-1-legal-r1), whose source commit equals the Google.Protobuf nuspec repository commit. Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-grpc-core-api-2-84-0",
@@ -119,14 +121,16 @@
       "licence": "Apache-2.0",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     },
     {
       "id": "workload-pack-notices",
       "item": "The MIT licence and notice files of the admitted workload packs in eng/policy/workload-admission.json. The Mono runtime and Mono AOT packs contribute to the APK; the SDK and MAUI packs are build tooling.",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Partly carried by eng/policy/maui-notices.json: the MIT LICENSE.TXT of Microsoft.Android.Sdk.Windows and Microsoft.Maui.Sdk, and the Apache-2.0 AND MIT notice bundles of both packs. OPEN: the Android SDK bundle, and the Mono runtime and AOT Cross bundles, contain BSD-2-Clause text that the provenance table cannot express yet (escalated in maui-notices.json)."
     },
     {
       "id": "workload-licence-evidence",
@@ -143,7 +147,8 @@
       "licence": "Apache-2.0",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-grpc-net-client-web-2-84-0",
@@ -153,7 +158,8 @@
       "licence": "Apache-2.0",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-grpc-net-common-2-84-0",
@@ -163,7 +169,8 @@
       "licence": "Apache-2.0",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     }
   ],
   "priorReview": {

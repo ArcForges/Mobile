@@ -40,6 +40,8 @@ MAUI_APP_FILES = {
     "src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
     "src/ArcForges.Mobile/Platforms/Android/MainApplication.cs",
     "src/ArcForges.Mobile/Platforms/Android/Resources/xml/data_extraction_rules.xml",
+    "src/ArcForges.Mobile/HelloConnection.cs",
+    "src/ArcForges.Mobile/ViewModels/HelloViewModel.cs",
     "src/ArcForges.Mobile/Resources/AppIcon/appicon.svg",
     "src/ArcForges.Mobile/Resources/AppIcon/appiconfg.svg",
     "src/ArcForges.Mobile/Resources/Splash/splash.svg",
@@ -67,6 +69,7 @@ MAUI_REVIEWED_DOTNET_PROJECTS = (
     MAUI_HELLO_PROJECT,
     MAUI_KEYSTORE_PROJECT,
     "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
+    "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
 )
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 # AND.40 unit 1: test-only packages (xUnit family, Microsoft.NET.Test.Sdk). Never referenced by the identity project.

@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Microsoft.Extensions.DependencyInjection;
-using ArcForges.Mobile.Network;
 
 namespace ArcForges.Mobile;
 
@@ -18,9 +17,9 @@ public sealed class App : Application
     {
         var window = new Window(_services.GetRequiredService<MainPage>());
 
-        // The Hello client holds a channel and in-flight calls; closing the window releases them, as the Kotlin
-        // activity closed its client in onDestroy.
-        window.Destroying += (_, _) => _services.GetRequiredService<CloudHelloClient>().Dispose();
+        // The view-model outlives the window. Closing the window releases the Hello client, as the Kotlin activity did in
+        // onDestroy; the next window in the same process creates a new client on its first call.
+        window.Destroying += (_, _) => _services.GetRequiredService<HelloConnection>().Release();
         return window;
     }
 }

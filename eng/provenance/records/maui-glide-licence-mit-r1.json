@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "maui-glide-licence-mit-r1",
+  "kind": "legal-text",
+  "sourceRepository": "https://github.com/xamarin/AndroidX",
+  "sourceCommit": "68db082220ebc7f370f61bf8c64e4832db889928",
+  "sourcePaths": [
+    "LICENSE.md"
+  ],
+  "licence": {
+    "spdx": "MIT",
+    "category": "permissive",
+    "evidence": [
+      {
+        "path": "LICENSE.md",
+        "sha256": "7f92be6c840f2584494d4986060fe7dfe8bbf02d6ab122980fa1d43ffb2ecb0f",
+        "finding": "Xamarin.Android.Glide 4.16.0.14 LICENSE.md as packaged in the nupkg; the nuspec names xamarin/AndroidX commit 68db0822."
+      }
+    ],
+    "scope": "Verbatim MIT section of glide-licence from the pinned upstream legal document; this record does not admit any implementation.",
+    "copyingPermission": "Verbatim reproduction of the governing legal document and required notices for licensed distribution; no modification of its operative terms and no implication of trademark endorsement."
+  },
+  "attribution": [
+    "Copyright notices and licence terms as printed in the upstream legal document; see the retained section."
+  ],
+  "targets": [
+    {
+      "path": "third-party/notices/679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58.txt",
+      "sha256": "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "normalization": "lf"
+    }
+  ],
+  "artifactTargets": [],
+  "disposition": "Copy",
+  "verification": {
+    "kind": "transformation",
+    "command": "Split the pinned source legal document at its section headers; compare the LF-normalized section bytes with the target SHA-256 and the target file name.",
+    "expected": "The retained section is verbatim, after LF normalization, from the pinned source document.",
+    "artifacts": []
+  },
+  "notice": {
+    "required": true,
+    "text": "Retain this legal text verbatim with the MAUI Android release notices.",
+    "files": [
+      "third-party/notices/679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58.txt"
+    ],
+    "distribution": "packages",
+    "reason": "The MAUI Android release notices must carry this licence text (AND.40 unit 4; deferral owned by AND.40)."
+  },
+  "lifetime": {
+    "status": "permanent",
+    "owner": "Licensing and Provenance Owner",
+    "removalTrigger": null
+  },
+  "generation": null,
+  "review": {
+    "owner": "Licensing and Provenance Owner",
+    "reviewer": "w-deku-20261008-rev-and-40",
+    "reviewedOn": "2026-10-09",
+    "decision": "approved",
+    "rationale": "Verbatim section of the upstream legal document in the restored package or installed workload pack, reviewed for the MAUI closure; no implementation reuse.",
+    "baselineCommit": "35fdfa63b8f757670246130133b18ee6e0fe5968",
+    "reconciliation": false
+  },
+  "supersedes": null
+}

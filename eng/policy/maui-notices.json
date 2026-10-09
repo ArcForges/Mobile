@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "licenceBoundary": "Apache",
+  "reviewer": "w-deku-20261008-rev-and-40",
+  "reviewId": "maui-notices-r1",
+  "reviewedOn": "2026-10-09",
+  "lockFile": "src/ArcForges.Mobile/packages.lock.json",
+  "lockSha256": "4a75358077833d644dfa2680fa9eadb2092f73b9354f6099343c29d6657e64e0",
+  "authority": "AND.40 deferrals bsd-2-clause-glide-notice, nuget-notice-*, workload-pack-notices (eng/policy/dotnet-toolchain.json); decision 7 (release companions).",
+  "notices": [
+    {
+      "sha256": "4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6",
+      "path": "third-party/notices/4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6.txt",
+      "licence": "Apache-2.0",
+      "record": "maui-glide-bundle-apache20-r1",
+      "source": "glide-bundle",
+      "sourceFile": "THIRD-PARTY-NOTICES.txt"
+    },
+    {
+      "sha256": "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "path": "third-party/notices/679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58.txt",
+      "licence": "MIT",
+      "record": "maui-glide-licence-mit-r1",
+      "source": "glide-licence",
+      "sourceFile": "LICENSE.md"
+    },
+    {
+      "sha256": "6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14",
+      "path": "third-party/notices/6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14.txt",
+      "licence": "BSD-2-Clause",
+      "record": "maui-glide-bundle-bsd2clause-r1",
+      "source": "glide-bundle",
+      "sourceFile": "THIRD-PARTY-NOTICES.txt"
+    },
+    {
+      "sha256": "c0a274fea4b590fb153ad42e87fdec524b7c2926357075c99ce9eea277ae7147",
+      "path": "third-party/notices/c0a274fea4b590fb153ad42e87fdec524b7c2926357075c99ce9eea277ae7147.txt",
+      "licence": "Apache-2.0 AND MIT",
+      "record": "maui-maui-bundle-apache20andmit-r1",
+      "source": "maui-bundle",
+      "sourceFile": "THIRD-PARTY-NOTICES.TXT"
+    },
+    {
+      "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+      "path": "third-party/notices/cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310.txt",
+      "licence": "MIT",
+      "record": "maui-android-licence-mit-r1",
+      "source": "android-licence",
+      "sourceFile": "LICENSE.TXT"
+    },
+    {
+      "sha256": "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+      "path": "third-party/notices/cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310.txt",
+      "licence": "MIT",
+      "record": "maui-android-licence-mit-r1",
+      "source": "maui-licence",
+      "sourceFile": "LICENSE.TXT"
+    }
+  ],
+  "packages": {
+    "Xamarin.Android.Glide": [
+      "6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14",
+      "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6"
+    ],
+    "Xamarin.Android.Glide.Annotations": [
+      "6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14",
+      "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6"
+    ],
+    "Xamarin.Android.Glide.DiskLruCache": [
+      "6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14",
+      "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6"
+    ],
+    "Xamarin.Android.Glide.GifDecoder": [
+      "6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14",
+      "679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58",
+      "4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6"
+    ],
+    "Google.Protobuf": [
+      "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d"
+    ],
+    "Grpc.Core.Api": [
+      "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    ],
+    "Grpc.Net.Client": [
+      "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    ],
+    "Grpc.Net.Client.Web": [
+      "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    ],
+    "Grpc.Net.Common": [
+      "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    ]
+  },
+  "workloadPacks": [
+    {
+      "pack": "Microsoft.Android.Sdk.Windows",
+      "version": "36.1.69",
+      "notices": [
+        "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310"
+      ]
+    },
+    {
+      "pack": "Microsoft.Maui.Sdk",
+      "version": "10.0.20",
+      "notices": [
+        "cfc21f5e8bd655ae997eec916138b707b1d290b83272c02a95c9f821b8c87310",
+        "c0a274fea4b590fb153ad42e87fdec524b7c2926357075c99ce9eea277ae7147"
+      ]
+    }
+  ],
+  "escalated": [
+    {
+      "id": "workload-bundles-bsd-2-clause",
+      "status": "open",
+      "owner": "AND.40",
+      "item": "THIRD-PARTY-NOTICES.TXT of Microsoft.Android.Sdk.Windows 36.1.69, Microsoft.NETCore.App.Runtime.Mono.android-arm64 10.0.12 and the AOT Cross 10.0.12 packs contain BSD-2-Clause text. Their licence families need a compound SPDX expression that the Contracts-ported provenance table does not admit, so they are not yet carried. The provenance checker was not changed in unit 4."
+    }
+  ],
+  "pending": [
+    {
+      "id": "linux-licence-evidence",
+      "owner": "AND.40 unit 5",
+      "status": "pending",
+      "items": [
+        "Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross pack aliases (hosted Linux run).",
+        "Licence statements of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (THIRD-PARTY-NOTICES.TXT only; no LICENSE.TXT)."
+      ]
+    }
+  ]
+}

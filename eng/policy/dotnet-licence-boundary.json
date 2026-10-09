@@ -17,6 +17,10 @@
       "kind": "dotnet"
     },
     {
+      "path": "tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj",
+      "kind": "dotnet"
+    },
+    {
       "path": "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
       "kind": "dotnet"
     }

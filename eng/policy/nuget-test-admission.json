@@ -3,13 +3,47 @@
   "owner": "Mobile",
   "reviewer": "w-deku-20261008-rev-and-40",
   "licenceBoundary": "Apache",
-  "reviewId": "maui-test-scope-closure-r1",
+  "reviewId": "maui-test-scope-closure-r2",
   "reviewedOn": "2026-10-09",
   "source": "https://api.nuget.org/v3/index.json",
-  "scope": "test-only: xUnit test framework and Microsoft.NET.Test.Sdk for host test projects that target net10.0 (AND.40 decision 1). Never referenced by src/ArcForges.Mobile and never distributed in the app.",
+  "scope": "test-only: xUnit test framework and Microsoft.NET.Test.Sdk for host test projects that target net10.0 (AND.40 decision 1); the canonical naming policy package ArcForges.Contracts.Validation 1.0.0-ci.205.1 and its transitive ArcForges.Sdk.Contracts 1.0.0-ci.205.1, read only by tests/ArcForges.Mobile.Policy (AND.40 decision 18). Never referenced by src/ArcForges.Mobile and never distributed in the app.",
   "targetFramework": "net10.0",
-  "restoreRecord": "Restored from a scratch net10.0 project with RestorePackagesWithLockFile (unlocked restore into a clean NUGET_PACKAGES folder, then locked restore into a second clean folder). No test project is committed in this unit; the consuming projects arrive with their own packages.lock.json in a later unit.",
+  "restoreRecord": "Restored from clean NUGET_PACKAGES folders with RestorePackagesWithLockFile. tests/ArcForges.Mobile.Policy/packages.lock.json was written by an unlocked restore (--use-lock-file) into a clean folder and reproduced by a --locked-mode restore into a second clean folder (AND.40 unit 4). tests/ArcForges.Mobile.Tests/packages.lock.json (AND.40 unit 1) locks the same test-only closure. Both locks also hold the product Contracts packages ArcForges.Contracts.Events, ArcForges.Contracts.PublicApi and ArcForges.Contracts.Foundation at 1.0.0-ci.324.1, with Google.Protobuf and Grpc.Core.Api; those are admitted in eng/policy/nuget-admission.json and are not listed here. The policy test project holds the Contracts client packages on that product line with direct references, so its lock adds no second version of a product package. ArcForges.Contracts.Validation and ArcForges.Sdk.Contracts (1.0.0-ci.205.1) come from nuget.org, the feed that serves ArcForges.Contracts.Events; their source is Contracts commit 696242d16034262ce8b7268e8d157cd0e5bee544, an ancestor of Contracts origin/main.",
   "packages": [
+    {
+      "id": "ArcForges.Contracts.Validation",
+      "version": "1.0.0-ci.205.1",
+      "kind": "direct",
+      "contentHash": "qgcp1h5V4uZc/LfEBRZ9876a1aZjUqWwV56UI9c0O0yDpu4mpbL4mA2c62YnTZf8XaxTHBPEttjU15geYycv5g==",
+      "nupkgSha512": "OWvMF30zpN6ms2KlQCtax5P7TACrgK50Vb0drN5zy4iXgk2TZd+5UU+LDGaA2ioowA1EQIZx8ZUyRoayZaHadA==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "authors": "ArcForges",
+      "sourceRepository": "https://github.com/ArcForges/Contracts",
+      "sourceCommit": "696242d16034262ce8b7268e8d157cd0e5bee544",
+      "nuspecSha256": "678261a3c0c98b08859574341953f243bcb6c2fa2dfe856208af66b04c8b71f9",
+      "noticeDisposition": "test-only: the naming policy is read from the package by tests/ArcForges.Mobile.Policy and never distributed; the Apache-2.0 LICENSE and NOTICE are retained in the package."
+    },
+    {
+      "id": "ArcForges.Sdk.Contracts",
+      "version": "1.0.0-ci.205.1",
+      "kind": "transitive",
+      "contentHash": "DE9NESb1QcitCMuUWgTXNzLKU7df+VY5aMIWpqmIM8xQgvu68R4Q/VbemN01UfBw10Q1N1qUs02MyMcpp8ki6g==",
+      "nupkgSha512": "i+VuTqJC5r/yjuXIokWHJgbbRO5znolmEvTWK5eRB0POTRKysMrqDKbe1SOgUt2D9DnaL1tjrmMWHJYjVWPpNQ==",
+      "licence": "Apache-2.0",
+      "licenceFiles": [
+        "LICENSE",
+        "NOTICE"
+      ],
+      "authors": "ArcForges",
+      "sourceRepository": "https://github.com/ArcForges/Contracts",
+      "sourceCommit": "696242d16034262ce8b7268e8d157cd0e5bee544",
+      "nuspecSha256": "30acc652206d70976307ff5a0ea40ab8ee21f7e112d0f6cfb0f6236205a0fef7",
+      "noticeDisposition": "test-only: pulled by ArcForges.Contracts.Validation for the naming policy package; never distributed. The Apache-2.0 LICENSE and NOTICE are retained in the package."
+    },
     {
       "id": "Microsoft.CodeCoverage",
       "version": "18.10.1",

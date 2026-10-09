@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- AND.40 unit 4: the Hello view-model is app source with no platform types; the host tests compile that file directly. -->
+    <Compile Include="..\..\src\ArcForges.Mobile\ViewModels\HelloViewModel.cs" Link="App\ViewModels\HelloViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\core\ArcForges.Mobile.Network\ArcForges.Mobile.Network.csproj" />
     <!-- AND.40 unit 3: the platform-neutral Keystore record (net10.0 flavour); the Java interop probe is not built here. -->
     <ProjectReference Include="..\..\src\core\ArcForges.Mobile.Security\ArcForges.Mobile.Security.csproj" />

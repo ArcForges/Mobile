@@ -17,8 +17,9 @@ import tempfile
 import tomllib
 import xml.etree.ElementTree as ET
 
-from licences import project_audit, verify_distribution
+from licences import maui_closure_audit, project_audit, verify_distribution
 import check_provenance
+import maui_notices
 import resources
 import dependency_policy
 import maui_identity
@@ -66,6 +67,9 @@ def repository_check():
     project_audit()
     resources.save(ROOT / 'artifacts/evidence/dependency-policy.json', dependency_policy.check(ROOT))
     maui_identity.check_maui(ROOT)  # AND.01: MAUI identity, SDK pin and NuGet admission
+    maui_closure_audit(ROOT)  # AND.40 unit 4: MAUI NuGet closure audit (licences, admission equality, one Android target)
+    maui_notices.reproof(ROOT)  # AND.40 unit 4: F-023-class re-proof of the shipped closure
+    maui_notices.check(ROOT)  # AND.40 unit 4: notice data, retained texts, deferrals and the THIRD_PARTY_NOTICES.md block
     provenance_report = check_provenance.run(ROOT, 'Mobile')
     resources.verify_profile_history(ROOT)
     resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)

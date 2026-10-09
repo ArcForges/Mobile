@@ -93,6 +93,41 @@ Notice scope: packages
 JUnit 4.13.2 remains separately licensed under EPL-1.0 and instrumentation-only; corresponding source is https://github.com/junit-team/junit4/tree/05fe2a64f59127c02135be22f416e91260d6ede6 . No EPL implementation is ported into authored Apache code.
 Retain these original legal terms and attribution verbatim. Exact full upstream legal text after LF normalization.
 
+maui-android-licence-mit-r1
+Source: https://github.com/dotnet/android @ d549e1dc4e2a083b08b4f24cb5495e81b99d79b5
+Material licence: MIT
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-glide-bundle-apache20-r1
+Source: https://github.com/xamarin/AndroidX @ 68db082220ebc7f370f61bf8c64e4832db889928
+Material licence: Apache-2.0
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-glide-bundle-bsd2clause-r1
+Source: https://github.com/xamarin/AndroidX @ 68db082220ebc7f370f61bf8c64e4832db889928
+Material licence: BSD-2-Clause
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-glide-licence-mit-r1
+Source: https://github.com/xamarin/AndroidX @ 68db082220ebc7f370f61bf8c64e4832db889928
+Material licence: MIT
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
+maui-maui-bundle-apache20andmit-r1
+Source: https://github.com/dotnet/maui @ 0d1705adc4a6b4ec531e316ec956755abbe059c5
+Material licence: Apache-2.0 AND MIT
+Notice scope: packages
+Copyright notices and licence terms as printed in the upstream legal document; see the retained section.
+Retain this legal text verbatim with the MAUI Android release notices.
+
 protobuf-36-1-legal-r1
 Source: https://github.com/protocolbuffers/protobuf @ f377bfefc5e2cfab68b816903c25b23e091c439d
 Material licence: BSD-3-Clause
