@@ -87,6 +87,7 @@
     "eng/provenance/artifact-profiles/android-resources-r9.json",
     "eng/provenance/conflicts/okhttp-public-suffix-data.json",
     "eng/provenance/files.json",
+    "eng/provenance/records/android-kotlin-retirement-r1.json",
     "eng/provenance/records/android-packaged-resources-r1.json",
     "eng/provenance/records/android-packaged-resources-r10.json",
     "eng/provenance/records/android-packaged-resources-r11.json",
