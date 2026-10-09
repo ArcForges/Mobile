@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import platform
 import re
 import sys
 
@@ -256,7 +257,6 @@ LINUX_PACKS = {
     "Microsoft.NET.Runtime.MonoAOTCompiler.Task": ("THIRD-PARTY-NOTICES.TXT",),
     "Microsoft.NET.Runtime.MonoTargets.Sdk": ("THIRD-PARTY-NOTICES.TXT",),
 }
-LINUX_CROSS_HOSTS = ("linux-x64", "linux-arm64")
 
 
 def distribution(root: Path = ROOT, nuget_root: Path | None = None) -> dict:
@@ -315,8 +315,26 @@ def distribution(root: Path = ROOT, nuget_root: Path | None = None) -> dict:
     return summary
 
 
-def linux_evidence(dotnet_root: Path, root: Path = ROOT) -> dict:
-    """Licence files of the Linux host packs the Android build needs (run on the hosted Linux runner)."""
+# AND.40 hosted run 37928097917: the android workload on a hosted runner installs only the Cross pack of the HOST
+# architecture. ArcForges builds Android only on hosted x64 runners, so the other alias is not applicable there.
+LINUX_HOST_ALIASES = {"x86_64": "linux-x64", "amd64": "linux-x64", "aarch64": "linux-arm64", "arm64": "linux-arm64"}
+LINUX_CROSS_ALIASES = ("linux-x64", "linux-arm64")
+
+
+def linux_host_alias(machine: str) -> str:
+    alias = LINUX_HOST_ALIASES.get(str(machine).lower())
+    require(alias, f"Linux licence evidence: unknown host architecture {machine!r}; no Cross alias is defined for it")
+    return alias
+
+
+def linux_evidence(dotnet_root: Path, root: Path = ROOT, machine: str | None = None) -> dict:
+    """Licence files of the Linux host packs the Android build needs (run on the hosted Linux runner).
+
+    The Cross alias of the current host architecture is required and fails closed when absent. The other alias is
+    recorded as not applicable, because it is not a build host and its Cross pack exists only on its own architecture.
+    """
+    host_architecture = machine or platform.machine()
+    host_alias = linux_host_alias(host_architecture)
     packs = Path(dotnet_root) / "packs"
     require(packs.is_dir(), f"No packs folder under {dotnet_root}")
     found = {}
@@ -331,15 +349,23 @@ def linux_evidence(dotnet_root: Path, root: Path = ROOT) -> dict:
             present[file] = digest(path.read_bytes().replace(b"\r\n", b"\n"))
         found[name] = {"version": folder.name, "files": present}
     crosses = {}
-    for host in LINUX_CROSS_HOSTS:
+    for host in LINUX_CROSS_ALIASES:
+        if host != host_alias:
+            crosses[host] = {"status": "not-applicable",
+                             "reason": f"not the build host architecture ({host_architecture} builds use {host_alias}); "
+                                       f"the {host} Cross pack exists only on {host} build hosts"}
+            continue
         matches = sorted(p for p in packs.glob(f"Microsoft.NETCore.App.Runtime.AOT.{host}.Cross.android-arm64") if p.is_dir())
-        require(matches, f"Linux licence evidence: no Cross alias for {host}")
-        folder = sorted(matches[-1].glob("*"))[-1]
+        require(matches, f"Linux licence evidence: no Cross alias for {host} (host architecture {host_architecture})")
+        versions = sorted(p for p in matches[-1].glob("*") if p.is_dir())
+        require(versions, f"Linux licence evidence: Cross alias {host} has no installed version")
+        folder = versions[-1]
         path = folder / "THIRD-PARTY-NOTICES.TXT"
         require(path.is_file(), f"Linux licence evidence: Cross alias {host} lacks THIRD-PARTY-NOTICES.TXT")
-        crosses[host] = {"pack": matches[-1].name, "version": folder.name,
+        crosses[host] = {"status": "required", "pack": matches[-1].name, "version": folder.name,
                          "thirdPartyNotices": digest(path.read_bytes().replace(b"\r\n", b"\n"))}
-    report = {"schemaVersion": 1, "result": "produced", "host": "linux", "packs": found, "crossAliases": crosses}
+    report = {"schemaVersion": 1, "result": "produced", "host": "linux", "hostArchitecture": host_architecture,
+              "hostAlias": host_alias, "packs": found, "crossAliases": crosses}
     output = root / LINUX_EVIDENCE
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")

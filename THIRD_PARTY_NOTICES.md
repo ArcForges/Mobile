@@ -53,5 +53,5 @@ The MAUI Android app (AND.40) is redistributed under the NuGet closure in
 
 ### Open notice obligations
 
-- Pending (AND.40 unit 5): Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross pack aliases (hosted Linux run). Licence statements of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (THIRD-PARTY-NOTICES.TXT only; no LICENSE.TXT).
+- Pending (AND.40 unit 5): Microsoft.Android.Sdk.Linux licence files, and the THIRD-PARTY-NOTICES.TXT of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (no LICENSE.TXT ships), from the hosted Linux run (linux-evidence). The Cross pack alias of the hosted runner's host architecture (linux-x64 on the hosted x64 runner, Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-arm64), from the hosted Linux run; required, and it fails closed when absent. The linux-arm64 Cross alias is not applicable, not missing: it is not a build host, and ArcForges builds Android only on hosted x64 runners.
 <!-- maui-notices:end -->

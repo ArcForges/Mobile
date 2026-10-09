@@ -215,5 +215,94 @@ class MauiLicenceAuditTests(unittest.TestCase):
             fixture.close()
 
 
+class MauiLinuxEvidenceTests(unittest.TestCase):
+    """AND.40 hosted run 37928097917: the host architecture's Cross alias is required; the other alias is not applicable."""
+
+    def setUp(self):
+        self.directory = Path(tempfile.mkdtemp(prefix="linux-evidence-"))
+        self.addCleanup(shutil.rmtree, self.directory, True)
+
+    def make_packs(self, crosses=("linux-x64",), omit=()):
+        packs = self.directory / "dotnet" / "packs"
+        required = {
+            "Microsoft.Android.Sdk.Linux": ("36.1.69", ("LICENSE.TXT", "THIRD-PARTY-NOTICES.TXT")),
+            "Microsoft.NET.Runtime.MonoAOTCompiler.Task": ("10.0.12", ("THIRD-PARTY-NOTICES.TXT",)),
+            "Microsoft.NET.Runtime.MonoTargets.Sdk": ("10.0.12", ("THIRD-PARTY-NOTICES.TXT",)),
+        }
+        for name, (version, files) in required.items():
+            if name in omit:
+                continue
+            for file in files:
+                target = packs / name / version / file
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(("licence text of " + name + "\n").encode("utf-8"))
+        for host in crosses:
+            target = packs / f"Microsoft.NETCore.App.Runtime.AOT.{host}.Cross.android-arm64" / "10.0.12" / "THIRD-PARTY-NOTICES.TXT"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(("cross notice of " + host + "\n").encode("utf-8"))
+        return self.directory / "dotnet"
+
+    def test_an_x64_host_with_only_the_x64_alias_passes(self):
+        dotnet = self.make_packs(crosses=("linux-x64",))
+
+        report = maui_notices.linux_evidence(dotnet, self.directory / "root", machine="x86_64")
+
+        self.assertEqual(report["result"], "produced")
+        self.assertEqual(report["hostAlias"], "linux-x64")
+        self.assertEqual(report["crossAliases"]["linux-x64"]["status"], "required")
+        self.assertEqual(report["crossAliases"]["linux-x64"]["pack"], "Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-arm64")
+        self.assertEqual(report["crossAliases"]["linux-arm64"]["status"], "not-applicable")
+        self.assertNotIn("thirdPartyNotices", report["crossAliases"]["linux-arm64"])
+        self.assertEqual(sorted(report["packs"]), sorted(maui_notices.LINUX_PACKS))
+        self.assertTrue((self.directory / "root" / maui_notices.LINUX_EVIDENCE).is_file())
+
+    def test_a_windows_style_x64_machine_name_maps_to_the_x64_alias(self):
+        dotnet = self.make_packs(crosses=("linux-x64",))
+
+        report = maui_notices.linux_evidence(dotnet, self.directory / "root", machine="AMD64")
+
+        self.assertEqual(report["hostAlias"], "linux-x64")
+
+    def test_a_missing_host_alias_fails(self):
+        dotnet = self.make_packs(crosses=())
+
+        with self.assertRaisesRegex(ValueError, "no Cross alias for linux-x64"):
+            maui_notices.linux_evidence(dotnet, self.directory / "root", machine="x86_64")
+
+    def test_the_arm64_alias_does_not_satisfy_an_x64_host(self):
+        dotnet = self.make_packs(crosses=("linux-arm64",))
+
+        with self.assertRaisesRegex(ValueError, "no Cross alias for linux-x64"):
+            maui_notices.linux_evidence(dotnet, self.directory / "root", machine="x86_64")
+
+    def test_an_arm64_host_requires_its_own_alias(self):
+        dotnet = self.make_packs(crosses=("linux-arm64",))
+
+        report = maui_notices.linux_evidence(dotnet, self.directory / "root", machine="aarch64")
+
+        self.assertEqual(report["hostAlias"], "linux-arm64")
+        self.assertEqual(report["crossAliases"]["linux-arm64"]["status"], "required")
+        self.assertEqual(report["crossAliases"]["linux-x64"]["status"], "not-applicable")
+
+    def test_an_unknown_architecture_fails_closed(self):
+        dotnet = self.make_packs(crosses=("linux-x64",))
+
+        with self.assertRaisesRegex(ValueError, "unknown host architecture 'riscv64'"):
+            maui_notices.linux_evidence(dotnet, self.directory / "root", machine="riscv64")
+
+    def test_a_missing_required_pack_fails(self):
+        dotnet = self.make_packs(crosses=("linux-x64",), omit=("Microsoft.NET.Runtime.MonoTargets.Sdk",))
+
+        with self.assertRaisesRegex(ValueError, "MonoTargets.Sdk is not installed"):
+            maui_notices.linux_evidence(dotnet, self.directory / "root", machine="x86_64")
+
+    def test_the_pending_entry_records_the_arm64_alias_as_not_applicable(self):
+        pending = {item["id"]: item for item in maui_notices.read_json(ROOT, maui_notices.NOTICE_DATA)["pending"]}
+        text = " ".join(pending["linux-licence-evidence"]["items"])
+
+        self.assertIn("linux-arm64 Cross alias is not applicable", text)
+        self.assertNotIn("linux-arm64 Cross pack aliases", text)
+
+
 if __name__ == "__main__":
     unittest.main()

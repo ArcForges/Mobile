@@ -135,7 +135,7 @@
     },
     {
       "id": "workload-licence-evidence",
-      "item": "Licence evidence that the reviewed Windows host cannot provide: the non-Windows host aliases of the Android SDK and Mono AOT packs (Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross packs), and the licence statement of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk, which ship a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT. macOS host aliases are outside the delivery scope (P2-023).",
+      "item": "Licence evidence that the reviewed Windows host cannot provide: the non-Windows host aliases of the Android SDK and Mono AOT packs (Microsoft.Android.Sdk.Linux and the Cross pack of the hosted runner's host architecture, linux-x64; the linux-arm64 Cross alias is not applicable because it is not a build host), and the licence statement of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk, which ship a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT. macOS host aliases are outside the delivery scope (P2-023).",
       "owner": "AND.40",
       "trigger": "The first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project.",
       "consequence": "A licence outside the admitted set or a missing licence file reopens AND.01 and AND.40."

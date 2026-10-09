@@ -3,7 +3,7 @@
   "owner": "Mobile",
   "licenceBoundary": "Apache",
   "reviewer": "w-deku-20261008-rev-and-40",
-  "reviewId": "maui-notices-r2",
+  "reviewId": "maui-notices-r3",
   "reviewedOn": "2026-10-09",
   "lockFile": "src/ArcForges.Mobile/packages.lock.json",
   "lockSha256": "4a75358077833d644dfa2680fa9eadb2092f73b9354f6099343c29d6657e64e0",
@@ -167,10 +167,12 @@
     {
       "id": "linux-licence-evidence",
       "owner": "AND.40 unit 5",
+      "reviewer": "w-deku-20261008-rev-and-40",
       "status": "pending",
       "items": [
-        "Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross pack aliases (hosted Linux run).",
-        "Licence statements of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (THIRD-PARTY-NOTICES.TXT only; no LICENSE.TXT)."
+        "Microsoft.Android.Sdk.Linux licence files, and the THIRD-PARTY-NOTICES.TXT of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk (no LICENSE.TXT ships), from the hosted Linux run (linux-evidence).",
+        "The Cross pack alias of the hosted runner's host architecture (linux-x64 on the hosted x64 runner, Microsoft.NETCore.App.Runtime.AOT.linux-x64.Cross.android-arm64), from the hosted Linux run; required, and it fails closed when absent.",
+        "The linux-arm64 Cross alias is not applicable, not missing: it is not a build host, and ArcForges builds Android only on hosted x64 runners."
       ]
     }
   ],

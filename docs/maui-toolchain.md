@@ -120,7 +120,7 @@ Recorded in `eng/policy/dotnet-toolchain.json` (`deferrals`), with the gate refu
 | BSD-3-Clause licence text of `Google.Protobuf` 3.36.1 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
 | Apache-2.0 licence text and any notice of `Grpc.Core.Api` 2.84.0 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
 | MIT licence and notice files of the admitted workload packs (Mono runtime and AOT packs contribute to the APK) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry them; no candidate is published without them |
-| Licence evidence the Windows host cannot provide: Linux host aliases of the Android SDK and Mono AOT packs, and the licence statement of `Microsoft.NET.Runtime.MonoAOTCompiler.Task` and `Microsoft.NET.Runtime.MonoTargets.Sdk` (notice file only) | AND.40 | the first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project | a licence outside the admitted set or a missing licence file reopens AND.01 and AND.40 |
+| Licence evidence the Windows host cannot provide: Linux host aliases of the Android SDK and Mono AOT packs (the Cross pack of the hosted runner's host architecture, linux-x64; linux-arm64 is not applicable, not a build host), and the licence statement of `Microsoft.NET.Runtime.MonoAOTCompiler.Task` and `Microsoft.NET.Runtime.MonoTargets.Sdk` (notice file only) | AND.40 | the first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project | a licence outside the admitted set or a missing licence file reopens AND.01 and AND.40 |
 
 Each nupkg without a licence file needs one notice deferral naming its package, version and licence; the gate refuses a missing or stale one.
 
@@ -164,7 +164,7 @@ The maui job runs `dotnet workload install android maui-android` on the SDK pinn
 
 ### Release notices
 
-`python -I eng/maui_notices.py distribution` writes `build/generated/maui-licence-assets/THIRD_PARTY_NOTICES.txt`. It carries the licence files of every shipped package from its restored nupkg, after the nupkg SHA-512 is checked against the admission, and the retained texts recorded for each package. Build-only and test-only packages do not contribute. `python -I eng/maui_notices.py linux-evidence --dotnet-root <root>` writes `artifacts/evidence/linux-licence-evidence.json` from the hosted Linux runner. It records the Android SDK Linux pack, the Linux Cross aliases and the Mono AOT and target SDK notice files.
+`python -I eng/maui_notices.py distribution` writes `build/generated/maui-licence-assets/THIRD_PARTY_NOTICES.txt`. It carries the licence files of every shipped package from its restored nupkg, after the nupkg SHA-512 is checked against the admission, and the retained texts recorded for each package. Build-only and test-only packages do not contribute. `python -I eng/maui_notices.py linux-evidence --dotnet-root <root>` writes `artifacts/evidence/linux-licence-evidence.json` from the hosted Linux runner. It records the Android SDK Linux pack, the Cross alias of the host architecture (the other alias is recorded as not applicable, because it is not a build host) and the Mono AOT and target SDK notice files. A missing host alias fails closed.
 
 ### Notice escalations (resolved in unit 5b)
 
