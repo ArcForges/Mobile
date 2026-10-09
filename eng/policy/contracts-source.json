@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/ArcForges/Contracts",
+  "commit": "ef9e0aa9d90d47ff8355dc38b037fd5860b4476c",
+  "dirty": false,
+  "version": "1.0.0-ci.60.1",
+  "schema": "arcforges.hello.v1",
+  "descriptorSha256": "7219a8d730978bcc3b7b8769e159d06711dff3f2b07715a6d487589f8c09b99c",
+  "dependencyLocks": {
+    "package-lock.json": "5ccbb6790ac9f6995b28d33a66f9c06192eeed2434892bdae8f9badde1614f7d",
+    "PublicApi/packages.lock.json": "6081ad4fb578234a0fb55b07cc28f635269fc9441be05a1d7c484bc423c25706",
+    "gradle.lockfile": "410eb7817f1bdf23eb5c2563b1953c4c2ee0403d54f687cb1ccdf82c0bd816de",
+    "src/public/kotlin/contract-fixtures/gradle.lockfile": "14dc5803d23ab183aa24b2849ee51541e52e4d26fbada80e19082d15e0b1c654",
+    "src/public/kotlin/contracts-client/gradle.lockfile": "8f73565fdf42782b54bc63075e9daa435f7301dcee0654657f47235975e640ce",
+    "src/public/kotlin/contracts-connect-client/gradle.lockfile": "560f3bf8fa2d38cc4b9a87717342c7a3e003ed1243f405519f5b73e6de0acfb9",
+    "src/public/kotlin/contracts-proto/gradle.lockfile": "766ba7a9c4101ae5149d0200ddc2bfc45d54aa1e3187717171a1dfab28a1ec4b"
+  }
+}

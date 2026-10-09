@@ -10,7 +10,6 @@ import os
 from pathlib import Path
 import re
 import shutil
-import struct
 import subprocess
 import sys
 import tempfile
@@ -18,16 +17,13 @@ import tomllib
 import xml.etree.ElementTree as ET
 import zipfile
 
-from licences import maui_closure_audit, project_audit, verify_distribution
+from licences import dotnet_project_audit, maui_closure_audit
 import check_provenance
 import maui_notices
 import resources
-import dependency_policy
 import maui_identity
 
 ROOT = Path(__file__).resolve().parents[1]
-BUILD_TOOLS = "37.0.0"
-PACKAGE = "io.github.arcforges.mobile"
 
 
 def run(*args, capture=False, **kwargs):
@@ -38,17 +34,6 @@ def run(*args, capture=False, **kwargs):
         stdout=subprocess.PIPE if capture else None, cwd=ROOT, **kwargs,
     )
     return result.stdout.strip() if capture else ""
-
-
-def sdk_tool(name):
-    sdk = os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT")
-    if not sdk:
-        raise ValueError("Set ANDROID_HOME to the installed Android SDK.")
-    suffix = ".bat" if name == "apksigner" else ".exe"
-    path = Path(sdk) / "build-tools" / BUILD_TOOLS / (name + (suffix if os.name == "nt" else ""))
-    if not path.is_file():
-        raise ValueError(f"Install Android SDK Build-Tools {BUILD_TOOLS}: missing {path}")
-    return path
 
 
 def sha256(path):
@@ -65,14 +50,12 @@ def version():
 
 
 def repository_check():
-    project_audit()
-    resources.save(ROOT / 'artifacts/evidence/dependency-policy.json', dependency_policy.check(ROOT))
+    dotnet_project_audit(ROOT)  # AND.01: every tracked .NET project is a reviewed csproj in the .NET inventory
     maui_identity.check_maui(ROOT)  # AND.01: MAUI identity, SDK pin and NuGet admission
     maui_closure_audit(ROOT)  # AND.40 unit 4: MAUI NuGet closure audit (licences, admission equality, one Android target)
     maui_notices.reproof(ROOT)  # AND.40 unit 4: F-023-class re-proof of the shipped closure
     maui_notices.check(ROOT)  # AND.40 unit 4: notice data, retained texts, deferrals and the THIRD_PARTY_NOTICES.md block
     provenance_report = check_provenance.run(ROOT, 'Mobile')
-    resources.verify_profile_history(ROOT)
     resources.save(ROOT / 'artifacts/evidence/provenance.json', provenance_report)
     names = run("git", "ls-files", "-z", "--cached", "--others", "--exclude-standard", capture=True).split("\0")
     for name in filter(None, names):
@@ -100,72 +83,6 @@ def repository_check():
     print("Repository text, structured files and whitespace checks passed.")
 
 
-def bytecode_check():
-    counts = {}
-    for module in ("app", "shared"):
-        paths = [p for p in (ROOT / module / "build").rglob("*.class") if "/io/github/arcforges/mobile/" in p.as_posix()]
-        if not paths:
-            raise ValueError(f"No compiled application classes found in {module}; build first.")
-        for path in paths:
-            magic, _, major = struct.unpack(">IHH", path.read_bytes()[:8])
-            if magic != 0xCAFEBABE or major != 65:
-                raise ValueError(f"Expected JVM 21 (class major 65), got {major}: {path}")
-        counts[module] = len(paths)
-    print(f"JVM 21 bytecode verified (before Android D8/R8 dex conversion): {counts}")
-
-
-def inspect_apk(apk, expected, package=PACKAGE):
-    details = run(sdk_tool("aapt2"), "dump", "badging", apk, capture=True)
-    for token in (f"name='{package}'", f"versionCode='{expected['version_code']}'", f"versionName='{expected['version_name']}'"):
-        if token not in details.splitlines()[0]:
-            raise ValueError(f"APK metadata mismatch: {token}")
-    if "minSdkVersion:'26'" not in details or "targetSdkVersion:'37'" not in details:
-        raise ValueError("APK SDK requirements differ from the reviewed release configuration.")
-
-
-def stage(destination):
-    if destination.exists():
-        raise ValueError(f"Use an empty candidate directory: {destination}")
-    destination.mkdir(parents=True)
-    files = {
-        "app-release-unsigned.apk": "app/build/outputs/apk/release/app-release-unsigned.apk",
-        "app-release.aab": "app/build/outputs/bundle/release/app-release.aab",
-        "mapping.txt": "app/build/outputs/mapping/release/mapping.txt",
-        "THIRD_PARTY_NOTICES.txt": "build/generated/licence-assets/THIRD_PARTY_NOTICES.txt",
-        "licence-closure.json": "build/generated/licence-assets/licence-closure.json",
-        "source-provenance.json": "build/generated/licence-assets/source-provenance.json",
-        "build-identity.json": "build/generated/licence-assets/build-identity.json",
-    }
-    for name, source in files.items():
-        shutil.copyfile(ROOT / source, destination / name)
-    info = version()
-    info.update(commit=os.environ["GITHUB_SHA"], package=PACKAGE)
-    inspect_apk(destination / "app-release-unsigned.apk", info)
-    verify_distribution(destination, info["commit"])
-    resources.save(destination / 'resource-provenance.json', resources.verify_archives(destination, info))
-    files['resource-provenance.json'] = 'generated candidate receipt'
-    info["sha256"] = {name: sha256(destination / name) for name in files}
-    (destination / "candidate.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
-    print(f"Staged immutable candidate {info['version_name']} from {info['commit']}.")
-
-
-def verify_candidate(directory):
-    info = json.loads((directory / "candidate.json").read_text(encoding="utf-8"))
-    expected = {"app-release-unsigned.apk", "app-release.aab", "mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"}
-    if set(info["sha256"]) != expected or {p.name for p in directory.iterdir()} != expected | {"candidate.json"}:
-        raise ValueError("The candidate file set is incomplete or contains unexpected files.")
-    if info["commit"] != os.environ["GITHUB_SHA"] or info["package"] != PACKAGE:
-        raise ValueError("The candidate was built for another commit or application.")
-    if any(info[key] != value for key, value in version().items()):
-        raise ValueError("Candidate version differs from this workflow run and attempt.")
-    for name, checksum in info["sha256"].items():
-        if sha256(directory / name) != checksum:
-            raise ValueError(f"Candidate checksum mismatch: {name}")
-    # The producing job already checked archive resources and licence closure.
-    # This trust handoff binds its sealed files to this source and workflow run.
-    return info
-
-
 def verify_certificate(output, expected):
     # Build-Tools 37 labels these "V3.0 Signer", rather than "Signer #1".
     fingerprints = {value.lower() for value in re.findall(r"certificate SHA-256 digest: ([a-fA-F0-9]{64})$", output, re.MULTILINE)}
@@ -173,51 +90,6 @@ def verify_certificate(output, expected):
     if not re.search(r"^Number of signers: 1$", output, re.MULTILINE) or fingerprints != {normalized}:
         raise ValueError("APK signing certificate does not match the configured persistent identity.")
     return normalized
-
-
-def sign_candidate(directory, destination):
-    info = verify_candidate(directory)
-    required = ("ANDROID_KEYSTORE_BASE64", "ANDROID_KEYSTORE_PASSWORD", "ANDROID_KEY_ALIAS", "ANDROID_KEY_PASSWORD", "ANDROID_SIGNING_CERT_SHA256")
-    if any(not os.environ.get(name) for name in required):
-        raise ValueError("Configure the five Android signing settings documented in docs/releasing.md.")
-    if destination.exists():
-        raise ValueError(f"Use an empty release output directory: {destination}")
-    destination.mkdir(parents=True)
-    with tempfile.TemporaryDirectory(prefix="arcforges-sign-") as scratch:
-        key = Path(scratch) / "release.jks"
-        key.write_bytes(base64.b64decode(os.environ["ANDROID_KEYSTORE_BASE64"], validate=True))
-        key.chmod(0o600)
-        aligned = Path(scratch) / "aligned.apk"
-        run(sdk_tool("zipalign"), "-P", "16", "-f", "4", directory / "app-release-unsigned.apk", aligned)
-        apk = destination / f"ArcForges-{info['version_name']}.apk"
-        run(sdk_tool("apksigner"), "sign", "--ks", key, "--ks-key-alias", os.environ["ANDROID_KEY_ALIAS"],
-            "--ks-pass", "env:ANDROID_KEYSTORE_PASSWORD", "--key-pass", "env:ANDROID_KEY_PASSWORD", "--out", apk, aligned)
-        certificate = run(sdk_tool("apksigner"), "verify", "--verbose", "--print-certs", apk, capture=True)
-        fingerprint = verify_certificate(certificate, os.environ["ANDROID_SIGNING_CERT_SHA256"])
-        run(sdk_tool("zipalign"), "-c", "-P", "16", "4", apk)
-        inspect_apk(apk, info)
-        bundle = destination / f"ArcForges-{info['version_name']}.aab"
-        shutil.copyfile(directory / "app-release.aab", bundle)
-        run("jarsigner", "-keystore", key, "-storepass:env", "ANDROID_KEYSTORE_PASSWORD", "-keypass:env", "ANDROID_KEY_PASSWORD",
-            "-digestalg", "SHA-256", "-sigalg", "SHA256withRSA", bundle, os.environ["ANDROID_KEY_ALIAS"])
-        result = run("jarsigner", "-verify", bundle, capture=True)
-        if "jar verified." not in result:
-            raise ValueError("AAB signature verification failed.")
-        info["certificate_sha256"] = fingerprint
-        resources.save(destination / 'signed-resource-provenance.json', {
-            'schemaVersion': 1, 'commit': info['commit'], 'result': 'passed',
-            'apk': resources.signed_payload(directory / 'app-release-unsigned.apk', apk),
-            'aab': resources.signed_payload(directory / 'app-release.aab', bundle),
-        })
-    shutil.copyfile(directory / "mapping.txt", destination / "mapping.txt")
-    for name in ["THIRD_PARTY_NOTICES.txt", "licence-closure.json", "source-provenance.json", "resource-provenance.json", "build-identity.json"]:
-        shutil.copyfile(directory / name, destination / name)
-    info["candidate_sha256"] = info.pop("sha256")
-    info["sha256"] = {p.name: sha256(p) for p in sorted(destination.iterdir())}
-    (destination / "release.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
-    checksums = "".join(f"{sha256(p)}  {p.name}\n" for p in sorted(destination.iterdir()))
-    (destination / "SHA256SUMS").write_text(checksums, encoding="utf-8")
-    print(f"Verified signed APK and AAB: {info['version_name']} (certificate {info['certificate_sha256']}).")
 
 
 def maui_sdk_tool(name):
@@ -245,10 +117,10 @@ def strip_signature(source, destination):
             unsigned.writestr(entry, original.read(entry.filename), compress_type=entry.compress_type)
 
 
-# AND.40 unit 5: the MAUI candidate and release path, beside the Kotlin path above (PR A). The MAUI tag namespace is
-# android-maui-VERSION; PR B switches the publish to android-VERSION and retires the Kotlin path.
+# AND.40: the MAUI candidate and release path. The release tag is android-VERSION (AND.40 PR B, decision 5); the
+# android-maui-VERSION prerelease namespace from PR A stays as published history.
 MAUI_TRACK = "maui"
-MAUI_PACKAGE = "com.arcforges.mobile"  # the release applicationId; PACKAGE above is the Kotlin development identifier
+MAUI_PACKAGE = "com.arcforges.mobile"  # the release applicationId, permanent since AND.01
 MAUI_OUTPUT_DIR = ROOT / "src/ArcForges.Mobile/bin/Release/net10.0-android"
 MAUI_UNSIGNED = "maui-release-unsigned.apk"
 MAUI_COMPANIONS = ("mapping.txt", "THIRD_PARTY_NOTICES.txt", "licence-closure.json", "build-identity.json", "maui-archive.json")
@@ -344,7 +216,7 @@ def maui_sign(candidate, destination):
                    resources.maui_archive(apk, destination / "build-identity.json", ROOT, release=True))
     info["candidate_sha256"] = info.pop("sha256")
     info["track"] = MAUI_TRACK
-    info["tag"] = f"android-maui-{info['version_name']}"
+    info["tag"] = f"android-{info['version_name']}"
     release_names = sorted(p.name for p in destination.iterdir())
     # The seal lists each published member by digest, as published.maui_verify reads it (the Kotlin path does too).
     info["sha256"] = {name: sha256(destination / name) for name in release_names}
@@ -356,27 +228,18 @@ def maui_sign(candidate, destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["check", "bytecode", "version", "stage", "verify", "sign", "hooks",
-                                            "maui-stage", "maui-sign"])
-    parser.add_argument("--candidate", type=Path, default=ROOT / "artifacts/candidate")
-    parser.add_argument("--output", type=Path, default=ROOT / "artifacts/release")
+    parser.add_argument("command", choices=["check", "version", "hooks", "maui-stage", "maui-sign"])
+    parser.add_argument("--candidate", type=Path, default=ROOT / "artifacts/maui-candidate")
+    parser.add_argument("--output", type=Path, default=ROOT / "artifacts/maui-release")
     args = parser.parse_args()
     if args.command == "check":
         repository_check()
-    elif args.command == "bytecode":
-        bytecode_check()
     elif args.command == "version":
         data = version()
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
                 stream.writelines(f"{key}={value}\n" for key, value in data.items())
         print(json.dumps(data))
-    elif args.command == "stage":
-        stage(args.candidate)
-    elif args.command == "verify":
-        print(json.dumps(verify_candidate(args.candidate), indent=2))
-    elif args.command == "sign":
-        sign_candidate(args.candidate, args.output)
     elif args.command == "maui-stage":
         maui_stage(args.candidate)
     elif args.command == "maui-sign":

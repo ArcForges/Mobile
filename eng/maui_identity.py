@@ -59,7 +59,7 @@ MAUI_KEYSTORE_PROJECT = "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Sec
 MAUI_NAME_ATTRIBUTE = "{http://schemas.android.com/apk/res/android}name"
 MAUI_TOOLS_NODE = "{http://schemas.android.com/tools}node"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
-# The identity project is classified here, apart from the Gradle roster that the Kotlin baseline gates read (AND.01).
+# The identity project is classified here. The Gradle licence roster is retired with the Kotlin baseline (AND.40 PR B).
 MAUI_LICENCE_REGISTRY = "eng/policy/dotnet-licence-boundary.json"
 MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
 # AND.40 unit 2: the platform-neutral Hello transport library and its host tests are reviewed .NET projects too. Each is
@@ -76,6 +76,11 @@ MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 MAUI_TEST_ADMISSION = "eng/policy/nuget-test-admission.json"
 MAUI_DEPENDENCY_POLICY = "eng/policy/dependency-policy.json"
 MAUI_REVIEWS = "eng/policy/dependency-reviews"
+# Re-homed from the retired eng/dependency_policy.py (AND.40 PR B): the publisher binding of the release job.
+MAUI_PUBLISHER = {"repository": "ArcForges/Mobile", "workflow": ".github/workflows/ci.yml",
+                  "environment": "android-release", "ref": "refs/heads/main", "event": "push"}
+MAUI_PUBLISH_CONDITIONS = ("environment: android-release", "github.ref == 'refs/heads/main'",
+                           "github.event_name == 'push'")
 MAUI_WORKLOADS = "eng/policy/workload-admission.json"
 MAUI_PUBLISHED = "eng/published.py"
 MAUI_CONTROLS = "Microsoft.Maui.Controls"
@@ -137,6 +142,17 @@ def check_sdk_pin(root: Path, toolchain: dict) -> None:
     _require(re.fullmatch(r"10\.0\.\d{3}", dotnet["sdkVersion"]) is not None, "The SDK pin must be an exact .NET 10 SDK")
 
 
+def check_jdk_pin(root: Path, toolchain: dict) -> None:
+    """The JDK pin is Android platform tooling in the maui job only (AND.40 PR B, D4); no Gradle or .java-version pin remains."""
+    jdk = toolchain.get("jdk", {})
+    _require(jdk.get("distribution") == "temurin" and re.fullmatch(r"21\.0\.\d+", jdk.get("version", "")) is not None,
+             "The recorded JDK must be a Temurin JDK 21 patch release")
+    workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    _require(f"java-version: {jdk['version']}" in workflow and "distribution: temurin" in workflow,
+             "ci.yml must pin the JDK recorded in the toolchain")
+    _require(not (root / ".java-version").exists(), ".java-version is retired with the Kotlin baseline")
+
+
 def check_build_policy(root: Path) -> None:
     props = (root / "Directory.Build.props").read_text(encoding="utf-8")
     for required in ("<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
@@ -160,7 +176,7 @@ def check_build_policy(root: Path) -> None:
 
 
 def check_licence_registration(root: Path) -> None:
-    """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit) and is absent from the Gradle roster."""
+    """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit); the retired Gradle roster stays empty."""
     registry = _load_json(root / MAUI_LICENCE_REGISTRY)
     expected = sorted(({"path": path, "kind": "dotnet"} for path in MAUI_REVIEWED_DOTNET_PROJECTS), key=lambda item: item["path"])
     registered = registry.get("projects")
@@ -168,9 +184,8 @@ def check_licence_registration(root: Path) -> None:
              and registry.get("spdxLicense") == "Apache-2.0" and registry.get("licenceBoundary") == "Apache",
              f"{MAUI_LICENCE_REGISTRY} must register exactly the reviewed .NET projects as Apache-2.0 / Apache")
     roster = _load_json(root / MAUI_GRADLE_ROSTER)
-    rostered = {item.get("path") for item in roster.get("projects", [])}
-    _require(not rostered & set(MAUI_REVIEWED_DOTNET_PROJECTS),
-             f"The Gradle licence roster ({MAUI_GRADLE_ROSTER}) must not carry a .NET project")
+    _require(roster.get("projects") == [],
+             f"The retired Gradle licence roster ({MAUI_GRADLE_ROSTER}) must stay empty; no project is Gradle-built")
 
 
 def check_project(root: Path, toolchain: dict) -> None:
@@ -457,6 +472,45 @@ def check_receipts(root: Path, admission: dict, test_record: dict, toolchain: di
              f"The active MAUI inventory receipt {inventory[-1]} must not say PENDING")
 
 
+def _git_lines(root: Path, *args: str) -> list[str]:
+    output = subprocess.run(["git", "-C", str(root), *args], check=True, capture_output=True, text=True,
+                            encoding="utf-8").stdout
+    return output.splitlines()
+
+
+def check_dependency_policy(root: Path) -> None:
+    """Publisher binding, dropped-review set equality and retained-review immutability (re-homed from the retired
+    eng/dependency_policy.py). Every review file is listed exactly once, in reviews (the MAUI chain) or retiredReviews
+    (the Gradle/Kotlin history). In a git checkout, no retained review may be deleted from history or rewritten after
+    its first addition: a successor review supersedes it instead."""
+    policy = _load_json(root / MAUI_DEPENDENCY_POLICY)
+    _require(policy.get("publisher") == MAUI_PUBLISHER, "Wrong publisher identity")
+    workflow = (root / MAUI_PUBLISHER["workflow"]).read_text(encoding="utf-8")
+    for condition in MAUI_PUBLISH_CONDITIONS:
+        _require(condition in workflow, f"Publisher workflow no longer matches policy: {condition}")
+    listed = policy.get("reviews", [])
+    retired = policy.get("retiredReviews", [])
+    names = listed + retired
+    _require(len(names) == len(set(names)), "Duplicate dependency review")
+    _require(all(re.fullmatch(r"[a-z0-9-]+\.json", name) for name in names), "Invalid review path")
+    _require(bool(listed), "Empty dependency review chain")
+    files = {path.name for path in (root / MAUI_REVIEWS).glob("*.json")}
+    _require(set(names) == files, "Dropped retained review: the policy does not list every review file exactly once")
+    if not (root / ".git").exists():
+        return  # a fixture copy has no history; the repository checkout always does
+    historical = {line for line in _git_lines(root, "log", "--diff-filter=A", "--name-only", "--format=", "--",
+                                              MAUI_REVIEWS) if line}
+    _require(all((root / path).is_file() for path in historical), "Deleted retained dependency review")
+    for name in names:
+        path = f"{MAUI_REVIEWS}/{name}"
+        commits = _git_lines(root, "log", "--diff-filter=A", "--format=%H", "--", path)
+        if commits:
+            original = subprocess.run(["git", "-C", str(root), "show", f"{commits[-1]}:{path}"], check=True,
+                                      capture_output=True).stdout
+            _require(original.replace(b"\r\n", b"\n") == (root / path).read_bytes().replace(b"\r\n", b"\n"),
+                     "Changed retained dependency review")
+
+
 def check_maui(root: Path = ROOT) -> dict:
     """Offline AND.01 identity and toolchain gate; raises ValueError on any drift."""
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
@@ -470,6 +524,7 @@ def check_maui(root: Path = ROOT) -> dict:
                        re.MULTILINE) is not None,
              "The persistent release certificate differs from eng/published.py")
     check_sdk_pin(root, toolchain)
+    check_jdk_pin(root, toolchain)
     check_build_policy(root)
     check_project(root, toolchain)
     check_licence_registration(root)
@@ -477,6 +532,7 @@ def check_maui(root: Path = ROOT) -> dict:
     check_lock(root, toolchain, admission)
     check_test_admission(test_record)
     check_receipts(root, admission, test_record, toolchain)
+    check_dependency_policy(root)
     check_workloads(root, toolchain, admission)
     check_records(toolchain, admission)
     android = toolchain["android"]

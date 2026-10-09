@@ -4,9 +4,7 @@
   "axes": {
     "AppVersion": {
       "kind": "release",
-      "sources": [
-        "release/app.json"
-      ]
+      "allocation": "release-name"
     },
     "ContractSet": {
       "kind": "contracts",
@@ -51,9 +49,8 @@
     },
     "PackageVersion": {
       "kind": "packages",
-      "sources": [
-        "app/gradle.lockfile"
-      ]
+      "absence": "not-applicable",
+      "reason": "Derived from the MAUI NuGet lock (src/ArcForges.Mobile/packages.lock.json) by build_identity.maui_report; the Gradle lock source retired with the Kotlin baseline (AND.40 PR B)."
     }
   }
 }

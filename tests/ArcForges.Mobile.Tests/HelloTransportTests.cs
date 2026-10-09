@@ -221,7 +221,7 @@ public sealed class HelloTransportTests
     [InlineData(14, GenericMessage)]
     [InlineData(12, GenericMessage)]
     [InlineData(16, GenericMessage)]
-    public async Task ServerStatusMapsToTheKotlinUserMessage(int code, string expectedMessage)
+    public async Task ServerStatusMapsToTheReviewedUserMessage(int code, string expectedMessage)
     {
         await using var server = new LoopbackHttpServer(exchange =>
             exchange.ReplyAsync(200, GrpcWebFrames.Trailers($"grpc-status: {code}", "grpc-message: refused"), ProtoContentType));
@@ -418,7 +418,7 @@ public sealed class HelloTransportTests
     }
 
     [Fact]
-    public void TheTransportConstantsMatchTheKotlinBaseline()
+    public void TheTransportConstantsHaveTheReviewedValues()
     {
         Assert.Equal(TimeSpan.FromSeconds(5), CloudHelloTransport.MaximumDeadline);
         Assert.Equal(TimeSpan.FromSeconds(10), CloudHelloTransport.CallTimeout);
@@ -462,7 +462,7 @@ public sealed class HelloTransportTests
     [InlineData(StatusCode.Unavailable, GenericMessage)]
     [InlineData(StatusCode.Unimplemented, GenericMessage)]
     [InlineData(StatusCode.Internal, GenericMessage)]
-    public void StatusTableMatchesTheKotlinClient(StatusCode code, string expected)
+    public void StatusTableHasTheReviewedUserMessages(StatusCode code, string expected)
     {
         Assert.Equal(expected, CloudHelloClient.UserMessageFor(code));
     }

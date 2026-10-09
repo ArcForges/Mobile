@@ -203,5 +203,12 @@
     },
     "rationale": "Workload set 10.0.401 equals the admitted local install on every Android-relevant manifest (android 36.1.69, maui-android 10.0.20, mono toolchain and emscripten 10.0.112). Only the uninstalled iOS-family manifests differ (26.5.10318 against 10301). Set 10.0.400 has mono 10.0.111 and does not match. Set 10.0.401.1 brings maui 10.0.110 and is not used.",
     "localVerification": "With SDK 10.0.400 at C:\\Users\\J7Rdm\\.dotnet: 'dotnet workload install --help' shows --version, and 'dotnet workload search version 10.0.401' lists the manifest table above. No installed workload was modified on the local machine."
+  },
+  "jdk": {
+    "distribution": "temurin",
+    "version": "21.0.12",
+    "use": "Android platform tooling only (Android SDK tools run on the JDK); the Mobile code has no Java or Kotlin product logic",
+    "consumer": ".github/workflows/ci.yml, the maui job (actions/setup-java java-version)",
+    "javaVersionFileRetired": "AND.40 PR B: .java-version is deleted with the Kotlin baseline"
   }
 }

@@ -10,18 +10,22 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-  - package-ecosystem: gradle
-    directory: /
+  - package-ecosystem: nuget
+    directories:
+      - "/"
+      - "/src/ArcForges.Mobile"
+      - "/src/core/ArcForges.Mobile.Network"
+      - "/src/core/ArcForges.Mobile.Security"
+      - "/tests/ArcForges.Mobile.Policy"
+      - "/tests/ArcForges.Mobile.Tests"
     schedule:
       interval: weekly
       day: monday
     open-pull-requests-limit: 5
     groups:
-      kotlin:
-        patterns: ["org.jetbrains.kotlin*", "org.jetbrains.kotlinx*"]
-      compose:
-        patterns: ["org.jetbrains.compose*", "androidx.compose*"]
-      android:
-        patterns: ["com.android*", "androidx.activity*", "androidx.test*"]
+      maui:
+        patterns: ["Microsoft.Maui*", "Microsoft.Android*", "Xamarin*"]
       contracts:
-        patterns: ["io.github.arcforges*", "com.connectrpc*", "com.squareup.okhttp3*", "com.squareup.okio*"]
+        patterns: ["ArcForges.Contracts*"]
+      tests:
+        patterns: ["Microsoft.NET.Test.Sdk", "xunit*"]

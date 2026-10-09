@@ -96,6 +96,17 @@ def axes(version: str, contract_text: str, root: Path = ROOT, catalog: dict | No
         spec = catalog["axes"][name]
         if spec.get("kind") != kind:
             raise ValueError(f"Wrong independent source kind for {name}")
+        if kind == "release":
+            # AppVersion is the allocated release name under the MAUI artifact id. No source file backs it, so no
+            # synthetic source path is recorded (AND.40 PR B: the retired io.github applicationId leaves no trace).
+            if set(spec) != {"kind", "allocation"} or spec["allocation"] != "release-name":
+                raise ValueError("The release axis is the allocated release name, not a source file")
+            if not re.fullmatch(r"[0-9]+(?:[.][0-9]+)*(?:[-+][A-Za-z0-9.-]+)?", version):
+                raise ValueError("Malformed independent version")
+            output[name] = {"status": "present", "values": [{
+                "subject": MAUI_ARTIFACT, "version": version,
+                "source": {"allocation": "release-name", "sha256": hashlib.sha256(version.encode()).hexdigest()}}]}
+            continue
         if "absence" in spec:
             allowed = {"kind", "absence", "reason", "producer"}
             if set(spec) - allowed or spec["absence"] not in {"not-applicable", "not-produced"} or not spec.get("reason"):
@@ -108,47 +119,34 @@ def axes(version: str, contract_text: str, root: Path = ROOT, catalog: dict | No
             continue
         if set(spec) - {"kind", "sources"}:
             raise ValueError("Aliases and unknown version source properties are forbidden")
-        values = []
         if kind == "packages":
-            for path in spec.get("sources", []):
+            raise ValueError("The package axis comes from the MAUI NuGet lock (maui_report), not from a source list")
+        values = []
+        for path in spec.get("sources", []):
+            if kind == "contracts" and path == "packages/contracts/source.json":
+                content = contract_text.encode()
+                evidence = {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
+            else:
                 content, evidence = source(path, root)
-                for line in content.decode().splitlines():
-                    if not line or line.startswith("#") or line.startswith("empty="):
-                        continue
-                    coordinate, configurations = line.split("=", 1)
-                    if "releaseRuntimeClasspath" not in configurations.split(","):
-                        continue
-                    group, artifact, version_value = coordinate.split(":")
-                    values.append({"subject": group + ":" + artifact, "version": version_value, "source": evidence})
-        else:
-            for path in spec.get("sources", []):
-                if kind == "release" and path == "release/app.json":
-                    content = json.dumps({"versions": [{"subject": "io.github.arcforges.mobile", "version": version}]}, sort_keys=True).encode()
-                    evidence = {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
-                elif kind == "contracts" and path == "packages/contracts/source.json":
-                    content = contract_text.encode()
-                    evidence = {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
-                else:
-                    content, evidence = source(path, root)
-                if kind == "contracts":
-                    producer = json.loads(content)
-                    match = re.fullmatch(r"([a-zA-Z0-9_.]+)\.v([1-9][0-9]*)", producer.get("schema", ""))
-                    if (not match or producer.get("dirty") is not False
-                            or not re.fullmatch(r"[0-9a-f]{40}", producer.get("commit", ""))
-                            or not re.fullmatch(r"[0-9a-f]{64}", producer.get("descriptorSha256", ""))):
-                        raise ValueError("Contract source requires published namespace and descriptor")
-                    values.append({"subject": match[1], "version": match[2], "source": evidence,
-                                   "descriptorSha256": producer["descriptorSha256"]})
-                elif kind == "native-abi":
-                    major = re.search(rb"#define\s+ARC_ABI_MAJOR\s+(\d+)", content)
-                    minor = re.search(rb"#define\s+ARC_ABI_MINOR\s+(\d+)", content)
-                    if not major or not minor:
-                        raise ValueError("Native ABI constants missing")
-                    values.append({"subject": path, "version": major[1].decode() + "." + minor[1].decode(), "source": evidence})
-                else:
-                    declared = json.loads(content)
-                    entries = declared["migrations"][-1:] if kind == "migrations" else declared["versions"]
-                    values.extend({"subject": item["subject"], "version": item["version"], "source": evidence} for item in entries)
+            if kind == "contracts":
+                producer = json.loads(content)
+                match = re.fullmatch(r"([a-zA-Z0-9_.]+)\.v([1-9][0-9]*)", producer.get("schema", ""))
+                if (not match or producer.get("dirty") is not False
+                        or not re.fullmatch(r"[0-9a-f]{40}", producer.get("commit", ""))
+                        or not re.fullmatch(r"[0-9a-f]{64}", producer.get("descriptorSha256", ""))):
+                    raise ValueError("Contract source requires published namespace and descriptor")
+                values.append({"subject": match[1], "version": match[2], "source": evidence,
+                               "descriptorSha256": producer["descriptorSha256"]})
+            elif kind == "native-abi":
+                major = re.search(rb"#define\s+ARC_ABI_MAJOR\s+(\d+)", content)
+                minor = re.search(rb"#define\s+ARC_ABI_MINOR\s+(\d+)", content)
+                if not major or not minor:
+                    raise ValueError("Native ABI constants missing")
+                values.append({"subject": path, "version": major[1].decode() + "." + minor[1].decode(), "source": evidence})
+            else:
+                declared = json.loads(content)
+                entries = declared["migrations"][-1:] if kind == "migrations" else declared["versions"]
+                values.extend({"subject": item["subject"], "version": item["version"], "source": evidence} for item in entries)
         if not values:
             raise ValueError(f"No implemented source for {name}")
         seen = set()
@@ -159,54 +157,6 @@ def axes(version: str, contract_text: str, root: Path = ROOT, catalog: dict | No
             seen.add(value["subject"])
         output[name] = {"status": "present", "values": sorted(values, key=lambda item: item["subject"])}
     return copy.deepcopy(output)
-
-
-def report(version: str, code: int, root: Path = ROOT, environment: dict | None = None) -> dict:
-    from resources import profile
-    if type(code) is not int or not 1 <= code <= 2_100_000_000:
-        raise ValueError("Invalid Android versionCode")
-    identity = build(root, environment)
-    if identity["kind"] == "ci":
-        env = os.environ if environment is None else environment
-        number, attempt = int(env["GITHUB_RUN_NUMBER"]), identity["runAttempt"]
-        if not 1 <= number <= 20_999_999 or not 1 <= attempt <= 99 or code != number * 100 + attempt or version != f"0.1.0-ci.{number}.{attempt}":
-            raise ValueError("App version differs from allocated CI version")
-    contract_text = profile(root)[2]["contractSourceText"]
-    return {"schema": "arcforges.build-identity.v1", "owner": "Mobile",
-            "artifact": {"id": "io.github.arcforges.mobile", "version": version},
-            "build": identity, "axes": axes(version, contract_text, root),
-            "packaging": {"androidVersionCode": code}}
-
-
-def verify_report(data: bytes, info: dict, root: Path = ROOT) -> None:
-    expected = report(info["version_name"], info["version_code"], root)
-    # Strict JSON parsing rejects duplicates as well as missing/aliased axes.
-    from check_provenance import document
-    if document(data) != expected or expected["build"]["sourceCommit"] != info["commit"]:
-        raise ValueError("Packaged build identity or independent version axes differ")
-
-
-def generate(resolved: Path, version: str, code: int) -> None:
-    import zipfile
-    from resources import profile, sha, save
-    approved = profile()[2]
-    expected = approved["contractSourceText"].encode()
-    observed = set()
-    for configuration in json.loads(resolved.read_text(encoding="utf-8")):
-        for artifact in configuration["artifacts"]:
-            if artifact["id"].startswith("io.github.arcforges:contracts-proto:"):
-                path = Path(artifact["file"])
-                key = artifact["id"] + "/" + path.name
-                if sha(path.read_bytes()) != approved["inputs"][key]["sha256"]:
-                    raise ValueError("Changed resolved Contracts producer")
-                with zipfile.ZipFile(path) as archive:
-                    actual = archive.read("source.json").replace(b"\r\n", b"\n")
-                if actual != expected:
-                    raise ValueError("Resolved Contracts schema receipt differs from reviewed source")
-                observed.add(artifact["id"])
-    if len(observed) != 1:
-        raise ValueError("Missing or ambiguous resolved Contracts producer")
-    save(ROOT / "build/generated/licence-assets/build-identity.json", report(version, code))
 
 
 # AND.40 decision 14: the MAUI path. The identity is generated from the NuGet lock of the shipped
@@ -221,6 +171,17 @@ MAUI_WORKLOAD_ADMISSION = "eng/policy/workload-admission.json"
 MAUI_SOURCE_INPUTS = ("global.json", "Directory.Build.props", "Directory.Packages.props", "NuGet.config",
                       MAUI_PROJECT, MAUI_LOCK, MAUI_TOOLCHAIN, MAUI_WORKLOAD_ADMISSION)
 MAUI_OUTPUT = "build/generated/licence-assets/build-identity.json"
+# The reviewed Contracts producer source (the ContractSet axis). Its bytes are the ones the retired Kotlin resource
+# profile carried (AND.40 PR B); the pinned digest makes a change a reviewed code change.
+CONTRACT_SOURCE = "eng/policy/contracts-source.json"
+CONTRACT_SOURCE_SHA256 = "7536a3dc371d282d5ed7528f6217c69512b068a9fd2f5a196c665f4a66a2bbed"
+
+
+def contract_source_text(root: Path = ROOT) -> str:
+    content = (root / CONTRACT_SOURCE).read_bytes().replace(b"\r\n", b"\n")
+    if hashlib.sha256(content).hexdigest() != CONTRACT_SOURCE_SHA256:
+        raise ValueError("The reviewed Contracts source text differs from its pinned digest")
+    return content.decode("utf-8")
 
 
 def lf_source(path: str, root: Path = ROOT) -> dict:
@@ -288,7 +249,6 @@ def maui_toolchain(root: Path = ROOT, observed_sdk: str = "") -> dict:
 def maui_report(version: str, code: int, root: Path = ROOT, environment: dict | None = None,
                 identity: dict | None = None, observed_sdk: str = "") -> dict:
     """The build identity of the MAUI candidate. `identity` may be supplied by tests; a build reads it from git."""
-    from resources import profile
     if type(code) is not int or not 1 <= code <= 2_100_000_000:
         raise ValueError("Invalid Android versionCode")
     build_identity = build(root, environment) if identity is None else identity
@@ -302,11 +262,8 @@ def maui_report(version: str, code: int, root: Path = ROOT, environment: dict | 
     if build_identity["kind"] == "ci" and observed_sdk != toolchain["sdk"]["pinned"]:
         raise ValueError("The CI build did not run the pinned SDK")
     catalog = json.loads((root / "eng/version-sources.json").read_text(encoding="utf-8"))
-    # The Kotlin catalog reads app/gradle.lockfile for PackageVersion. The MAUI identity reads its own lock, so that
-    # axis is taken out of the shared derivation and replaced below; every other axis is derived as for Kotlin.
-    catalog["axes"]["PackageVersion"] = {"kind": "packages", "absence": "not-applicable",
-                                         "reason": "Replaced by the NuGet lock of the MAUI closure (AND.40)."}
-    axes_output = axes(version, profile(root)[2]["contractSourceText"], root, catalog)
+    # PackageVersion is not-applicable in the catalog (the NuGet lock is its source, read below).
+    axes_output = axes(version, contract_source_text(root), root, catalog)
     axes_output["PackageVersion"] = {"status": "present", "values": maui_packages(root)}
     return {"schema": "arcforges.build-identity.v1", "owner": "Mobile",
             "artifact": {"id": MAUI_ARTIFACT, "version": version}, "build": build_identity,
@@ -333,15 +290,10 @@ def generate_maui(version: str, code: int, observed_sdk: str, root: Path = ROOT)
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--resolved", type=Path, help="Kotlin path: the resolved Gradle configurations")
-    parser.add_argument("--maui", action="store_true", help="MAUI path: derive the identity from the NuGet lock")
-    parser.add_argument("--observed-sdk", default="", help="MAUI path: the output of `dotnet --version` for this build")
+    parser.add_argument("--maui", action="store_true", required=True,
+                        help="the MAUI identity: derived from the NuGet lock of the shipped closure")
+    parser.add_argument("--observed-sdk", default="", help="the output of `dotnet --version` for this build")
     parser.add_argument("--version", required=True)
     parser.add_argument("--code", type=int, required=True)
     args = parser.parse_args()
-    if args.maui:
-        generate_maui(args.version, args.code, args.observed_sdk)
-    else:
-        if args.resolved is None:
-            parser.error("--resolved is required unless --maui is given")
-        generate(args.resolved, args.version, args.code)
+    generate_maui(args.version, args.code, args.observed_sdk)

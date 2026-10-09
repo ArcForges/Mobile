@@ -2,10 +2,11 @@
 
 The [accepted Design profile](https://github.com/ArcForges/ArcForges-Design/blob/f7966d9953a4c5dc9b59b321fdae4940bb7babb8/docs/assurance/reference-coverage-and-provenance.md#31-current-repository-implementation-profile)
 governs this Apache owner. The retired initialization repository is not an input.
-The inventory covers tracked files and nonignored additions. Original Kotlin
-UI/transport/tests, the authored launcher vector, configuration and release tooling
-were reviewed as first-party work. Wrappers, legal texts and the Apache Contracts
-checker port have individual bindings. Builds import no sibling source checkout.
+The inventory covers tracked files and nonignored additions. The .NET MAUI sources,
+the Hello transport, the host and policy tests, the eng tooling and the release
+configuration are first-party work. Legal texts and the Apache Contracts checker and
+build-identity ports have individual bindings. Builds import no sibling source checkout.
+The Kotlin application's reviewed inputs remain as immutable history (AND.40 PR B).
 
 ## Admission and accountability
 
@@ -50,50 +51,29 @@ checks compare records to the event's trusted base; local checks use fetched
 `origin/main`, or committed HEAD on main. Missing history fails. CI fetches history.
 Review reuse introduced inside an already inventoried authored file as well.
 
-## Actual Android resources
+## Android release evidence (MAUI)
 
-The immutable profile retains release APK/AAB and historical/local debug/test admissions. Only release APK/AAB are staged and resource-verified by CI.
-It binds the exact 122 resolved JAR/AAR inputs, source resource paths, copied bytes,
-compiled resource expectations, service rewriting and notices. Source/input checks
-run before compilation and packaging. The separate 195-component dependency gate
-verifies library licences, strict checksums, four native ABI payloads and notices.
-JUnit remains an instrumentation-only EPL-1.0 dependency with full terms and exact
-source availability; this does not authorize porting EPL code into authored files.
+Each MAUI release is an APK with `THIRD_PARTY_NOTICES.txt`, `licence-closure.json`,
+`mapping.txt`, `build-identity.json` and `maui-archive.json`, plus `release.json` and
+`SHA256SUMS`. The NuGet closure is admitted package by package in
+`eng/policy/nuget-admission.json`, and `eng/licences.py maui` and `eng/maui_notices.py`
+check it against the lock. Each APK is checked by `eng/maui_identity.py`: its identity,
+its embedded `build-identity.json`, its 16 KB alignment, the persistent certificate and
+the absence of any gnu/binutils member. `maui-archive.json` is derived from the signed
+APK and binds its digest and signer. The release gate fails closed while any notice
+escalation is open in `eng/policy/maui-notices.json`.
 
-The [resolved conflict](../eng/provenance/conflicts/okhttp-public-suffix-data.json)
-removes unused MPL suffix data, source-only annotation resources and legacy JUnit
-runner images. Every archive rejects their names and renamed copies by hash.
-`CookieJar.NO_COOKIES` is explicit and tested against unsolicited `Set-Cookie`.
-Native bearer sessions and system-browser authentication retain their Design rules.
-A future cookie/suffix feature requires a compatible audited input before use;
-there is no empty replacement database.
+The `build-identity.json` of a build is the CI-derived identity of its nine axes. Its
+ContractSet source text is the reviewed Contracts producer source in
+`eng/policy/contracts-source.json`, pinned by digest in `eng/build_identity.py`.
 
-Fixed resources match upstream/package bytes. The compiled-resource oracle was
-established before the replacement candidate with independent Windows builds and
-the actual Linux ci.9.1 candidate; fresh debug compilation reproduced all 41 members.
-APK resources use exact hashes. AAB tables preserve every semantic byte and the
-complete normalized source-path list; only transform cache identities and generated
-source-root indices vary across hosts. Actual APK/AAB manifests are decoded by
-AAPT2; only the validated candidate version is substituted. R8 service entries are
-derived from original provider names and the actual mapping. The one known
-coroutines service-interface merge is bound to the sole Android implementation,
-independently observed in ci.9.1; unknown missing types fail. AGP's explicit
-`NO_VALID_GIT_FOUND` metadata is accepted only in a local Git worktree, where the
-independent Git receipt binds the actual clean commit; CI requires AGP's exact
-revision as well. No verifier learns or
-refreshes an admission profile from its candidate.
+## Retired Kotlin resource profile
 
-Every archive embeds `source-provenance.json` with the source commit, active record
-digests and profile identity. `resource-provenance.json` records each actual archive
-member, hash, classification and matched record. Full legal terms and source
-attribution remain in `THIRD_PARTY_NOTICES.txt`. The Linux producing job verifies release
-archives once. The signing job checks the sealed candidate at its trust handoff,
-then proves signing preserved the payload and writes `signed-resource-provenance.json`.
-No device, public-download or live Cloud gate runs in CI.
-
-For changed input, resource, recipe, licence or notice scope, inspect the proposed
-sources and outputs, establish an independent oracle, and admit a new profile and
-superseding record before accepting its candidate. Preserve prior profiles, records
-and immutable release identities. Source/fixture passes alone do not close F-023.
-
-Build identity and independent version sources are described in [build-identity.md](build-identity.md). The published `build-identity.json` is also embedded in every Android archive and read by the installed app.
+The Kotlin resource profile (`eng/provenance/artifact-profiles/android-resources-r1`
+to `r14`, the records `android-packaged-resources-r1` to `r14`) bound the Kotlin
+APK/AAB members and their 122 resolved inputs. It is immutable history. The active
+artifact record `android-packaged-resources-r14` retired with the Kotlin baseline in
+AND.40 PR B: the inventory lists it under `retired`, which keeps the record and its
+profile tracked and unchanged without binding any notice, and only an artifact that was
+active in the previous inventory may retire. The verifier for that profile was removed
+with the Kotlin app.

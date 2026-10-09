@@ -10,6 +10,6 @@ body:
   - type: textarea
     attributes:
       label: Environment and evidence
-      description: App version, Android version/device or JDK/OS, and redacted logs or CI run link.
+      description: App version, Android version or OS (with the device model for a runtime failure), and redacted logs or CI run link.
     validations:
       required: true

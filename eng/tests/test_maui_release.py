@@ -114,7 +114,7 @@ class MauiSealTests(unittest.TestCase):
         release = self.sign(BuildTools())
         seal = json.loads((release / "release.json").read_text(encoding="utf-8"))
         self.assertEqual(seal["track"], "maui")
-        self.assertEqual(seal["tag"], "android-maui-0.1.0-ci.1.1")
+        self.assertEqual(seal["tag"], "android-0.1.0-ci.1.1")
         self.assertEqual(set(seal["sha256"]), published.maui_release_names("0.1.0-ci.1.1"))
         self.assertNotIn("release.json", seal["sha256"])
         for name, digest in seal["sha256"].items():

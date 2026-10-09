@@ -1,124 +1,16 @@
 # Project and Android distribution licences (WP00.02)
 
 The accepted [Design declaration profile](https://github.com/ArcForges/ArcForges-Design/blob/3825a24fd7530cb51c3fb30b757e644ebab33459/docs/architecture/01-solution-and-project-layout.md#41-project-declaration-and-verification-profile)
-assigns all three Mobile Gradle scopes to `Apache-2.0` / `Apache`. Each build file
-declares its own metadata. `eng/policy/licence-boundary.json` records the Gradle
-inventory that the Kotlin baseline gates read, unchanged until AND.40. The .NET identity
-project is recorded separately in `eng/policy/dotnet-licence-boundary.json` and audited
-by `eng/licences.py` against its own csproj declarations. `eng/licences.py projects`
-discovers actual tracked/nonignored manifests and rejects missing declarations, other
-build systems and unpublished/unknown first-party inputs. Original Mobile tooling is
-Apache-2.0 and imports no AGPL checker.
+assigns the Mobile projects to `Apache-2.0` / `Apache`. Each project declares its own metadata in its csproj (`PackageLicenseExpression` and `LicenceBoundary`). `eng/policy/dotnet-licence-boundary.json` registers the reviewed .NET projects, and `eng/licences.py projects` audits them against their declarations. The retired Gradle roster in `eng/policy/licence-boundary.json` stays empty: no project is built by Gradle any more (AND.40 PR B). The audit rejects an unregistered project, a build system other than a reviewed `.csproj`, a linked source or a submodule. Original Mobile tooling is Apache-2.0 and imports no AGPL checker.
 
-`eng/licences.gradle.kts` checks effective Gradle project properties and references
-after evaluation. The app's `verifyAndroidLicences` task resolves release, debug,
-instrumentation and core-library-desugaring configurations inside the owning Gradle
-project. The closed inventory in `eng/policy/android-licences.json` identifies each
-resolved component, exact distributable artifact hashes, licence evidence and
-retained notice hashes. Ordinary builds keep strict Gradle locking and checksum
-verification; unknown graph nodes, changed bytes, unreviewed native payloads or
-missing notice text fail before compilation/packaging.
+The MAUI NuGet closure is checked by `eng/licences.py maui`. It requires exactly one Android target (`net10.0-android36.1`), a lock version 2, and that every locked package is admitted in `eng/policy/nuget-admission.json` with the same version and content hash. Only the admitted licences are accepted: Apache-2.0, BSD-2-Clause, BSD-3-Clause, MIT, Zlib and Unicode-3.0. AGPL, GPL, SSPL, BUSL, proprietary and unlicensed packages are refused. Build-only and test-only packages are classified separately and never shipped, and `ArcForges.Build.Policy` is not part of the closure.
 
-The audited Android closure includes Kotlin/AndroidX/Compose, Contracts, Connect,
-OkHttp/Okio, protobuf and test dependencies. Apache-2.0, BSD-3-Clause and MIT apply to
-the reviewed libraries. JUnit's EPL-1.0 applies only to instrumentation, never an
-application runtime. Complete upstream notices live under `third-party/notices`,
-deduplicated by their normalized UTF-8/LF SHA-256. Each component retains its own
-attribution and evidence links; this does not relicense any dependency.
+The retained notice texts live under `third-party/notices`, named by their normalized UTF-8/LF SHA-256. `python -I eng/maui_notices.py` checks the closure (`closure`), re-proves it against the shipped APK (`reproof`), checks the notice data and retained texts (`check`), derives the distribution notice set (`distribution`) and gates the release (`release-ready`). A package without a licence file in its nupkg needs a retained notice, listed in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). Workload packs and the Mono runtime bundles are recorded in `eng/policy/maui-notices.json`; the GPL-3.0 binutils text of the Android SDK bundle covers build-host tools that are not redistributed, and `maui_notices.apk_host_only` proves that from the APK contents (AND.40 decision 20).
 
-AndroidX `graphics-path:1.0.1` contributes the four reviewed ABI-specific native
-libraries. Its [release source](https://android.googlesource.com/platform/frameworks/support/+/8a05a22af450d589ef911d772a001a49dcb05b71/graphics/graphics-path/)
-and CMake inputs were checked, including the Apache-2.0 math headers and their
-copyright notices. ELF dependencies are only platform `libc`, `libdl` and `libm`;
-the build uses `-nostdlib++`. The compiler-rt licence, including its LLVM exception
-and MIT sections, is retained from the compiler revision identified in those ELF
-files. The policy preserves source URLs/hashes, native hashes and system dependencies.
+The shipped Android closure is Apache-2.0 and permissive, and each retained notice keeps its own attribution. Mobile does not relicense any dependency.
 
-The [accepted remediation](https://github.com/ArcForges/ArcForges-Design/blob/3825a24fd7530cb51c3fb30b757e644ebab33459/docs/architecture/01-solution-and-project-layout.md#42-current-android-dependency-conflict-and-remediation)
-removes the optional `desugar_jdk_libs:2.1.5` implementation because its published
-GPL-2.0 with Classpath exception conflicts with D-004's explicit GPL-family exclusion.
-The core-library configuration must remain empty. Normal D8/R8 language desugaring,
-JVM 21, API 26 minimum, app IDs and signing identity remain unchanged. Historical API 26/36 observations remain separate runtime evidence. Under P2-017,
-relevant device checks are local opt-in when affected behavior requires them and the
-existing environment supports them; CI does not run devices or live Cloud calls.
-
-The generated `THIRD_PARTY_NOTICES.txt`, `licence-closure.json` and
-`source-provenance.json` are registered as
-Android generated assets with an explicit task dependency. Release/debug/test APKs
-and the AAB retain them. Candidate staging rejects a dirty/wrong-commit receipt,
-changed policy/locks, stripped assets or changed/unexpected native bytes. The
-[resource gate](provenance.md) verifies complete archive membership, copied and
-generated resources, excluded suffix data and source/profile identity. Candidate
-hashes cover every companion. Signing re-verifies that candidate and publishes the
-same companions with hashes in `release.json` and `SHA256SUMS`; it never rebuilds code.
+The Kotlin closure (`eng/policy/android-licences.json`, the Gradle licence checks and the JUnit EPL-1.0 test-only dependency) retired with the Kotlin baseline in AND.40 PR B. Its records remain under `eng/provenance` as immutable history.
 
 ## Maintenance and evidence
 
-```sh
-python eng/licences.py projects
-python -m unittest discover -s eng/tests -v
-./gradlew :app:verifyAndroidLicences
-```
-
-For a dependency update, first resolve the proposed graphs with the documented
-Gradle lock/checksum maintenance commands. Inspect `android-resolved.json`, the
-published POM/parent licence declarations, every delivered JAR/AAR (including nested
-JAR notices), and native source/compiler dependencies. Review and update the closed
-policy and retained texts before packaging; never accept an unknown licence or hash
-automatically. Run the applicable strict builds and offline checks using existing caches. Device
-checks are scoped local opt-in, not an automatic upgrade gate; do not create empty
-caches or provision tools to expand validation. CI retains source/effective
-project reports and the resolved closure alongside the immutable candidate.
-
-On 2026-09-18, required lint found AGP 9.4.1 and Contracts 1.0.0-ci.44.1 available.
-The official Google Maven AGP POM and Contracts' three-registry publication were
-verified before updating exact catalog/lock/checksum inputs. These are compatible
-patch/producer updates under Mobile architecture section 3; no product rule changes.
-
-Gitleaks' generic API-key rule also matched the public SLF4J JAR checksum because
-its filename contains `api`. `.gitleaks.toml` retains all default rules and excludes
-only that exact reviewed checksum line in the Android policy file. The checksum
-was verified against Maven Central; changed values and other paths remain scanned.
-
-This evidence covers the current Android candidate, not a future dependency graph,
-Play approval, physical devices, full ArcChat behavior or the JVM development runtime
-as a shipped product. F-023 closes only with this actual distribution closure and
-its required runtime/publication evidence, never from the first-party metadata alone.
-
-On 2026-09-19, required lint detected Contracts `1.0.0-ci.54.1`. Both public
-Maven JAR/POM/module sets and publisher commit
-`aa2f187a4adae8ee4f79cee192c0d382cb7fec7f` were verified before updating.
-All 20 classes, proto/descriptor and other resources are unchanged; the release
-adds source provenance to NOTICE and updates source/SBOM identity. New legal
-and resource records supersede the retained ci.44.1 admissions. Lint remains enabled.
-
-On 2026-09-20, required release lint detected Contracts `1.0.0-ci.60.1`.
-The six public Maven JAR/POM/module files matched repository SHA-256 values;
-source receipts identify `ef9e0aa9d90d47ff8355dc38b037fd5860b4476c`.
-All compiled classes and schemas are identical to ci.54.1. NOTICE changes only
-version strings; source and SBOM identity also change. Superseding legal/resource
-records preserve previous admissions. New archive expectations derive from the
-verified public Android ci.14.1 baseline and the inspected Maven input bytes,
-before building the replacement candidate. Release lint remains enabled.
-
-On 2026-10-08, the .NET MAUI identity admission (AND.01) pins the NuGet Contracts packages
-`ArcForges.Contracts.PublicApi` and `ArcForges.Contracts.Foundation` at `1.0.0-ci.324.1`. That candidate was
-published from Contracts main commit `330e46bd158bfbb7cdc94c7006565c87e27b1cc6` (PR 87, merged to `main`), by
-CI run `37388554007`, attempt 1, a push to `main` whose jobs (Build candidate, Verify, Publish NuGet, Publish npm,
-Publish Maven channel) all succeeded. The commit is an ancestor of Contracts main, checked on 2026-10-08 against the
-local Contracts checkout. The earlier `1.0.0-ci.350.1` was published from `74c298c90ba56cd9f9e6932c006259c7d0376989`,
-a commit rolled back from `main` on 2026-10-07, so it is not admitted and stays immutable on the feed only
-(coordinator adjudication, 2026-10-08, rolled-back package rule). The nupkg SHA-512 values of these two
-Contracts packages in `eng/policy/nuget-admission.json` were recomputed from the nupkgs restored from nuget.org into
-the NuGet cache, and the nuget.org flat-container index lists `1.0.0-ci.324.1` for both IDs (checked 2026-10-08).
-For the eight `Microsoft.Maui.*` 10.0.20 packages the local cache holds SDK library-packs copies whose bytes differ
-from the nuget.org packages, so their recorded `nupkgSha512` values were not recomputed from the cache. The value
-for `Microsoft.Maui.Controls` was checked against the nuget.org catalog `packageHash`; the other seven recorded
-`Microsoft.Maui.*` values were not individually compared with the catalog. In the AND.01 independent review
-(reviewer session `w-deku-20261008-rev-and-01`, round 1, 2026-10-08), `dotnet restore --locked-mode` of a
-git-archive scratch copy of commit `c48eb7c`, with an uncommitted `global.json` adapter pinning SDK 10.0.401, into a
-fresh, empty `NUGET_PACKAGES` folder (not the default cache above) succeeded; in that folder the `.nupkg.metadata`
-source of the MAUI and Contracts packages was `https://api.nuget.org/v3/index.json`, and their `contentHash` values
-equalled the lock. The committed SDK 10.0.400 pin was not exercised by that restore; its first restore and build is
-the AND.40 CI run. The admitted licence is Apache-2.0 with the packaged `LICENSE` and
-`NOTICE`, so no AND.40 notice deferral is needed for these two packages.
+Changing a NuGet package, a workload pack or a retained notice needs an admission record under `eng/policy/nuget-admission.json` or `eng/policy/dependency-reviews`, the regenerated closure and a passing `maui_notices` run before the candidate is sealed. Licence checks run offline in CI on Windows and Linux. A licence gate passing is not a legal opinion; it shows that the reviewed bytes and their notices agree.

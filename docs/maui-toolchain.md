@@ -1,6 +1,6 @@
 # .NET MAUI Android identity and toolchain pins (AND.01)
 
-The Android companion is .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. AND.01 created the identity project, and AND.40 ports the Hello application onto it. AND.40 PR A adds the MAUI release channel beside the Gradle/Kotlin baseline, which PR B retires.
+The Android companion is .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. AND.01 created the identity project, and AND.40 ports the Hello application onto it. AND.40 PR B retired the Gradle/Kotlin baseline, so the MAUI release channel is the only Android path.
 
 ## Pinned tuple
 
@@ -20,7 +20,7 @@ The Android companion is .NET MAUI for `net10.0-android` only, using the Mono ru
 | Namespace | `ArcForges.Mobile` (root namespace; every source namespace under `src/ArcForges.Mobile` starts with it) | project (`RootNamespace`); `eng/maui_identity.py` |
 | Target API | `36.1` compile/target platform, the coordinator's D-016 decision of 2026-10-08 | project (`TargetPlatformVersion`); `eng/policy/dotnet-toolchain.json` (`targetPlatformDecision`) |
 | Build tools | `36.1.0` | project (`AndroidSdkBuildToolsVersion`) |
-| JDK | 21 (`JAVA_HOME`, mapped to `JavaSdkDirectory` by the environment) | environment; checked by the release job, not committed |
+| JDK | Temurin 21.0.12, Android platform tooling only (no Java or Kotlin product code); `JAVA_HOME` for local builds | `.github/workflows/ci.yml` (`java-version`, maui job); environment, not committed |
 | Release certificate | SHA-256 `7a8b3b14…` (persistent key, `eng/published.py`) | `eng/published.py`; `eng/policy/dotnet-toolchain.json` |
 
 Why these values:
@@ -132,7 +132,7 @@ Not proven by AND.01 and transferred explicitly: the persistent-key signature on
 
 ## CI, restore hygiene and release notices (AND.40 unit 5)
 
-PR A adds the MAUI jobs beside the Kotlin jobs in `.github/workflows/ci.yml`. The Kotlin jobs, the Kotlin publish and the Gradle path are unchanged until PR B.
+The Kotlin jobs, the Kotlin publish and the Gradle path were retired in AND.40 PR B. The `maui` job and the `publish` job in `.github/workflows/ci.yml` are the Android CI path.
 
 ### Restore hygiene (AND.40 decision 17)
 
@@ -140,7 +140,7 @@ Every restore uses `--locked-mode` with `NUGET_PACKAGES` pointing at a clean fol
 
 ### Workloads and the SDK pin (AND.40 decision 3)
 
-The maui job runs `dotnet workload install android maui-android` on the SDK pinned by `global.json` (10.0.400) and then checks that `dotnet workload list` reports `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
+The maui job runs `dotnet workload install android maui-android --version 10.0.401` on the SDK pinned by `global.json` (10.0.400). The workload set is pinned explicitly because an unversioned install takes the newest set, and 10.0.401.1 brings `maui-android` 10.0.110, which the admitted closure does not contain. The job then checks that `dotnet workload list` reports `Workload version: 10.0.401` and lists `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
 
 ### Actions
 
@@ -152,13 +152,13 @@ The maui job runs `dotnet workload install android maui-android` on the SDK pinn
 
 ### CodeQL (AND.40 decision 12)
 
-`codeql-csharp` uses manual build mode with an explicit locked restore and Release build of the host-run projects (`ArcForges.Mobile.Policy` and `ArcForges.Mobile.Tests`). The Android app projects need the Android workload and are covered by the maui job, not by this analysis. `java-kotlin` stays until PR B.
+`codeql-csharp` uses manual build mode with an explicit locked restore and Release build of the host-run projects (`ArcForges.Mobile.Policy` and `ArcForges.Mobile.Tests`). The Android app projects need the Android workload and are covered by the maui job, not by this analysis. The `java-kotlin` category was retired in AND.40 PR B.
 
 ### MAUI candidate and release (PR A)
 
 - `python eng/mobile.py maui-stage` reads the Release APK, checks its identity with `maui_identity.inspect_apk`, checks that it embeds its own `build-identity.json` (`resources.maui_archive`), removes its META-INF signature entries (the MSBuild Release APK is signed with the debug key), aligns it with `zipalign -P 16 -f 4`, checks `zipalign -c -P 16 4`, proves the unsigned candidate carries no binutils member (`maui_notices.apk_host_only`, decision 20), and seals `candidate.json`.
-- The publish-maui job runs on main only, in `android-release`, after `verify`. `python eng/mobile.py maui-sign` verifies the candidate and its build identity against the checkout, refuses to run while any notice escalation is open (`maui_notices.py release-ready`), signs with the persistent identity through `apksigner` (the secrets are the Kotlin secrets, with the same names), verifies the certificate fingerprint `7a8b3b14...`, proves the signed APK carries no binutils member, runs `maui_identity.inspect_apk(..., release=True)`, derives `maui-archive.json` from the signed APK, and writes `release.json` (with the `sha256` map of its members) and `SHA256SUMS`.
-- The release tag is `android-maui-VERSION`. The track publishes the APK, its companions and `maui-archive.json`. It publishes no AAB: the MAUI release path is APK only in PR A.
+- The publish job runs on main only, in `android-release`, after `verify`. `python eng/mobile.py maui-sign` verifies the candidate and its build identity against the checkout, refuses to run while any notice escalation is open (`maui_notices.py release-ready`), signs with the persistent identity through `apksigner` (the secrets are the Kotlin secrets, with the same names), verifies the certificate fingerprint `7a8b3b14...`, proves the signed APK carries no binutils member, runs `maui_identity.inspect_apk(..., release=True)`, derives `maui-archive.json` from the signed APK, and writes `release.json` (with the `sha256` map of its members) and `SHA256SUMS`.
+- The release tag is `android-VERSION` (AND.40 PR B; the PR A prereleases under `android-maui-VERSION` stay as published history). The track publishes the APK, its companions and `maui-archive.json`. It publishes no AAB: the MAUI release path is APK only in PR A.
 - `python eng/published.py maui-prepare` verifies an anonymously downloaded MAUI prerelease: the seal, every member's digest, the persistent signature, the release archive re-derived from the public APK, and the binutils proof of the public APK. It is local opt-in only.
 - Build tools come from `eng/policy/dotnet-toolchain.json` (`36.1.0`), not the Kotlin `37.0.0`.
 
