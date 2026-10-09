@@ -100,7 +100,9 @@ class MauiIdentityGateTests(unittest.TestCase):
         audit = licences.project_audit(ROOT)
         self.assertEqual([row["path"] for row in audit["projects"]],
                          ["app/build.gradle.kts", "build.gradle.kts", "shared/build.gradle.kts"])
-        self.assertEqual(audit["dotnetProjects"], [{"path": identity.MAUI_PROJECT, "kind": "dotnet"}])
+        self.assertEqual(audit["dotnetProjects"],
+                         sorted(({"path": path, "kind": "dotnet"} for path in identity.MAUI_REVIEWED_DOTNET_PROJECTS),
+                                key=lambda row: row["path"]))
 
     def test_uncommitted_local_sdk_adapter_is_refused(self):
         self.edit("global.json", '"rollForward": "disable"', '"rollForward": "latestPatch"')

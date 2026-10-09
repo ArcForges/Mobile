@@ -35,6 +35,13 @@ MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
 # The identity project is classified here, apart from the Gradle roster that the Kotlin baseline gates read (AND.01).
 MAUI_LICENCE_REGISTRY = "eng/policy/dotnet-licence-boundary.json"
 MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
+# AND.40 unit 2: the platform-neutral Hello transport library and its host tests are reviewed .NET projects too. Each is
+# Apache-2.0, and none may appear on the Gradle roster. Any other .NET project is refused by the registry check.
+MAUI_REVIEWED_DOTNET_PROJECTS = (
+    MAUI_PROJECT,
+    "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj",
+    "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
+)
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
 # AND.40 unit 1: test-only packages (xUnit family, Microsoft.NET.Test.Sdk). Never referenced by the identity project.
 MAUI_TEST_ADMISSION = "eng/policy/nuget-test-admission.json"
@@ -126,12 +133,15 @@ def check_build_policy(root: Path) -> None:
 def check_licence_registration(root: Path) -> None:
     """The identity project is audited through the .NET inventory (eng/licences.py dotnet_audit) and is absent from the Gradle roster."""
     registry = _load_json(root / MAUI_LICENCE_REGISTRY)
-    _require(registry.get("projects") == [{"path": MAUI_PROJECT, "kind": "dotnet"}]
+    expected = sorted(({"path": path, "kind": "dotnet"} for path in MAUI_REVIEWED_DOTNET_PROJECTS), key=lambda item: item["path"])
+    registered = registry.get("projects")
+    _require(isinstance(registered, list) and sorted(registered, key=lambda item: str(item.get("path"))) == expected
              and registry.get("spdxLicense") == "Apache-2.0" and registry.get("licenceBoundary") == "Apache",
-             f"{MAUI_LICENCE_REGISTRY} must register exactly {MAUI_PROJECT} as Apache-2.0 / Apache")
+             f"{MAUI_LICENCE_REGISTRY} must register exactly the reviewed .NET projects as Apache-2.0 / Apache")
     roster = _load_json(root / MAUI_GRADLE_ROSTER)
-    _require(MAUI_PROJECT not in {item.get("path") for item in roster.get("projects", [])},
-             f"The Gradle licence roster ({MAUI_GRADLE_ROSTER}) must not carry the .NET identity project")
+    rostered = {item.get("path") for item in roster.get("projects", [])}
+    _require(not rostered & set(MAUI_REVIEWED_DOTNET_PROJECTS),
+             f"The Gradle licence roster ({MAUI_GRADLE_ROSTER}) must not carry a .NET project")
 
 
 def check_project(root: Path, toolchain: dict) -> None:
