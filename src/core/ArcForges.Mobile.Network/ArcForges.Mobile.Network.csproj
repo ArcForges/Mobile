@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    AND.40 unit 2: the Hello transport and the streaming consumer. Platform-neutral code also builds for net10.0
+    so that the host test project (net10.0, AND.40 decision 1) runs on hosted Windows and Linux runners without an
+    emulator. The shipped Android path is net10.0-android only in the app project; this library adds no Android API.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0</TargetFrameworks>
+    <RootNamespace>ArcForges.Mobile.Network</RootNamespace>
+    <AssemblyName>ArcForges.Mobile.Network</AssemblyName>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">26.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The host tests check the transport's internal rules (path prefix, failure classification) directly. -->
+    <InternalsVisibleTo Include="ArcForges.Mobile.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ArcForges.Contracts.PublicApi" />
+    <PackageReference Include="ArcForges.Contracts.Events" />
+    <PackageReference Include="Grpc.Net.Client" />
+    <PackageReference Include="Grpc.Net.Client.Web" />
+  </ItemGroup>
+</Project>

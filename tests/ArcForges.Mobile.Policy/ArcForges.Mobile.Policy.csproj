@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    AND.40 unit 4: the Mobile C# policy suite (WP-05.00, WP-05.01, WP-05.02, WP-05.04 and the F-023-class closure
+    re-proof). Host-run on net10.0 (AND.40 decision 1). It reads the repository's reviewed records and sources; it
+    references no application project, so it never builds the Android app. The packages are test-only
+    (eng/policy/nuget-test-admission.json) and never distributed.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>ArcForges.Mobile.Policy</RootNamespace>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <!-- AND.40 decision 18: the canonical forbidden-name and provider policy (WP-05.02, BAN-PROVIDER). Test-only: its packaged
+         files are read and verified by NamingPolicy before use; nothing from it is compiled into or shipped with the app. -->
+    <PackageReference Include="ArcForges.Contracts.Validation" GeneratePathProperty="true" PrivateAssets="all" />
+    <!-- The validation package's own dependencies name the 205.1 Contracts line. These two direct references hold the test closure
+         on the product Contracts line (324.1, admitted in eng/policy/nuget-admission.json), so the test lock adds no second version
+         of a product package. Nothing from them is used by the policy tests. -->
+    <PackageReference Include="ArcForges.Contracts.Events" />
+    <PackageReference Include="ArcForges.Contracts.PublicApi" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>NamingPackageRoot</_Parameter1>
+      <_Parameter2>$(PkgArcForges_Contracts_Validation)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

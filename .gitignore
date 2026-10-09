@@ -5,6 +5,11 @@
 # .NET build outputs (AND.01 MAUI identity project)
 /src/ArcForges.Mobile/bin/
 /src/ArcForges.Mobile/obj/
+# .NET build outputs (AND.40 network library and host tests)
+/src/core/*/bin/
+/src/core/*/obj/
+/tests/*/bin/
+/tests/*/obj/
 .idea/
 *.iml
 .DS_Store

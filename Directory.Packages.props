@@ -4,9 +4,24 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="ArcForges.Contracts.PublicApi" Version="1.0.0-ci.324.1" />
+    <!-- AND.40 decision 9: the stream shape the streaming consumer is checked against; built from Contracts main 330e46bd. -->
+    <PackageVersion Include="ArcForges.Contracts.Events" Version="1.0.0-ci.324.1" />
     <PackageVersion Include="Microsoft.Maui.Controls" Version="10.0.20" />
     <!-- The SDK otherwise adds this trimmer implicitly at the version of its own SDK patch (10.0.11 in 10.0.400,
          10.0.12 in 10.0.401), which would make the lock differ between the two local SDK patches. -->
     <PackageVersion Include="Microsoft.NET.ILLink.Tasks" Version="10.0.11" />
+    <!-- AND.40 Hello transport: binary gRPC-Web over Grpc.Net.Client. Apache-2.0, 2.84.0 (eng/policy/nuget-admission.json). -->
+    <PackageVersion Include="Grpc.Net.Client" Version="2.84.0" />
+    <PackageVersion Include="Grpc.Net.Client.Web" Version="2.84.0" />
+  </ItemGroup>
+  <!-- Test-only packages (AND.40 unit 1). Admitted by eng/policy/nuget-test-admission.json, never referenced by
+       src/ArcForges.Mobile. Test projects reference them without a version. -->
+  <ItemGroup Label="Test-only">
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <!-- AND.40 decision 18: the canonical naming policy is read from this package by tests/ArcForges.Mobile.Policy only.
+         Build-only test input, never in the app closure. Source commit 696242d (an ancestor of Contracts origin/main). -->
+    <PackageVersion Include="ArcForges.Contracts.Validation" Version="1.0.0-ci.205.1" />
   </ItemGroup>
 </Project>

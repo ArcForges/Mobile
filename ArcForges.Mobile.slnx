@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ArcForges.Mobile/ArcForges.Mobile.csproj" />
+  </Folder>
+  <Folder Name="/src/core/">
+    <Project Path="src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj" />
+    <Project Path="src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj" />
+    <Project Path="tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj" />
+  </Folder>
+</Solution>

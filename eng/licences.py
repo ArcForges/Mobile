@@ -22,6 +22,12 @@ CONFIGURATIONS = {'releaseRuntimeClasspath', 'debugRuntimeClasspath', 'debugAndr
 ALLOWED = {'Apache-2.0', 'BSD-3-Clause', 'MIT', 'EPL-1.0', 'Apache-2.0 WITH LLVM-exception'}
 LOCKS = ['app/gradle.lockfile', 'gradle/verification-metadata.xml', 'gradle/libs.versions.toml']
 DOTNET_BOUNDARY = 'eng/policy/dotnet-licence-boundary.json'
+MAUI_LOCK = 'src/ArcForges.Mobile/packages.lock.json'
+MAUI_ADMISSION = 'eng/policy/nuget-admission.json'
+MAUI_NOTICE_DATA = 'eng/policy/maui-notices.json'
+MAUI_TARGET = 'net10.0-android36.1'
+MAUI_ADMITTED_LICENCES = {'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT', 'Zlib', 'Unicode-3.0'}
+MAUI_FORBIDDEN_LICENCE = re.compile(r'AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED', re.IGNORECASE)
 
 
 def require(value, message):
@@ -127,6 +133,46 @@ def notice_entries(data):
     return result
 
 
+def maui_notice_hashes(root=ROOT):
+    """Retained notices of the MAUI closure (eng/policy/maui-notices.json). They sit outside the Android closure."""
+    path = root / MAUI_NOTICE_DATA
+    if not path.exists():
+        return set()
+    data = read_json(path)
+    # AND.40 unit 5b: the workload-pack notices (APK runtime and build tooling) are retained in the same directory.
+    return {row['sha256'] for row in data['notices']} | {sha for pack in data.get('workloadPacks', []) for sha in pack['notices']}
+
+
+def maui_closure_audit(root=ROOT):
+    """AND.40 MAUI NuGet closure audit only: one Android target, every locked package admitted with its hashes, admitted
+    licences only, and no Build.Policy in the closure records."""
+    lock_bytes = (root / MAUI_LOCK).read_bytes()
+    lock = json.loads(lock_bytes.decode('utf-8'))
+    require(lock.get('version') == 2, 'MAUI lock must use lock version 2')
+    targets = [key for key in lock['dependencies'] if '/' not in key]
+    require(targets == [MAUI_TARGET], 'The MAUI closure must target net10.0-android only')
+    admission_bytes = (root / MAUI_ADMISSION).read_bytes()
+    require(not re.search(r'build\.policy', (lock_bytes + admission_bytes).decode('utf-8'), re.IGNORECASE),
+            'The MAUI closure names ArcForges.Build.Policy')
+    packages = {row['id']: row for row in read_json(root / MAUI_ADMISSION)['packages']}
+    locked = []
+    for name, info in lock['dependencies'][MAUI_TARGET].items():
+        if info['type'] == 'Project':
+            continue
+        require(name in packages, f'Locked MAUI package is not admitted: {name}')
+        row = packages[name]
+        require(row['version'] == info['resolved'] and row['contentHash'] == info['contentHash'],
+                f'Locked MAUI package differs from its admission: {name}')
+        require(not MAUI_FORBIDDEN_LICENCE.search(row['licence']), f'Forbidden MAUI licence: {name}')
+        tokens = [token for token in re.split(r'\s+(?:AND|OR|WITH)\s+|[()]', row['licence']) if token.strip()]
+        require(tokens and all(token.strip() in MAUI_ADMITTED_LICENCES for token in tokens),
+                f'Unadmitted MAUI licence for {name}: {row["licence"]}')
+        locked.append(name)
+    require(sorted(locked) == sorted(packages), 'The admitted MAUI closure differs from the locked closure')
+    return {'result': 'passed', 'target': MAUI_TARGET, 'packages': len(locked),
+            'lockSha256': digest(lock_bytes), 'admissionSha256': digest(admission_bytes)}
+
+
 def verify_closure(resolved, root=ROOT):
     source = project_audit(root)
     provenance_receipt = resources.check_resolved_inputs(resolved, root)
@@ -181,7 +227,7 @@ def verify_closure(resolved, root=ROOT):
     require(observed_native == reviewed['nativeFiles'], 'Unreviewed native dependency closure')
     require(not observed_native or reviewed['nativeSourceEvidence'], 'Missing native source provenance')
     notice_hashes = {sha for row in components for sha in row['notices']}
-    require({p.stem for p in (root / 'third-party/notices').glob('*.txt')} == notice_hashes, 'Unregistered or missing notice text')
+    require({p.stem for p in (root / 'third-party/notices').glob('*.txt')} == notice_hashes | maui_notice_hashes(root), 'Unregistered or missing notice text')
     contents = {}
     for sha in sorted(notice_hashes):
         require(re.fullmatch('[0-9a-f]{64}', sha), 'Invalid notice identity')
@@ -253,12 +299,14 @@ def verify_distribution(directory, commit, root=ROOT):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['projects', 'closure'])
+    parser.add_argument('command', choices=['projects', 'closure', 'maui'])
     parser.add_argument('--resolved', type=Path)
     args = parser.parse_args()
     if args.command == 'projects':
         report = project_audit()
         save(ROOT / 'artifacts/evidence/licence-projects.json', report)
+    elif args.command == 'maui':
+        report = maui_closure_audit()
     else:
         require(args.resolved, 'Pass the actual Gradle resolution report')
         report = verify_closure(read_json(args.resolved))

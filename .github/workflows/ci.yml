@@ -101,6 +101,144 @@ jobs:
             build/generated/licence-assets/
           retention-days: 14
 
+  maui:
+    name: MAUI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    outputs:
+      version_name: ${{ steps.version.outputs.version_name }}
+      version_code: ${{ steps.version.outputs.version_code }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: 21.0.12
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
+        with:
+          packages: platform-tools platforms;android-36.1 build-tools;36.1.0
+      - name: Resolve automatic version
+        id: version
+        run: python eng/mobile.py version
+      - name: Install the pinned MAUI workload set and check the pinned manifests
+        shell: bash
+        run: |
+          test "$(dotnet --version)" = "10.0.400"
+          # AND.40 decision 22: workload set 10.0.401 is pinned explicitly on SDK 10.0.400. An unversioned install takes the
+          # newest set, and 10.0.401.1 brings maui-android 10.0.110, which the admitted closure does not contain.
+          dotnet workload install android maui-android --version 10.0.401
+          dotnet workload list > "$RUNNER_TEMP/workloads.txt"
+          cat "$RUNNER_TEMP/workloads.txt"
+          grep -Eq '^Workload version: 10\.0\.401[[:space:]]*$' "$RUNNER_TEMP/workloads.txt" || {
+            echo "::error::Workload set 10.0.401 is not the installed workload version (decision 22)"
+            exit 1
+          }
+          # AND.40 decision 3: a 10.0.400 band without these manifests fails here. The reviewed fallback is SDK 10.0.401
+          # with a reviewed admission (docs/maui-toolchain.md); it is not applied silently.
+          grep -Eq '^android[[:space:]]+36\.1\.69/' "$RUNNER_TEMP/workloads.txt" || {
+            echo "::error::Android workload 36.1.69 is not installed for SDK 10.0.400 (decision 3: move to 10.0.401 with a reviewed admission)"
+            exit 1
+          }
+          grep -Eq '^maui-android[[:space:]]+10\.0\.20/' "$RUNNER_TEMP/workloads.txt" || {
+            echo "::error::maui-android 10.0.20 is not installed for SDK 10.0.400 (decision 3: move to 10.0.401 with a reviewed admission)"
+            exit 1
+          }
+      - name: Locked restore into a clean NuGet folder
+        shell: bash
+        run: |
+          nuget_root="$RUNNER_TEMP/nuget-maui-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          rm -rf "$nuget_root" && mkdir -p "$nuget_root"
+          export NUGET_PACKAGES="$nuget_root"
+          echo "NUGET_PACKAGES=$nuget_root" >> "$GITHUB_ENV"
+          dotnet restore src/ArcForges.Mobile/ArcForges.Mobile.csproj --locked-mode
+          dotnet restore src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj --locked-mode
+          dotnet restore src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj --locked-mode
+          dotnet restore tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj --locked-mode
+          dotnet restore tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj --locked-mode
+      - name: Record the build identity before the release builds
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: python eng/build_identity.py --maui --observed-sdk "$(dotnet --version)" --version "$VERSION_NAME" --code "$VERSION_CODE"
+      - name: Build the identity project (Debug)
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: >-
+          dotnet build src/ArcForges.Mobile/ArcForges.Mobile.csproj -f net10.0-android -c Debug --no-restore -nologo
+          -p:ArcForgesAndroidVersionName="$VERSION_NAME" -p:ArcForgesAndroidVersionCode="$VERSION_CODE"
+      - name: Build the release app (Mono AOT and R8)
+        shell: bash
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.version_name }}
+          VERSION_CODE: ${{ steps.version.outputs.version_code }}
+        run: >-
+          dotnet build src/ArcForges.Mobile/ArcForges.Mobile.csproj -f net10.0-android -c Release --no-restore -nologo
+          -p:ArcForgesAndroidVersionName="$VERSION_NAME" -p:ArcForgesAndroidVersionCode="$VERSION_CODE"
+      - name: Identity gate of the Release APK
+        shell: bash
+        run: python eng/maui_identity.py --apk "src/ArcForges.Mobile/bin/Release/net10.0-android/com.arcforges.mobile-Signed.apk" --configuration Release
+      - name: Offline host and policy tests
+        shell: bash
+        run: |
+          dotnet test tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj -c Release --no-restore --logger "console;verbosity=normal"
+          dotnet test tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release --no-restore --logger "console;verbosity=normal"
+      - name: Check repository and offline tooling tests
+        if: runner.os == 'Linux'
+        run: |
+          python eng/mobile.py check
+          python -m unittest discover -s eng/tests -v
+      - name: Closure, F-023 re-proof and notice set
+        shell: bash
+        run: |
+          python eng/maui_notices.py closure
+          python eng/maui_notices.py reproof
+          python eng/maui_notices.py check
+          python eng/maui_notices.py distribution
+      - name: Collect the Linux licence evidence of the Android workload
+        if: runner.os == 'Linux'
+        shell: bash
+        run: python eng/maui_notices.py linux-evidence --dotnet-root "$(dirname "$(readlink -f "$(command -v dotnet)")")"
+      - name: Stage the MAUI candidate (identity, embedded build identity, 16 KB alignment)
+        if: runner.os == 'Linux'
+        run: python eng/mobile.py maui-stage --candidate artifacts/maui-candidate
+      - name: Upload the MAUI candidate
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: maui-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/maui-candidate/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload MAUI reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: maui-reports-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/evidence/maui-*.json
+            artifacts/evidence/linux-licence-evidence.json
+            build/generated/licence-assets/build-identity.json
+            build/generated/maui-licence-assets/
+            src/ArcForges.Mobile/bin/Release/net10.0-android/mapping.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
   security:
     name: Security
     uses: ./.github/workflows/security.yml
@@ -112,15 +250,16 @@ jobs:
   verify:
     name: Verify
     if: always()
-    needs: [build, security]
+    needs: [build, maui, security]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require all gates
         env:
           BUILD: ${{ needs.build.result }}
+          MAUI: ${{ needs.maui.result }}
           SECURITY: ${{ needs.security.result }}
-        run: test "$BUILD" = success && test "$SECURITY" = success
+        run: test "$BUILD" = success && test "$MAUI" = success && test "$SECURITY" = success
 
   publish:
     name: Publish Android
@@ -175,3 +314,54 @@ jobs:
           See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence, source-provenance.json and resource-provenance.json for all archive members, and signed-resource-provenance.json for signing preservation; SHA256SUMS verifies the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
+
+  publish-maui:
+    name: Publish Android MAUI prerelease
+    if: >-
+      !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+      needs.verify.result == 'success'
+    needs: [maui, verify]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: android-release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
+        with:
+          packages: platform-tools build-tools;36.1.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: maui-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/maui-candidate
+      - name: Sign the verified MAUI candidate with the persistent Android identity
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
+        run: python eng/mobile.py maui-sign --candidate artifacts/maui-candidate --output artifacts/maui-release
+      - name: Publish Android MAUI prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION_NAME: ${{ needs.maui.outputs.version_name }}
+        run: |
+          cat > "$RUNNER_TEMP/maui-release-notes.md" <<EOF
+          Android MAUI build from commit $GITHUB_SHA. This first .NET MAUI prerelease sits beside the Kotlin baseline and does not replace the Kotlin prerelease.
+
+          Install the APK on Android 8.0 or newer. A device that holds a debug-signed build must uninstall it first; no data migration is provided.
+          Windows and Linux builds, offline host and policy tests, the MAUI closure and notice checks, the 16 KB alignment check and the identity gate passed before signing. Device, emulator and live Cloud checks are local opt-in and were not run by CI.
+          See release.json for candidate hashes and the signing certificate, maui-archive.json for the release identity, and SHA256SUMS for the downloads.
+          EOF
+          gh release create "android-maui-$VERSION_NAME" artifacts/maui-release/* --target "$GITHUB_SHA" --title "Android MAUI $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/maui-release-notes.md"

@@ -1,6 +1,6 @@
 # .NET MAUI Android identity and toolchain pins (AND.01)
 
-The Android companion moves to .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. It does not port the app; that is AND.40. The Gradle/Kotlin application stays the frozen release baseline until AND.40 retires it.
+The Android companion is .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. AND.01 created the identity project, and AND.40 ports the Hello application onto it. AND.40 PR A adds the MAUI release channel beside the Gradle/Kotlin baseline, which PR B retires.
 
 ## Pinned tuple
 
@@ -16,7 +16,7 @@ The Android companion moves to .NET MAUI for `net10.0-android` only, using the M
 | NuGet source | `nuget.org` only, every package mapped to it | `NuGet.config` |
 | Restore | locked (`packages.lock.json`), SDK implicit libraries disabled | `Directory.Build.props` |
 | Application identity | `com.arcforges.mobile`, Android minSdk 26 (carried from the Kotlin baseline) | project; `eng/policy/dotnet-toolchain.json` |
-| Permissions and components | none declared by the project; the manifest removes the SDK's Debug `INTERNET`; `AndroidEnableProfiler=false`; the only APK permission is the AndroidX-merged signature permission | `src/ArcForges.Mobile/`; `eng/maui_identity.py` (`check_identity_only_shape`, `check_apk`) |
+| Permissions and components | `android.permission.INTERNET` only (the Hello transport); the manifest declares no component (`MainActivity` is declared in code); `AndroidEnableProfiler=false`; the other APK permission is the AndroidX-merged signature permission; one launchable activity, `MainActivity` | `src/ArcForges.Mobile/`; `eng/maui_identity.py` (`check_app_shape`, `check_project`, `check_apk`) |
 | Namespace | `ArcForges.Mobile` (root namespace; every source namespace under `src/ArcForges.Mobile` starts with it) | project (`RootNamespace`); `eng/maui_identity.py` |
 | Target API | `36.1` compile/target platform, the coordinator's D-016 decision of 2026-10-08 | project (`TargetPlatformVersion`); `eng/policy/dotnet-toolchain.json` (`targetPlatformDecision`) |
 | Build tools | `36.1.0` | project (`AndroidSdkBuildToolsVersion`) |
@@ -34,30 +34,29 @@ Why these values:
 
 The project does not configure signing. The persistent release key signs the candidate in the protected release job, outside the build (AGENTS.md: candidate build, required checks, protected signing, publication). MSBuild passes signing passwords to `jarsigner` as arguments, and MAUI 10.0.20 does not resolve `env:` references, so the build must not carry them. The release job signs with `apksigner` and verifies the certificate. `python eng/maui_identity.py --apk <apk> --release` refuses any APK that is not signed by the persistent certificate.
 
-The reinstall guidance for the applicationId change is in [releasing.md](releasing.md#application-identity-change-to-comarcforgesmobile-and-01).
+The reinstall guidance for the applicationId change is in [releasing.md](releasing.md#application-identity-change-to-comarcforgesmobile-and01).
 
-## Identity-only shape
+## App shape (AND.40)
 
-The identity project has no permission grant, no launchable activity and no UI (P2-021 item 3; the AND.01 follow-up of 2026-10-08). Its files are exactly:
-
-- `src/ArcForges.Mobile/ArcForges.Mobile.csproj` and `packages.lock.json`;
-- `Platforms/Android/AndroidManifest.xml`: one `application` element with backup and cleartext restricted, and one `uses-permission` element that only removes `android.permission.INTERNET` (`tools:node="remove"`). It declares no component;
-- `Compatibility/ContractsClientCompatibility.cs`: compile-only evidence that the generated `ArcForges.Contracts.Hello.V1` client builds against the MAUI tuple. It carries no behaviour.
-
-`App.cs`, `MainPage.cs`, `MauiProgram.cs`, `Platforms/Android/MainActivity.cs` and `Resources/` were removed. The Windows Debug and Release builds succeed without an `App`, a `MauiProgram` or a `Resources` folder (see the evidence below), so no minimal shim is kept. AND.40 adds the entry point, UI and resources.
+The app project holds exactly its reviewed files (`MAUI_APP_FILES`, enforced by `check_app_shape`). The manifest requests `android.permission.INTERNET` for the Hello transport and nothing else. It declares no component: MAUI declares `MainActivity` in code, and the merged APK has exactly one launchable activity, the reviewed `MainActivity`. The backup, device-transfer and cleartext restrictions stay as in the Kotlin manifest. The Keystore probe is a test-only harness and the app never references it.
 
 Build facts that shaped the manifest and the project:
 
-- The SDK's manifest generator adds `android.permission.INTERNET` to the generated Debug manifest (`obj/Debug/net10.0-android/AndroidManifest.xml`). That manifest carries `android:debuggable="true"` and the permission, while the Release manifest carries neither. The cause inside the generator was not traced to source; the observed correlation with `debuggable` is what the build shows. `tools:node="remove"` on the identity manifest removes the permission from the merged APK, and the rebuilt Debug APK confirms it.
-- `AndroidEnableProfiler=false` is set explicitly. When the profiler is enabled, the SDK's `Microsoft.Android.Sdk.DefaultProperties.targets` sets `AndroidNeedsInternetPermission`, so the explicit value keeps that profiler requirement out of the identity build. It is not the cause of the Debug permission above.
-- AndroidX Core merges one permission into every application: `com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`. The application package declares it itself with protection level `signature` (`aapt2 dump xmltree`, protectionLevel 0x2), so it grants no capability to another app. This follow-up does not strip it (that would be a manifest-merge change to AndroidX, not verified here), so the gate allows exactly this permission and nothing else.
-- The merged manifest also carries AndroidX library components, such as a profile-installer receiver. These are library-owned and are not declared by this project; the gate refuses only a launchable activity.
+- AND.01 observed that the SDK's manifest generator adds `android.permission.INTERNET` to the Debug manifest (`obj/Debug/net10.0-android/AndroidManifest.xml`), which carries `android:debuggable="true"`. The app now requests the permission itself, so the Debug and Release APKs carry the same grant. The AND.01 removal marker (`tools:node="remove"`) is gone.
+- `AndroidEnableProfiler=false` is set explicitly. When the profiler is enabled, the SDK's `Microsoft.Android.Sdk.DefaultProperties.targets` sets `AndroidNeedsInternetPermission`, so the explicit value keeps that profiler requirement out of the build.
+- AndroidX Core merges one permission into every application: `com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`. The application package declares it itself with protection level `signature` (`aapt2 dump xmltree`, protectionLevel 0x2), so it grants no capability to another app. The gate allows exactly this permission and nothing else beyond INTERNET.
+- The merged manifest also carries AndroidX library components, such as a profile-installer receiver. These are library-owned and are not declared by this project.
 
-`eng/maui_identity.py` enforces the shape: the exact file set (`check_identity_only_shape`), one application element and at most one removal marker for `INTERNET`, `AndroidEnableProfiler=false`, and the built APK's badging (no `uses-permission` other than the merged signature permission, no `uses-implied-permission`, no `launchable-activity`).
+`eng/maui_identity.py` enforces the shape: the exact file set and the manifest's single permission with no component (`check_app_shape`), the explicit `AndroidEnableProfiler=false` and the references (`check_project`), and the built APK's badging (`check_apk`): `INTERNET` and the merged signature permission only, no implied permission, exactly one launchable activity, and one signer (the persistent certificate for a release proof).
 
 ## Local toolchain setup
 
-Windows has SDK 10.0.401 and no 10.0.400. For local builds only, replace `global.json` with this uncommitted adapter, build, and restore the committed file before any commit or check:
+The Windows host has two .NET roots, and only one of them can build the pinned MAUI tuple (correction recorded by AND.40 unit 1, 2026-10-09; migration brief section 10, decision 13):
+
+- `C:\Program Files\dotnet` holds SDK 10.0.401 and the pinned workloads `android` 36.1.69 and `maui-android` 10.0.20. Every MAUI build on this host uses it.
+- `C:\Users\J7Rdm\.dotnet` holds SDK 10.0.400, the committed pin, but no `maui-android` workload and no Android or MAUI packs. It reports only the Visual Studio `android` 36.1.2 and `maui-windows` 10.0.0 manifests, so a build there cannot reach the pinned tuple. The 10.0.400 pin is first exercised by hosted CI (AND.40 unit 5).
+
+For local builds only, replace `global.json` with this uncommitted adapter, which selects SDK 10.0.401 under Program Files. Build, and restore the committed file before any commit or check:
 
 ```json
 {
@@ -70,6 +69,8 @@ Windows has SDK 10.0.401 and no 10.0.400. For local builds only, replace `global
 ```
 
 While the adapter is in place, the offline gate fails by design (`global.json must pin the reviewed SDK exactly`). The committed `global.json` never names 10.0.401.
+
+The local gate keeps the adapter until `maui-stage` has derived the build identity from the working tree, then restores the committed file before the repository checks, because those checks require the committed pin. A local candidate therefore records `dirty: true`. Hosted CI never swaps `global.json`, so a hosted candidate records `dirty: false`. In both cases the identity reads `global.json` from HEAD (`committed_source`), so the SDK pin it records is the committed one.
 
 Use a clean package folder for restores that establish or verify the lock, so the lock is built only from nuget.org downloads:
 
@@ -119,7 +120,7 @@ Recorded in `eng/policy/dotnet-toolchain.json` (`deferrals`), with the gate refu
 | BSD-3-Clause licence text of `Google.Protobuf` 3.36.1 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
 | Apache-2.0 licence text and any notice of `Grpc.Core.Api` 2.84.0 (nupkg carries no licence file) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry it; no candidate is published without it |
 | MIT licence and notice files of the admitted workload packs (Mono runtime and AOT packs contribute to the APK) | AND.40 | the first MAUI Android release candidate, before publication | the release notices must carry them; no candidate is published without them |
-| Licence evidence the Windows host cannot provide: Linux host aliases of the Android SDK and Mono AOT packs, and the licence statement of `Microsoft.NET.Runtime.MonoAOTCompiler.Task` and `Microsoft.NET.Runtime.MonoTargets.Sdk` (notice file only) | AND.40 | the first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project | a licence outside the admitted set or a missing licence file reopens AND.01 and AND.40 |
+| Licence evidence the Windows host cannot provide: Linux host aliases of the Android SDK and Mono AOT packs (the Cross pack of the hosted runner's host architecture, linux-x64; linux-arm64 is not applicable, not a build host), and the licence statement of `Microsoft.NET.Runtime.MonoAOTCompiler.Task` and `Microsoft.NET.Runtime.MonoTargets.Sdk` (notice file only) | AND.40 | the first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project | a licence outside the admitted set or a missing licence file reopens AND.01 and AND.40 |
 
 Each nupkg without a licence file needs one notice deferral naming its package, version and licence; the gate refuses a missing or stale one.
 
@@ -128,3 +129,47 @@ Each nupkg without a licence file needs one notice deferral naming its package, 
 `eng/policy/workload-admission.json` is the admission record for the workload manifests and packs. It was written offline from the workload folders installed on the Windows host (`sdk-manifests/10.0.100`, `packs`), with no download. Each pinned workload (`android`, `maui-android`, `mono-toolchain`) lists every pack its manifest declares for the Android closure, and each pack is either admitted or excluded with a reason. Admitted packs carry the licence file path and SHA-256 found on the host, or a deferral. MAUI library packs are not repeated here: they must match the NuGet admission at the pinned version. The gate refuses any drift from the pins in `eng/policy/dotnet-toolchain.json` (manifest and pack versions), a declared pack that is neither admitted nor excluded, an excluded pack without a reason, and an admitted pack without licence evidence. The net9 Mono manifest reached through the android workload's net9 extends is recorded as an excluded manifest.
 
 Not proven by AND.01 and transferred explicitly: the persistent-key signature on a MAUI APK (protected release job), Mono AOT and the 16 KB alignment check (AND.40 CI), the Linux Android build (AND.40 hosted Linux CI, above), the device install and App Link fixture-key tests (PRF.12 local opt-in). Target API 36.1 is decided under D-016, but its device behaviour is not proven here. The minimum-API review and the .NET 11 posture stay open under D-016.
+
+## CI, restore hygiene and release notices (AND.40 unit 5)
+
+PR A adds the MAUI jobs beside the Kotlin jobs in `.github/workflows/ci.yml`. The Kotlin jobs, the Kotlin publish and the Gradle path are unchanged until PR B.
+
+### Restore hygiene (AND.40 decision 17)
+
+Every restore uses `--locked-mode` with `NUGET_PACKAGES` pointing at a clean folder outside the repository. A default restore on the Windows host can take `Microsoft.Maui.Controls.Build.Tasks` and `Microsoft.Maui.Resizetizer` 10.0.20 from `C:\Program Files\dotnet\library-packs`, and their hashes differ from nuget.org. The CI maui job restores into `$RUNNER_TEMP/nuget-maui-<run>-<attempt>` and the local gate uses a fresh folder for each run. Lock files are stored as LF, and `lockSha256` is computed over the LF bytes.
+
+### Workloads and the SDK pin (AND.40 decision 3)
+
+The maui job runs `dotnet workload install android maui-android` on the SDK pinned by `global.json` (10.0.400) and then checks that `dotnet workload list` reports `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
+
+### Actions
+
+`actions/setup-dotnet` is pinned to `a98b56852c35b8e3190ac28c8c2271da59106c68 # v6`, the SHA the ArcForges family already pins in its CI (ArcScope, ArcNotes, ArcSlate) and in the Design publication evidence. The Mobile repository has no separate action admission record; a reviewer confirms the admission at merge.
+
+### Build identity (AND.40 decision 14)
+
+`python eng/build_identity.py --maui --observed-sdk "$(dotnet --version)" --version V --code C` writes `build/generated/licence-assets/build-identity.json` before the builds. It is derived from the NuGet lock of the `net10.0-android36.1` closure (resolved versions only), the pinned toolchain (SDK, workloads, MAUI, Android values), the SDK that built the candidate and the LF-normalised source inputs. The csproj embeds the file in every build that has it. In CI the observed SDK must be the pinned 10.0.400. The Build information view says that no identity is embedded only in a Debug build; a Release build without one says that it must not be distributed.
+
+### CodeQL (AND.40 decision 12)
+
+`codeql-csharp` uses manual build mode with an explicit locked restore and Release build of the host-run projects (`ArcForges.Mobile.Policy` and `ArcForges.Mobile.Tests`). The Android app projects need the Android workload and are covered by the maui job, not by this analysis. `java-kotlin` stays until PR B.
+
+### MAUI candidate and release (PR A)
+
+- `python eng/mobile.py maui-stage` reads the Release APK, checks its identity with `maui_identity.inspect_apk`, checks that it embeds its own `build-identity.json` (`resources.maui_archive`), removes its META-INF signature entries (the MSBuild Release APK is signed with the debug key), aligns it with `zipalign -P 16 -f 4`, checks `zipalign -c -P 16 4`, proves the unsigned candidate carries no binutils member (`maui_notices.apk_host_only`, decision 20), and seals `candidate.json`.
+- The publish-maui job runs on main only, in `android-release`, after `verify`. `python eng/mobile.py maui-sign` verifies the candidate and its build identity against the checkout, refuses to run while any notice escalation is open (`maui_notices.py release-ready`), signs with the persistent identity through `apksigner` (the secrets are the Kotlin secrets, with the same names), verifies the certificate fingerprint `7a8b3b14...`, proves the signed APK carries no binutils member, runs `maui_identity.inspect_apk(..., release=True)`, derives `maui-archive.json` from the signed APK, and writes `release.json` (with the `sha256` map of its members) and `SHA256SUMS`.
+- The release tag is `android-maui-VERSION`. The track publishes the APK, its companions and `maui-archive.json`. It publishes no AAB: the MAUI release path is APK only in PR A.
+- `python eng/published.py maui-prepare` verifies an anonymously downloaded MAUI prerelease: the seal, every member's digest, the persistent signature, the release archive re-derived from the public APK, and the binutils proof of the public APK. It is local opt-in only.
+- Build tools come from `eng/policy/dotnet-toolchain.json` (`36.1.0`), not the Kotlin `37.0.0`.
+
+### Release notices
+
+`python -I eng/maui_notices.py distribution` writes `build/generated/maui-licence-assets/THIRD_PARTY_NOTICES.txt`. It carries the licence files of every shipped package from its restored nupkg, after the nupkg SHA-512 is checked against the admission, and the retained texts recorded for each package. Build-only and test-only packages do not contribute. `python -I eng/maui_notices.py linux-evidence --dotnet-root <root>` writes `artifacts/evidence/linux-licence-evidence.json` from the hosted Linux runner. It records the Android SDK Linux pack, the Cross alias of the host architecture (the other alias is recorded as not applicable, because it is not a build host) and the Mono AOT and target SDK notice files. A missing host alias fails closed.
+
+### Notice escalations (resolved in unit 5b)
+
+`workload-bundles-bsd-2-clause` is resolved, so `python -I eng/maui_notices.py release-ready` returns `ready` and `maui-sign` proceeds. Decision 19 is recorded in `eng/check_provenance.py` (LICENCES, successor `contracts-provenance-port-r2`) and in the bundle records `maui-android-sdk-bundle-r1`, `maui-mono-runtime-bundle-r1` and `maui-mono-aot-cross-bundle-r1`. The Mono runtime's zlib and Unicode-3.0 notices are admitted under `maui-mono-zlib-r1` and `maui-mono-unicode-data-r1` (decision 20), and their texts are carried in the distribution notice set. The release gate refuses while any escalation is open.
+
+The GPL-3.0 `gnu/binutils` section of the `Microsoft.Android.Sdk.Windows` 36.1.69 bundle covers build-host tools (the assembler and linker used during AOT). It is host-only and is not redistributed (decision 20). `maui_notices.apk_host_only` proves it from the APK contents, by member name and by content signature. It runs wherever an APK is sealed or published: `maui-stage` (the unsigned candidate), `maui-sign` (the signed release APK) and `published.py maui-prepare` (the downloaded public APK). A binutils member stops the release. The `sectionSha256` in `eng/policy/maui-notices.json` identifies the bundle section that was checked (its BEGIN to END marker in the workload's `THIRD-PARTY-NOTICES.TXT`).
+
+The Linux licence evidence (`pending`, `linux-licence-evidence`) is produced by the hosted Linux run and is recorded at that first run.

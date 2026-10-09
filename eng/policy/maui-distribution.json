@@ -1,0 +1,709 @@
+{
+  "schemaVersion": 1,
+  "owner": "Mobile",
+  "licenceBoundary": "Apache",
+  "reviewer": "w-deku-20261008-rev-and-40",
+  "reviewId": "maui-distribution-r1",
+  "reviewedOn": "2026-10-09",
+  "lockFile": "src/ArcForges.Mobile/packages.lock.json",
+  "targetFramework": "net10.0-android36.1",
+  "authority": "F-023-class closure re-proof (AND.40 unit 4): every locked app package is classified in packages, and every test-scope package in testOnly; the shipped closure may hold no build-only, test-only, AGPL or DesktopPlatform package.",
+  "classes": {
+    "shipped": "Packaged in or executed by the APK.",
+    "build-only": "Build or publish task; never packaged in the APK.",
+    "test-only": "Test-scope package of the host test projects (tests/ArcForges.Mobile.Tests, tests/ArcForges.Mobile.Policy); never referenced by the app and never packaged in the APK."
+  },
+  "packages": [
+    {
+      "id": "ArcForges.Contracts.Events",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "ArcForges.Contracts.Foundation",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "ArcForges.Contracts.PublicApi",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Google.Protobuf",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "GoogleGson",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Grpc.Core.Api",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Grpc.Net.Client",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Grpc.Net.Client.Web",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Grpc.Net.Common",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Configuration.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Diagnostics.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.FileProviders.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Hosting.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Logging",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Logging.Abstractions",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Options",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Extensions.Primitives",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Controls",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Build.Tasks",
+      "class": "build-only",
+      "reason": "Build task that compiles XAML and resources at build time; its files are not packaged into the APK."
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Controls.Xaml",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Essentials",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Graphics",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Microsoft.Maui.Resizetizer",
+      "class": "build-only",
+      "reason": "Build task that generates Android resources at build time; the generated resources are packaged, its own files are not."
+    },
+    {
+      "id": "Microsoft.NET.ILLink.Tasks",
+      "class": "build-only",
+      "reason": "Build task that runs the .NET trimmer at publish time; its files are not packaged into the APK."
+    },
+    {
+      "id": "Xamarin.Android.Glide",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Android.Glide.Annotations",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Android.Glide.DiskLruCache",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Android.Glide.GifDecoder",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Activity",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Activity.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation.Experimental",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Annotation.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.AppCompat",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.AppCompat.AppCompatResources",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Arch.Core.Common",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Arch.Core.Runtime",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Browser",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.CardView",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Collection.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Concurrent.Futures",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ConstraintLayout",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ConstraintLayout.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.CoordinatorLayout",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Core.Core.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Core.ViewTree",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.CursorAdapter",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.CustomView",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.CustomView.PoolingContainer",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.DrawerLayout",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.DynamicAnimation",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Emoji2",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Emoji2.ViewsHelper",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ExifInterface",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Fragment",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Fragment.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Interpolator",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Common",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Common.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Process",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.Runtime.Ktx.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModel.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModelSavedState",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Lifecycle.ViewModelSavedState.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Loader",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Common",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Common.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Fragment",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Runtime",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.Runtime.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Navigation.UI",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ProfileInstaller.ProfileInstaller",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.RecyclerView",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ResourceInspection.Annotation",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState.SavedState.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.SavedState.SavedState.Ktx",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Security.SecurityCrypto",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.SlidingPaneLayout",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Startup.StartupRuntime",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.SwipeRefreshLayout",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Tracing.Tracing",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Tracing.Tracing.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Transition",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.VectorDrawable",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.VectorDrawable.Animated",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.VersionedParcelable",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ViewPager",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.ViewPager2",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Window",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Window.WindowCore",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.AndroidX.Window.WindowCore.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Google.Android.Material",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Google.Code.FindBugs.JSR305",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Google.Crypto.Tink.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Google.ErrorProne.Annotations",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Google.Guava.ListenableFuture",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Jetbrains.Annotations",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.JSpecify",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.Kotlin.StdLib",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Android",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.KotlinX.Coroutines.Core.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.KotlinX.Serialization.Core",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    },
+    {
+      "id": "Xamarin.KotlinX.Serialization.Core.Jvm",
+      "class": "shipped",
+      "reason": "Runtime package of the MAUI Android app: the compile or runtime closure of Microsoft.Maui.Controls, the Contracts client, the Hello transport or their transitive dependencies."
+    }
+  ],
+  "testOnly": [
+    {
+      "id": "ArcForges.Contracts.Validation",
+      "version": "1.0.0-ci.205.1",
+      "class": "test-only",
+      "reason": "Canonical naming policy package read only by tests/ArcForges.Mobile.Policy (WP-05.02, AND.40 decision 18). Restored for the host tests, never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "ArcForges.Sdk.Contracts",
+      "version": "1.0.0-ci.205.1",
+      "class": "test-only",
+      "reason": "Transitive dependency of the naming policy package, restored only for tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "Microsoft.CodeCoverage",
+      "version": "18.10.1",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "Microsoft.NET.Test.Sdk",
+      "version": "18.10.1",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "Microsoft.TestPlatform.ObjectModel",
+      "version": "18.10.1",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "Microsoft.TestPlatform.TestHost",
+      "version": "18.10.1",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit",
+      "version": "2.9.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.abstractions",
+      "version": "2.0.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.analyzers",
+      "version": "1.18.0",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.assert",
+      "version": "2.9.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.core",
+      "version": "2.9.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.extensibility.core",
+      "version": "2.9.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.extensibility.execution",
+      "version": "2.9.3",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    },
+    {
+      "id": "xunit.runner.visualstudio",
+      "version": "2.8.2",
+      "class": "test-only",
+      "reason": "Test framework or test host of tests/ArcForges.Mobile.Tests and tests/ArcForges.Mobile.Policy. Never referenced by the app and never packaged in the APK."
+    }
+  ]
+}

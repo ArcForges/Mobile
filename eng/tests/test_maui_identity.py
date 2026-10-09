@@ -17,6 +17,8 @@ DEBUG_SIGNER = "c7fe83cf58735ac8485ae10afc1ce40be679ee5878543fa4861c3a10b35c1b0d
 BADGING = """package: name='com.arcforges.mobile' versionCode='1' versionName='0.1.0' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
 minSdkVersion:'26'
 targetSdkVersion:'36'
+uses-permission: name='android.permission.INTERNET'
+launchable-activity: name='com.arcforges.mobile.MainActivity'  label='' icon=''
 application-label:'ArcForges'
 """
 CERTIFICATES = f"""Signer #1 certificate DN: CN=Android Debug, O=Android, C=US
@@ -29,16 +31,22 @@ PAYLOAD = [
     "Directory.Packages.props",
     "NuGet.config",
     "eng/published.py",
+    "eng/policy/dependency-policy.json",
+    "eng/policy/dependency-reviews/maui-identity-inventory-r3.json",
+    "eng/policy/dependency-reviews/maui-identity-inventory-r4.json",
     "eng/policy/dotnet-licence-boundary.json",
     "eng/policy/dotnet-toolchain.json",
     "eng/policy/licence-boundary.json",
     "eng/policy/nuget-admission.json",
+    "eng/policy/nuget-test-admission.json",
     "eng/policy/workload-admission.json",
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",
     "src/ArcForges.Mobile/packages.lock.json",
     "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
     "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs",
 ]
+# AND.40 unit 3: every reviewed app file is copied into the fixture, so the shape gate sees the real set.
+PAYLOAD = sorted(set(PAYLOAD) | identity.MAUI_APP_FILES)
 
 
 def workload(doc, alias):
@@ -96,7 +104,9 @@ class MauiIdentityGateTests(unittest.TestCase):
         audit = licences.project_audit(ROOT)
         self.assertEqual([row["path"] for row in audit["projects"]],
                          ["app/build.gradle.kts", "build.gradle.kts", "shared/build.gradle.kts"])
-        self.assertEqual(audit["dotnetProjects"], [{"path": identity.MAUI_PROJECT, "kind": "dotnet"}])
+        self.assertEqual(audit["dotnetProjects"],
+                         sorted(({"path": path, "kind": "dotnet"} for path in identity.MAUI_REVIEWED_DOTNET_PROJECTS),
+                                key=lambda row: row["path"]))
 
     def test_uncommitted_local_sdk_adapter_is_refused(self):
         self.edit("global.json", '"rollForward": "disable"', '"rollForward": "latestPatch"')
@@ -120,8 +130,8 @@ class MauiIdentityGateTests(unittest.TestCase):
 
     def test_unscoped_r8_linker_is_refused(self):
         self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
-                  "<PropertyGroup Condition=\"'$(Configuration)' == 'Release'\">\n    <AndroidLinkTool>",
-                  "<PropertyGroup>\n    <AndroidLinkTool>")
+                  "<PropertyGroup Condition=\"'$(Configuration)' == 'Release'\">\n    <RunAOTCompilation>",
+                  "<PropertyGroup>\n    <RunAOTCompilation>")
         self.refused()
 
     def test_mono_runtime_must_be_explicit(self):
@@ -221,6 +231,114 @@ class MauiIdentityGateTests(unittest.TestCase):
                   "<AndroidEnableProfiler>true</AndroidEnableProfiler>")
         self.refused()
 
+    # AND.40 unit 1: transport, events, test-only scope, prerelease exceptions and receipt reviewers.
+
+    def test_test_only_package_referenced_by_the_identity_project_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  '<PackageReference Include="Grpc.Net.Client.Web" />',
+                  '<PackageReference Include="Grpc.Net.Client.Web" />\n    <PackageReference Include="xunit" />')
+        self.refused()
+
+    def test_removed_transport_reference_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  '    <PackageReference Include="Grpc.Net.Client.Web" />\n', "")
+        self.refused()
+
+    # AND.40 unit 3: the app shell, the Hello project reference, Release AOT and the Keystore probe boundary.
+
+    def test_keystore_probe_referenced_by_the_app_is_refused(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  '    <ProjectReference Include="..\\core\\ArcForges.Mobile.Network\\ArcForges.Mobile.Network.csproj" />',
+                  '    <ProjectReference Include="..\\core\\ArcForges.Mobile.Network\\ArcForges.Mobile.Network.csproj" />\n'
+                  '    <ProjectReference Include="..\\core\\ArcForges.Mobile.Security\\ArcForges.Mobile.Security.csproj" />')
+        self.refused()
+
+    def test_release_mono_aot_is_required(self):
+        self.edit("src/ArcForges.Mobile/ArcForges.Mobile.csproj",
+                  "<RunAOTCompilation>true</RunAOTCompilation>", "<RunAOTCompilation>false</RunAOTCompilation>")
+        self.refused()
+
+    def test_keystore_probe_must_be_a_reviewed_dotnet_project(self):
+        self.edit("eng/policy/dotnet-licence-boundary.json",
+                  '    {\n      "path": "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj",\n'
+                  '      "kind": "dotnet"\n    },\n', "")
+        self.refused()
+
+    def test_unpinned_test_package_in_central_versions_is_refused(self):
+        self.edit("Directory.Packages.props", '<PackageVersion Include="xunit" Version="2.9.3" />',
+                  '<PackageVersion Include="xunit" Version="2.9.3" />\n'
+                  '    <PackageVersion Include="Example.Testing" Version="1.0.0" />')
+        self.refused()
+
+    def test_test_pin_drift_is_refused(self):
+        self.edit("Directory.Packages.props", 'Version="2.9.3"', 'Version="2.9.4"')
+        self.refused()
+
+    def test_transport_pin_drift_is_refused(self):
+        self.edit("Directory.Packages.props", 'Version="2.84.0"', 'Version="2.83.0"')
+        self.refused()
+
+    def test_test_package_outside_apache_and_mit_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-test-admission.json",
+                          lambda doc: doc["packages"][0].update(licence="GPL-2.0-only"))
+        self.refused()
+
+    def test_test_package_without_a_test_only_disposition_is_refused(self):
+        def mutate(doc):
+            for item in doc["packages"]:
+                item["licenceFiles"] = []
+                item["noticeDisposition"] = "nuspec-expression-only: release packaging must include the licence text"
+        self.rewrite_json("eng/policy/nuget-test-admission.json", mutate)
+        self.refused()
+
+    def test_product_package_in_the_test_only_record_is_refused(self):
+        def mutate(doc):
+            doc["packages"].append(dict(doc["packages"][0], id="Microsoft.Maui.Controls", kind="direct"))
+        self.rewrite_json("eng/policy/nuget-test-admission.json", mutate)
+        self.refused()
+
+    def test_test_scope_reviewer_drift_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-test-admission.json",
+                          lambda doc: doc.update(reviewer="w-deku-20261008-rev-and-01"))
+        self.refused()
+
+    def test_pending_reviewer_in_an_admission_record_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json", lambda doc: doc.update(reviewer="PENDING"))
+        self.refused()
+
+    def test_active_inventory_receipt_must_name_the_reviewer(self):
+        self.rewrite_json("eng/policy/dependency-reviews/maui-identity-inventory-r4.json",
+                          lambda doc: doc.update(reviewer="w-deku-20261008-rev-and-01"))
+        self.refused()
+
+    def test_events_first_party_with_a_non_apache_licence_is_refused(self):
+        def mutate(doc):
+            item = next(p for p in doc["packages"] if p["id"] == "ArcForges.Contracts.Events")
+            item["licence"] = "MIT"
+        self.rewrite_json("eng/policy/nuget-admission.json", mutate)
+        self.refused()
+
+    def test_prerelease_package_without_an_exception_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json", lambda doc: doc.pop("prereleaseExceptions"))
+        self.refused()
+
+    def test_stale_prerelease_exception_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"].append(
+                              {"id": "Example.Package", "version": "1.0.0-beta", "requiredBy": "Microsoft.Maui.Essentials",
+                               "reason": "Not in the closure."}))
+        self.refused()
+
+    def test_prerelease_exception_naming_a_parent_that_does_not_require_it_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"][0].update(requiredBy="Microsoft.Maui.Controls"))
+        self.refused()
+
+    def test_prerelease_exception_without_a_reason_is_refused(self):
+        self.rewrite_json("eng/policy/nuget-admission.json",
+                          lambda doc: doc["prereleaseExceptions"][0].update(reason=""))
+        self.refused()
+
     def add(self, name, text):
         path = self.root / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -230,19 +348,34 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.add("src/ArcForges.Mobile/MainPage.cs", "namespace ArcForges.Mobile;\n")
         self.refused()
 
-    def test_launcher_activity_source_is_refused(self):
-        self.add("src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
-                 "namespace ArcForges.Mobile;\n[Activity(MainLauncher = true)]\npublic class MainActivity { }\n")
+    def test_second_launcher_activity_source_is_refused(self):
+        self.add("src/ArcForges.Mobile/Platforms/Android/SecondActivity.cs",
+                 "namespace ArcForges.Mobile;\n[Activity(MainLauncher = true)]\npublic class SecondActivity { }\n")
         self.refused()
 
-    def test_app_resources_are_refused(self):
-        self.add("src/ArcForges.Mobile/Resources/AppIcon/appicon.svg", "<svg/>\n")
+    def test_unreviewed_resource_is_refused(self):
+        self.add("src/ArcForges.Mobile/Resources/Images/extra.svg", "<svg/>\n")
         self.refused()
 
-    def test_manifest_permission_is_refused(self):
+    def test_camera_permission_is_refused(self):
         self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
                   "<application ",
-                  '<uses-permission android:name="android.permission.INTERNET" />\n  <application ')
+                  '<uses-permission android:name="android.permission.CAMERA" />\n  <application ')
+        self.refused()
+
+    def test_internet_permission_is_required(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  '  <uses-permission android:name="android.permission.INTERNET" />\n', "")
+        self.refused()
+
+    def test_data_extraction_rules_are_required(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  ' android:dataExtractionRules="@xml/data_extraction_rules"', "")
+        self.refused()
+
+    def test_full_backup_restriction_is_required(self):
+        self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
+                  ' android:fullBackupContent="false"', "")
         self.refused()
 
     def test_manifest_component_is_refused(self):
@@ -253,13 +386,15 @@ class MauiIdentityGateTests(unittest.TestCase):
 
     def test_removal_marker_for_another_permission_is_refused(self):
         self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
-                  'tools:node="remove" />',
-                  'tools:node="remove" />\n  <uses-permission android:name="android.permission.CAMERA" tools:node="remove" />')
+                  '<uses-permission android:name="android.permission.INTERNET" />',
+                  '<uses-permission android:name="android.permission.INTERNET" />\n'
+                  '  <uses-permission android:name="android.permission.CAMERA" tools:node="remove" />')
         self.refused()
 
-    def test_internet_marker_with_another_tools_node_is_refused(self):
+    def test_removal_marker_on_the_internet_permission_is_refused(self):
         self.edit("src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml",
-                  'tools:node="remove" />', 'tools:node="replace" />')
+                  '<uses-permission android:name="android.permission.INTERNET" />',
+                  '<uses-permission android:name="android.permission.INTERNET" tools:node="remove" />')
         self.refused()
 
     def test_manifest_cleartext_restriction_is_required(self):
@@ -409,12 +544,38 @@ class ApkIdentityTests(unittest.TestCase):
 
     def test_permission_in_the_badging_is_refused(self):
         with self.assertRaises(ValueError):
-            identity.check_apk(BADGING + "uses-permission: name='android.permission.INTERNET'\n", CERTIFICATES, ROOT)
+            identity.check_apk(BADGING + "uses-permission: name='android.permission.CAMERA'\n", CERTIFICATES, ROOT)
 
-    def test_launchable_activity_in_the_badging_is_refused(self):
+    def test_internet_is_required_in_the_badging(self):
         with self.assertRaises(ValueError):
-            identity.check_apk(BADGING + "launchable-activity: name='com.arcforges.mobile.MainActivity'\n",
+            identity.check_apk(BADGING.replace("uses-permission: name='android.permission.INTERNET'\n", ""),
                                CERTIFICATES, ROOT)
+
+    def test_implied_permission_in_the_badging_is_refused(self):
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING + "uses-implied-permission: name='android.permission.CAMERA' reason='x'\n",
+                               CERTIFICATES, ROOT)
+
+    def test_second_launchable_activity_in_the_badging_is_refused(self):
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING + "launchable-activity: name='com.arcforges.mobile.Other'\n", CERTIFICATES, ROOT)
+
+    def test_launcher_is_required_in_the_badging(self):
+        launcher = "launchable-activity: name='com.arcforges.mobile.MainActivity'  label='' icon=''\n"
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING.replace(launcher, ""), CERTIFICATES, ROOT)
+
+    def test_release_apk_is_never_debuggable(self):
+        persistent = CERTIFICATES.replace(DEBUG_SIGNER, PERSISTENT)
+        with self.assertRaises(ValueError):
+            identity.check_apk(BADGING + "application-debuggable\n", persistent, ROOT, release=True,
+                               configuration="Release")
+        self.assertEqual(identity.check_apk(BADGING, persistent, ROOT, release=True,
+                                            configuration="Release")["configuration"], "Release")
+
+    def test_debug_apk_may_be_debuggable(self):
+        self.assertEqual(identity.check_apk(BADGING + "application-debuggable\n", CERTIFICATES, ROOT)["configuration"],
+                         "Debug")
 
     def test_two_signers_are_refused(self):
         with self.assertRaises(ValueError):

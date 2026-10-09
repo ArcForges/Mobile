@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "owner": "Mobile",
   "licenceBoundary": "Apache",
-  "reviewId": "maui-10-0-20-android-tuple-r1",
-  "reviewedOn": "2026-10-08",
-  "reviewer": "w-deku-20261008-rev-and-01",
+  "reviewId": "maui-10-0-20-android-tuple-r2",
+  "reviewedOn": "2026-10-09",
+  "reviewer": "w-deku-20261008-rev-and-40",
   "authority": "P2-021 items 3 and 4; P2-024; IRD-23; D-016 (compile/target API 36.1 decided by the coordinator, 2026-10-08, migration brief section 10; minimum API and .NET 11 posture open)",
   "targetFramework": "net10.0-android",
   "dotnet": {
@@ -13,15 +13,33 @@
     "allowPrerelease": false,
     "wslSdkVersion": "10.0.400",
     "localWindowsAdapter": {
-      "note": "Uncommitted global.json for local builds only, because the Windows machine has SDK 10.0.401 and no 10.0.400. Never committed.",
+      "note": "Uncommitted global.json for local MAUI builds only. Use the Program Files dotnet root (C:\\Program Files\\dotnet), which holds SDK 10.0.401 and the pinned android 36.1.69 and maui-android 10.0.20 workloads. The user root C:\\Users\\J7Rdm\\.dotnet holds SDK 10.0.400 but no maui-android workload and no Android or MAUI packs (only VS-sourced android 36.1.2 and maui-windows 10.0.0), so it cannot build the pinned tuple. Never committed.",
       "sdkVersion": "10.0.401",
       "rollForward": "latestPatch"
     }
   },
   "workloads": {
-    "android": {"id": "microsoft.net.sdk.android", "manifestVersion": "36.1.69", "packVersion": "36.1.69", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
-    "maui-android": {"id": "microsoft.net.sdk.maui", "manifestVersion": "10.0.20", "packVersion": "10.0.20", "installedFor": "SDK band 10.0.100 on the Windows host (SDK 10.0.401 installed, 10.0.400 pinned)", "admission": "eng/policy/workload-admission.json"},
-    "mono-toolchain": {"id": "microsoft.net.workload.mono.toolchain.current", "manifestVersion": "10.0.112", "packVersion": "10.0.12", "installedFor": "SDK band 10.0.100 on the Windows host; extended by the android workload for the Mono runtime and Mono AOT packs", "admission": "eng/policy/workload-admission.json"}
+    "android": {
+      "id": "microsoft.net.sdk.android",
+      "manifestVersion": "36.1.69",
+      "packVersion": "36.1.69",
+      "installedFor": "C:\\Program Files\\dotnet (SDK 10.0.401 adapter; the workload list reports installation source SDK 10.0.400)",
+      "admission": "eng/policy/workload-admission.json"
+    },
+    "maui-android": {
+      "id": "microsoft.net.sdk.maui",
+      "manifestVersion": "10.0.20",
+      "packVersion": "10.0.20",
+      "installedFor": "C:\\Program Files\\dotnet (SDK 10.0.401 adapter; the workload list reports installation source SDK 10.0.400)",
+      "admission": "eng/policy/workload-admission.json"
+    },
+    "mono-toolchain": {
+      "id": "microsoft.net.workload.mono.toolchain.current",
+      "manifestVersion": "10.0.112",
+      "packVersion": "10.0.12",
+      "installedFor": "C:\\Program Files\\dotnet; extended by the android workload for the Mono runtime and Mono AOT packs",
+      "admission": "eng/policy/workload-admission.json"
+    }
   },
   "trimmer": {
     "package": "Microsoft.NET.ILLink.Tasks",
@@ -65,7 +83,8 @@
   },
   "nuget": {
     "admissionRecord": "eng/policy/nuget-admission.json",
-    "lockFile": "src/ArcForges.Mobile/packages.lock.json"
+    "lockFile": "src/ArcForges.Mobile/packages.lock.json",
+    "testAdmissionRecord": "eng/policy/nuget-test-admission.json"
   },
   "deferrals": [
     {
@@ -80,7 +99,8 @@
       "item": "The BSD-2-Clause copyright notice of Xamarin.Android.Glide, a transitive MAUI dependency admitted by coordinator adjudication (2026-10-08, migration brief section 10).",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the notice; a candidate without it is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json (Xamarin.Android.Glide BSD-2-Clause section, verbatim, third-party/notices). Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-google-protobuf-3-36-1",
@@ -90,7 +110,8 @@
       "licence": "BSD-3-Clause",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the BSD-3-Clause licence text; a candidate without it is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the BSD-3-Clause licence text; a candidate without it is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained BSD-3-Clause text of protobuf 36.1 (protobuf-36-1-legal-r1), whose source commit equals the Google.Protobuf nuspec repository commit. Resolved in AND.40 unit 4."
     },
     {
       "id": "nuget-notice-grpc-core-api-2-84-0",
@@ -100,21 +121,87 @@
       "licence": "Apache-2.0",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     },
     {
       "id": "workload-pack-notices",
       "item": "The MIT licence and notice files of the admitted workload packs in eng/policy/workload-admission.json. The Mono runtime and Mono AOT packs contribute to the APK; the SDK and MAUI packs are build tooling.",
       "owner": "AND.40",
       "trigger": "The first MAUI Android release candidate, before publication.",
-      "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open."
+      "consequence": "The release notices must carry the workload pack licence and notice files; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Resolved in AND.40 unit 5b (decisions 19 and 20). The Android SDK, Mono runtime and AOT Cross bundles are recorded (maui-android-sdk-bundle-r1, maui-mono-runtime-bundle-r1, maui-mono-aot-cross-bundle-r1) with their compound SPDX expressions admitted in eng/check_provenance.py. The Mono runtime bundle text, with the zlib-ng and Unicode-3.0 sections, is retained and carried by the distribution notice set. The SDK pack is build tooling and its gnu/binutils GPL-3.0 section is host-only (maui-notices hostOnly).",
+      "status": "resolved"
     },
     {
       "id": "workload-licence-evidence",
-      "item": "Licence evidence that the reviewed Windows host cannot provide: the non-Windows host aliases of the Android SDK and Mono AOT packs (Microsoft.Android.Sdk.Linux and the linux-x64 and linux-arm64 Cross packs), and the licence statement of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk, which ship a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT. macOS host aliases are outside the delivery scope (P2-023).",
+      "item": "Licence evidence that the reviewed Windows host cannot provide: the non-Windows host aliases of the Android SDK and Mono AOT packs (Microsoft.Android.Sdk.Linux and the Cross pack of the hosted runner's host architecture, linux-x64; the linux-arm64 Cross alias is not applicable because it is not a build host), and the licence statement of Microsoft.NET.Runtime.MonoAOTCompiler.Task and Microsoft.NET.Runtime.MonoTargets.Sdk, which ship a THIRD-PARTY-NOTICES.TXT but no LICENSE.TXT. macOS host aliases are outside the delivery scope (P2-023).",
       "owner": "AND.40",
       "trigger": "The first AND.40 hosted Linux CI run that installs the android workload and builds the MAUI Android project.",
       "consequence": "A licence outside the admitted set or a missing licence file reopens AND.01 and AND.40."
+    },
+    {
+      "id": "nuget-notice-grpc-net-client-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Client 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Client",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
+    },
+    {
+      "id": "nuget-notice-grpc-net-client-web-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Client.Web 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Client.Web",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
+    },
+    {
+      "id": "nuget-notice-grpc-net-common-2-84-0",
+      "item": "The Apache-2.0 licence text and any notice of Grpc.Net.Common 2.84.0, a Mobile dependency of the Hello transport. Its nupkg carries no licence file (eng/policy/nuget-admission.json, licenceFiles empty), so the notice is not packaged from the restored closure.",
+      "package": "Grpc.Net.Common",
+      "version": "2.84.0",
+      "licence": "Apache-2.0",
+      "owner": "AND.40",
+      "trigger": "The first MAUI Android release candidate, before publication.",
+      "consequence": "The MAUI release notices must carry the Apache-2.0 licence text and any notice; a candidate without them is not published and AND.40 stays open.",
+      "resolution": "Carried by eng/policy/maui-notices.json: the retained Apache-2.0 licence text (apache-terms-r1). Resolved in AND.40 unit 4."
     }
-  ]
+  ],
+  "priorReview": {
+    "reviewId": "maui-10-0-20-android-tuple-r1",
+    "reviewer": "w-deku-20261008-rev-and-01",
+    "reviewedOn": "2026-10-08",
+    "note": "AND.01 review of the identity-only tuple. Superseded in place by this AND.40 unit 1 record; history stays in git."
+  },
+  "packages": {
+    "direct": {
+      "ArcForges.Contracts.Events": "1.0.0-ci.324.1",
+      "Grpc.Net.Client": "2.84.0",
+      "Grpc.Net.Client.Web": "2.84.0"
+    },
+    "note": "Direct product packages of the identity project added by AND.40 unit 1. Events is built from Contracts main 330e46bd, which is an ancestor of Contracts main. The gRPC packages are the transport of the Hello client."
+  },
+  "workloadSet": {
+    "version": "10.0.401",
+    "sdk": "10.0.400",
+    "reviewId": "and-40-workload-set-10-0-401-r1",
+    "reviewer": "w-deku-20261008-rev-and-40",
+    "decision": "AND.40 decision 22 (replaces the vendored rollback of decision 21; amends decision 3)",
+    "install": "dotnet workload install android maui-android --version 10.0.401, on SDK 10.0.400, in the maui job of .github/workflows/ci.yml and the codeql-csharp job of .github/workflows/security.yml; the maui job fails closed unless 'dotnet workload list' reports Workload version 10.0.401 and the android 36.1.69 and maui-android 10.0.20 guards pass",
+    "admittedManifests": {
+      "microsoft.net.sdk.android": "36.1.69",
+      "microsoft.net.sdk.maui": "10.0.20",
+      "microsoft.net.workload.mono.toolchain.current": "10.0.112",
+      "microsoft.net.workload.emscripten.current": "10.0.112"
+    },
+    "rationale": "Workload set 10.0.401 equals the admitted local install on every Android-relevant manifest (android 36.1.69, maui-android 10.0.20, mono toolchain and emscripten 10.0.112). Only the uninstalled iOS-family manifests differ (26.5.10318 against 10301). Set 10.0.400 has mono 10.0.111 and does not match. Set 10.0.401.1 brings maui 10.0.110 and is not used.",
+    "localVerification": "With SDK 10.0.400 at C:\\Users\\J7Rdm\\.dotnet: 'dotnet workload install --help' shows --version, and 'dotnet workload search version 10.0.401' lists the manifest table above. No installed workload was modified on the local machine."
+  }
 }

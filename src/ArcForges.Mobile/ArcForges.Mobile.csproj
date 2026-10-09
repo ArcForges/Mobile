@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!--
-    AND.01 identity-only .NET MAUI shell. Application behaviour is ported by AND.40;
-    this project fixes the Android identity, the toolchain pins and the release-signing boundary.
-    Machine-specific SDK and JDK locations are never committed: JAVA_HOME and ANDROID_HOME
-    come from the environment. Signing is not configured here: the persistent release key signs
-    the candidate in the protected release job, outside the build (AGENTS.md; docs/releasing.md).
-    See docs/maui-toolchain.md.
+    AND.40 unit 3: the .NET MAUI Android application (net10.0-android only). It hosts the Hello screen over the
+    Hello transport (src/core/ArcForges.Mobile.Network) and shows the embedded build identity. The Keystore probe
+    is not referenced: it is a test-only device harness (AND.40 decision 11).
+    Machine-specific SDK and JDK locations are never committed: JAVA_HOME and ANDROID_HOME come from the
+    environment. Signing is not configured here: the persistent release key signs the candidate in the protected
+    release job, outside the build (AGENTS.md; docs/releasing.md). See docs/maui-toolchain.md.
   -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -20,8 +20,9 @@
     <!-- Permanent Android application identity (IRD-23, P2-021 item 3). -->
     <ApplicationId>com.arcforges.mobile</ApplicationId>
     <ApplicationTitle>ArcForges</ApplicationTitle>
-    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
-    <!-- Android versionCode: monotonic packaging value, supplied by the release pipeline (AND.40). -->
+    <ApplicationDisplayVersion Condition="'$(ArcForgesAndroidVersionName)' != ''">$(ArcForgesAndroidVersionName)</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion Condition="'$(ArcForgesAndroidVersionName)' == ''">0.1.0</ApplicationDisplayVersion>
+    <!-- Android versionName and versionCode: supplied by the release pipeline (AND.40): the allocated CI version. -->
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' != ''">$(ArcForgesAndroidVersionCode)</ApplicationVersion>
     <ApplicationVersion Condition="'$(ArcForgesAndroidVersionCode)' == ''">1</ApplicationVersion>
 
@@ -33,23 +34,44 @@
     <TargetPlatformVersion>36.1</TargetPlatformVersion>
     <AndroidSdkBuildToolsVersion>36.1.0</AndroidSdkBuildToolsVersion>
 
-    <!-- P2-021 item 3: Mono runtime, set explicitly. Release AOT is proven by AND.40, not here. -->
+    <!-- P2-021 item 3: Mono runtime, set explicitly. -->
     <UseMonoRuntime>true</UseMonoRuntime>
 
-    <!-- Identity-only (AND.01): the SDK forces android.permission.INTERNET into Debug builds when the profiler is
-         enabled, which Debug does by default (EnableDiagnostics). Off here, so Debug and Release carry no INTERNET. -->
+    <!-- The SDK adds INTERNET to a debuggable manifest only when the profiler is enabled. The profiler stays off so
+         that the permission set is exactly the reviewed one, identical in Debug and Release. -->
     <AndroidEnableProfiler>false</AndroidEnableProfiler>
   </PropertyGroup>
 
-  <!-- P2-021 item 3: .NET trimming plus R8 for the shrunk release build only; Debug uses fast deployment (XA0119). -->
+  <!-- P2-021 item 3: Mono AOT and .NET trimming plus R8 for the shrunk release build only; Debug uses fast deployment (XA0119). -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <RunAOTCompilation>true</RunAOTCompilation>
     <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="ArcForges.Contracts.PublicApi" />
+    <!-- AND.40 unit 1: admitted and locked here so the lock covers their closure; the Hello transport (unit 2) uses them. -->
+    <PackageReference Include="ArcForges.Contracts.Events" />
+    <PackageReference Include="Grpc.Net.Client" />
+    <PackageReference Include="Grpc.Net.Client.Web" />
     <!-- Central version (Directory.Packages.props) pins the trimmer across SDK patch versions. -->
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Hello transport and streaming consumer (AND.40 unit 2). The only project the app references. -->
+    <ProjectReference Include="..\core\ArcForges.Mobile.Network\ArcForges.Mobile.Network.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#193E2C" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F5F6EF" BaseSize="128,128" />
+  </ItemGroup>
+
+  <!-- Release companion (AND.40 decision 7): the Build information view reads build-identity.json from the path the
+       release pipeline writes it to. A build without that file embeds nothing and the view says so at runtime. -->
+  <ItemGroup Condition="Exists('$(MSBuildProjectDirectory)\..\..\build\generated\licence-assets\build-identity.json')">
+    <EmbeddedResource Include="$(MSBuildProjectDirectory)\..\..\build\generated\licence-assets\build-identity.json" LogicalName="build-identity.json" />
   </ItemGroup>
 </Project>
