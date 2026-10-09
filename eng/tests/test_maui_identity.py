@@ -27,6 +27,7 @@ Signer #1 certificate SHA-1 digest: 8d53ba7b2ed2d8a4fe57a047c0ddb445a6964bd1
 """
 PAYLOAD = [
     "global.json",
+    ".github/workflows/ci.yml",
     "Directory.Build.props",
     "Directory.Packages.props",
     "NuGet.config",
@@ -106,6 +107,10 @@ class MauiIdentityGateTests(unittest.TestCase):
         self.assertEqual(audit["dotnetProjects"],
                          sorted(({"path": path, "kind": "dotnet"} for path in identity.MAUI_REVIEWED_DOTNET_PROJECTS),
                                 key=lambda row: row["path"]))
+
+    def test_jdk_pin_must_match_the_maui_job(self):
+        self.edit(".github/workflows/ci.yml", "java-version: 21.0.12", "java-version: 21.0.11")
+        self.refused()
 
     def test_uncommitted_local_sdk_adapter_is_refused(self):
         self.edit("global.json", '"rollForward": "disable"', '"rollForward": "latestPatch"')

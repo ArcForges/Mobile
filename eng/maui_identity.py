@@ -137,6 +137,17 @@ def check_sdk_pin(root: Path, toolchain: dict) -> None:
     _require(re.fullmatch(r"10\.0\.\d{3}", dotnet["sdkVersion"]) is not None, "The SDK pin must be an exact .NET 10 SDK")
 
 
+def check_jdk_pin(root: Path, toolchain: dict) -> None:
+    """The JDK pin is Android platform tooling in the maui job only (AND.40 PR B, D4); no Gradle or .java-version pin remains."""
+    jdk = toolchain.get("jdk", {})
+    _require(jdk.get("distribution") == "temurin" and re.fullmatch(r"21\.0\.\d+", jdk.get("version", "")) is not None,
+             "The recorded JDK must be a Temurin JDK 21 patch release")
+    workflow = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    _require(f"java-version: {jdk['version']}" in workflow and "distribution: temurin" in workflow,
+             "ci.yml must pin the JDK recorded in the toolchain")
+    _require(not (root / ".java-version").exists(), ".java-version is retired with the Kotlin baseline")
+
+
 def check_build_policy(root: Path) -> None:
     props = (root / "Directory.Build.props").read_text(encoding="utf-8")
     for required in ("<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>",
@@ -469,6 +480,7 @@ def check_maui(root: Path = ROOT) -> dict:
                        re.MULTILINE) is not None,
              "The persistent release certificate differs from eng/published.py")
     check_sdk_pin(root, toolchain)
+    check_jdk_pin(root, toolchain)
     check_build_policy(root)
     check_project(root, toolchain)
     check_licence_registration(root)
