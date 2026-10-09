@@ -1,23 +1,14 @@
 # Third-party notices
 
-The [source and artifact provenance process](docs/provenance.md) records exact
-sources, target hashes and responsibility. Every archive embeds
-`source-provenance.json`; releases retain archive-member and signing-preservation
-receipts. The current coroutines NOTICE is retained separately from the older
-AndroidX concurrent NOTICE. Unused MPL suffix data and JUnit images are excluded
-under the accepted Design remediation.
+Original ArcForges Mobile code and repository tooling use Apache-2.0 ([LICENSE](LICENSE)). Dependencies retain their own licences and notices.
 
-Original ArcForges Mobile code and tooling use Apache-2.0. The Gradle wrapper is distributed under Apache-2.0 and comes from the same verified Gradle 9.7.1 wrapper used by ArcForges Contracts; its distribution checksum is pinned in the wrapper properties.
+The [source and artifact provenance process](docs/provenance.md) records exact sources, target hashes and responsibility for every reused file and artifact. The generated provenance notice is [eng/provenance/NOTICE.txt](eng/provenance/NOTICE.txt).
 
-The application consumes published artifacts, including ArcForges Contracts, Kotlin, AndroidX/Compose, Protocol Buffers, Connect-Kotlin, OkHttp/Okio and their transitive dependencies. Each dependency retains its own license and notices. Gradle lockfiles and checksum metadata enumerate the resolved artifacts. Runtime license/notice resources are retained or merged during Android packaging, including the notices in Contracts JARs.
+The Android application is a .NET MAUI application (AND.40). Its NuGet closure is admitted in [eng/policy/nuget-admission.json](eng/policy/nuget-admission.json), and its retained licence texts are in [third-party/notices](third-party/notices). Each MAUI release publishes `THIRD_PARTY_NOTICES.txt` and `licence-closure.json` beside the APK (see the section below). The Kotlin application, the KMP shared module and the Gradle build retired with AND.40 PR B; the notice texts that only they used are removed, and the retirement is recorded under [eng/provenance/records](eng/provenance/records).
 
-Contracts JARs each contain their own root `sbom.cdx.json` and `source.json`. These per-artifact documents stay available in the original Maven artifacts and are excluded from APK resources: concatenating them at the same path would produce invalid JSON. They are not license notices. The application release manifest records the application source and hashes separately.
+Build, test and security tools retain their upstream licences and are not redistributed in the application.
 
-The JVM development preview additionally uses Compose Desktop, Skiko and a JetBrains Runtime. Those preview dependencies are not packaged as a desktop product or included solely for the preview in the Android release. Build, test and security tools retain their upstream licenses.
-
-The reviewed Android inventory is [android-licences.json](eng/policy/android-licences.json); complete retained texts are in [third-party/notices](third-party/notices). APKs/AABs embed `assets/THIRD_PARTY_NOTICES.txt` and `assets/licence-closure.json` (under `base` in the AAB). Signed releases also publish both files separately with verified hashes. The inventory includes instrumentation-only licences with their explicit scope. AndroidX Graphics Path's native source/compiler attributions are retained as described in the [licence gate](docs/licence-boundary.md).
-
-When adding or replacing a dependency, review its license and required redistribution notices, then update the frozen graph/hashes/texts before packaging. The GPL-family core-library desugaring implementation is excluded under D-004; normal D8/R8 language desugaring remains enabled. This file is a provenance guide, not a replacement for the actual notices supplied with an artifact.
+When adding or replacing a dependency, review its licence and required redistribution notices, then update the admission, the retained texts and the notice data before packaging. This file is a provenance guide, not a replacement for the actual notices supplied with an artifact.
 
 ## MAUI Android app (AND.40)
 

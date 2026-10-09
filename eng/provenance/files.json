@@ -58,7 +58,6 @@
     "eng/maui_identity.py",
     "eng/maui_notices.py",
     "eng/mobile.py",
-    "eng/policy/android-licences.json",
     "eng/policy/contracts-source.json",
     "eng/policy/dependency-policy.json",
     "eng/policy/dependency-reviews/and-40-u5-r1.json",
@@ -134,6 +133,7 @@
     "eng/provenance/records/contracts-ci60-notices-r3.json",
     "eng/provenance/records/contracts-provenance-port-r1.json",
     "eng/provenance/records/contracts-provenance-port-r2.json",
+    "eng/provenance/records/contracts-provenance-port-r3.json",
     "eng/provenance/records/coroutines-1-11-notice-r1.json",
     "eng/provenance/records/gradle-wrapper-9-7-1-r1.json",
     "eng/provenance/records/gradle-wrapper-9-7-1-r2.json",
@@ -235,27 +235,19 @@
   "reused": {
     "LICENSE": "apache-terms-r1",
     "eng/build_identity.py": "contracts-build-identity-r3",
-    "eng/check_provenance.py": "contracts-provenance-port-r2",
-    "eng/tests/test_provenance.py": "contracts-provenance-port-r2",
+    "eng/check_provenance.py": "contracts-provenance-port-r3",
+    "eng/tests/test_provenance.py": "contracts-provenance-port-r3",
     "eng/version-sources.json": "contracts-build-identity-r3",
     "gradle/wrapper/gradle-wrapper.jar": "gradle-wrapper-9-7-1-r2",
     "gradlew": "gradle-wrapper-9-7-1-r2",
     "gradlew.bat": "gradle-wrapper-9-7-1-r2",
-    "third-party/notices/1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d.txt": "compiler-rt-legal-r1",
-    "third-party/notices/1ab6de67ef738bffae63f9aa6a8798a35e87341c83ea28d09c8dc8ca6993232a.txt": "coroutines-1-11-notice-r1",
-    "third-party/notices/329e4ba5c7997e614bc630765c8feef62683d8febd99af579924aaadded2028b.txt": "androidx-native-attribution-r1",
-    "third-party/notices/3810798072d089fb5e521688b868df0885f7e1b312b1e20c345be34c8e21f06a.txt": "hamcrest-1-3-legal-r1",
     "third-party/notices/4c1e46c8e72eb32b3400d25685fc244d713ad8cd37d236acac35c3cf118f40e6.txt": "maui-glide-bundle-apache20-r1",
     "third-party/notices/66f1d4e44973185519bb4aa8a9718eb22fc7af2cc532e3ae9cfc4c127ee7fc54.txt": "maui-mono-runtime-bundle-r1",
     "third-party/notices/679ccd0507abc67772af2d7187595b047352dd8be2b2240d1cef42ce143ddb58.txt": "maui-glide-licence-mit-r1",
     "third-party/notices/6aa4d810bff33bd6f32a1fb22d775fad2c25f4bbc4327a33c0fcc87b9084fe14.txt": "maui-glide-bundle-bsd2clause-r1",
     "third-party/notices/6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d.txt": "protobuf-36-1-legal-r1",
-    "third-party/notices/6fbe2eaf44b193b8a40eed9208f52848572224ad8d7672dd09418aa174847e73.txt": "slf4j-2-0-18-legal-r2",
-    "third-party/notices/809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0.txt": "androidx-apache-legal-r1",
-    "third-party/notices/9648bb2891b9813970bddb68d4be8a5e6ec8280d0180a53dfb29236b579c55bb.txt": "junit-4-13-2-legal-r1",
     "third-party/notices/aeacdb4777e6e3c664c1d0d8d0e9cf3676a633a0d9e3747498a2bae0680ae483.txt": "maui-mono-zlib-r1",
     "third-party/notices/bb8c4b2ab7081bf4e9fddd3f7e796bac33595c11e1b66633c241934ceef524ef.txt": "contracts-ci60-notices-r3",
-    "third-party/notices/bbc5cb91e1d3001b0ae4516809602e7698d3694afd6683b29effa8b80ec01de2.txt": "androidx-concurrent-notice-r1",
     "third-party/notices/bdd86cc8a5c7c25d4a2ad649abcec2be8cbd2461f71420be8bae5484fa1175b3.txt": "contracts-ci60-notices-r3",
     "third-party/notices/c0a274fea4b590fb153ad42e87fdec524b7c2926357075c99ce9eea277ae7147.txt": "maui-maui-bundle-apache20andmit-r1",
     "third-party/notices/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt": "apache-terms-r1",
@@ -263,7 +255,8 @@
     "third-party/notices/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt": "apache-terms-r1",
     "third-party/notices/de4a44cff385b182f0059f797c8131afa1a3934baa6b725d1acb74f778ce47d3.txt": "maui-mono-unicode-data-r1"
   },
-  "artifacts": [
+  "artifacts": [],
+  "retired": [
     "android-packaged-resources-r14"
   ]
 }

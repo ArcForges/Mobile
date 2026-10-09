@@ -17,6 +17,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 STORE = "eng/provenance/records/"
 INVENTORY = "eng/provenance/files.json"
+INVENTORY_FIELDS = {"schemaVersion", "repository", "firstParty", "reused", "artifacts"}
 SUMMARY = "eng/provenance/NOTICE.txt"
 POLICY = "eng/policy/reuse-policy.json"
 RECORD_FIELDS = "schemaVersion id kind sourceRepository sourceCommit sourcePaths licence attribution targets artifactTargets disposition verification notice lifetime generation review supersedes"
@@ -276,11 +277,16 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
     text(template["instructions"])
     fields(template["example"], RECORD_FIELDS)
     inv = document(read(root, INVENTORY))
-    fields(inv, "schemaVersion repository firstParty reused artifacts")
+    require(set(inv) in (INVENTORY_FIELDS, INVENTORY_FIELDS | {"retired"}), "Missing or unknown fields: inventory")
     require(type(inv["schemaVersion"]) is int and inv["schemaVersion"] == 1 and inv["repository"] == owner, "Invalid inventory owner")
     strings(inv["firstParty"], path)
     require(isinstance(inv["reused"], dict), "Invalid reused inventory")
     strings(inv["artifacts"], identifier, empty=True)
+    # A retired artifact record is an artifact that no longer exists in this repository. It stays tracked and unchanged,
+    # so its history remains verifiable, but it binds no active notice or profile (AND.40 PR B).
+    retired = inv.get("retired", [])
+    strings(retired, identifier, empty=True)
+    require(not set(retired) & set(inv["artifacts"]), "Retired artifact record is still active")
     for target, name in inv["reused"].items():
         path(target)
         identifier(name)
@@ -311,6 +317,9 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
             require(parent in records and parent not in seen, "Missing or cyclic superseded record")
             seen.add(parent)
             parent = records[parent]["supersedes"]
+    for name in retired:
+        require(name in records and bool(records[name]["artifactTargets"]), "Retired record is not an artifact record: " + name)
+        require(name not in set(inv["reused"].values()), "Retired artifact record is still bound: " + name)
     active = set(inv["reused"].values()) | set(inv["artifacts"])
     require(bool(active), "At least one real record must be in use")
     for name in active:
@@ -342,7 +351,13 @@ def validate(root: Path, owner: str, files: list[str], history: dict[str, bytes]
             require(notice_file in files, "Untracked or missing required notice: " + notice_file)
             read(root, notice_file)
     if old_inventory is not None:
+        previously_retired = set(old_inventory.get("retired", []))
+        require(previously_retired <= set(retired), "Retired artifact record was restored")
+        require(set(retired) - previously_retired <= set(old_inventory["artifacts"]),
+                "Only an artifact active in the previous inventory can be retired")
         for old_name in old_inventory["artifacts"]:
+            if old_name in retired:
+                continue  # retired with its unchanged record; no replacement artifact is required
             old_targets = document(history[STORE + old_name + ".json"])["artifactTargets"]
             for target in old_targets:
                 replacements = [name for name in inv["artifacts"] if any(

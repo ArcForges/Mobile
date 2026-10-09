@@ -328,6 +328,50 @@ class ProvenanceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not explicitly registered"):
             self.fixture.validate()
 
+    def test_retired_artifact_needs_a_previously_active_record_and_keeps_others_active(self):
+        fx = self.fixture
+        keeper = copy.deepcopy(fx.value)
+        origin = {"repository": keeper["sourceRepository"], "commit": keeper["sourceCommit"],
+                  "paths": keeper["sourcePaths"], "spdx": "MIT", "evidence": keeper["licence"]["evidence"]}
+        artifact = copy.deepcopy(keeper)
+        artifact.update(id="synthetic-artifact-r1", kind="generated", targets=[], disposition="Copy", supersedes=None)
+        artifact["generation"] = {"generators": [origin], "inputs": [origin], "command": "Synthetic generation", "outputSpdx": "MIT"}
+        profile_path = "eng/provenance/artifact-profiles/synthetic-r1.json"
+        fx.write(profile_path, b"{}\n")
+        artifact["artifactTargets"] = [{"project": "fixture", "package": "example:fixture", "kind": "test",
+                                        "profile": profile_path, "sha256": sha(b"{}\n")}]
+        artifact["notice"]["distribution"] = "documentation"
+        fx.put(provenance.STORE + artifact["id"] + ".json", artifact)
+
+        def inventory(artifacts, retired=None):
+            reused = {"vendor/library.txt": keeper["id"]}
+            tracked = [p for p in fx.files() if p not in reused]
+            value = {"schemaVersion": 1, "repository": "Mobile", "firstParty": tracked, "reused": reused, "artifacts": artifacts}
+            if retired is not None:
+                value["retired"] = retired
+            fx.put(provenance.INVENTORY, value)
+            return value
+
+        def notice(active_ids):
+            records = {keeper["id"]: keeper, artifact["id"]: artifact}
+            fx.write(provenance.SUMMARY, provenance.render({i: records[i] for i in active_ids}, set(active_ids)))
+
+        previous = inventory([artifact["id"]])
+        notice([keeper["id"], artifact["id"]])
+        fx.validate(previous=None)
+        retired = inventory([], [artifact["id"]])
+        notice([keeper["id"]])
+        fx.validate(history={}, previous=previous)
+        never_active = inventory([])
+        never_active_retired = dict(never_active, retired=[artifact["id"]])
+        fx.put(provenance.INVENTORY, never_active_retired)
+        with self.assertRaisesRegex(ValueError, "Only an artifact active in the previous inventory"):
+            fx.validate(history={}, previous=never_active)
+        fx.put(provenance.INVENTORY, previous)
+        notice([keeper["id"], artifact["id"]])
+        with self.assertRaisesRegex(ValueError, "Retired artifact record was restored"):
+            fx.validate(history={}, previous=retired)
+
     def test_ci_event_selects_the_actual_base_commit(self):
         commit = self.fixture.commit()
         event_path = self.fixture.root / ".git" / "test-event.json"
