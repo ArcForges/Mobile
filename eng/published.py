@@ -12,9 +12,10 @@ import mobile
 import resources
 
 CERTIFICATE = '7a8b3b1402e77c3ec78e7a0b9f99d5358adc321d0e8d2a319c838d1cda181e9c'
-# AND.40: the MAUI prerelease track (tag android-VERSION, from PR B; the PR A releases under android-maui-VERSION stay
-# verifiable through their own record). Its public members are the signed APK, its companions and the release seal;
-# no AAB, idsig or Kotlin resource receipt is published on this track.
+# AND.40: the MAUI prerelease track is tag android-VERSION (from PR B). This module verifies android-VERSION tags only.
+# The PR A prerelease android-maui-0.1.0-ci.74.1 was verified by its own publish run (main CI 37937976324) and is kept
+# as immutable history; it is not re-verified here. Its public members are the signed APK, its companions and the
+# release seal; no AAB, idsig or Kotlin resource receipt is published on this track.
 MAUI_TAG = 'android-'
 MAUI_COMPANIONS = {'mapping.txt', 'THIRD_PARTY_NOTICES.txt', 'licence-closure.json', 'build-identity.json', 'maui-archive.json'}
 

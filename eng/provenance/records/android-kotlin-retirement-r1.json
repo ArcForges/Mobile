@@ -99,9 +99,9 @@
   "review": {
     "owner": "Licensing and Provenance Owner",
     "reviewer": "w-deku-20261008-rev-and-40",
-    "reviewedOn": null,
-    "decision": "pending",
-    "rationale": "Retirement receipt for AND.40 PR B (migration brief section 10, decisions 5 and 17; the user scope correction of 2026-10-09). It lists every Kotlin, KMP, Gradle and Build.Policy consumer path removed in this pull request as sourcePaths. The earlier records under eng/provenance/records stay unchanged as history. The notice texts removed here were bound only by the Kotlin closure; the three shared Apache and Contracts notice texts remain bound by active records.",
+    "reviewedOn": "2026-10-09",
+    "decision": "approved",
+    "rationale": "Retirement receipt for AND.40 PR B (migration brief section 10, decisions 5 and 17; the user scope correction of 2026-10-09). It lists every Kotlin, KMP, Gradle and Build.Policy consumer path removed in this pull request as sourcePaths. The earlier records under eng/provenance/records stay unchanged as history. The notice texts removed here were bound only by the Kotlin closure; the three shared Apache and Contracts notice texts remain bound by active records. The bounded retired field added to eng/provenance/files.json (checked by eng/check_provenance.py) lists the retired artifact record android-packaged-resources-r14: a retired entry must come from the previous artifacts list and cannot be restored, and an unchanged retired record binds no active notice or profile.",
     "baselineCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
     "reconciliation": false
   },
