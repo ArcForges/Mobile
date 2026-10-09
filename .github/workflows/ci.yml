@@ -15,42 +15,15 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  build:
-    name: Build (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    outputs:
-      version_name: ${{ steps.version.outputs.version_name }}
+  workflow-lint:
+    name: Workflow lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
-      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
-        with:
-          packages: platform-tools platforms;android-37.0 build-tools;37.0.0
-      - name: Resolve automatic version
-        id: version
-        run: python eng/mobile.py version
-      - name: Check repository and offline tooling tests
-        if: runner.os == 'Linux'
-        run: |
-          python eng/mobile.py check
-          python -m unittest discover -s eng/tests -v
       - name: Check workflow definitions
-        if: runner.os == 'Linux'
         env:
           ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
         run: |
@@ -58,48 +31,6 @@ jobs:
           printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/actionlint.tar.gz" | sha256sum --check --strict
           tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
           "$RUNNER_TEMP/actionlint" -color
-      - name: Restore declared locked dependency graphs
-        shell: bash
-        run: ./gradlew --no-daemon --console=plain resolveDependencies
-      - name: Build, test, lint and prepare unsigned Android candidate
-        shell: bash
-        env:
-          VERSION_NAME: ${{ steps.version.outputs.version_name }}
-          VERSION_CODE: ${{ steps.version.outputs.version_code }}
-        run: >-
-          ./gradlew --no-daemon --console=plain
-          -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
-          spotlessCheck :shared:desktopTest :shared:testAndroidHostTest :app:compileDebugUnitTestKotlin
-          :app:lintRelease
-          :app:assembleRelease :app:bundleRelease
-      - name: Verify JVM 21 compiler output
-        run: python eng/mobile.py bytecode
-      - name: Stage the Linux release candidate
-        if: runner.os == 'Linux'
-        run: python eng/mobile.py stage
-      - name: Upload candidate
-        if: runner.os == 'Linux'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/candidate/
-          if-no-files-found: error
-          retention-days: 14
-      - name: Upload reports
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: reports-${{ runner.os }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            app/build/reports/
-            app/build/test-results/
-            shared/build/reports/tests/
-            artifacts/evidence/licence-*.json
-            artifacts/evidence/android-licences.json
-            artifacts/evidence/provenance.json
-            artifacts/candidate/resource-provenance.json
-            build/generated/licence-assets/
-          retention-days: 14
 
   maui:
     name: MAUI (${{ matrix.os }})
@@ -250,70 +181,17 @@ jobs:
   verify:
     name: Verify
     if: always()
-    needs: [build, maui, security]
+    needs: [maui, security, workflow-lint]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Require all gates
         env:
-          BUILD: ${{ needs.build.result }}
           MAUI: ${{ needs.maui.result }}
           SECURITY: ${{ needs.security.result }}
-        run: test "$BUILD" = success && test "$MAUI" = success && test "$SECURITY" = success
+          WORKFLOW_LINT: ${{ needs.workflow-lint.result }}
+        run: test "$MAUI" = success && test "$SECURITY" = success && test "$WORKFLOW_LINT" = success
 
-  publish:
-    name: Publish Android
-    if: >-
-      !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' &&
-      needs.verify.result == 'success'
-    needs: [build, verify]
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment: android-release
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
-        with:
-          distribution: temurin
-          java-version-file: .java-version
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version-file: .python-version
-      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
-        with:
-          packages: platform-tools build-tools;37.0.0
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: android-candidate-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/candidate
-      - name: Sign the verified candidate with the persistent Android identity
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          ANDROID_SIGNING_CERT_SHA256: ${{ vars.ANDROID_SIGNING_CERT_SHA256 }}
-        run: python eng/mobile.py sign
-      - name: Publish Android prerelease
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION_NAME: ${{ needs.build.outputs.version_name }}
-        run: |
-          cat > "$RUNNER_TEMP/release-notes.md" <<EOF
-          Android Cloud Hello build from commit $GITHUB_SHA.
-
-          Install the APK on Android 8.0 or newer. The AAB is for a future store upload; no store deployment occurs here.
-          JVM desktop preview is development-only and is not distributed.
-
-          Windows/Linux builds, offline shared unit tests, licence closure, lint and security checks passed before signing. Device, emulator, live Cloud and public installation/upgrade checks are local opt-in and were not run by CI.
-          See release.json for source/candidate hashes and the signing certificate, licence-closure.json and THIRD_PARTY_NOTICES.txt for retained dependency evidence, source-provenance.json and resource-provenance.json for all archive members, and signed-resource-provenance.json for signing preservation; SHA256SUMS verifies the downloads.
-          EOF
-          gh release create "android-$VERSION_NAME" artifacts/release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/release-notes.md"
 
   publish-maui:
     name: Publish Android MAUI prerelease
