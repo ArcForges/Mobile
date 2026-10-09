@@ -61,11 +61,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           languages: ${{ matrix.language }}
           build-mode: none
-      - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           category: .github/workflows/ci.yml:codeql/language:${{ matrix.language }}
 
@@ -84,7 +84,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
           global-json-file: global.json
-      - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           languages: csharp
           build-mode: manual
@@ -107,7 +107,7 @@ jobs:
           dotnet restore tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj --locked-mode
           dotnet build tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj -c Release --no-restore -nologo -f net10.0
           dotnet build tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release --no-restore -nologo -f net10.0
-      - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           category: .github/workflows/ci.yml:codeql-csharp
 
@@ -130,7 +130,7 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version-file: .python-version
-      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4.0.4
         with:
           packages: platform-tools platforms;android-37.0 build-tools;37.0.0
@@ -145,7 +145,7 @@ jobs:
           bundle="$RUNNER_TEMP/codeql-bundle-java-linux64.tar.zst"
           curl --fail --silent --show-error --location "$CODEQL_BUNDLE_URL" --output "$bundle"
           printf '%s  %s\n' "$CODEQL_BUNDLE_SHA256" "$bundle" | sha256sum --check --strict
-      - uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           languages: java-kotlin
           build-mode: manual
@@ -161,6 +161,6 @@ jobs:
           ./gradlew --no-daemon --console=plain --no-build-cache
           -PreleaseVersionName="$VERSION_NAME" -PreleaseVersionCode="$VERSION_CODE"
           clean :app:assembleDebug :shared:desktopJar
-      - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
+      - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           category: .github/workflows/ci.yml:codeql-kotlin
