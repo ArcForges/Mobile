@@ -1,6 +1,6 @@
 # .NET MAUI Android identity and toolchain pins (AND.01)
 
-The Android companion is .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. AND.01 created the identity project, and AND.40 ports the Hello application onto it. AND.40 PR A adds the MAUI release channel beside the Gradle/Kotlin baseline, which PR B retires.
+The Android companion is .NET MAUI for `net10.0-android` only, using the Mono runtime (P2-021 items 3 and 4). This page records the pinned tuple, where each pin lives and how it is checked. AND.01 created the identity project, and AND.40 ports the Hello application onto it. AND.40 PR B retired the Gradle/Kotlin baseline, so the MAUI release channel is the only Android path.
 
 ## Pinned tuple
 
@@ -140,7 +140,7 @@ Every restore uses `--locked-mode` with `NUGET_PACKAGES` pointing at a clean fol
 
 ### Workloads and the SDK pin (AND.40 decision 3)
 
-The maui job runs `dotnet workload install android maui-android` on the SDK pinned by `global.json` (10.0.400) and then checks that `dotnet workload list` reports `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
+The maui job runs `dotnet workload install android maui-android --version 10.0.401` on the SDK pinned by `global.json` (10.0.400). The workload set is pinned explicitly because an unversioned install takes the newest set, and 10.0.401.1 brings `maui-android` 10.0.110, which the admitted closure does not contain. The job then checks that `dotnet workload list` reports `Workload version: 10.0.401` and lists `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
 
 ### Actions
 
