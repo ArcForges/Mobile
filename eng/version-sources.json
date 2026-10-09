@@ -4,9 +4,7 @@
   "axes": {
     "AppVersion": {
       "kind": "release",
-      "sources": [
-        "release/app.json"
-      ]
+      "allocation": "release-name"
     },
     "ContractSet": {
       "kind": "contracts",

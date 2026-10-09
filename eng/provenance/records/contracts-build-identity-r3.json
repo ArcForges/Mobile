@@ -37,12 +37,12 @@
   "targets": [
     {
       "path": "eng/build_identity.py",
-      "sha256": "67dfb9a5c8266055f5cfb086997def980dda0d6c75a2b3c66f3f7e36730c37de",
+      "sha256": "cb86bfce6e4319e4427f36793146a076d3b5656daa2b96bf45ca3b9f4c6055cd",
       "normalization": "lf"
     },
     {
       "path": "eng/version-sources.json",
-      "sha256": "f633645f0e7884d24fbaf60113ce1a4563f95a6ff6a511179b50039a343790ff",
+      "sha256": "c374027f638062358300f8f9d37d25cb47c1269afae4907dc56988d36d492416",
       "normalization": "lf"
     }
   ],
@@ -51,7 +51,7 @@
   "verification": {
     "kind": "transformation",
     "command": "Compare the pinned Contracts source files with the reviewed transformation and exact LF target hashes; run python -I -X utf8 -m unittest discover -s eng/tests -v.",
-    "expected": "Reviewed transformation keeps the Mobile-specific sources and strict CI release allocation, and the MAUI identity derives the NuGet closure and the ContractSet source text from the admitted, digest-pinned eng/policy/contracts-source.json. The Kotlin resolver path, its resolved-JAR receipt and the Kotlin catalog source retire with the Kotlin baseline (AND.40 PR B). Nine axes remain independent; absent producers remain explicit.",
+    "expected": "Reviewed transformation keeps the Mobile-specific sources and strict CI release allocation, and the MAUI identity derives the NuGet closure and the ContractSet source text from the admitted, digest-pinned eng/policy/contracts-source.json. The Kotlin resolver path, its resolved-JAR receipt and the Kotlin catalog source retire with the Kotlin baseline (AND.40 PR B). AppVersion is the allocated release name under the MAUI artifact id com.arcforges.mobile, with no source file and no synthetic source path (the release/app.json source and its io.github subject are removed). Nine axes remain independent; absent producers remain explicit.",
     "artifacts": []
   },
   "notice": {
@@ -74,7 +74,7 @@
     "reviewer": "w-deku-20261008-rev-and-40",
     "reviewedOn": "2026-10-09",
     "decision": "approved",
-    "rationale": "Successor of contracts-build-identity-r2 for AND.40 PR B unit 6: the Kotlin resolver path (generate, report, verify_report, the Gradle lock PackageVersion source) is removed from eng/build_identity.py and eng/version-sources.json; the MAUI ContractSet source text now comes from the admitted, digest-pinned eng/policy/contracts-source.json, whose bytes equal the text the retired Kotlin resource profile carried. The upstream licence evidence (the Contracts source sha) is unchanged; the Mobile transformation is the reviewed change recorded here.",
+    "rationale": "Successor of contracts-build-identity-r2 for AND.40 PR B unit 6: the Kotlin resolver path (generate, report, verify_report, the Gradle lock PackageVersion source) is removed from eng/build_identity.py and eng/version-sources.json; the MAUI ContractSet source text now comes from the admitted, digest-pinned eng/policy/contracts-source.json, whose bytes equal the text the retired Kotlin resource profile carried. The upstream licence evidence (the Contracts source sha) is unchanged; the Mobile transformation is the reviewed change recorded here. Correction before merge, from the AND.40 PR B review of 0dda214: AppVersion no longer reads release/app.json (an untracked file that synthesised the retired io.github.arcforges.mobile subject); it is the allocated release name under com.arcforges.mobile, and the two target digests are the corrected ones.",
     "baselineCommit": "43ecb25b48cc5b030d4ef40b398aa216470d103d",
     "reconciliation": false
   },

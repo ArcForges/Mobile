@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Independent source and adversarial build-report tests; no device claims."""
 import copy
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -42,6 +43,9 @@ class BuildIdentityTests(unittest.TestCase):
         self.assertEqual(set(axes), set(identity.AXES))
         self.assertEqual(axes['AppVersion']['values'][0]['version'], '0.1.0-ci.5.2')
         self.assertEqual(axes['ContractSet']['values'][0]['version'], '3')
+        self.assertEqual(axes['AppVersion']['values'], [{
+            'subject': 'com.arcforges.mobile', 'version': '0.1.0-ci.5.2',
+            'source': {'allocation': 'release-name', 'sha256': hashlib.sha256(b'0.1.0-ci.5.2').hexdigest()}}])
         # The package axis is the MAUI NuGet lock (maui_report); the Gradle lock source is retired (AND.40 PR B).
         self.assertEqual(axes['PackageVersion']['status'], 'not-applicable')
         self.assertEqual(axes['NativeAbiVersion']['status'], 'not-applicable')
@@ -49,6 +53,19 @@ class BuildIdentityTests(unittest.TestCase):
         catalog['axes']['PackageVersion'] = {'kind': 'packages', 'sources': ['src/ArcForges.Mobile/packages.lock.json']}
         with self.assertRaises(ValueError):
             self.axes(catalog)
+
+    def test_release_axis_refuses_a_source_file_and_the_retired_subject(self):
+        (self.root / 'release').mkdir()
+        (self.root / 'release/app.json').write_text(json.dumps(
+            {'versions': [{'subject': 'io.github.arcforges.mobile', 'version': '0.1.0-ci.5.2'}]}))
+        for spec in ({'kind': 'release', 'sources': ['release/app.json']},
+                     {'kind': 'release', 'allocation': 'release-name', 'sources': ['release/app.json']},
+                     {'kind': 'release', 'allocation': 'app-json'}):
+            catalog = copy.deepcopy(self.catalog)
+            catalog['axes']['AppVersion'] = spec
+            with self.subTest(spec=spec), self.assertRaises(ValueError):
+                self.axes(catalog)
+        self.assertNotIn('io.github.arcforges.mobile', json.dumps(self.axes()))
 
     def test_every_axis_has_an_independent_producer(self):
         catalog = copy.deepcopy(self.catalog)

@@ -96,6 +96,17 @@ def axes(version: str, contract_text: str, root: Path = ROOT, catalog: dict | No
         spec = catalog["axes"][name]
         if spec.get("kind") != kind:
             raise ValueError(f"Wrong independent source kind for {name}")
+        if kind == "release":
+            # AppVersion is the allocated release name under the MAUI artifact id. No source file backs it, so no
+            # synthetic source path is recorded (AND.40 PR B: the retired io.github applicationId leaves no trace).
+            if set(spec) != {"kind", "allocation"} or spec["allocation"] != "release-name":
+                raise ValueError("The release axis is the allocated release name, not a source file")
+            if not re.fullmatch(r"[0-9]+(?:[.][0-9]+)*(?:[-+][A-Za-z0-9.-]+)?", version):
+                raise ValueError("Malformed independent version")
+            output[name] = {"status": "present", "values": [{
+                "subject": MAUI_ARTIFACT, "version": version,
+                "source": {"allocation": "release-name", "sha256": hashlib.sha256(version.encode()).hexdigest()}}]}
+            continue
         if "absence" in spec:
             allowed = {"kind", "absence", "reason", "producer"}
             if set(spec) - allowed or spec["absence"] not in {"not-applicable", "not-produced"} or not spec.get("reason"):
@@ -112,10 +123,7 @@ def axes(version: str, contract_text: str, root: Path = ROOT, catalog: dict | No
             raise ValueError("The package axis comes from the MAUI NuGet lock (maui_report), not from a source list")
         values = []
         for path in spec.get("sources", []):
-            if kind == "release" and path == "release/app.json":
-                content = json.dumps({"versions": [{"subject": "io.github.arcforges.mobile", "version": version}]}, sort_keys=True).encode()
-                evidence = {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
-            elif kind == "contracts" and path == "packages/contracts/source.json":
+            if kind == "contracts" and path == "packages/contracts/source.json":
                 content = contract_text.encode()
                 evidence = {"path": path, "sha256": hashlib.sha256(content).hexdigest()}
             else:
