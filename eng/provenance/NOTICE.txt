@@ -30,13 +30,6 @@ Notice scope: source
 Copyright 2026 ArcForges contributors; Contracts provenance tooling, Apache-2.0.
 Mobile provenance validation is adapted from ArcForges Contracts at aa2f187a4adae8ee4f79cee192c0d382cb7fec7f under Apache-2.0. Full terms remain in LICENSE.
 
-gradle-wrapper-9-7-1-r2
-Source: https://github.com/gradle/gradle @ 92f0512e7f06d84621afba191f75e265363890cf
-Material licence: Apache-2.0
-Notice scope: source
-Copyright 2015 the original author or authors. Copyright 2023 the original author or authors (generator).
-Gradle 9.7.1 wrapper retains original headers and embedded JAR licence; full Apache terms remain in LICENSE.
-
 maui-android-licence-mit-r1
 Source: https://github.com/dotnet/android @ d549e1dc4e2a083b08b4f24cb5495e81b99d79b5
 Material licence: MIT

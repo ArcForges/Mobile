@@ -24,9 +24,6 @@ MAUI_ADMITTED_LICENCES = {'Apache-2.0', 'BSD-2-Clause', 'BSD-3-Clause', 'MIT', '
 MAUI_FORBIDDEN_LICENCE = re.compile(r'AGPL|GPL|SSPL|BUSL|Proprietary|UNLICENSED', re.IGNORECASE)
 BUILD_SYSTEM_NAMES = {'build.gradle.kts', 'build.gradle', 'package.json', 'CMakeLists.txt'}
 BUILD_SYSTEM_SUFFIXES = {'.csproj', '.vcxproj', '.esproj', '.fsproj', '.vbproj'}
-# The Gradle build files are retired with the Kotlin baseline; they are deleted by AND.40 PR B unit 8, and until then
-# they are the only build files admitted, with no Gradle roster and no licence closure.
-RETIRED_BUILD_FILES = {'app/build.gradle.kts', 'build.gradle.kts', 'shared/build.gradle.kts'}
 
 
 def require(value, message):
@@ -61,8 +58,6 @@ def dotnet_project_audit(root=ROOT):
     dotnet = []
     for name in files:
         path = Path(name)
-        if name in RETIRED_BUILD_FILES:
-            continue
         if path.name in BUILD_SYSTEM_NAMES or path.suffix in BUILD_SYSTEM_SUFFIXES:
             require(path.suffix == '.csproj', f'Unreviewed build system: {name}')
             require((root / path).resolve().is_relative_to(root.resolve()), 'Project escapes Mobile')
