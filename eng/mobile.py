@@ -245,8 +245,8 @@ def strip_signature(source, destination):
             unsigned.writestr(entry, original.read(entry.filename), compress_type=entry.compress_type)
 
 
-# AND.40 unit 5: the MAUI candidate and release path, beside the Kotlin path above (PR A). The MAUI tag namespace is
-# android-maui-VERSION; PR B switches the publish to android-VERSION and retires the Kotlin path.
+# AND.40: the MAUI candidate and release path. The release tag is android-VERSION (AND.40 PR B, decision 5); the
+# android-maui-VERSION prerelease namespace from PR A stays as published history.
 MAUI_TRACK = "maui"
 MAUI_PACKAGE = "com.arcforges.mobile"  # the release applicationId; PACKAGE above is the Kotlin development identifier
 MAUI_OUTPUT_DIR = ROOT / "src/ArcForges.Mobile/bin/Release/net10.0-android"
@@ -344,7 +344,7 @@ def maui_sign(candidate, destination):
                    resources.maui_archive(apk, destination / "build-identity.json", ROOT, release=True))
     info["candidate_sha256"] = info.pop("sha256")
     info["track"] = MAUI_TRACK
-    info["tag"] = f"android-maui-{info['version_name']}"
+    info["tag"] = f"android-{info['version_name']}"
     release_names = sorted(p.name for p in destination.iterdir())
     # The seal lists each published member by digest, as published.maui_verify reads it (the Kotlin path does too).
     info["sha256"] = {name: sha256(destination / name) for name in release_names}

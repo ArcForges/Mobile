@@ -193,8 +193,8 @@ jobs:
         run: test "$MAUI" = success && test "$SECURITY" = success && test "$WORKFLOW_LINT" = success
 
 
-  publish-maui:
-    name: Publish Android MAUI prerelease
+  publish:
+    name: Publish Android (.NET MAUI) prerelease
     if: >-
       !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' &&
       needs.verify.result == 'success'
@@ -236,10 +236,10 @@ jobs:
           VERSION_NAME: ${{ needs.maui.outputs.version_name }}
         run: |
           cat > "$RUNNER_TEMP/maui-release-notes.md" <<EOF
-          Android MAUI build from commit $GITHUB_SHA. This first .NET MAUI prerelease sits beside the Kotlin baseline and does not replace the Kotlin prerelease.
+          Android .NET MAUI build from commit $GITHUB_SHA.
 
           Install the APK on Android 8.0 or newer. A device that holds a debug-signed build must uninstall it first; no data migration is provided.
           Windows and Linux builds, offline host and policy tests, the MAUI closure and notice checks, the 16 KB alignment check and the identity gate passed before signing. Device, emulator and live Cloud checks are local opt-in and were not run by CI.
           See release.json for candidate hashes and the signing certificate, maui-archive.json for the release identity, and SHA256SUMS for the downloads.
           EOF
-          gh release create "android-maui-$VERSION_NAME" artifacts/maui-release/* --target "$GITHUB_SHA" --title "Android MAUI $VERSION_NAME" --prerelease --notes-file "$RUNNER_TEMP/maui-release-notes.md"
+          gh release create "android-$VERSION_NAME" artifacts/maui-release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME (.NET MAUI)" --prerelease --notes-file "$RUNNER_TEMP/maui-release-notes.md"

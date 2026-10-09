@@ -147,9 +147,10 @@ def upgrade(directory, candidate, serial):
     print('Public persistent-signature upgrade preserved installation and called real Cloud.')
 
 
-# AND.40 unit 5: the MAUI prerelease track (tag namespace android-maui-VERSION, PR A). Its public members are the
+# AND.40: the MAUI prerelease track (tag android-VERSION, from PR B; the PR A releases under android-maui-VERSION stay
+# verifiable through their own record). Its public members are the
 # signed APK, its companions and the release seal; no AAB, idsig or Kotlin resource receipt is published on this track.
-MAUI_TAG = 'android-maui-'
+MAUI_TAG = 'android-'
 MAUI_COMPANIONS = {'mapping.txt', 'THIRD_PARTY_NOTICES.txt', 'licence-closure.json', 'build-identity.json', 'maui-archive.json'}
 
 
@@ -175,7 +176,7 @@ def maui_verify(directory, candidate, expected_certificate=CERTIFICATE):
     for key in ('commit', 'version_name', 'version_code', 'package'):
         resources.require(release[key] == info[key], 'MAUI release identity differs from the candidate')
     resources.require(release.get('track') == mobile.MAUI_TRACK and release.get('tag') == MAUI_TAG + info['version_name'],
-                      'MAUI release is not on the android-maui track')
+                      'MAUI release is not on the android track')
     resources.require(release['candidate_sha256'] == info['sha256'], 'MAUI release points to another candidate')
     resources.require(release['certificate_sha256'] == expected_certificate, 'Persistent certificate changed')
     stem = 'ArcForges-' + info['version_name']
@@ -224,7 +225,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['prepare', 'identity', 'upgrade', 'maui-prepare'])
     parser.add_argument('--directory', type=Path, default=mobile.ROOT / 'artifacts/public-release')
-    parser.add_argument('--candidate', type=Path, default=mobile.ROOT / 'artifacts/candidate')
+    parser.add_argument('--candidate', type=Path, default=mobile.ROOT / 'artifacts/maui-candidate')
     parser.add_argument('--serial', default='emulator-5554')
     args = parser.parse_args()
     if args.command == 'prepare':
