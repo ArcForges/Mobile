@@ -1,12 +1,27 @@
 # Dependency admission (WP02.05)
 
-`python eng/mobile.py check` runs the offline `eng/dependency_policy.py` gate.
-The owner policy binds the 195-component Android licence inventory, public Contracts
-imports, exact registry and publisher scope, native source records and reviewed
-dependency/toolchain inputs. Existing Gradle licence/resource checks still compare
-actual resolved artifacts, notices and native bytes before packaging. Policy does
-not replace strict Gradle locks/checksums or claim package signatures where only
-checksums are verified. Permanent Android artifact signing remains unchanged.
+Dependencies are NuGet packages. Every project restores with `--locked-mode` against
+its committed `packages.lock.json`, into a clean `NUGET_PACKAGES` folder, so that no
+package is taken from a machine-wide cache (AND.40 decision 17). `python eng/mobile.py
+check` runs the offline repository gates, and the MAUI identity and closure gates
+(`eng/maui_identity.py`, `eng/maui_notices.py`) check the shipped closure.
+
+Dependabot opens NuGet update pull requests weekly on Mondays for the directories listed
+in `.github/dependabot.yml`. A NuGet update is not merged until it has:
+
+- an admission record: a JSON review appended under `eng/policy/dependency-reviews`
+  and named in the policy's ordered `reviews`, naming the package, exact version,
+  source commit, input hashes and the licence and source evidence;
+- a locked restore into a clean `NUGET_PACKAGES` folder, with the closure listing and
+  notices regenerated and checked; and
+- a human review. Auto-merge is not enabled for any NuGet update.
+
+Dependabot never regenerates a lock file or admission by itself. A failed build is
+not a reason to regenerate an admission: review the new closure, licence evidence and
+affected notices first.
+
+Gradle, Kotlin and Maven admissions from before AND.40 PR B stay in the policy as
+immutable history. Their Kotlin app, KMP module and Gradle build are retired.
 
 The initial review preserves the current dependency graph. Android runtime licences
 come from the existing file-level/POM/notice records; EPL is instrumentation-only.
