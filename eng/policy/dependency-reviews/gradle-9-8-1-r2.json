@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "8f11738086590d38cdbfd06e4683f1c63960a4ba",
+  "owner": "Release Engineering Owner",
+  "reviewer": "w-deku-20261008-rev-mob-maint",
+  "maintenanceAssessment": "Immutable successor of gradle-9-8-1.json that supersedes it only to bind the current GOV.12 asset pins: assetPinsSha256 is required on the last dependency review by verifyMobilePolicy, and the earlier review was committed without it. Every other field, including the Gradle 9.8.1 pin, the input hashes, the versions and the evidence, is identical to gradle-9-8-1.json. Adopt the upstream Gradle 9.8.1 patch release in the admitted Gradle 9.8 line, pinned by its official SHA-256 (dce76f55f8e251a3a1f130eb120f30b3d271de2b76c9b0729d316b5a1b6dc01f) from the Gradle release checksum. The wrapper validated the downloaded distribution against that digest. Android lint flagged the Gradle 9.8.0 pin as NewerVersionAvailable; the 9.8.1 pin clears that Gradle finding. Lint still fails on newer upstream Kotlin 2.4.21 (org.jetbrains.kotlin.multiplatform and org.jetbrains.kotlin.plugin.compose) and Spotless 8.10.4, which this change does not admit. Those versions are not moved here. The reviewed 9.7.1 wrapper launcher (gradle-wrapper-9-7-1-r2) is retained. Upstream maintenance remains monitored by Dependabot and the security workflow; this records admission, not a claim of latest versions or no vulnerabilities.",
+  "versions": {
+    "agp": "9.4.1",
+    "kotlin": "2.4.20",
+    "compose": "1.12.1",
+    "material3": "1.9.0",
+    "hot-reload": "1.2.0",
+    "activity": "1.13.0",
+    "contracts": "1.0.0-ci.60.1",
+    "connect": "0.9.0",
+    "coroutines": "1.11.0",
+    "junit": "4.13.2",
+    "androidx-test-runner": "1.7.0",
+    "androidx-test-junit": "1.3.0",
+    "spotless": "8.10.3",
+    "java": "21.0.12",
+    "gradle": "9.8.1"
+  },
+  "inputs": {
+    ".github/workflows/ci.yml": "822e4b21bae79fed2fcf8d5e7026280c6b63568b1ffff3d196d2e4db8efc5d78",
+    ".github/workflows/security.yml": "2c632e9a3f5ab7f4b3ac403dd68fd689dee06f51abf81564aa1973b4f3a4f3ef",
+    ".java-version": "a3d51344032f8539de798beee98ccf38ed09f47d21208260bb41a3653a0fd100",
+    ".python-version": "922fe0c3de073b01988e23348ea184456161678c5e329e6f34be89be24383f93",
+    "app/build.gradle.kts": "482b95191c5733de7e2efe84a82291b2239fa6f6aa6ba3df2bbdd5a8b4088373",
+    "app/gradle.lockfile": "c2ffa98c088d86b028aaae1abd33c4ae05d904093263474d2294e26ec20ee2af",
+    "build.gradle.kts": "2e5f2a4c17a134f06dd3bdf2b9282df247db2085f78777065f378ff04b0714bf",
+    "eng/licences.gradle.kts": "06fdd9f0234651c98c10fbac3a3801b6d4fc86c97c0dff7df8695d188c085a46",
+    "eng/policy/android-licences.json": "b4468ed9d69e5a668160c3330d4c493608b5c0d9ea7e2961840dac3a19fce941",
+    "eng/policy/licence-boundary.json": "eae6bb06e3680a9db2611d254ea7efe80b488d7921c3fe7d2e1df4f05df43736",
+    "eng/policy/reuse-policy.json": "9e03dc74d01a9ab579e9a5a6177da3f27580e2c96cfa683e37c395c5fb631fbc",
+    "gradle.properties": "67be8667269aab0f9436bdfa9391334cfd543cbba6cd7ab3c5f43b2b45bf9c5f",
+    "gradle/libs.versions.toml": "77744630238de86a59a1989b5da3e92458ad5330ed8ad028f1cc8748465820a6",
+    "gradle/locks/shared-linux-x64.lockfile": "ba5b1cfa5f3b16e18788b08ed1ed6592a1dc34c31afec9b04caa4413303d9886",
+    "gradle/locks/shared-windows-x64.lockfile": "8e23f1e7459d2ce2b7ef80b1d809dc8e2da9b62f36f6647ba17fb1a4921c36c3",
+    "gradle/policy/mobile-policy.gradle.kts": "4809fb912f0d8a0276ec060cb93e48028308aacf301f34b07b1800602e57c326",
+    "gradle/verification-metadata.xml": "0f66395d0a12d3a4a85983cd7a137e2950937ece00055fcfebf637569ec40324",
+    "gradle/wrapper/gradle-wrapper.properties": "e0d0c6cd8c3634e41ba8eb825b7fad6165bbb0da10f0a58966ceb6b334715ac0",
+    "settings-gradle.lockfile": "e58bb2ed80db9f829601a658d7c33b9802eb7d2191c31e79c28e01f14c225926",
+    "settings.gradle.kts": "545057a2ec0163d4825a069576e0bbe96247f0c316027f35dd7a365685ac8e19",
+    "shared/build.gradle.kts": "227cbfa41da4c483ff1d006f90d530d7da7f07239026ae5cdb1654b3529d57b5"
+  },
+  "assetPinsSha256": "8895b9be9cd797481f1055d3b2fcb6390f6f2a33f19b5ddb6a8b3777fc7ea22b",
+  "evidence": {
+    "closure-sbom": {
+      "status": "required-ci",
+      "reason": "The Android runtime closure is unchanged: app and shared lockfiles, verification metadata and settings lockfile are unchanged. A strict resolveDependencies run with the committed locks and checksums passed. verifyAndroidLicences and verifyMobilePolicy passed locally. CI repeats the closure and SBOM gates."
+    },
+    "compatibility": {
+      "status": "required-ci",
+      "reason": "Gradle patch release within the admitted 9.8 line; AGP 9.4.1 unchanged. Gradle 9.8.1 still reports the AGP Configuration.setVisible and Compose Hot Reload attribute-value deprecations, which remain reported and not fatal under org.gradle.warning.mode=all. Required CI compilation remains the gate."
+    },
+    "compilation": {
+      "status": "required-ci",
+      "reason": "Local JDK 21 run on this commit: spotlessCheck, desktop and Android host tests, debug unit tests, debug test compilation, assembleRelease and bundleRelease passed. :app:lintRelease FAILED with three NewerVersionAvailable errors that do not concern Gradle: Kotlin 2.4.21 for org.jetbrains.kotlin.multiplatform and org.jetbrains.kotlin.plugin.compose, and Spotless 8.10.4, against the admitted Kotlin 2.4.20 and Spotless 8.10.3. CI lint stays red until those versions are separately reviewed and admitted or the user decides lint policy."
+    },
+    "licence-provenance": {
+      "status": "required-ci",
+      "reason": "Staged the local release candidate from this commit with python eng/mobile.py stage: the release APK and AAB passed resource profile r12 and the source-bound licence and provenance receipts. The retained wrapper launcher keeps its gradle-wrapper-9-7-1-r2 record. CI repeats the strict licence and resource gate and release archive verification."
+    },
+    "local-runtime": {
+      "status": "not-run",
+      "reason": "No Android device or emulator is part of this validation; no installed-app runtime observation is claimed."
+    },
+    "performance": {
+      "status": "not-run",
+      "reason": "No build or app performance measurement was taken for this change."
+    },
+    "migration": {
+      "status": "not-applicable",
+      "reason": "No persisted data, schema, protocol or app code changes; only the build tool version moves."
+    },
+    "security": {
+      "status": "required-ci",
+      "reason": "Official distribution pinned by SHA-256 with distribution URL validation; no feed, publisher, public import or native payload change. The existing CodeQL/security workflow and Dependabot monitoring apply."
+    }
+  }
+}
