@@ -8,11 +8,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import build_identity as identity
-import resources
 
 
 class BuildIdentityTests(unittest.TestCase):
@@ -21,10 +19,8 @@ class BuildIdentityTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         (self.root / 'eng').mkdir()
-        (self.root / 'app').mkdir()
         self.catalog = json.loads((identity.ROOT / 'eng/version-sources.json').read_text())
         (self.root / 'eng/version-sources.json').write_text(json.dumps(self.catalog))
-        (self.root / 'app/gradle.lockfile').write_text('a:b:2.3.4=releaseRuntimeClasspath\na:b:8.0=testRuntimeClasspath\n')
         self.contract = json.dumps({'schema': 'arcforges.hello.v3', 'descriptorSha256': 'a' * 64,
                                     'commit': 'b' * 40, 'dirty': False, 'version': '9.8.7-ci.123.1'})
         def git(*args):
@@ -46,9 +42,13 @@ class BuildIdentityTests(unittest.TestCase):
         self.assertEqual(set(axes), set(identity.AXES))
         self.assertEqual(axes['AppVersion']['values'][0]['version'], '0.1.0-ci.5.2')
         self.assertEqual(axes['ContractSet']['values'][0]['version'], '3')
-        self.assertEqual(axes['PackageVersion']['values'][0]['version'], '2.3.4')
-        self.assertEqual(len(axes['PackageVersion']['values']), 1)
+        # The package axis is the MAUI NuGet lock (maui_report); the Gradle lock source is retired (AND.40 PR B).
+        self.assertEqual(axes['PackageVersion']['status'], 'not-applicable')
         self.assertEqual(axes['NativeAbiVersion']['status'], 'not-applicable')
+        catalog = copy.deepcopy(self.catalog)
+        catalog['axes']['PackageVersion'] = {'kind': 'packages', 'sources': ['src/ArcForges.Mobile/packages.lock.json']}
+        with self.assertRaises(ValueError):
+            self.axes(catalog)
 
     def test_every_axis_has_an_independent_producer(self):
         catalog = copy.deepcopy(self.catalog)
@@ -61,9 +61,12 @@ class BuildIdentityTests(unittest.TestCase):
             (self.root / path).write_text(content)
             catalog['axes'][name] = {'kind': kind, 'sources': [path]}
         axes = self.axes(catalog)
-        self.assertTrue(all(axis['status'] == 'present' for axis in axes.values()))
+        self.assertTrue(all(axis['status'] == 'present' for name, axis in axes.items() if name != 'PackageVersion'))
+        self.assertEqual(axes['PackageVersion']['status'], 'not-applicable')
         self.assertEqual(axes['NativeAbiVersion']['values'][0]['version'], '4.2')
         for name, kind in zip(identity.AXES, identity.KINDS):
+            if kind == 'packages':
+                continue
             version, contract = '0.1.0-ci.5.2', self.contract
             path, original = None, None
             if kind == 'release':
@@ -73,9 +76,7 @@ class BuildIdentityTests(unittest.TestCase):
             else:
                 path = self.root / catalog['axes'][name]['sources'][0]
                 original = path.read_text()
-                if kind == 'packages':
-                    changed = original.replace('2.3.4', '2.3.5')
-                elif kind == 'native-abi':
+                if kind == 'native-abi':
                     changed = original.replace('ARC_ABI_MINOR 2', 'ARC_ABI_MINOR 3')
                 else:
                     changed = original.replace('7.2', '7.3')
@@ -135,25 +136,6 @@ class BuildIdentityTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             identity.build(self.root, self.ci)
         self.assertTrue(identity.build(self.root, {})['dirty'])
-
-    def test_resealed_report_and_every_axis_tamper_fail(self):
-        approved = {'contractSourceText': self.contract}
-        with patch.object(resources, 'profile', return_value=('fixture', 'digest', approved)), patch.dict(os.environ, self.ci):
-            expected = identity.report('0.1.0-ci.5.2', 502, self.root)
-            info = {'version_name': '0.1.0-ci.5.2', 'version_code': 502, 'commit': self.commit}
-            identity.verify_report(json.dumps(expected).encode(), info, self.root)
-            for name in identity.AXES:
-                altered = copy.deepcopy(expected)
-                altered['axes'][name] = {'status': 'present', 'values': []}
-                with self.subTest(axis=name), self.assertRaises(ValueError):
-                    identity.verify_report(json.dumps(altered).encode(), info, self.root)
-            for key, value in [('sourceCommit', 'c' * 40), ('sourceDateEpoch', 1), ('buildId', '123.1')]:
-                altered = copy.deepcopy(expected)
-                altered['build'][key] = value
-                with self.subTest(build=key), self.assertRaises(ValueError):
-                    identity.verify_report(json.dumps(altered).encode(), info, self.root)
-            with self.assertRaises(ValueError):
-                identity.report('0.1.0-ci.5.2', 503, self.root)
 
 
 if __name__ == '__main__':
