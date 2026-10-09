@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ArcForges.Mobile.MainPage"
+             Title="ArcForges"
+             BackgroundColor="#F5F6EF">
+    <!-- Parity with the Kotlin ArcForgesApp screen: copy, states, the 1..256 name rule and the test identifiers. -->
+    <ScrollView>
+        <VerticalStackLayout Padding="28" Spacing="20" MaximumWidthRequest="520" HorizontalOptions="Center">
+            <Label Text="Build information"
+                   AutomationId="build-information"
+                   TextColor="#305E46"
+                   FontAttributes="Bold"
+                   FontSize="14">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBuildInformationTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Text="A small beginning."
+                   FontAttributes="Bold"
+                   FontSize="32"
+                   TextColor="#1B1F1C" />
+            <Label Text="Your ideas, on the move."
+                   FontSize="17"
+                   TextColor="#1B1F1C" />
+            <Border BackgroundColor="White"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 24"
+                    Padding="24">
+                <VerticalStackLayout Spacing="20">
+                    <Label x:Name="GreetingLabel"
+                           AutomationId="greeting"
+                           FontSize="24"
+                           TextColor="#1B1F1C" />
+                    <Label Text="Your name"
+                           FontSize="14"
+                           TextColor="#5C6B63" />
+                    <Entry x:Name="NameEntry"
+                           AutomationId="name"
+                           Placeholder="Your name"
+                           Text="World"
+                           ReturnType="Done"
+                           TextChanged="OnNameChanged" />
+                    <Label x:Name="NameCounter"
+                           AutomationId="name-counter"
+                           FontSize="12"
+                           TextColor="#5C6B63" />
+                    <Label x:Name="ErrorLabel"
+                           AutomationId="error"
+                           IsVisible="False"
+                           TextColor="#B00020" />
+                    <Button x:Name="SayHelloButton"
+                            AutomationId="say-hello"
+                            Text="Say hello"
+                            BackgroundColor="#305E46"
+                            TextColor="White"
+                            Clicked="OnSayHelloClicked" />
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="Cloud Hello · arcforges.com"
+                   FontSize="12"
+                   TextColor="#5C6B63" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

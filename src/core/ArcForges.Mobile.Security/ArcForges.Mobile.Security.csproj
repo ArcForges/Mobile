@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    AND.40 unit 3: the Keystore probe library (AND.40 decision 11). It is a test-only device harness, run locally as
+    opt-in under PRF.12; the app never references it and nothing ships it. The record formatting is platform-neutral
+    and also targets net10.0 so the host tests (net10.0, decision 1) run on hosted runners without an emulator. The
+    Java interop probe lives under Android/ and is compiled for net10.0-android only.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-android;net10.0</TargetFrameworks>
+    <RootNamespace>ArcForges.Mobile.Security</RootNamespace>
+    <AssemblyName>ArcForges.Mobile.Security</AssemblyName>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <LicenceBoundary>Apache</LicenceBoundary>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net10.0-android'">26.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net10.0-android'">
+    <Compile Remove="Android/**" />
+  </ItemGroup>
+</Project>

@@ -1286,6 +1286,15 @@
         "dependencies": {
           "Xamarin.Kotlin.StdLib": "2.2.0.1"
         }
+      },
+      "arcforges.mobile.network": {
+        "type": "Project",
+        "dependencies": {
+          "ArcForges.Contracts.Events": "[1.0.0-ci.324.1, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.324.1, )",
+          "Grpc.Net.Client": "[2.84.0, )",
+          "Grpc.Net.Client.Web": "[2.84.0, )"
+        }
       }
     },
     "net10.0-android36.1/android-arm64": {},

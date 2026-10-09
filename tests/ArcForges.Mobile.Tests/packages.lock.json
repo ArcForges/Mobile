@@ -135,6 +135,9 @@
           "Grpc.Net.Client.Web": "[2.84.0, )"
         }
       },
+      "arcforges.mobile.security": {
+        "type": "Project"
+      },
       "ArcForges.Contracts.Events": {
         "type": "CentralTransitive",
         "requested": "[1.0.0-ci.324.1, )",

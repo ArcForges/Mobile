@@ -25,5 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\core\ArcForges.Mobile.Network\ArcForges.Mobile.Network.csproj" />
+    <!-- AND.40 unit 3: the platform-neutral Keystore record (net10.0 flavour); the Java interop probe is not built here. -->
+    <ProjectReference Include="..\..\src\core\ArcForges.Mobile.Security\ArcForges.Mobile.Security.csproj" />
   </ItemGroup>
 </Project>

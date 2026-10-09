@@ -20,15 +20,40 @@ ROOT = Path(__file__).resolve().parents[1]
 MAUI_PROJECT = "src/ArcForges.Mobile/ArcForges.Mobile.csproj"
 MAUI_LOCK = "src/ArcForges.Mobile/packages.lock.json"
 MAUI_MANIFEST = "src/ArcForges.Mobile/Platforms/Android/AndroidManifest.xml"
-# AND.01 identity-only shape (P2-021 item 3): the project holds these files and nothing else. The Contracts file is
-# compile-only evidence; no App, MainPage, MauiProgram, MainActivity, Resources or permission belongs in this stage.
+# The Contracts file is compile-only evidence that the published client restores and builds for the pinned tuple.
 MAUI_CONTRACTS_EVIDENCE = "src/ArcForges.Mobile/Compatibility/ContractsClientCompatibility.cs"
 # AndroidX Core merges this signature-level permission, declared by the application package itself, into every app
 # (aapt2 xmltree: protectionLevel 0x2). It grants no capability to another app and is the only permission allowed.
 MAUI_MERGED_PERMISSION = "com.arcforges.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-MAUI_IDENTITY_FILES = {MAUI_PROJECT, MAUI_LOCK, MAUI_MANIFEST, MAUI_CONTRACTS_EVIDENCE}
-# The SDK adds INTERNET to the Debug manifest of a debuggable app; the identity manifest removes it with tools:node="remove".
+# AND.40 unit 3: the app's reviewed files. The project holds exactly these files: no other source, resource, component
+# or permission may appear, so the Keystore probe (a test-only harness, decision 11) and any second activity are refused.
+MAUI_APP_FILES = {
+    MAUI_PROJECT,
+    MAUI_LOCK,
+    MAUI_MANIFEST,
+    MAUI_CONTRACTS_EVIDENCE,
+    "src/ArcForges.Mobile/App.cs",
+    "src/ArcForges.Mobile/MauiProgram.cs",
+    "src/ArcForges.Mobile/MainPage.xaml",
+    "src/ArcForges.Mobile/MainPage.xaml.cs",
+    "src/ArcForges.Mobile/Diagnostics/BuildInformation.cs",
+    "src/ArcForges.Mobile/Platforms/Android/MainActivity.cs",
+    "src/ArcForges.Mobile/Platforms/Android/MainApplication.cs",
+    "src/ArcForges.Mobile/Platforms/Android/Resources/xml/data_extraction_rules.xml",
+    "src/ArcForges.Mobile/Resources/AppIcon/appicon.svg",
+    "src/ArcForges.Mobile/Resources/AppIcon/appiconfg.svg",
+    "src/ArcForges.Mobile/Resources/Splash/splash.svg",
+}
+# The app requests INTERNET for the Hello transport: it is the only permission the manifest may request.
 MAUI_INTERNET = "android.permission.INTERNET"
+# The launcher activity's pinned Java name (MainActivity.cs); the SDK otherwise generates an obfuscated name.
+MAUI_LAUNCH_ACTIVITY = "com.arcforges.mobile.MainActivity"
+# The Hello transport is the only project the app references, by the path MSBuild writes in the app csproj, and the
+# lock keys it in lower case. The Keystore probe is never referenced by the app (AND.40 decision 11).
+MAUI_HELLO_PROJECT = "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj"
+MAUI_HELLO_REFERENCE = "..\\core\\ArcForges.Mobile.Network\\ArcForges.Mobile.Network.csproj"
+MAUI_HELLO_LOCK_KEY = "arcforges.mobile.network"
+MAUI_KEYSTORE_PROJECT = "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj"
 MAUI_NAME_ATTRIBUTE = "{http://schemas.android.com/apk/res/android}name"
 MAUI_TOOLS_NODE = "{http://schemas.android.com/tools}node"
 MAUI_TOOLCHAIN = "eng/policy/dotnet-toolchain.json"
@@ -39,7 +64,8 @@ MAUI_GRADLE_ROSTER = "eng/policy/licence-boundary.json"
 # Apache-2.0, and none may appear on the Gradle roster. Any other .NET project is refused by the registry check.
 MAUI_REVIEWED_DOTNET_PROJECTS = (
     MAUI_PROJECT,
-    "src/core/ArcForges.Mobile.Network/ArcForges.Mobile.Network.csproj",
+    MAUI_HELLO_PROJECT,
+    MAUI_KEYSTORE_PROJECT,
     "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
 )
 MAUI_ADMISSION = "eng/policy/nuget-admission.json"
@@ -168,15 +194,22 @@ def check_project(root: Path, toolchain: dict) -> None:
     _require(not signing, "Signing belongs to the protected release job, not the identity project build")
     references = [item.get("Include") for item in project.iter("PackageReference")]
     _require(len(references) == len(set(references)) and set(references) == MAUI_DIRECT,
-             "The identity project references only Maui, the Contracts client and events, the Hello transport and the pinned trimmer")
+             "The app references only Maui, the Contracts client and events, the Hello transport and the pinned trimmer")
     for item in project.iter("PackageReference"):
         _require(item.get("Version") is None and item.get("VersionOverride") is None,
                  "PackageReference versions must come from Directory.Packages.props")
+    projects = [item.get("Include") for item in project.iter("ProjectReference")]
+    _require(projects == [MAUI_HELLO_REFERENCE],
+             "The app references only the Hello transport project; the Keystore probe is a test-only harness and is never referenced")
+    aot = [(condition, value) for condition, name, value in scoped if name == "RunAOTCompilation"]
+    _require(aot == [(MAUI_RELEASE_CONDITION, "true")], "Mono AOT must apply only to the Release configuration")
     manifest = (root / MAUI_MANIFEST).read_text(encoding="utf-8")
-    _require('android:allowBackup="false"' in manifest and 'android:usesCleartextTraffic="false"' in manifest,
-             "The Android manifest must keep the baseline backup and cleartext restrictions")
+    _require('android:allowBackup="false"' in manifest and 'android:fullBackupContent="false"' in manifest
+             and 'android:usesCleartextTraffic="false"' in manifest
+             and 'android:dataExtractionRules="@xml/data_extraction_rules"' in manifest,
+             "The Android manifest must keep the baseline backup, device-transfer and cleartext restrictions")
     _require(' package="' not in manifest, "applicationId must come from the project, not the manifest")
-    check_identity_only_shape(root)
+    check_app_shape(root)
     namespace = android["namespace"]
     project_dir = root / "src/ArcForges.Mobile"
     for source in sorted(project_dir.rglob("*.cs")):
@@ -187,26 +220,24 @@ def check_project(root: Path, toolchain: dict) -> None:
                      f"Source namespace outside {namespace}: {source.relative_to(root).as_posix()}")
 
 
-def check_identity_only_shape(root: Path) -> None:
-    """AND.01 identity-only shape: exact project file set, no permission and no component in the manifest."""
+def check_app_shape(root: Path) -> None:
+    """AND.40 app shape: the exact reviewed file set; the manifest requests exactly INTERNET and declares no component."""
     project_dir = root / "src/ArcForges.Mobile"
     present = {path.relative_to(root).as_posix() for path in project_dir.rglob("*")
                if path.is_file() and not {"bin", "obj"} & set(path.relative_to(project_dir).parts)}
-    _require(present == MAUI_IDENTITY_FILES,
-             f"The identity project holds only its identity-only files; unexpected: "
-             f"{sorted(present - MAUI_IDENTITY_FILES)}, missing: {sorted(MAUI_IDENTITY_FILES - present)}")
+    _require(present == MAUI_APP_FILES,
+             f"The app project holds only its reviewed files; unexpected: "
+             f"{sorted(present - MAUI_APP_FILES)}, missing: {sorted(MAUI_APP_FILES - present)}")
     manifest = ET.parse(root / MAUI_MANIFEST).getroot()
     children = list(manifest)
-    # The only permission element allowed is the removal marker of the SDK's Debug INTERNET injection (see docs/maui-toolchain.md).
     permissions = [child for child in children if child.tag == "uses-permission"]
     _require(manifest.tag == "manifest" and [child.tag for child in children if child.tag != "uses-permission"] == ["application"],
-             "The identity manifest declares no element other than application and the INTERNET removal marker")
-    _require(len(permissions) <= 1 and all(
-                 item.get(MAUI_NAME_ATTRIBUTE) == MAUI_INTERNET and item.get(MAUI_TOOLS_NODE) == "remove"
-                 for item in permissions),
-             "The identity manifest may only remove android.permission.INTERNET (tools:node=\"remove\"); it grants no permission")
+             "The app manifest declares no element other than application and its permissions")
+    _require(len(permissions) == 1 and permissions[0].get(MAUI_NAME_ATTRIBUTE) == MAUI_INTERNET
+             and MAUI_TOOLS_NODE not in permissions[0].attrib,
+             "The app manifest requests exactly android.permission.INTERNET, with no removal marker")
     application = next(child for child in children if child.tag == "application")
-    _require(len(list(application)) == 0, "The identity manifest declares no activity or other component")
+    _require(len(list(application)) == 0, "The app manifest declares no activity or other component; MAUI declares them in code")
 
 
 def check_records(toolchain: dict, admission: dict) -> None:
@@ -255,9 +286,12 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
     target = toolchain["targetFramework"] + toolchain["android"]["targetPlatformVersion"]
     _require(sorted(key for key in lock["dependencies"] if "/" not in key) == [target],
              "packages.lock.json must lock exactly the reviewed Android target")
-    locked, direct = set(), set()
+    locked, direct, projects = set(), set(), set()
     for name, info in lock["dependencies"][target].items():
-        _require(info["type"] != "Project", "The identity project must not reference other projects")
+        if info["type"] == "Project":
+            # The only project the app locks is the Hello transport; the lock writes its key in lower case.
+            projects.add(name.lower())
+            continue
         _require(MAUI_SHA512.fullmatch(info.get("contentHash", "")) is not None, f"Invalid content hash: {name}")
         kind = "direct" if info["type"] == "Direct" else "transitive"
         if kind == "direct":
@@ -265,6 +299,7 @@ def check_lock(root: Path, toolchain: dict, admission: dict) -> None:
         locked.add((name, info["resolved"], info["contentHash"], kind))
     recorded = {(item["id"], item["version"], item["contentHash"], item["kind"]) for item in admission["packages"]}
     _require(locked == recorded, "The locked closure differs from the NuGet admission record")
+    _require(projects == {MAUI_HELLO_LOCK_KEY}, "The app locks exactly the Hello transport project and no other project")
     _require(direct == MAUI_DIRECT,
              "Direct packages must be Maui, the Contracts client and events, the Hello transport and the pinned trimmer")
     check_prerelease(lock["dependencies"][target], admission)
@@ -463,16 +498,25 @@ def parse_signer_digests(text: str) -> list[str]:
     return re.findall(r"^Signer #\d+ certificate SHA-256 digest: ([0-9a-f]{64})$", text, re.MULTILINE)
 
 
-def check_apk(badging: str, certificates: str, root: Path = ROOT, release: bool = False) -> dict:
-    """Identity of a built APK; a release proof must carry the persistent release certificate."""
+def check_apk(badging: str, certificates: str, root: Path = ROOT, release: bool = False,
+              configuration: str = "Debug") -> dict:
+    """Identity of a built APK: INTERNET and the AndroidX merged permission only, one reviewed launcher, and one signer.
+
+    A release proof must carry the persistent release certificate. A Release APK is never debuggable.
+    """
+    _require(configuration in {"Debug", "Release"}, "The APK configuration must be Debug or Release")
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
     android = toolchain["android"]
     identity = parse_badging(badging)
     permissions = re.findall(r"^uses-permission(?:-sdk-\d+)?: name='([^']*)'", badging, re.MULTILINE)
-    _require(set(permissions) <= {MAUI_MERGED_PERMISSION} and "android.permission.INTERNET" not in permissions,
-             "The identity APK requests no permission except the AndroidX merged signature permission")
-    _require(not re.search(r"^(uses-implied-permission|(leanback-)?launchable-activity)", badging, re.MULTILINE),
-             "The identity APK declares no launchable activity and no implied permission")
+    _require(set(permissions) <= {MAUI_INTERNET, MAUI_MERGED_PERMISSION} and MAUI_INTERNET in permissions,
+             "The app APK requests android.permission.INTERNET and no other permission, except the AndroidX merged signature permission")
+    _require(not re.search(r"^uses-implied-permission", badging, re.MULTILINE), "The app APK declares no implied permission")
+    launchers = re.findall(r"^(?:leanback-)?launchable-activity: name='([^']*)'", badging, re.MULTILINE)
+    _require(launchers == [MAUI_LAUNCH_ACTIVITY],
+             "The app APK has exactly one launchable activity, the reviewed MainActivity")
+    debuggable = re.search(r"^application-debuggable$", badging, re.MULTILINE) is not None
+    _require(not (configuration == "Release" and debuggable), "A Release APK must not be debuggable")
     _require(identity["package"] == android["applicationId"], "APK applicationId differs from com.arcforges.mobile")
     _require(identity["minSdk"] == android["minSdkVersion"], "APK minSdkVersion differs from the reviewed floor")
     _require(identity["targetSdk"] == int(android["targetPlatformVersion"].split(".")[0]),
@@ -482,10 +526,10 @@ def check_apk(badging: str, certificates: str, root: Path = ROOT, release: bool 
     if release:
         _require(digests == [toolchain["signing"]["certificateSha256"]],
                  "Release APK is not signed by the persistent release certificate")
-    return {"identity": identity, "signerSha256": digests[0], "release": release}
+    return {"identity": identity, "signerSha256": digests[0], "release": release, "configuration": configuration}
 
 
-def inspect_apk(apk: Path, root: Path = ROOT, release: bool = False) -> dict:
+def inspect_apk(apk: Path, root: Path = ROOT, release: bool = False, configuration: str = "Debug") -> dict:
     """Run the Android build tools found through ANDROID_HOME on a built APK."""
     toolchain = _load_json(root / MAUI_TOOLCHAIN)
     sdk = Path(os.environ.get("ANDROID_HOME") or Path(os.environ.get("LOCALAPPDATA", "")) / "Android" / "Sdk")
@@ -496,7 +540,7 @@ def inspect_apk(apk: Path, root: Path = ROOT, release: bool = False) -> dict:
                              text=True, encoding="utf-8").stdout
     certificates = subprocess.run([str(apksigner), "verify", "--print-certs", str(apk)], check=True,
                                   capture_output=True, text=True, encoding="utf-8").stdout
-    return check_apk(badging, certificates, root, release)
+    return check_apk(badging, certificates, root, release, configuration)
 
 
 if __name__ == "__main__":
@@ -504,7 +548,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apk", type=Path, help="also inspect this built APK")
     parser.add_argument("--release", action="store_true", help="with --apk: require the persistent release certificate")
+    parser.add_argument("--configuration", choices=["Debug", "Release"], default="Debug",
+                        help="with --apk: a Release APK must not be debuggable")
     args = parser.parse_args()
     print(json.dumps(check_maui(ROOT), indent=2, sort_keys=True))
     if args.apk:
-        print(json.dumps(inspect_apk(args.apk, ROOT, args.release), indent=2, sort_keys=True))
+        print(json.dumps(inspect_apk(args.apk, ROOT, args.release, args.configuration), indent=2, sort_keys=True))

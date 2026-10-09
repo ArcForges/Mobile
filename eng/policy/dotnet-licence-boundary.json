@@ -13,6 +13,10 @@
       "kind": "dotnet"
     },
     {
+      "path": "src/core/ArcForges.Mobile.Security/ArcForges.Mobile.Security.csproj",
+      "kind": "dotnet"
+    },
+    {
       "path": "tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj",
       "kind": "dotnet"
     }
