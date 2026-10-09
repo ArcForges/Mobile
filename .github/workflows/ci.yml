@@ -133,13 +133,19 @@ jobs:
       - name: Resolve automatic version
         id: version
         run: python eng/mobile.py version
-      - name: Install the MAUI workloads and check the pinned manifests
+      - name: Install the pinned MAUI workload set and check the pinned manifests
         shell: bash
         run: |
           test "$(dotnet --version)" = "10.0.400"
-          dotnet workload install android maui-android
+          # AND.40 decision 22: workload set 10.0.401 is pinned explicitly on SDK 10.0.400. An unversioned install takes the
+          # newest set, and 10.0.401.1 brings maui-android 10.0.110, which the admitted closure does not contain.
+          dotnet workload install android maui-android --version 10.0.401
           dotnet workload list > "$RUNNER_TEMP/workloads.txt"
           cat "$RUNNER_TEMP/workloads.txt"
+          grep -Eq '^Workload version: 10\.0\.401[[:space:]]*$' "$RUNNER_TEMP/workloads.txt" || {
+            echo "::error::Workload set 10.0.401 is not the installed workload version (decision 22)"
+            exit 1
+          }
           # AND.40 decision 3: a 10.0.400 band without these manifests fails here. The reviewed fallback is SDK 10.0.401
           # with a reviewed admission (docs/maui-toolchain.md); it is not applied silently.
           grep -Eq '^android[[:space:]]+36\.1\.69/' "$RUNNER_TEMP/workloads.txt" || {

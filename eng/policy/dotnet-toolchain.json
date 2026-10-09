@@ -187,5 +187,21 @@
       "Grpc.Net.Client.Web": "2.84.0"
     },
     "note": "Direct product packages of the identity project added by AND.40 unit 1. Events is built from Contracts main 330e46bd, which is an ancestor of Contracts main. The gRPC packages are the transport of the Hello client."
+  },
+  "workloadSet": {
+    "version": "10.0.401",
+    "sdk": "10.0.400",
+    "reviewId": "and-40-workload-set-10-0-401-r1",
+    "reviewer": "w-deku-20261008-rev-and-40",
+    "decision": "AND.40 decision 22 (replaces the vendored rollback of decision 21; amends decision 3)",
+    "install": "dotnet workload install android maui-android --version 10.0.401, on SDK 10.0.400, in the maui job of .github/workflows/ci.yml and the codeql-csharp job of .github/workflows/security.yml; the maui job fails closed unless 'dotnet workload list' reports Workload version 10.0.401 and the android 36.1.69 and maui-android 10.0.20 guards pass",
+    "admittedManifests": {
+      "microsoft.net.sdk.android": "36.1.69",
+      "microsoft.net.sdk.maui": "10.0.20",
+      "microsoft.net.workload.mono.toolchain.current": "10.0.112",
+      "microsoft.net.workload.emscripten.current": "10.0.112"
+    },
+    "rationale": "Workload set 10.0.401 equals the admitted local install on every Android-relevant manifest (android 36.1.69, maui-android 10.0.20, mono toolchain and emscripten 10.0.112). Only the uninstalled iOS-family manifests differ (26.5.10318 against 10301). Set 10.0.400 has mono 10.0.111 and does not match. Set 10.0.401.1 brings maui 10.0.110 and is not used.",
+    "localVerification": "With SDK 10.0.400 at C:\\Users\\J7Rdm\\.dotnet: 'dotnet workload install --help' shows --version, and 'dotnet workload search version 10.0.401' lists the manifest table above. No installed workload was modified on the local machine."
   }
 }

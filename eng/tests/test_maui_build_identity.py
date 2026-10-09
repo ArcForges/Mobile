@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ENG = Path(__file__).resolve().parents[1]
 ROOT = ENG.parent
@@ -137,15 +138,19 @@ class MauiReportTests(unittest.TestCase):
             self.report(identity=dict(LOCAL, sourceCommit="xyz"))
 
     def test_packaged_identity_must_equal_the_checkout(self):
-        data = self.report()
-        raw = (json.dumps(data, indent=2) + "\n").encode("utf-8")
-        info = {"version_name": "0.1.0-ci.123.2", "version_code": 12302, "commit": "a" * 40}
-        with self.assertRaisesRegex(ValueError, "differs from the checkout"):
-            build_identity.verify_maui_report(raw, info, ROOT, observed_sdk="10.0.401")
-        tampered = dict(data, packaging={"androidVersionCode": 1})
-        with self.assertRaisesRegex(ValueError, "differs from the checkout"):
-            build_identity.verify_maui_report((json.dumps(tampered) + "\n").encode("utf-8"),
-                                              dict(info, version_code=1), ROOT, observed_sdk="10.0.401")
+        # The test controls its environment: a hosted CI run exports GITHUB_ACTIONS and the run number, which would
+        # otherwise make the derived identity a CI identity and mask the checkout comparison under test. The CI
+        # markers are cleared for this test only and restored afterwards.
+        with mock.patch.dict(os.environ, {"GITHUB_ACTIONS": "", "CI": ""}):
+            data = self.report()
+            raw = (json.dumps(data, indent=2) + "\n").encode("utf-8")
+            info = {"version_name": "0.1.0-ci.123.2", "version_code": 12302, "commit": "a" * 40}
+            with self.assertRaisesRegex(ValueError, "differs from the checkout"):
+                build_identity.verify_maui_report(raw, info, ROOT, observed_sdk="10.0.401")
+            tampered = dict(data, packaging={"androidVersionCode": 1})
+            with self.assertRaisesRegex(ValueError, "differs from the checkout"):
+                build_identity.verify_maui_report((json.dumps(tampered) + "\n").encode("utf-8"),
+                                                  dict(info, version_code=1), ROOT, observed_sdk="10.0.401")
 
 
 class BuildInformationContractTests(unittest.TestCase):

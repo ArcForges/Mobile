@@ -88,9 +88,15 @@ jobs:
         with:
           languages: csharp
           build-mode: manual
+      # AND.40 decision 22 and the restore: the host test projects reference the libraries that also target net10.0-android,
+      # and a locked restore of those projects evaluates the android target, which needs the Android workload (NETSDK1147).
+      # The same pinned workload set as the maui job is installed for the restore. The analysis itself builds the net10.0
+      # target (-f net10.0), which is the host-run code; the Android-only sources are covered by the maui job.
+      - name: Install the pinned MAUI workload set for the locked restore
+        shell: bash
+        run: dotnet workload install android maui-android --version 10.0.401
       # Manual build mode (AND.40 decision 12): an explicit locked restore and Release build of the host-run C# projects,
-      # so that CodeQL observes the compiled sources. The Android app projects need the Android workload and are covered
-      # by the maui job, not by this analysis.
+      # so that CodeQL observes the compiled sources. The Android app projects are covered by the maui job, not by this analysis.
       - name: Locked restore and Release build of the host-run C# projects
         shell: bash
         env:
@@ -99,8 +105,8 @@ jobs:
           mkdir -p "$NUGET_PACKAGES"
           dotnet restore tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj --locked-mode
           dotnet restore tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj --locked-mode
-          dotnet build tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj -c Release --no-restore -nologo
-          dotnet build tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release --no-restore -nologo
+          dotnet build tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj -c Release --no-restore -nologo -f net10.0
+          dotnet build tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release --no-restore -nologo -f net10.0
       - uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4
         with:
           category: .github/workflows/ci.yml:codeql-csharp

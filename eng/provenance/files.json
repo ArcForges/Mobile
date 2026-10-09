@@ -64,6 +64,7 @@
     "eng/policy/dependency-policy.json",
     "eng/policy/dependency-reviews/and-40-u5-r1.json",
     "eng/policy/dependency-reviews/and-40-u5-r2.json",
+    "eng/policy/dependency-reviews/and-40-u5-r3.json",
     "eng/policy/dependency-reviews/compose-1-12-1.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r1.json",
     "eng/policy/dependency-reviews/gov-12-mobile-r2.json",
