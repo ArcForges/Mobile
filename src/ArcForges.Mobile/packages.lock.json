@@ -4,23 +4,23 @@
     "net10.0-android36.1": {
       "ArcForges.Contracts.Events": {
         "type": "Direct",
-        "requested": "[1.0.0-ci.324.1, )",
-        "resolved": "1.0.0-ci.324.1",
-        "contentHash": "+RmSooWmQAfMjrBoPUp0byaFWkbJ47JXKEn2K+pBEP27kG+o72B9RQLQOFaStXGSfgXMLSyoyiKgtwWI0usyqw==",
+        "requested": "[1.0.0-ci.370.1, )",
+        "resolved": "1.0.0-ci.370.1",
+        "contentHash": "wpeX+jyUcyh37b4Uo8NkPsrNcsI5SqjMWIHc9/7iqQ4FXExIQvJVlJraQjTijL3ljf7dj0Lh9l0CfBsvFmG4Dw==",
         "dependencies": {
-          "ArcForges.Contracts.Foundation": "1.0.0-ci.324.1",
-          "ArcForges.Contracts.PublicApi": "1.0.0-ci.324.1",
+          "ArcForges.Contracts.Foundation": "1.0.0-ci.370.1",
+          "ArcForges.Contracts.PublicApi": "1.0.0-ci.370.1",
           "Google.Protobuf": "3.36.1",
           "Grpc.Core.Api": "2.84.0"
         }
       },
       "ArcForges.Contracts.PublicApi": {
         "type": "Direct",
-        "requested": "[1.0.0-ci.324.1, )",
-        "resolved": "1.0.0-ci.324.1",
-        "contentHash": "pHt1bnk8VA23vOenZlDsotoyHZMUstNOOp1DltQcovzENyU1YoK4H10LKaGZG5Q2WwecJBXqB1rfKeVxEtjsww==",
+        "requested": "[1.0.0-ci.370.1, )",
+        "resolved": "1.0.0-ci.370.1",
+        "contentHash": "pxeWjk8niV2uMTYvAkKVAFhlLrnxU3vyCBXF1QVmcGSyowKJ3IoztkhA5Jikfo50i6hbA2x4s4G43R12YdHJKw==",
         "dependencies": {
-          "ArcForges.Contracts.Foundation": "1.0.0-ci.324.1",
+          "ArcForges.Contracts.Foundation": "1.0.0-ci.370.1",
           "Google.Protobuf": "3.36.1",
           "Grpc.Core.Api": "2.84.0"
         }
@@ -61,8 +61,8 @@
       },
       "ArcForges.Contracts.Foundation": {
         "type": "Transitive",
-        "resolved": "1.0.0-ci.324.1",
-        "contentHash": "z0Vgu7TzX0BqYcr6cbbhQW52Riy4RdOHwQDR5Z3uS+QnZKS6oYKDhRyrVAuG2zjQb3ND2yf+N//haMerWgdArA==",
+        "resolved": "1.0.0-ci.370.1",
+        "contentHash": "Jn5zR8o5xxlLK66H0RO3rvAkuMNHF+cb2gjOPQ8jYKs6s5TT+XRG58E5NWkcOwlngAQChBGOSZ9L1R5N83cxRA==",
         "dependencies": {
           "Google.Protobuf": "3.36.1"
         }
@@ -1290,14 +1290,12 @@
       "arcforges.mobile.network": {
         "type": "Project",
         "dependencies": {
-          "ArcForges.Contracts.Events": "[1.0.0-ci.324.1, )",
-          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.324.1, )",
+          "ArcForges.Contracts.Events": "[1.0.0-ci.370.1, )",
+          "ArcForges.Contracts.PublicApi": "[1.0.0-ci.370.1, )",
           "Grpc.Net.Client": "[2.84.0, )",
           "Grpc.Net.Client.Web": "[2.84.0, )"
         }
       }
-    },
-    "net10.0-android36.1/android-arm64": {},
-    "net10.0-android36.1/android-x64": {}
+    }
   }
 }
