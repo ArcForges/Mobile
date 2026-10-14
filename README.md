@@ -4,6 +4,8 @@
 
 A native .NET MAUI Android app that calls the Cloud Hello API at `https://arcforges.com/api`. Android is the only product platform and release target in this repository. The Kotlin/Compose app, its Kotlin Multiplatform module and its Gradle build were retired in AND.40 PR B; they remain in the git history and in the historical Kotlin releases. No desktop product, iOS or macOS app is delivered or claimed. Production ArcChat services, accounts and synchronization are future work.
 
+**Flagship role:** Mobile is an active repository of the ArcForges flagship ([AD-0001](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/decisions/AD-0001-flagship-pivot.md)). Its MAUI shell, release configuration, network layer and Keystore wrapper are reused for the ArcForges Android companion (fleet and node views, pairing, notifications and billing; [architecture 01 §5](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/architecture/01-system-overview.md#5-repository-and-project-map), [reuse classification](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/reuse/inventory-and-classification.md#5-mobile)). Work is scheduled in the [ArcForges/Plan delivery graph](https://github.com/ArcForges/Plan/blob/main/delivery-graph.json) and delivered serially under its [execution policy](https://github.com/ArcForges/Plan/blob/main/execution-policy.md). The statements below describe the repository as it is today; the change of distribution channel is Plan task AF-AND-03 (conflict C-05 in the [reuse conflicts](https://github.com/ArcForges/ArcForges-Design/blob/main/docs/reuse/conflicts.md)).
+
 | Component | Pinned version / purpose |
 | --- | --- |
 | .NET SDK | 10.0.400 with `rollForward` disabled ([global.json](global.json)) |
