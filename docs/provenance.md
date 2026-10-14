@@ -1,6 +1,6 @@
 # Reuse and Android resource provenance (WP00.03)
 
-The [accepted Design profile](https://github.com/ArcForges/ArcForges-Design/blob/f7966d9953a4c5dc9b59b321fdae4940bb7babb8/docs/assurance/reference-coverage-and-provenance.md#31-current-repository-implementation-profile)
+The [accepted Design profile](https://github.com/ArcForges/ArcForges-Design-Parallel/blob/f7966d9953a4c5dc9b59b321fdae4940bb7babb8/docs/assurance/reference-coverage-and-provenance.md#31-current-repository-implementation-profile)
 governs this Apache owner. The retired initialization repository is not an input.
 The inventory covers tracked files and nonignored additions. The .NET MAUI sources,
 the Hello transport, the host and policy tests, the eng tooling and the release
