@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 name: CI
 
+# Owner (deku2026) PRs are verified by the local pre-push hook (eng/verify.py, AD-0016), so the validation and security
+# jobs skip for them; every other PR (Dependabot included) and a manual dispatch keep the full coverage: both MAUI legs,
+# the security workflow called below (so that `Verify` requires it) and the workflow lint. A main push runs only
+# delivery: the Linux MAUI leg, which builds and stages the candidate, and `publish`, which signs and publishes it. The
+# security workflow keeps its own weekly schedule.
 on:
   pull_request:
   push:
@@ -17,6 +22,7 @@ concurrency:
 jobs:
   workflow-lint:
     name: Workflow lint
+    if: github.event_name != 'push' && !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -32,14 +38,18 @@ jobs:
           tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
           "$RUNNER_TEMP/actionlint" -color
 
+  # Validation on both OSes for every PR except the owner's and for a dispatch; on a main push only the Linux leg runs,
+  # as delivery: it builds and stages the candidate that publish signs, and skips the steps that only validate (the
+  # merged PR was verified before merge, by the owner's pre-push hook or by the full PR CI).
   maui:
     name: MAUI (${{ matrix.os }})
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: ${{ fromJSON(github.event_name == 'push' && '["ubuntu-latest"]' || '["ubuntu-latest", "windows-latest"]') }}
     outputs:
       version_name: ${{ steps.version.outputs.version_name }}
       version_code: ${{ steps.version.outputs.version_code }}
@@ -106,6 +116,7 @@ jobs:
           VERSION_CODE: ${{ steps.version.outputs.version_code }}
         run: python eng/build_identity.py --maui --observed-sdk "$(dotnet --version)" --version "$VERSION_NAME" --code "$VERSION_CODE"
       - name: Build the identity project (Debug)
+        if: github.event_name != 'push'
         shell: bash
         env:
           VERSION_NAME: ${{ steps.version.outputs.version_name }}
@@ -125,12 +136,13 @@ jobs:
         shell: bash
         run: python eng/maui_identity.py --apk "src/ArcForges.Mobile/bin/Release/net10.0-android/com.arcforges.mobile-Signed.apk" --configuration Release
       - name: Offline host and policy tests
+        if: github.event_name != 'push'
         shell: bash
         run: |
           dotnet test tests/ArcForges.Mobile.Policy/ArcForges.Mobile.Policy.csproj -c Release --no-restore --logger "console;verbosity=normal"
           dotnet test tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release --no-restore --logger "console;verbosity=normal"
       - name: Check repository and offline tooling tests
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && github.event_name != 'push'
         run: |
           python eng/mobile.py check
           python -m unittest discover -s eng/tests -v
@@ -172,15 +184,18 @@ jobs:
 
   security:
     name: Security
+    if: github.event_name != 'push' && !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026')
     uses: ./.github/workflows/security.yml
     permissions:
       contents: read
       pull-requests: read
       security-events: write
 
+  # The required check (ruleset): skipped for owner PRs, which a skipped job satisfies; for every other PR and a dispatch
+  # it requires both MAUI legs, every security job and the workflow lint. A main push does not run it.
   verify:
     name: Verify
-    if: always()
+    if: always() && github.event_name != 'push' && !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026')
     needs: [maui, security, workflow-lint]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -192,13 +207,14 @@ jobs:
           WORKFLOW_LINT: ${{ needs.workflow-lint.result }}
         run: test "$MAUI" = success && test "$SECURITY" = success && test "$WORKFLOW_LINT" = success
 
-
+  # Delivery: it signs and publishes the candidate that the Linux MAUI leg of this run staged, and never runs after a
+  # failed or skipped build. Its environment, secrets and steps are unchanged.
   publish:
     name: Publish Android (.NET MAUI) prerelease
     if: >-
       !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/main' &&
-      needs.verify.result == 'success'
-    needs: [maui, verify]
+      needs.maui.result == 'success'
+    needs: [maui]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: android-release
@@ -239,7 +255,7 @@ jobs:
           Android .NET MAUI build from commit $GITHUB_SHA.
 
           Install the APK on Android 8.0 or newer. A device that holds a debug-signed build must uninstall it first; no data migration is provided.
-          Windows and Linux builds, offline host and policy tests, the MAUI closure and notice checks, the 16 KB alignment check and the identity gate passed before signing. Device, emulator and live Cloud checks are local opt-in and were not run by CI.
+          This run built the Release APK (Mono AOT, R8) on Linux from that commit and passed its identity gate, the MAUI closure and notice checks, the Linux licence evidence and the 16 KB alignment check before signing. The Windows and Linux Debug and Release builds, the offline host and policy tests and the repository checks ran before the merge, in the pull request's verification: the owner's local pre-push verification on Windows and WSL, or the pull request's hosted CI. Device, emulator and live Cloud checks are local opt-in and were not run.
           See release.json for candidate hashes and the signing certificate, maui-archive.json for the release identity, and SHA256SUMS for the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/maui-release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME (.NET MAUI)" --prerelease --notes-file "$RUNNER_TEMP/maui-release-notes.md"

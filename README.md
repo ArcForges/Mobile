@@ -22,7 +22,7 @@ The shipped projects live under `src/`: `ArcForges.Mobile` (the app), `ArcForges
 Enter a name and press **Say hello** to call Cloud. The app shows progress, the server's greeting or a recoverable error. The call has a five-second RPC deadline and a ten-second call timeout, and it never retries automatically. The anonymous Hello needs no login, API token or Cloudflare account.
 
 ```sh
-python eng/mobile.py hooks
+python eng/verify.py install
 python eng/mobile.py check
 dotnet build src/ArcForges.Mobile/ArcForges.Mobile.csproj -f net10.0-android -c Debug
 dotnet test tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Release
@@ -30,7 +30,7 @@ dotnet test tests/ArcForges.Mobile.Tests/ArcForges.Mobile.Tests.csproj -c Releas
 
 Install the workload set and the Android SDK components from the table above before building. Set `ANDROID_HOME` to an SDK that contains them. See [development.md](docs/development.md) for the checks and [maui-toolchain.md](docs/maui-toolchain.md) for the pinned toolchain and its local gaps.
 
-Main-branch pushes build and test the MAUI candidate on Windows and Linux. After the required gates pass, the protected `android-release` environment signs the candidate and publishes it to [GitHub Releases](https://github.com/ArcForges/Mobile/releases) as an Android prerelease tagged `android-VERSION`. The release is a signed APK with its companions, and it is directly installable on Android 8.0 or newer. No AAB is produced by the MAUI path; the Play channel is out of scope. Pull requests and manual validation runs do not publish. See the [release procedure](docs/releasing.md) for the exact boundary.
+Pull requests are verified before merge: the owner's by the local pre-push verification on Windows and WSL ([AGENTS.md](AGENTS.md), Local verification), every other one by hosted CI on Windows and Linux. Main-branch pushes then build the MAUI candidate on Linux, and the protected `android-release` environment signs the candidate and publishes it to [GitHub Releases](https://github.com/ArcForges/Mobile/releases) as an Android prerelease tagged `android-VERSION`. The release is a signed APK with its companions, and it is directly installable on Android 8.0 or newer. No AAB is produced by the MAUI path; the Play channel is out of scope. Pull requests and manual validation runs do not publish. See the [release procedure](docs/releasing.md) for the exact boundary.
 
 ## Platform and distribution matrix
 

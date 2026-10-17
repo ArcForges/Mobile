@@ -143,6 +143,8 @@
     "eng/tests/test_maui_notices.py",
     "eng/tests/test_maui_release.py",
     "eng/tests/test_mobile.py",
+    "eng/verify.py",
+    "eng/verify_steps.py",
     "global.json",
     "src/ArcForges.Mobile/App.cs",
     "src/ArcForges.Mobile/ArcForges.Mobile.csproj",

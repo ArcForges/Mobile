@@ -1,5 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: Apache-2.0
+# Whitespace errors in the working tree and the staged changes. Builds and tests run before a push, in the pre-push
+# verification (eng/verify.py; AGENTS.md, Local verification), not on commit.
 set -eu
 git diff --check
 git diff --cached --check

@@ -35,6 +35,14 @@ class ReleaseGuardsTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     mobile.version()
 
+    def test_the_local_version_ignores_the_run_and_is_never_a_ci_version(self):
+        with patch.dict(os.environ, {"GITHUB_RUN_NUMBER": "42", "GITHUB_RUN_ATTEMPT": "1"}):
+            local = mobile.version(local=True)
+            self.assertEqual({"version_code": 1, "version_name": "0.1.0-local"}, local)
+            self.assertNotEqual(mobile.version(), local)
+        local["version_code"] = 2
+        self.assertEqual(1, mobile.version(local=True)["version_code"])  # a copy, never the shared constant
+
 
 if __name__ == "__main__":
     unittest.main()

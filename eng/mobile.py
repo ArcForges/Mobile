@@ -41,7 +41,14 @@ def sha256(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def version():
+# The version of a local build (the pre-push verification, eng/verify_steps.py): never a CI version, so a local
+# candidate can never be signed or published (maui_verify_candidate compares it with the run's CI version).
+LOCAL_VERSION = {"version_code": 1, "version_name": "0.1.0-local"}
+
+
+def version(local=False):
+    if local:
+        return dict(LOCAL_VERSION)
     number = int(os.environ.get("GITHUB_RUN_NUMBER", "0"))
     attempt = int(os.environ.get("GITHUB_RUN_ATTEMPT", "0"))
     if not (1 <= number <= 20_999_999 and 1 <= attempt <= 99):
@@ -143,8 +150,11 @@ def maui_verify_candidate(directory):
     return info
 
 
-def maui_stage(destination):
-    """Seal the Release MAUI APK, its companions and the build identity as one immutable candidate."""
+def maui_stage(destination, local=False):
+    """Seal the Release MAUI APK, its companions and the build identity as one immutable candidate.
+
+    In CI the candidate carries the run's version and GITHUB_SHA; a local candidate (`--local`) carries LOCAL_VERSION and
+    the checked-out commit."""
     import build_identity
     if destination.exists():
         raise ValueError(f"Use an empty MAUI candidate directory: {destination}")
@@ -162,11 +172,12 @@ def maui_stage(destination):
     shutil.copyfile(ROOT / maui_notices.DISTRIBUTION_OUTPUT, destination / "THIRD_PARTY_NOTICES.txt")
     shutil.copyfile(ROOT / maui_notices.EVIDENCE, destination / "licence-closure.json")
     shutil.copyfile(ROOT / build_identity.MAUI_OUTPUT, destination / "build-identity.json")
-    info = version()
-    info.update(commit=os.environ["GITHUB_SHA"], package=MAUI_PACKAGE, track=MAUI_TRACK)
+    info = version(local)
+    commit = run("git", "rev-parse", "HEAD", capture=True) if local else os.environ["GITHUB_SHA"]
+    info.update(commit=commit, package=MAUI_PACKAGE, track=MAUI_TRACK)
     identity = maui_identity.inspect_apk(apk, ROOT, release=False, configuration="Release")
     if identity["identity"]["versionCode"] != str(info["version_code"]) or identity["identity"]["versionName"] != info["version_name"]:
-        raise ValueError("MAUI APK version differs from the allocated CI version")
+        raise ValueError("MAUI APK version differs from the allocated version")
     resources.save(destination / "maui-archive.json",
                    resources.maui_archive(apk, destination / "build-identity.json", ROOT, release=False,
                                           assemblies_root=ROOT / "src/ArcForges.Mobile/obj/Release/net10.0-android"))
@@ -228,26 +239,26 @@ def maui_sign(candidate, destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["check", "version", "hooks", "maui-stage", "maui-sign"])
+    parser.add_argument("command", choices=["check", "version", "maui-stage", "maui-sign"])
+    parser.add_argument("--local", action="store_true",
+                        help="version and maui-stage: the local version and the checked-out commit instead of the CI run's")
     parser.add_argument("--candidate", type=Path, default=ROOT / "artifacts/maui-candidate")
     parser.add_argument("--output", type=Path, default=ROOT / "artifacts/maui-release")
     args = parser.parse_args()
+    if args.local and args.command not in {"version", "maui-stage"}:
+        parser.error("--local applies to version and maui-stage only")
     if args.command == "check":
         repository_check()
     elif args.command == "version":
-        data = version()
+        data = version(args.local)
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as stream:
                 stream.writelines(f"{key}={value}\n" for key, value in data.items())
         print(json.dumps(data))
     elif args.command == "maui-stage":
-        maui_stage(args.candidate)
-    elif args.command == "maui-sign":
-        maui_sign(args.candidate, args.output)
+        maui_stage(args.candidate, args.local)
     else:
-        run("git", "config", "extensions.worktreeConfig", "true")
-        run("git", "config", "--worktree", "core.hooksPath", ".githooks")
-        print("Enabled hooks for this checkout/worktree.")
+        maui_sign(args.candidate, args.output)
 
 
 if __name__ == "__main__":

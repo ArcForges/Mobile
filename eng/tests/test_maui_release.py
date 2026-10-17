@@ -110,6 +110,14 @@ class MauiSealTests(unittest.TestCase):
             mobile.maui_sign(self.candidate, self.directory / "release")
         return self.directory / "release"
 
+    def test_a_local_candidate_is_never_signed(self):
+        info = json.loads((self.candidate / "candidate.json").read_text(encoding="utf-8"))
+        info.update(mobile.version(local=True))
+        (self.candidate / "candidate.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "version differs"):
+            self.sign(BuildTools())
+        self.assertFalse((self.directory / "release").exists())
+
     def test_the_signed_release_seal_lists_every_member_and_public_verification_reads_it(self):
         release = self.sign(BuildTools())
         seal = json.loads((release / "release.json").read_text(encoding="utf-8"))
