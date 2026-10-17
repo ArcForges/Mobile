@@ -134,8 +134,11 @@ VERSION_NAME, VERSION_CODE = "0.1.0-local", "1"
 VERSION_PROPERTIES = f"-p:ArcForgesAndroidVersionName={VERSION_NAME} -p:ArcForgesAndroidVersionCode={VERSION_CODE}"
 
 # Timeouts are about five to ten times the durations measured on this workstation (18 logical processors, both lanes
-# concurrently; eng/verify.py's summary.json), with a floor of two to five minutes; the restores allow a cold NuGet
-# HTTP cache, the builds a cold Mono AOT compilation.
+# concurrently; eng/verify.py's summary.json), with a floor of two to five minutes. Windows, cold (no bin/obj) and warm:
+# restore into the emptied folder 51 s / 16 s, Debug build 62 s / 12 s, Release build (Mono AOT, R8) 175 s / 100 s, APK
+# identity gate 6 s, tests 12 s / 6 s, notices 3 s; the whole profile 316 s / 142 s. The WSL MAUI builds could not be
+# measured yet (WSL Debian lacks the Android SDK, a JDK and the pinned workloads); their timeouts are ten times the hosted
+# Linux leg (Debug 79 s, Release 147 s on ubuntu-latest).
 
 # The environment of ci.yml without CI=true (see above). MSBuild node reuse is off, so that no build node outlives its step
 # (a step's process tree is what a timeout or a failure stops).
@@ -292,31 +295,31 @@ STEPS = [
     win("win-restore", pwsh(
         "if (Test-Path $env:NUGET_PACKAGES) { Remove-Item -Recurse -Force $env:NUGET_PACKAGES }; "
         "New-Item -ItemType Directory -Force $env:NUGET_PACKAGES | Out-Null; "
-        + checked(*(f"dotnet restore {p} --locked-mode" for p in RESTORE_PROJECTS))), 900),
+        + checked(*(f"dotnet restore {p} --locked-mode" for p in RESTORE_PROJECTS))), 600),
     win("win-build-identity", pwsh(checked(
         f"python eng/build_identity.py --maui --observed-sdk (dotnet --version) --version {VERSION_NAME} "
         f"--code {VERSION_CODE}")), 120),
-    win("win-build-debug", pwsh(checked(f"dotnet {BUILD} -c Debug")), 1800),
-    win("win-build-release", pwsh(checked(f"dotnet {BUILD} -c Release")), 2400),
-    win("win-apk-identity", ["python", "eng/maui_identity.py", "--apk", APK, "--configuration", "Release"], 300),
-    win("win-test", pwsh(checked(*(f"dotnet test {p} -c Release {TEST}" for p in TEST_PROJECTS))), 900),
-    win("win-notices", pwsh(checked(*(f"python eng/maui_notices.py {c}" for c in NOTICES))), 300),
+    win("win-build-debug", pwsh(checked(f"dotnet {BUILD} -c Debug")), 900),
+    win("win-build-release", pwsh(checked(f"dotnet {BUILD} -c Release")), 1800),
+    win("win-apk-identity", ["python", "eng/maui_identity.py", "--apk", APK, "--configuration", "Release"], 120),
+    win("win-test", pwsh(checked(*(f"dotnet test {p} -c Release {TEST}" for p in TEST_PROJECTS))), 300),
+    win("win-notices", pwsh(checked(*(f"python eng/maui_notices.py {c}" for c in NOTICES))), 120),
     # ci.yml maui (ubuntu-latest), with its Linux-only steps; the repository check and the tooling tests need no
     # workload, so they run before the preflight
     wsl("clone-identity", "git checkout -q -B arcforges-verify {sha}; git update-ref refs/remotes/origin/main {base}", 60),
     wsl("fresh-outputs", "rm -rf artifacts build", 120),
     wsl("repository-check", "python eng/mobile.py check", 300),
-    wsl("tooling-tests", "python -m unittest discover -s eng/tests -v", 600),
+    wsl("tooling-tests", "python -m unittest discover -s eng/tests -v", 300),
     wsl("preflight", f"python -I -c \"$(printf %s {PREFLIGHT_BASE64} | base64 -d)\" wsl", 120),
     wsl("restore", f"rm -rf \"$NUGET_PACKAGES\"; mkdir -p \"$NUGET_PACKAGES\"; "
-        f"for p in {' '.join(RESTORE_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 900),
+        f"for p in {' '.join(RESTORE_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 600),
     wsl("build-identity", f"python eng/build_identity.py --maui --observed-sdk \"$(dotnet --version)\" "
         f"--version {VERSION_NAME} --code {VERSION_CODE}", 120),
-    wsl("build-debug", f"dotnet {BUILD} -c Debug", 1800),
-    wsl("build-release", f"dotnet {BUILD} -c Release", 2400),
-    wsl("apk-identity", f"python eng/maui_identity.py --apk {APK} --configuration Release", 300),
-    wsl("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 900),
-    wsl("notices", "; ".join(f"python eng/maui_notices.py {c}" for c in NOTICES), 300),
+    wsl("build-debug", f"dotnet {BUILD} -c Debug", 900),
+    wsl("build-release", f"dotnet {BUILD} -c Release", 1800),
+    wsl("apk-identity", f"python eng/maui_identity.py --apk {APK} --configuration Release", 120),
+    wsl("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 300),
+    wsl("notices", "; ".join(f"python eng/maui_notices.py {c}" for c in NOTICES), 120),
     wsl("linux-evidence", "python eng/maui_notices.py linux-evidence "
         "--dotnet-root \"$(dirname \"$(readlink -f \"$(command -v dotnet)\")\")\"", 120),
     wsl("stage", "python eng/mobile.py maui-stage --local --candidate artifacts/maui-candidate", 300),
