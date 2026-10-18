@@ -11,8 +11,11 @@ run the full Android build only on Windows locally."; "windows is enough for and
 - lane `wsl` (WSL Debian, in ~/.cache/arcforges-verify/Mobile): the steps of `MAUI (ubuntu-latest)` that need no Android
   toolchain: the repository check and the tooling tests (`python eng/mobile.py check`,
   `python -m unittest discover -s eng/tests -v`), and the locked restore and run of the offline host and policy tests
-  (net10.0; their restore evaluates the net10.0-android target of the referenced libraries, which needs an Android
-  workload manifest for the SDK band, but nothing Android is built or run).
+  (net10.0). Their restore evaluates the net10.0-android target of the referenced libraries, which needs an android or
+  maui-android workload manifest for the SDK band (nothing Android is built or run), so the lane starts with
+  `wsl-preflight` (WSL_PREFLIGHT): the SDK that global.json pins and such a manifest, or a failure that names the
+  command security.yml's codeql-csharp uses for the same restore, `dotnet workload install android maui-android
+  --version 10.0.401`, instead of NETSDK1147 from the restore.
 - lane `scan`: the whitespace check of the pushed range (the former pre-push hook, `git diff --check`) and the secret
   scan of security.yml (the pinned gitleaks image digest, .gitleaks.toml) over the pushed range ({range}), in WSL Docker
   without network and with a read-only mount of the clone; lane `actionlint` (`Workflow lint`) only when
@@ -58,6 +61,7 @@ Every change runs the full profile: the policy suite's forbidden-name scan, the 
 text checks read every tracked file, Markdown included.
 """
 
+import base64
 import os
 import subprocess
 import sys
@@ -227,6 +231,40 @@ PREFLIGHT = (
     "      f'{pins[\"maui-android\"]}), Android SDK {android} ({\", \".join(wanted)}), {jdk.splitlines()[0]}')\n"
 )
 
+# The WSL lane's prerequisite for the host-test restore (see above), checked read-only from the pushed commit's global.json
+# and eng/policy/dotnet-toolchain.json; passed to WSL as base64, so that no quoting layer between wsl.exe and bash
+# changes the program.
+WSL_PREFLIGHT = (
+    "import json, re, shutil, subprocess, sys\n"
+    "sdk = json.load(open('global.json', encoding='utf-8'))['sdk']['version']\n"
+    "workload_set = json.load(open('eng/policy/dotnet-toolchain.json', encoding='utf-8'))['workloadSet']['version']\n"
+    "command = f'dotnet workload install android maui-android --version {workload_set}'\n"
+    "dotnet = shutil.which('dotnet')\n"
+    "if not dotnet:\n"
+    "    sys.exit(f'WSL Debian has no dotnet on PATH; install the .NET SDK {sdk} (Env.md: ~/.dotnet), then run, in WSL '\n"
+    "             f'Debian in a Mobile checkout: {command}')\n"
+    "def run(*args):\n"
+    "    result = subprocess.run([dotnet, *args], capture_output=True, text=True)\n"
+    "    return (result.stdout + result.stderr).strip()\n"
+    "problems = []\n"
+    "selected = run('--version')\n"
+    "if selected != sdk:\n"
+    "    problems.append(f'{dotnet} selects SDK {selected!r} here, not {sdk} as global.json pins (install that SDK into '\n"
+    "                    'the WSL .NET root)')\n"
+    "listing = run('workload', 'list')\n"
+    "manifests = re.findall(r'^(android|maui-android)\\s+(\\S+)', listing, re.MULTILINE)\n"
+    "if not manifests:\n"
+    "    problems.append('no android or maui-android workload manifest is installed for this SDK band, so the locked '\n"
+    "                    'restore of the host test projects cannot evaluate the net10.0-android target of the libraries '\n"
+    "                    f'they reference (NETSDK1147). Prerequisite (an install by the user), in WSL Debian in a Mobile '\n"
+    "                    f'checkout: {command}')\n"
+    "if problems:\n"
+    "    sys.exit('The WSL host-test toolchain is incomplete: ' + '; '.join(problems) + '. Then verify again.')\n"
+    "print(f'SDK {sdk} at {dotnet}; workload manifests ' + ', '.join(f'{n} {v}' for n, v in manifests)\n"
+    "      + ' (only evaluated by the host-test restore; nothing Android is built here)')\n"
+)
+WSL_PREFLIGHT_BASE64 = base64.b64encode(WSL_PREFLIGHT.encode("utf-8")).decode("ascii")
+
 # security.yml's secret scan (same pinned image digest and redaction, with .gitleaks.toml named explicitly), over the
 # pushed range, without network and with a read-only mount of the verification clone.
 SECRET_SCAN = (
@@ -303,6 +341,7 @@ STEPS = [
     win("win-notices", pwsh(checked(*(f"python eng/maui_notices.py {c}" for c in NOTICES))), 120),
     win("win-stage", ["python", "eng/mobile.py", "maui-stage", "--local", "--candidate", "artifacts/maui-candidate"], 300),
     # ci.yml maui (ubuntu-latest): the steps that need no Android toolchain (LINUX_ANDROID_GAP)
+    wsl("wsl-preflight", f"python -I -c \"$(printf %s {WSL_PREFLIGHT_BASE64} | base64 -d)\"", 120),
     wsl("clone-identity", "git checkout -q -B arcforges-verify {sha}; git update-ref refs/remotes/origin/main {base}", 60),
     wsl("fresh-outputs", "rm -rf artifacts build", 120),
     wsl("repository-check", "python eng/mobile.py check", 300),
