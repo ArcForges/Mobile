@@ -51,12 +51,9 @@ Build facts that shaped the manifest and the project:
 
 ## Local toolchain setup
 
-The Windows host has two .NET roots, and only one of them can build the pinned MAUI tuple (correction recorded by AND.40 unit 1, 2026-10-09; migration brief section 10, decision 13):
+The pre-push verification (`eng/verify_steps.py`) builds with the committed pin and no adapter, on Windows only (the user's decision of 2026-10-17; the Linux Android build stays in hosted CI and the main-push candidate job), with the SDK root that `DOTNET_ROOT` names: on this workstation the user root `C:\Users\J7Rdm\.dotnet`, which holds SDK 10.0.400 and workload set 10.0.401 (`android` 36.1.69, `maui-android` 10.0.20). Its preflight applies the `dotnet workload list` guards of the maui job and names the exact command otherwise, for example `& "C:\Users\J7Rdm\.dotnet\dotnet.exe" workload update --version 10.0.401` from set 10.0.400. The local candidate is built from a clean checkout and records `dirty: false`.
 
-- `C:\Program Files\dotnet` holds SDK 10.0.401 and the pinned workloads `android` 36.1.69 and `maui-android` 10.0.20. Every MAUI build on this host uses it.
-- `C:\Users\J7Rdm\.dotnet` holds SDK 10.0.400, the committed pin, but no `maui-android` workload and no Android or MAUI packs. It reports only the Visual Studio `android` 36.1.2 and `maui-windows` 10.0.0 manifests, so a build there cannot reach the pinned tuple. The 10.0.400 pin is first exercised by hosted CI (AND.40 unit 5).
-
-For local builds only, replace `global.json` with this uncommitted adapter, which selects SDK 10.0.401 under Program Files. Build, and restore the committed file before any commit or check:
+The record below is the 2026-10-09 state (AND.40 unit 1; migration brief section 10, decision 13), when only `C:\Program Files\dotnet` (SDK 10.0.401) held the pinned workloads and the user root had no Android or MAUI packs. The `localWindowsAdapter` note in `eng/policy/dotnet-toolchain.json` records it. A manual build on such a root replaces `global.json` with this uncommitted adapter, which selects SDK 10.0.401 under Program Files, and restores the committed file before any commit or check:
 
 ```json
 {
@@ -70,7 +67,7 @@ For local builds only, replace `global.json` with this uncommitted adapter, whic
 
 While the adapter is in place, the offline gate fails by design (`global.json must pin the reviewed SDK exactly`). The committed `global.json` never names 10.0.401.
 
-The local gate keeps the adapter until `maui-stage` has derived the build identity from the working tree, then restores the committed file before the repository checks, because those checks require the committed pin. A local candidate therefore records `dirty: true`. Hosted CI never swaps `global.json`, so a hosted candidate records `dirty: false`. In both cases the identity reads `global.json` from HEAD (`committed_source`), so the SDK pin it records is the committed one.
+A manual adapter build keeps the adapter until `maui-stage` has derived the build identity from the working tree, then restores the committed file before the repository checks, because those checks require the committed pin. Such a candidate therefore records `dirty: true`. Hosted CI and the pre-push verification never swap `global.json`, so their candidates record `dirty: false`. In both cases the identity reads `global.json` from HEAD (`committed_source`), so the SDK pin it records is the committed one.
 
 Use a clean package folder for restores that establish or verify the lock, so the lock is built only from nuget.org downloads:
 
@@ -136,11 +133,11 @@ The Kotlin jobs, the Kotlin publish and the Gradle path were retired in AND.40 P
 
 ### Restore hygiene (AND.40 decision 17)
 
-Every restore uses `--locked-mode` with `NUGET_PACKAGES` pointing at a clean folder outside the repository. A default restore on the Windows host can take `Microsoft.Maui.Controls.Build.Tasks` and `Microsoft.Maui.Resizetizer` 10.0.20 from `C:\Program Files\dotnet\library-packs`, and their hashes differ from nuget.org. The CI maui job restores into `$RUNNER_TEMP/nuget-maui-<run>-<attempt>` and the local gate uses a fresh folder for each run. Lock files are stored as LF, and `lockSha256` is computed over the LF bytes.
+Every restore uses `--locked-mode` with `NUGET_PACKAGES` pointing at a clean folder outside the repository. A default restore on the Windows host can take `Microsoft.Maui.Controls.Build.Tasks` and `Microsoft.Maui.Resizetizer` 10.0.20 from `C:\Program Files\dotnet\library-packs`, and their hashes differ from nuget.org. The CI maui job restores into `$RUNNER_TEMP/nuget-maui-<run>-<attempt>`, and the pre-push verification empties its NuGet folder before every run. Lock files are stored as LF, and `lockSha256` is computed over the LF bytes.
 
 ### Workloads and the SDK pin (AND.40 decision 3)
 
-The maui job runs `dotnet workload install android maui-android --version 10.0.401` on the SDK pinned by `global.json` (10.0.400). The workload set is pinned explicitly because an unversioned install takes the newest set, and 10.0.401.1 brings `maui-android` 10.0.110, which the admitted closure does not contain. The job then checks that `dotnet workload list` reports `Workload version: 10.0.401` and lists `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The Windows host builds with the 10.0.401 adapter, because the 36.1.69 and 10.0.20 workloads are installed only under `C:\Program Files\dotnet` (decision 13).
+The maui job runs `dotnet workload install android maui-android --version 10.0.401` on the SDK pinned by `global.json` (10.0.400). The workload set is pinned explicitly because an unversioned install takes the newest set, and 10.0.401.1 brings `maui-android` 10.0.110, which the admitted closure does not contain. The job then checks that `dotnet workload list` reports `Workload version: 10.0.401` and lists `android` 36.1.69 and `maui-android` 10.0.20. If the band does not provide them, the job fails with the decision 3 message. The reviewed fallback is SDK 10.0.401 under a new admission; it is not applied silently. The pre-push verification applies the same guards read-only (its preflight) and installs nothing. Before the user root held the pinned workloads, the Windows host built with the 10.0.401 adapter under `C:\Program Files\dotnet` (decision 13).
 
 ### Actions
 
@@ -157,7 +154,7 @@ The maui job runs `dotnet workload install android maui-android --version 10.0.4
 ### MAUI candidate and release (PR A)
 
 - `python eng/mobile.py maui-stage` reads the Release APK, checks its identity with `maui_identity.inspect_apk`, checks that it embeds its own `build-identity.json` (`resources.maui_archive`), removes its META-INF signature entries (the MSBuild Release APK is signed with the debug key), aligns it with `zipalign -P 16 -f 4`, checks `zipalign -c -P 16 4`, proves the unsigned candidate carries no binutils member (`maui_notices.apk_host_only`, decision 20), and seals `candidate.json`.
-- The publish job runs on main only, in `android-release`, after `verify`. `python eng/mobile.py maui-sign` verifies the candidate and its build identity against the checkout, refuses to run while any notice escalation is open (`maui_notices.py release-ready`), signs with the persistent identity through `apksigner` (the secrets are the Kotlin secrets, with the same names), verifies the certificate fingerprint `7a8b3b14...`, proves the signed APK carries no binutils member, runs `maui_identity.inspect_apk(..., release=True)`, derives `maui-archive.json` from the signed APK, and writes `release.json` (with the `sha256` map of its members) and `SHA256SUMS`.
+- The publish job runs on main only, in `android-release`, after the Linux `maui` leg of the same run, which staged the candidate (main pushes run no `Verify`; the PR was verified before merge). `python eng/mobile.py maui-sign` verifies the candidate and its build identity against the checkout, refuses to run while any notice escalation is open (`maui_notices.py release-ready`), signs with the persistent identity through `apksigner` (the secrets are the Kotlin secrets, with the same names), verifies the certificate fingerprint `7a8b3b14...`, proves the signed APK carries no binutils member, runs `maui_identity.inspect_apk(..., release=True)`, derives `maui-archive.json` from the signed APK, and writes `release.json` (with the `sha256` map of its members) and `SHA256SUMS`.
 - The release tag is `android-VERSION` (AND.40 PR B; the PR A prereleases under `android-maui-VERSION` stay as published history). The track publishes the APK, its companions and `maui-archive.json`. It publishes no AAB: the MAUI release path is APK only in PR A.
 - `python eng/published.py maui-prepare` verifies an anonymously downloaded MAUI prerelease: the seal, every member's digest, the persistent signature, the release archive re-derived from the public APK, and the binutils proof of the public APK. It is local opt-in only.
 - Build tools come from `eng/policy/dotnet-toolchain.json` (`36.1.0`), not the Kotlin `37.0.0`.

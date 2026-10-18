@@ -4,9 +4,9 @@ This procedure describes the repository's current Android-only release channel: 
 
 ## Pipeline and immutable candidate
 
-`CI` runs on PRs, main pushes and manual validation. The `maui` job runs on Windows and Linux: it installs the pinned workload set, restores the projects with locked restores into a clean `NUGET_PACKAGES` folder, builds the Debug and Release (Mono AOT, R8) APKs, runs the host and policy tests and checks the notice closure. On Linux it also runs the repository and eng checks, the licence evidence, and stages the MAUI candidate: the release APK with its mapping, notices, licence closure and build identity. `security` runs the dependency review, the secret scan and CodeQL. `workflow-lint` runs actionlint. `Verify` requires `maui`, `security` and `workflow-lint`; it has no emulator, live Cloud or public-install dependency.
+`CI` runs on PRs, main pushes and manual validation. For every PR except the owner's (`deku2026`, verified by the local pre-push hook, AD-0016) and for a manual run, the `maui` job runs on Windows and Linux: it installs the pinned workload set, restores the projects with locked restores into a clean `NUGET_PACKAGES` folder, builds the Debug and Release (Mono AOT, R8) APKs, runs the host and policy tests and checks the notice closure. On Linux it also runs the repository and eng checks, the licence evidence, and stages the MAUI candidate: the release APK with its mapping, notices, licence closure and build identity. `security` runs the dependency review, the secret scan and CodeQL. `workflow-lint` runs actionlint. `Verify` requires `maui`, `security` and `workflow-lint`; it has no emulator, live Cloud or public-install dependency. On a main push only the Linux `maui` leg runs, as delivery: the workload set, the locked restores, the build identity, the Release build, its identity gate, the closure and notice set, the licence evidence and the candidate staging; the steps that only validate were run before the merge.
 
-Only a main push enters `android-release`. The `publish` job binds the sealed MAUI candidate to its source and run, signs its APK with the persistent key (`zipalign -P 16`, `apksigner`), checks the certificate and the host-only notice proof, and seals `release.json` and `SHA256SUMS`. It does not rebuild the application. GitHub receives the signed APK and its companions. Checksums are distribution metadata, not a demand for repeated downloads.
+Only a main push enters `android-release`. The `publish` job needs the Linux `maui` leg of the same run and binds the sealed MAUI candidate to its source and run, signs its APK with the persistent key (`zipalign -P 16`, `apksigner`), checks the certificate and the host-only notice proof, and seals `release.json` and `SHA256SUMS`. It does not rebuild the application. GitHub receives the signed APK and its companions. Checksums are distribution metadata, not a demand for repeated downloads.
 
 Successful release creation is the publication boundary. No anonymous download, install, emulator, upgrade or live Cloud test follows it. PR and manual CI never publish. Green build or publication status does not claim physical-device, store or full commercial acceptance.
 
@@ -38,7 +38,7 @@ The release tag and title are `android-VERSION` and `Android VERSION (.NET MAUI)
 
 ## Failures, retries and recovery
 
-- A failed build or security check prevents signing and publishing. Inspect the first failed job.
+- A failed candidate build prevents signing and publishing. Inspect the first failed job.
 - Missing signing settings cause a clear publish-job failure; configure them before the first main merge.
 - Diagnose the failure before any rerun. If a rerun is necessary, rerun **all jobs**, not only publication: a new run attempt has a new version and candidate artifact name. This prevents combining candidates from different attempts.
 - If a release creation partially succeeded, inspect the existing tag, release and recorded asset hashes. Do not overwrite immutable published assets. Fix forward with a new main commit and therefore a new version.

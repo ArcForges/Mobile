@@ -1,4 +1,6 @@
 * text=auto eol=lf
+.githooks/* text eol=lf
+eng/*.py text eol=lf
 *.png binary
 *.webp binary
 *.ico binary
