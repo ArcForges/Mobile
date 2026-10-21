@@ -24,8 +24,8 @@ run the full Android build only on Windows locally."; "windows is enough for and
 
 Not verified locally (LINUX_ANDROID_GAP, printed on every run): the Linux Android build (Debug and Release), its APK
 identity gate, the Linux notice set, the Linux licence evidence of the Android workload and the Linux-built candidate.
-The Linux host needs no Android toolchain and none is installed for this. They run where they run today: in the main-push
-candidate job (the Linux `maui` leg, which builds the candidate that `publish` signs) and in the CI of every other PR.
+The Linux leg itself needs no Android SDK or JDK. These run where they run today: in the main-push candidate
+job (the Linux `maui` leg, which builds the candidate that `publish` signs) and in the CI of every other PR.
 
 Differences from the hosted jobs:
 - No workload is installed. The Windows leg starts with a read-only preflight (PREFLIGHT) of what the hosted job installs
@@ -349,7 +349,7 @@ STEPS = [
     linux("repository-check", "python eng/mobile.py check", 300),
     linux("tooling-tests", "python -m unittest discover -s eng/tests -v", 300),
     linux("restore", f"rm -rf \"$NUGET_PACKAGES\"; mkdir -p \"$NUGET_PACKAGES\"; "
-        f"for p in {' '.join(TEST_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 600),
+          f"for p in {' '.join(TEST_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 600),
     linux("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 300),
     # the former pre-push hook, and security.yml's secret scan, over the pushed range; actionlint when a workflow changed
     Step("whitespace", "linux", "git diff --check {base} {sha}", timeout=120, lane="scan"),
