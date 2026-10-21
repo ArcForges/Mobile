@@ -2,28 +2,29 @@
 """Local verification steps of Mobile, loaded by eng/verify.py (which injects `Step`).
 
 The full profile is every validation job of .github/workflows/ci.yml (and of security.yml where it can run locally),
-each on the host the hosted job used, with one exception the user decided on 2026-10-17 ("Option A, my recommendation:
+each on the host the hosted job used, in two legs on two native machines (eng/verify.py; AGENTS.md), with one exception
+the user decided on 2026-10-17 ("Option A, my recommendation:
 run the full Android build only on Windows locally."; "windows is enough for android"):
 - lane `win` (Windows, in <main checkout>/.worktree/_verify): `MAUI (windows-latest)`: the pinned toolchain preflight, the
   locked restores into an emptied NuGet folder, the build identity, the Debug and Release (Mono AOT, R8) builds, the
   identity gate of the Release APK, the offline host and policy tests, the closure, re-proof and notice set, and the
   staging of a local MAUI candidate (`maui-stage --local`, which hosted CI runs on Linux only).
-- lane `wsl` (WSL Debian, in ~/.cache/arcforges-verify/Mobile): the steps of `MAUI (ubuntu-latest)` that need no Android
+- lane `linux` (Linux, in ~/.cache/arcforges-verify/Mobile): the steps of `MAUI (ubuntu-latest)` that need no Android
   toolchain: the repository check and the tooling tests (`python eng/mobile.py check`,
   `python -m unittest discover -s eng/tests -v`), and the locked restore and run of the offline host and policy tests
   (net10.0). Their restore evaluates the net10.0-android target of the referenced libraries, which needs an android or
   maui-android workload manifest for the SDK band (nothing Android is built or run), so the lane starts with
-  `wsl-preflight` (WSL_PREFLIGHT): the SDK that global.json pins and such a manifest, or a failure that names the
+  `linux-preflight` (LINUX_PREFLIGHT): the SDK that global.json pins and such a manifest, or a failure that names the
   command security.yml's codeql-csharp uses for the same restore, `dotnet workload install android maui-android
   --version 10.0.401`, instead of NETSDK1147 from the restore.
 - lane `scan`: the whitespace check of the pushed range (the former pre-push hook, `git diff --check`) and the secret
-  scan of security.yml (the pinned gitleaks image digest, .gitleaks.toml) over the pushed range ({range}), in WSL Docker
+  scan of security.yml (the pinned gitleaks image digest, .gitleaks.toml) over the pushed range ({range}), in Docker
   without network and with a read-only mount of the clone; lane `actionlint` (`Workflow lint`) only when
   .github/workflows/** changed.
 
 Not verified locally (LINUX_ANDROID_GAP, printed on every run): the Linux Android build (Debug and Release), its APK
 identity gate, the Linux notice set, the Linux licence evidence of the Android workload and the Linux-built candidate.
-WSL Debian has no Android toolchain and none is installed for this. They run where they run today: in the main-push
+The Linux host needs no Android toolchain and none is installed for this. They run where they run today: in the main-push
 candidate job (the Linux `maui` leg, which builds the candidate that `publish` signs) and in the CI of every other PR.
 
 Differences from the hosted jobs:
@@ -36,7 +37,7 @@ Differences from the hosted jobs:
 - The Windows steps use one SDK root whatever shell pushes: DOTNET_ROOT (a persistent user variable on this
   workstation, also set by the environment loaders; Env.md: the user-local .dotnet of the user profile), first on PATH.
   A plain PowerShell otherwise finds C:\\Program Files\\dotnet first through the machine PATH. Without a valid
-  DOTNET_ROOT the Windows tool probe fails and the push is rejected. WSL uses the dotnet of its environment loader.
+  DOTNET_ROOT the Windows tool probe fails and the push is rejected. The Linux leg uses the dotnet of its login shell.
 - The version is the local version of eng/mobile.py (`0.1.0-local`, versionCode 1; hosted: `0.1.0-ci.<run>.<attempt>`
   from the run number), and the build identity is `local.<commit>` (kind `local`; hosted: the run id). `maui-stage
   --local` seals the checked-out commit instead of GITHUB_SHA. A local candidate can never be signed: `maui-sign`
@@ -45,9 +46,9 @@ Differences from the hosted jobs:
   selects in Directory.Build.props are set directly: RestoreLockedMode and ContinuousIntegrationBuild.
 - The NuGet folder is emptied before the locked restores of every run, as the hosted job restores into a new
   `$RUNNER_TEMP/nuget-maui-<run>-<attempt>` (AND.40 decision 17): Windows `<git common dir>/arcforges-verify/nuget-maui`,
-  WSL `~/.cache/arcforges-verify/nuget-maui-Mobile`. Both lanes start without `artifacts/` and `build/`, as a fresh
+  Linux `~/.cache/arcforges-verify/nuget-maui-Mobile`. Both lanes start without `artifacts/` and `build/`, as a fresh
   hosted checkout does; ignored bin/obj outputs stay, so the builds are incremental.
-- The WSL clone has the identity of a pull-request checkout (`clone-identity`): HEAD is a local branch at the pushed
+- The Linux clone has the identity of a pull-request checkout (`clone-identity`): HEAD is a local branch at the pushed
   commit and `origin/main` is the merge base with main, which the provenance check of `mobile.py check` compares against
   (hosted: the PR base from the event). Nothing is fetched from it.
 - Artifacts (the candidate and the reports) are not uploaded; they stay in artifacts/ and build/ until the next run.
@@ -99,7 +100,7 @@ def _common_dir() -> str:
 
 # The Windows NuGet folder: under the clone's verification state, outside every checkout.
 WIN_NUGET = str(Path(_common_dir(), "arcforges-verify", "nuget-maui")) if _common_dir() else ""
-WSL_NUGET = "$HOME/.cache/arcforges-verify/nuget-maui-Mobile"
+LINUX_NUGET = "$HOME/.cache/arcforges-verify/nuget-maui-Mobile"
 
 # The JDK and Android SDK packages the Windows build uses; it never fails on a missing prerequisite (the preflight step
 # names it instead).
@@ -128,7 +129,7 @@ FINGERPRINT = {
         # which git a shell finds differs here (Git Bash: Scoop's build; PowerShell: Git for Windows from the machine
         # PATH), so it would key the pass to the pushing shell instead of the tools that build and test.
     },
-    "wsl": {
+    "linux": {
         "dotnet-sdks": "dotnet --list-sdks | tr '\\n' ' '",
         "dotnet-workloads": "dotnet workload --version",
         "python": "python --version",
@@ -155,7 +156,8 @@ VERSION_PROPERTIES = f"-p:ArcForgesAndroidVersionName={VERSION_NAME} -p:ArcForge
 # Timeouts are about five to ten times the durations measured on this workstation (18 logical processors, both lanes
 # concurrently; eng/verify.py's summary.json), with a floor of two to five minutes. Windows, cold (no bin/obj) and warm:
 # restore into the emptied folder 51 s / 16 s, Debug build 62 s / 12 s, Release build (Mono AOT, R8) 175 s / 100 s, APK
-# identity gate 6 s, tests 12 s / 6 s, notices 3 s. WSL: restore 10 s, tests 6 s, tooling tests 1 s.
+# identity gate 6 s, tests 12 s / 6 s, notices 3 s. Linux (the workstation's former Linux environment): restore 10 s,
+# tests 6 s, tooling tests 1 s.
 
 # The environment of ci.yml without CI=true (see above). MSBuild node reuse is off, so that no build node outlives its step
 # (a step's process tree is what a timeout or a failure stops).
@@ -231,18 +233,18 @@ PREFLIGHT = (
     "      f'{pins[\"maui-android\"]}), Android SDK {android} ({\", \".join(wanted)}), {jdk.splitlines()[0]}')\n"
 )
 
-# The WSL lane's prerequisite for the host-test restore (see above), checked read-only from the pushed commit's global.json
-# and eng/policy/dotnet-toolchain.json; passed to WSL as base64, so that no quoting layer between wsl.exe and bash
-# changes the program.
-WSL_PREFLIGHT = (
+# The Linux lane's prerequisite for the host-test restore (see above), checked read-only from the pushed commit's
+# global.json and eng/policy/dotnet-toolchain.json; passed as base64, so that no quoting layer between eng/verify.py and
+# bash changes the program.
+LINUX_PREFLIGHT = (
     "import json, re, shutil, subprocess, sys\n"
     "sdk = json.load(open('global.json', encoding='utf-8'))['sdk']['version']\n"
     "workload_set = json.load(open('eng/policy/dotnet-toolchain.json', encoding='utf-8'))['workloadSet']['version']\n"
     "command = f'dotnet workload install android maui-android --version {workload_set}'\n"
     "dotnet = shutil.which('dotnet')\n"
     "if not dotnet:\n"
-    "    sys.exit(f'WSL Debian has no dotnet on PATH; install the .NET SDK {sdk} (Env.md: ~/.dotnet), then run, in WSL '\n"
-    "             f'Debian in a Mobile checkout: {command}')\n"
+    "    sys.exit(f'The Linux host has no dotnet on PATH; install the .NET SDK {sdk}, then run, on the Linux host '\n"
+    "             f'in a Mobile checkout: {command}')\n"
     "def run(*args):\n"
     "    result = subprocess.run([dotnet, *args], capture_output=True, text=True)\n"
     "    return (result.stdout + result.stderr).strip()\n"
@@ -250,20 +252,20 @@ WSL_PREFLIGHT = (
     "selected = run('--version')\n"
     "if selected != sdk:\n"
     "    problems.append(f'{dotnet} selects SDK {selected!r} here, not {sdk} as global.json pins (install that SDK into '\n"
-    "                    'the WSL .NET root)')\n"
+    "                    'the .NET root of the Linux host)')\n"
     "listing = run('workload', 'list')\n"
     "manifests = re.findall(r'^(android|maui-android)\\s+(\\S+)', listing, re.MULTILINE)\n"
     "if not manifests:\n"
     "    problems.append('no android or maui-android workload manifest is installed for this SDK band, so the locked '\n"
     "                    'restore of the host test projects cannot evaluate the net10.0-android target of the libraries '\n"
-    "                    f'they reference (NETSDK1147). Prerequisite (an install by the user), in WSL Debian in a Mobile '\n"
+    "                    f'they reference (NETSDK1147). Prerequisite (an install by the user), on the Linux host in a Mobile '\n"
     "                    f'checkout: {command}')\n"
     "if problems:\n"
-    "    sys.exit('The WSL host-test toolchain is incomplete: ' + '; '.join(problems) + '. Then verify again.')\n"
+    "    sys.exit('The Linux host-test toolchain is incomplete: ' + '; '.join(problems) + '. Then verify again.')\n"
     "print(f'SDK {sdk} at {dotnet}; workload manifests ' + ', '.join(f'{n} {v}' for n, v in manifests)\n"
     "      + ' (only evaluated by the host-test restore; nothing Android is built here)')\n"
 )
-WSL_PREFLIGHT_BASE64 = base64.b64encode(WSL_PREFLIGHT.encode("utf-8")).decode("ascii")
+LINUX_PREFLIGHT_BASE64 = base64.b64encode(LINUX_PREFLIGHT.encode("utf-8")).decode("ascii")
 
 # security.yml's secret scan (same pinned image digest and redaction, with .gitleaks.toml named explicitly), over the
 # pushed range, without network and with a read-only mount of the verification clone.
@@ -275,7 +277,7 @@ SECRET_SCAN = (
     "--log-opts=\"--full-history {range}\""
 )
 
-# actionlint as pinned in ci.yml, cached once in WSL; the archive is checked on every run.
+# actionlint as pinned in ci.yml, cached once on the Linux host; the archive is checked on every run.
 ACTIONLINT = (
     "set -euo pipefail; v=1.7.12; "
     "sum=8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8; "
@@ -312,9 +314,9 @@ def win(step_id: str, cmd: list[str], timeout: int, **options) -> Step:
     return Step(step_id, "win", cmd, timeout=timeout, env=WIN_ENV, **options)
 
 
-def wsl(step_id: str, cmd: str, timeout: int, **options) -> Step:
+def linux(step_id: str, cmd: str, timeout: int, **options) -> Step:
     # The NuGet folder is under $HOME, which the step's own shell expands (Step.env values are quoted literally).
-    return Step(step_id, "wsl", f"set -euo pipefail; export NUGET_PACKAGES=\"{WSL_NUGET}\"; {cmd}", timeout=timeout,
+    return Step(step_id, "linux", f"set -euo pipefail; export NUGET_PACKAGES=\"{LINUX_NUGET}\"; {cmd}", timeout=timeout,
                 env=ENV, **options)
 
 
@@ -341,16 +343,16 @@ STEPS = [
     win("win-notices", pwsh(checked(*(f"python eng/maui_notices.py {c}" for c in NOTICES))), 120),
     win("win-stage", ["python", "eng/mobile.py", "maui-stage", "--local", "--candidate", "artifacts/maui-candidate"], 300),
     # ci.yml maui (ubuntu-latest): the steps that need no Android toolchain (LINUX_ANDROID_GAP)
-    wsl("wsl-preflight", f"python -I -c \"$(printf %s {WSL_PREFLIGHT_BASE64} | base64 -d)\"", 120),
-    wsl("clone-identity", "git checkout -q -B arcforges-verify {sha}; git update-ref refs/remotes/origin/main {base}", 60),
-    wsl("fresh-outputs", "rm -rf artifacts build", 120),
-    wsl("repository-check", "python eng/mobile.py check", 300),
-    wsl("tooling-tests", "python -m unittest discover -s eng/tests -v", 300),
-    wsl("restore", f"rm -rf \"$NUGET_PACKAGES\"; mkdir -p \"$NUGET_PACKAGES\"; "
+    linux("linux-preflight", f"python -I -c \"$(printf %s {LINUX_PREFLIGHT_BASE64} | base64 -d)\"", 120),
+    linux("clone-identity", "git checkout -q -B arcforges-verify {sha}; git update-ref refs/remotes/origin/main {base}", 60),
+    linux("fresh-outputs", "rm -rf artifacts build", 120),
+    linux("repository-check", "python eng/mobile.py check", 300),
+    linux("tooling-tests", "python -m unittest discover -s eng/tests -v", 300),
+    linux("restore", f"rm -rf \"$NUGET_PACKAGES\"; mkdir -p \"$NUGET_PACKAGES\"; "
         f"for p in {' '.join(TEST_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 600),
-    wsl("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 300),
+    linux("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 300),
     # the former pre-push hook, and security.yml's secret scan, over the pushed range; actionlint when a workflow changed
-    Step("whitespace", "wsl", "git diff --check {base} {sha}", timeout=120, lane="scan"),
-    Step("secret-scan", "wsl", SECRET_SCAN, timeout=600, lane="scan"),
-    Step("actionlint", "wsl", ACTIONLINT, timeout=300, lane="actionlint", when=workflows_changed),
+    Step("whitespace", "linux", "git diff --check {base} {sha}", timeout=120, lane="scan"),
+    Step("secret-scan", "linux", SECRET_SCAN, timeout=600, lane="scan"),
+    Step("actionlint", "linux", ACTIONLINT, timeout=300, lane="actionlint", when=workflows_changed),
 ]
