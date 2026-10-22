@@ -37,7 +37,7 @@ Differences from the hosted jobs:
 - The Windows steps use one SDK root whatever shell pushes: DOTNET_ROOT (a persistent user variable on this
   workstation, also set by the environment loaders; Env.md: the user-local .dotnet of the user profile), first on PATH.
   A plain PowerShell otherwise finds C:\\Program Files\\dotnet first through the machine PATH. Without a valid
-  DOTNET_ROOT the Windows tool probe fails and the push is rejected. The Linux leg uses the dotnet of its login shell.
+  DOTNET_ROOT the Windows tool probe fails and the leg reports an error. The Linux leg uses the dotnet of its login shell.
 - The version is the local version of eng/mobile.py (`0.1.0-local`, versionCode 1; hosted: `0.1.0-ci.<run>.<attempt>`
   from the run number), and the build identity is `local.<commit>` (kind `local`; hosted: the run id). `maui-stage
   --local` seals the checked-out commit instead of GITHUB_SHA. A local candidate can never be signed: `maui-sign`
