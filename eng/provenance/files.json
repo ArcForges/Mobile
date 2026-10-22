@@ -143,6 +143,7 @@
     "eng/tests/test_maui_notices.py",
     "eng/tests/test_maui_release.py",
     "eng/tests/test_mobile.py",
+    "eng/tests/test_verify_install.py",
     "eng/verify.py",
     "eng/verify_steps.py",
     "global.json",
