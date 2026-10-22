@@ -17,8 +17,8 @@ run the full Android build only on Windows locally."; "windows is enough for and
   `linux-preflight` (LINUX_PREFLIGHT): the SDK that global.json pins and such a manifest, or a failure that names the
   command security.yml's codeql-csharp uses for the same restore, `dotnet workload install android maui-android
   --version 10.0.401`, instead of NETSDK1147 from the restore.
-- lane `scan`: the whitespace check of the pushed range (the former pre-push hook, `git diff --check`) and the secret
-  scan of security.yml (the pinned gitleaks image digest, .gitleaks.toml) over the pushed range ({range}), in Docker
+- lane `scan`: the whitespace check of the commits since the merge base (`git diff --check`) and the secret
+  scan of security.yml (the pinned gitleaks image digest, .gitleaks.toml) over the same range ({range}), in Docker
   without network and with a read-only mount of the clone; lane `actionlint` (`Workflow lint`) only when
   .github/workflows/** changed.
 
@@ -32,16 +32,16 @@ Differences from the hosted jobs:
   and then checks: the SDK that global.json pins, workload set 10.0.401 with the android 36.1.69 and maui-android 10.0.20
   manifests (the same `dotnet workload list` guards as ci.yml, read from eng/policy/dotnet-toolchain.json), the Android
   SDK packages of setup-android (platform-tools, the target platform and the pinned build-tools) under ANDROID_HOME, and a
-  JDK 21 under JAVA_HOME (hosted: Temurin 21.0.12). A missing prerequisite fails the push and names the exact command
-  for the user; nothing is installed by the hook.
-- The Windows steps use one SDK root whatever shell pushes: DOTNET_ROOT (a persistent user variable on this
+  JDK 21 under JAVA_HOME (hosted: Temurin 21.0.12). A missing prerequisite fails the leg and names the exact command
+  for the user; nothing is installed by the verification.
+- The Windows steps use one SDK root whatever shell runs the leg: DOTNET_ROOT (a persistent user variable on this
   workstation, also set by the environment loaders; Env.md: the user-local .dotnet of the user profile), first on PATH.
   A plain PowerShell otherwise finds C:\\Program Files\\dotnet first through the machine PATH. Without a valid
-  DOTNET_ROOT the Windows tool probe fails and the push is rejected. The Linux leg uses the dotnet of its login shell.
+  DOTNET_ROOT the Windows tool probe fails and the leg reports an error. The Linux leg uses the dotnet of its login shell.
 - The version is the local version of eng/mobile.py (`0.1.0-local`, versionCode 1; hosted: `0.1.0-ci.<run>.<attempt>`
   from the run number), and the build identity is `local.<commit>` (kind `local`; hosted: the run id). `maui-stage
   --local` seals the checked-out commit instead of GITHUB_SHA. A local candidate can never be signed: `maui-sign`
-  requires the CI version of its own run, and the hook never signs.
+  requires the CI version of its own run, and the verification never signs.
 - `CI` and `GITHUB_*` are not set (the build identity would claim a CI run). The two MSBuild properties that `CI=true`
   selects in Directory.Build.props are set directly: RestoreLockedMode and ContinuousIntegrationBuild.
 - The NuGet folder is emptied before the locked restores of every run, as the hosted job restores into a new
@@ -52,7 +52,8 @@ Differences from the hosted jobs:
   commit and `origin/main` is the merge base with main, which the provenance check of `mobile.py check` compares against
   (hosted: the PR base from the event). Nothing is fetched from it.
 - Artifacts (the candidate and the reports) are not uploaded; they stay in artifacts/ and build/ until the next run.
-- The secret scan covers the pushed range, not the full history: history before it was scanned when it was pushed.
+- The secret scan covers the commits since the merge base, not the full history: history before it is main, scanned
+  when its own PRs were verified.
 - Not reproduced: GitHub dependency review (a GitHub service; external PRs keep it; the locked restores with NuGet audit
   cover vulnerable packages locally) and CodeQL (external PRs, dispatch and the weekly schedule).
 - No step reaches an OS credential store: the tests are offline host tests, the Android Keystore probe is compiled only for
@@ -118,7 +119,7 @@ _WIN_JDK_ANDROID = (
     "    print(part, sorted(os.listdir(path)) if os.path.isdir(path) else 'missing')\n"
 )
 
-# Tool versions that key a reusable pass (the python running eng/verify.py is added by the core).
+# Tool versions recorded in each leg's summary (the python running eng/verify.py is added by the core).
 FINGERPRINT = {
     "win": {
         "dotnet-root": [sys.executable, "-c", f"print({WIN_DOTNET_ROOT!r})"] if WIN_DOTNET else _win_dotnet(),
@@ -127,7 +128,7 @@ FINGERPRINT = {
         "jdk-android": [sys.executable, "-c", _WIN_JDK_ANDROID],
         # No Windows git entry: the steps use git only for read-only queries (rev-parse, ls-files, status, show), and
         # which git a shell finds differs here (Git Bash: Scoop's build; PowerShell: Git for Windows from the machine
-        # PATH), so it would key the pass to the pushing shell instead of the tools that build and test.
+        # PATH), so it would record the running shell instead of the tools that build and test.
     },
     "linux": {
         "dotnet-sdks": "dotnet --list-sdks | tr '\\n' ' '",
@@ -268,7 +269,7 @@ LINUX_PREFLIGHT = (
 LINUX_PREFLIGHT_BASE64 = base64.b64encode(LINUX_PREFLIGHT.encode("utf-8")).decode("ascii")
 
 # security.yml's secret scan (same pinned image digest and redaction, with .gitleaks.toml named explicitly), over the
-# pushed range, without network and with a read-only mount of the verification clone.
+# commits since the merge base, without network and with a read-only mount of the verification clone.
 SECRET_SCAN = (
     "docker run --rm --network none -v \"$PWD:/repo:ro\" "
     "-e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo "
@@ -351,7 +352,7 @@ STEPS = [
     linux("restore", f"rm -rf \"$NUGET_PACKAGES\"; mkdir -p \"$NUGET_PACKAGES\"; "
           f"for p in {' '.join(TEST_PROJECTS)}; do dotnet restore \"$p\" --locked-mode; done", 600),
     linux("test", f"for p in {' '.join(TEST_PROJECTS)}; do dotnet test \"$p\" -c Release {TEST}; done", 300),
-    # the former pre-push hook, and security.yml's secret scan, over the pushed range; actionlint when a workflow changed
+    # the whitespace check and security.yml's secret scan over the commits since the merge base; actionlint when a workflow changed
     Step("whitespace", "linux", "git diff --check {base} {sha}", timeout=120, lane="scan"),
     Step("secret-scan", "linux", SECRET_SCAN, timeout=600, lane="scan"),
     Step("actionlint", "linux", ACTIONLINT, timeout=300, lane="actionlint", when=workflows_changed),

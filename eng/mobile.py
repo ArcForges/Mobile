@@ -41,7 +41,7 @@ def sha256(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-# The version of a local build (the pre-push verification, eng/verify_steps.py): never a CI version, so a local
+# The version of a local build (the host verification, eng/verify_steps.py): never a CI version, so a local
 # candidate can never be signed or published (maui_verify_candidate compares it with the run's CI version).
 LOCAL_VERSION = {"version_code": 1, "version_name": "0.1.0-local"}
 

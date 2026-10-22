@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Security
 
-# Called by ci.yml for every PR except the owner's (deku2026), whose PRs are verified by the local pre-push hook
-# (eng/verify.py, AD-0016), and for a manual CI run, so that `Verify` requires every job here; main pushes run no
+# Called by ci.yml for every PR except the owner's (deku2026), whose PRs are verified on the hosts after the push
+# (eng/verify.py, AD-0020), and for a manual CI run, so that `Verify` requires every job here; main pushes run no
 # security analysis. The weekly schedule and a manual dispatch run it on main.
 on:
   workflow_call:

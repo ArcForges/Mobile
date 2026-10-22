@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 name: CI
 
-# Owner (deku2026) PRs are verified by the local pre-push hook (eng/verify.py, AD-0016), so the validation and security
-# jobs skip for them; every other PR (Dependabot included) and a manual dispatch keep the full coverage: both MAUI legs,
+# Every PR is verified after the push on the Windows and Linux hosts (eng/verify.py run-and-report, ArcForges-Design
+# AD-0020), whose statuses main requires, so the validation and security jobs skip for owner (deku2026) PRs; every
+# other PR (Dependabot included) and a manual dispatch keep the full coverage: both MAUI legs,
 # the security workflow called below (so that `Verify` requires it) and the workflow lint. A main push runs only
 # delivery: the Linux MAUI leg, which builds and stages the candidate, and `publish`, which signs and publishes it. The
 # security workflow keeps its own weekly schedule.
@@ -40,7 +41,7 @@ jobs:
 
   # Validation on both OSes for every PR except the owner's and for a dispatch; on a main push only the Linux leg runs,
   # as delivery: it builds and stages the candidate that publish signs, and skips the steps that only validate (the
-  # merged PR was verified before merge, by the owner's pre-push hook or by the full PR CI).
+  # merged PR was verified before merge, by the host statuses and, for other authors, by the full PR CI).
   maui:
     name: MAUI (${{ matrix.os }})
     if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.user.login == 'deku2026') }}
@@ -255,7 +256,7 @@ jobs:
           Android .NET MAUI build from commit $GITHUB_SHA.
 
           Install the APK on Android 8.0 or newer. A device that holds a debug-signed build must uninstall it first; no data migration is provided.
-          This run built the Release APK (Mono AOT, R8) on Linux from that commit and passed its identity gate, the MAUI closure and notice checks, the Linux licence evidence and the 16 KB alignment check before signing. The Debug and Release builds, the offline host and policy tests and the repository checks ran before the merge, in the pull request's verification: the owner's local pre-push verification (the Android builds on Windows; the host, policy and repository checks also on native Linux) or the pull request's hosted CI on Windows and Linux. Device, emulator and live Cloud checks are local opt-in and were not run.
+          This run built the Release APK (Mono AOT, R8) on Linux from that commit and passed its identity gate, the MAUI closure and notice checks, the Linux licence evidence and the 16 KB alignment check before signing. The Debug and Release builds, the offline host and policy tests and the repository checks ran before the merge, in the pull request's verification: the host verification after the push (the Android builds on Windows; the host, policy and repository checks also on native Linux) and, for other authors, the pull request's hosted CI on Windows and Linux. Device, emulator and live Cloud checks are local opt-in and were not run.
           See release.json for candidate hashes and the signing certificate, maui-archive.json for the release identity, and SHA256SUMS for the downloads.
           EOF
           gh release create "android-$VERSION_NAME" artifacts/maui-release/* --target "$GITHUB_SHA" --title "Android $VERSION_NAME (.NET MAUI)" --prerelease --notes-file "$RUNNER_TEMP/maui-release-notes.md"
