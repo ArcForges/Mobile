@@ -97,7 +97,7 @@ The Plan's rule 7 applies. In this repository:
 
 ## Hosted CI
 
-- **Owner PRs:** no hosted validation or security analysis; `Workflow lint`, `MAUI`, `Security` and `Verify` show as skipped. `Verify` is the required check (ruleset); a skipped `Verify` satisfies it.
+- **Owner PRs:** no hosted validation or security analysis; `Workflow lint`, `MAUI`, `Security` and `Verify` show as skipped. `Verify` is the required hosted check (ruleset); a skipped `Verify` satisfies it. The `main` ruleset also requires the host statuses `arcforges/windows` and `arcforges/linux` for every PR ([Verification after the push](#verification-after-the-push-ad-0020)), which are the owner PRs' gate together with the review.
 - **External PRs** (Dependabot included) and manual dispatches: the full CI as before: `Workflow lint`, `MAUI (ubuntu-latest)` and `MAUI (windows-latest)`, and `security.yml` called as `Security` (dependency review on PRs, the full-history secret scan, CodeQL for Python, Actions and C#), with `Verify` requiring every one of them.
 - **Main pushes:** delivery only. `MAUI (ubuntu-latest)` builds the Release APK, runs its identity gate, the closure and notice checks and the Linux licence evidence, and stages the candidate; the Windows leg, the Debug build, the host and policy tests and the repository checks are skipped, because the PR was verified before merge. For an owner PR this is the first Linux Android build of that code (the local gap above). `publish` then signs and publishes that candidate, with its environment, secrets and steps unchanged; it needs the candidate job, not `Verify`, which does not run on a push.
 - **Schedule** (weekly, `security.yml`): the secret scan and CodeQL. No build.

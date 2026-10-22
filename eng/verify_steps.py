@@ -52,7 +52,8 @@ Differences from the hosted jobs:
   commit and `origin/main` is the merge base with main, which the provenance check of `mobile.py check` compares against
   (hosted: the PR base from the event). Nothing is fetched from it.
 - Artifacts (the candidate and the reports) are not uploaded; they stay in artifacts/ and build/ until the next run.
-- The secret scan covers the pushed range, not the full history: history before it was scanned when it was pushed.
+- The secret scan covers the commits since the merge base, not the full history: history before it is main, scanned
+  when its own PRs were verified.
 - Not reproduced: GitHub dependency review (a GitHub service; external PRs keep it; the locked restores with NuGet audit
   cover vulnerable packages locally) and CodeQL (external PRs, dispatch and the weekly schedule).
 - No step reaches an OS credential store: the tests are offline host tests, the Android Keystore probe is compiled only for
@@ -268,7 +269,7 @@ LINUX_PREFLIGHT = (
 LINUX_PREFLIGHT_BASE64 = base64.b64encode(LINUX_PREFLIGHT.encode("utf-8")).decode("ascii")
 
 # security.yml's secret scan (same pinned image digest and redaction, with .gitleaks.toml named explicitly), over the
-# pushed range, without network and with a read-only mount of the verification clone.
+# commits since the merge base, without network and with a read-only mount of the verification clone.
 SECRET_SCAN = (
     "docker run --rm --network none -v \"$PWD:/repo:ro\" "
     "-e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo "
