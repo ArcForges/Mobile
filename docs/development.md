@@ -46,7 +46,7 @@ The pinned SDK, workload set and MAUI packs are recorded in `eng/policy/dotnet-t
 
 ## Security tooling
 
-The security workflow runs dependency review on pull requests, a gitleaks history scan, CodeQL for Python and Actions, and CodeQL for C# with a manual Release build of the host-run projects. CI calls it for every pull request except the owner's and for a manual run; it also runs weekly. The host verification after the push runs the gitleaks scan over the commits since the merge base instead. The Kotlin CodeQL category (`java-kotlin`) and its pinned nightly bundle are retired with the Kotlin baseline. The workflow lint job runs actionlint 1.7.12 on `ci.yml` and `security.yml`.
+The security workflow runs dependency review on pull requests, a gitleaks history scan, CodeQL for Python and Actions, and CodeQL for C# with a manual Release build of the host-run projects. CI calls it for every pull request except the owner's and for a manual run; it also runs weekly. The host verification after the push also runs the gitleaks scan over the commits since the merge base, for every pull request. The Kotlin CodeQL category (`java-kotlin`) and its pinned nightly bundle are retired with the Kotlin baseline. The workflow lint job runs actionlint 1.7.12 on `ci.yml` and `security.yml`.
 
 ## Evidence boundaries
 
