@@ -32,7 +32,7 @@ Differences from the hosted jobs:
   and then checks: the SDK that global.json pins, workload set 10.0.401 with the android 36.1.69 and maui-android 10.0.20
   manifests (the same `dotnet workload list` guards as ci.yml, read from eng/policy/dotnet-toolchain.json), the Android
   SDK packages of setup-android (platform-tools, the target platform and the pinned build-tools) under ANDROID_HOME, and a
-  JDK 21 under JAVA_HOME (hosted: Temurin 21.0.12). A missing prerequisite fails the push and names the exact command
+  JDK 21 under JAVA_HOME (hosted: Temurin 21.0.12). A missing prerequisite fails the leg and names the exact command
   for the user; nothing is installed by the verification.
 - The Windows steps use one SDK root whatever shell runs the leg: DOTNET_ROOT (a persistent user variable on this
   workstation, also set by the environment loaders; Env.md: the user-local .dotnet of the user profile), first on PATH.
@@ -128,7 +128,7 @@ FINGERPRINT = {
         "jdk-android": [sys.executable, "-c", _WIN_JDK_ANDROID],
         # No Windows git entry: the steps use git only for read-only queries (rev-parse, ls-files, status, show), and
         # which git a shell finds differs here (Git Bash: Scoop's build; PowerShell: Git for Windows from the machine
-        # PATH), so it would key the pass to the pushing shell instead of the tools that build and test.
+        # PATH), so it would record the running shell instead of the tools that build and test.
     },
     "linux": {
         "dotnet-sdks": "dotnet --list-sdks | tr '\\n' ' '",

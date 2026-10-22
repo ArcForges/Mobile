@@ -2,7 +2,8 @@
 name: CI
 
 # Every PR is verified after the push on the Windows and Linux hosts (eng/verify.py run-and-report, ArcForges-Design
-# AD-0020), whose statuses main requires, so the validation and security jobs skip for owner (deku2026) PRs; every other PR (Dependabot included) and a manual dispatch keep the full coverage: both MAUI legs,
+# AD-0020), whose statuses main requires, so the validation and security jobs skip for owner (deku2026) PRs; every
+# other PR (Dependabot included) and a manual dispatch keep the full coverage: both MAUI legs,
 # the security workflow called below (so that `Verify` requires it) and the workflow lint. A main push runs only
 # delivery: the Linux MAUI leg, which builds and stages the candidate, and `publish`, which signs and publishes it. The
 # security workflow keeps its own weekly schedule.
