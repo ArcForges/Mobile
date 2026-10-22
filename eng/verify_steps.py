@@ -34,7 +34,7 @@ Differences from the hosted jobs:
   SDK packages of setup-android (platform-tools, the target platform and the pinned build-tools) under ANDROID_HOME, and a
   JDK 21 under JAVA_HOME (hosted: Temurin 21.0.12). A missing prerequisite fails the push and names the exact command
   for the user; nothing is installed by the verification.
-- The Windows steps use one SDK root whatever shell pushes: DOTNET_ROOT (a persistent user variable on this
+- The Windows steps use one SDK root whatever shell runs the leg: DOTNET_ROOT (a persistent user variable on this
   workstation, also set by the environment loaders; Env.md: the user-local .dotnet of the user profile), first on PATH.
   A plain PowerShell otherwise finds C:\\Program Files\\dotnet first through the machine PATH. Without a valid
   DOTNET_ROOT the Windows tool probe fails and the leg reports an error. The Linux leg uses the dotnet of its login shell.
